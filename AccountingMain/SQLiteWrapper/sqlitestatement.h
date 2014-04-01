@@ -19,7 +19,7 @@
 
 #include <QString>
 #include <QDate>
-#include "sqlite3.h"
+#include <QSqlQuery>
 
 class SQLiteStatement
 {
@@ -31,7 +31,7 @@ public:
     std::string GetText(int idx);
     QDate GetDate(int idx);
 protected:
-    sqlite3_stmt *statement;
+    QSqlQuery statement;
     friend class SQLiteDB;
 };
 

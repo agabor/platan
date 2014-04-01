@@ -18,12 +18,12 @@
 
 #include <sstream>
 #include "sqlitedate.h"
+#include <QVariant>
 
 using namespace std;
 
 SQLiteStatement::SQLiteStatement()
 {
-    statement = 0;
 }
 
 SQLiteStatement::~SQLiteStatement()
@@ -33,24 +33,17 @@ SQLiteStatement::~SQLiteStatement()
 
 int SQLiteStatement::GetInt(int idx)
 {
-    return sqlite3_column_int(statement, idx);
+    return statement.value(idx).toInt();
 }
 
 double SQLiteStatement::GetDouble(int idx)
 {
-    return sqlite3_column_double(statement, idx);
-}
-
-inline std::string stringify(const unsigned char *c)
-{
-    ostringstream o;
-    o << c;
-    return string(o.str());
+    return statement.value(idx).toDouble();
 }
 
 std::string SQLiteStatement::GetText(int idx)
 {
-    return stringify(sqlite3_column_text(statement, idx));;
+    return statement.value(idx).toString().toStdString();
 }
 
 QDate SQLiteStatement::GetDate(int idx)

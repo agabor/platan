@@ -16,8 +16,8 @@
 
 #include "sqlitedb.h"
 #include <iostream>
-#include "sqlite3.h"
 #include <string>
+#include <QSqlError>
 
 using namespace std;
 
@@ -25,24 +25,30 @@ void SQLiteDB::Prepare(SQLiteStatement &statement, SQLSelect &select)
 {
     string s = select.toString();
     const char *select_query = s.c_str();
-    int retval = sqlite3_prepare_v2(db, select_query, -1, &statement.statement, 0);
+    statement.statement.prepare(select_query);
 
-    if(retval)
-    {
-        cerr << select_query << endl;
-        cerr << "Selecting data from DB Failed (err_code="<< retval <<")" << endl;
-        return;
-    }
+//    if(statement.statement.isValid())
+//    {
+//        cerr << select_query << endl;
+//        cerr << "Selecting data from DB Failed (err_code="<< retval <<")" << endl;
+//        return;
+//    }
 }
 
 bool SQLiteDB::Step(SQLiteStatement &statement)
 {
-    return sqlite3_step(statement.statement) == SQLITE_ROW;
+    return statement.statement.next();
 }
 
 void SQLiteDB::Finalize(SQLiteStatement &statement)
 {
-    sqlite3_finalize(statement.statement);
+    //sqlite3_finalize(statement.statement);
+}
+
+SQLiteDB::SQLiteDB()
+  : db(QSqlDatabase::addDatabase("QSQLITE"))
+{
+
 }
 
 void SQLiteDB::SetPath(string data_base_path)
@@ -52,40 +58,39 @@ void SQLiteDB::SetPath(string data_base_path)
 
 void SQLiteDB::Open()
 {
-    int rc = sqlite3_open(data_base_path.c_str(), &db);
-    if (rc)
+    db.setDatabaseName(data_base_path.c_str());
+    if (!db.open())
     {
-        cerr << "Can't open database: %s\n" << sqlite3_errmsg(db);
-        sqlite3_close(db);
+        QString error_msg{db.lastError().text()};
+        cerr << "Can't open database. " << error_msg.toStdString() << endl;
+        Close();
         throw db_exception();
     }
 }
 
 void SQLiteDB::Close()
 {
-    sqlite3_close(db);
+    db.close();
 }
 
 void SQLiteDB::Execute(SQLQuery &query)
 {
-    char *zErrMsg = 0;
-    string s = query.toString();
-    const char *query_string = s.c_str();
-    int rc = sqlite3_exec(db, query_string, 0, 0, &zErrMsg);
-    if(rc != SQLITE_OK)
+    QSqlQuery qry = db.exec(query.toString().c_str());
+
+    if( !qry.exec() )
     {
-        cerr << query_string << "\nSQL error: %s" << zErrMsg << endl;
-        sqlite3_free(zErrMsg);
+        QString error_msg{db.lastError().text()};
+        cerr << error_msg.toStdString() << endl;
     }
 }
 
 void SQLiteDB::BeginTransaction()
 {
-    sqlite3_exec(db, "BEGIN TRANSACTION;", NULL, NULL, NULL);
+    db.transaction();
 }
 
 void SQLiteDB::EndTransaction()
 {
-    sqlite3_exec(db, "END TRANSACTION;", NULL, NULL, NULL);
+    db.commit();
 }
 

@@ -20,11 +20,11 @@
 #include <string>
 #include <QString>
 #include <exception>
-#include "sqlite3.h"
 #include <QDate>
 #include "sqlitestatement.h"
 #include "sqlquery.h"
 #include "sqlselect.h"
+#include <QSqlDatabase>
 
 class db_exception : public std::exception
 {
@@ -36,6 +36,7 @@ public:
 class SQLiteDB
 {
 public:
+    SQLiteDB();
     void SetPath(std::string data_base_path);
     void Open();
     void Close();
@@ -46,7 +47,7 @@ public:
     bool Step(SQLiteStatement &statement);
     void Prepare(SQLiteStatement &statement, SQLSelect &select);
 protected:
-    sqlite3 *db;
+    QSqlDatabase db;
     std::string data_base_path;
 };
 

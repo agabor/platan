@@ -114,8 +114,13 @@ void DateRangeWidget::onAllCheckChanged(int state)
 
 std::vector<QDate> MonthesBetween(QDate min_date, QDate max_date)
 {
-    QDate i(min_date.year(), min_date.month(), 1);
     std::vector<QDate> result;
+
+    if (!min_date.isValid() || max_date.isValid())
+        return result;
+
+    QDate i(min_date.year(), min_date.month(), 1);
+
     while (i <= max_date)
     {
         result.push_back(i);
