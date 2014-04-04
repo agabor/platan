@@ -25,6 +25,7 @@ private Q_SLOTS:
     void createSQLSelect2();
     void createSQLSelect3();
     void tableStructureEquality();
+    void parseSchema();
 };
 
 void SQLiteTest::equalsQDate()
@@ -129,6 +130,19 @@ void SQLiteTest::tableStructureEquality()
     QCOMPARE(ts1, ts2);
     ts2.addField("name3", "type3");
     QVERIFY(ts1 != ts2);
+}
+
+void SQLiteTest::parseSchema()
+{
+    TableStructure ts1("CREATE TABLE rules (Payee INTEGER, Type INTEGER, Column INTEGER, Value TEXT, Class INTEGER)");
+    QVERIFY(ts1.isValid());
+    TableStructure ts2;
+    ts2.addField("Payee", "INTEGER");
+    ts2.addField("Type", "INTEGER");
+    ts2.addField("Column", "INTEGER");
+    ts2.addField("Value", "TEXT");
+    ts2.addField("Class", "INTEGER");
+    QCOMPARE(ts1, ts2);
 }
 
 QTEST_APPLESS_MAIN(SQLiteTest)
