@@ -8,8 +8,15 @@
 class TableStructure
 {
 public:
-    TableStructure();
-    TableStructure(QString schema);
+    TableStructure(QString name);
+    static TableStructure fromSchema(QString schema);
+    static TableStructure Invalid()
+    {
+        TableStructure iv{""};
+        iv.is_valid = false;
+        return iv;
+    }
+
     bool operator ==(const TableStructure &other) const;
     bool operator !=(const TableStructure &other) const;
     void addField(QString name, QString type);
@@ -21,8 +28,7 @@ private:
     std::vector<std::pair<QString, QString>> name_type_pairs;
     int fieldCount() const;
     bool is_valid;
-    void parseFieldList(QString field_list);
-    bool addField(QString field);
+    QString name;
 };
 
 #endif // TABLESTRUCTURE_H

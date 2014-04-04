@@ -16,4 +16,5 @@ SOURCES += \
     ../AccountingMain/SQLiteWrapper/sqlquerycomponents.cpp \
     ../AccountingMain/SQLiteWrapper/sqlupdate.cpp \
     ../AccountingMain/SQLiteWrapper/sqlselect.cpp \
-    ../AccountingMain/SQLiteWrapper/tablestructure.cpp
+    ../AccountingMain/SQLiteWrapper/tablestructure.cpp \
+    ../AccountingMain/SQLiteWrapper/tablestructure_fromschema.cpp

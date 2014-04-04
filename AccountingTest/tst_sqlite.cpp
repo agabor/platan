@@ -122,10 +122,10 @@ void SQLiteTest::createSQLSelect3()
 
 void SQLiteTest::tableStructureEquality()
 {
-    TableStructure ts1;
+    TableStructure ts1("table1");
     ts1.addField("name1", "type1");
     ts1.addField("name2", "type2");
-    TableStructure ts2;
+    TableStructure ts2("table1");
     ts2.addField("name1", "type1");
     ts2.addField("name2", "type2");
     QCOMPARE(ts1, ts2);
@@ -135,9 +135,9 @@ void SQLiteTest::tableStructureEquality()
 
 void SQLiteTest::parseSchema()
 {
-    TableStructure ts1("CREATE TABLE rules (Payee INTEGER, Type INTEGER, Column INTEGER, Value TEXT, Class INTEGER)");
+    TableStructure ts1 = TableStructure::fromSchema("CREATE TABLE rules (Payee INTEGER, Type INTEGER, Column INTEGER, Value TEXT, Class INTEGER)");
     QVERIFY(ts1.isValid());
-    TableStructure ts2;
+    TableStructure ts2("rules");
     ts2.addField("Payee", "INTEGER");
     ts2.addField("Type", "INTEGER");
     ts2.addField("Column", "INTEGER");
@@ -148,9 +148,10 @@ void SQLiteTest::parseSchema()
 
 void SQLiteTest::parseSchema2()
 {
-    TableStructure ts1("CREATE TABLE classes (\n    \"En\" TEXT,\n    \"De\" TEXT,\n    \"Hu\" TEXT,\n    \"ID\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL\n)" );
+    QString schema{"CREATE TABLE classes (\n    \"En\" TEXT,\n    \"De\" TEXT,\n    \"Hu\" TEXT,\n    \"ID\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL\n)"};
+    TableStructure ts1 = TableStructure::fromSchema(schema);
     QVERIFY(ts1.isValid());
-    TableStructure ts2;
+    TableStructure ts2("classes");
     ts2.addField("En", "TEXT");
     ts2.addField("De", "TEXT");
     ts2.addField("Hu", "TEXT");
