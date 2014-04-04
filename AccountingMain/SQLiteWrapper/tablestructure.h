@@ -21,6 +21,8 @@ private:
     std::vector<std::pair<QString, QString>> name_type_pairs;
     int fieldCount() const;
     bool is_valid;
+    void parseFieldList(QString field_list);
+    bool addField(QString field);
 };
 
 #endif // TABLESTRUCTURE_H
