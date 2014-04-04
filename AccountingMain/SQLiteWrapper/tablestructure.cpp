@@ -27,6 +27,16 @@ bool TableStructure::operator ==(const TableStructure &other) const
 
 }
 
+bool TableStructure::operator !=(const TableStructure &other) const
+{
+    return !(*this == other);
+}
+
+void TableStructure::addField(QString name, QString type)
+{
+    name_type_pairs.push_back(pair<QString, QString>(name, type));
+}
+
 int TableStructure::fieldCount() const
 {
     return name_type_pairs.size();

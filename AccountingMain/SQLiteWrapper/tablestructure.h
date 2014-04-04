@@ -10,6 +10,8 @@ class TableStructure
 public:
     TableStructure();
     bool operator ==(const TableStructure &other) const;
+    bool operator !=(const TableStructure &other) const;
+    void addField(QString name, QString type);
 private:
     std::vector<std::pair<QString, QString>> name_type_pairs;
     int fieldCount() const;

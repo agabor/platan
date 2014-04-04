@@ -4,6 +4,7 @@
 #include <../AccountingMain/SQLiteWrapper/sqlinsert.h>
 #include <../AccountingMain/SQLiteWrapper/sqlupdate.h>
 #include <../AccountingMain/SQLiteWrapper/sqlselect.h>
+#include <../AccountingMain/SQLiteWrapper/tablestructure.h>
 #include <QSqlQuery>
 #include <string>
 
@@ -23,6 +24,7 @@ private Q_SLOTS:
     void createSQLSelect1();
     void createSQLSelect2();
     void createSQLSelect3();
+    void tableStructureEquality();
 };
 
 void SQLiteTest::equalsQDate()
@@ -114,6 +116,19 @@ void SQLiteTest::createSQLSelect3()
 
     QCOMPARE(select.toString(), string("SELECT color, brand FROM Cars WHERE color = \"blue\" GROUP BY color"));
 
+}
+
+void SQLiteTest::tableStructureEquality()
+{
+    TableStructure ts1;
+    ts1.addField("name1", "type1");
+    ts1.addField("name2", "type2");
+    TableStructure ts2;
+    ts2.addField("name1", "type1");
+    ts2.addField("name2", "type2");
+    QCOMPARE(ts1, ts2);
+    ts2.addField("name3", "type3");
+    QVERIFY(ts1 != ts2);
 }
 
 QTEST_APPLESS_MAIN(SQLiteTest)
