@@ -4,7 +4,8 @@
 #include <QString>
 #include <QRegularExpression>
 
-QString removeQuote(QString name);
+QString removeRedundantWhitespaces(QString str);
+QString removeQuote(QString str);
 QString getFieldList(QString schema);
 QString getTableName(QString schema);
 bool parseFieldList(TableStructure &ts, QString field_list);
@@ -12,7 +13,7 @@ bool addField(TableStructure &ts, QString field);
 
 TableStructure TableStructure::fromSchema(QString schema)
 {
-    schema = schema.replace(QRegularExpression("\\s+"), " ");
+    schema = removeRedundantWhitespaces(schema);
 
     QString table_name = getTableName(schema);
 
@@ -21,36 +22,42 @@ TableStructure TableStructure::fromSchema(QString schema)
 
     TableStructure ts(table_name);
 
-    QString field_list = getFieldList(schema);
-    if (field_list.isEmpty())
+    if(!parseFieldList(ts, getFieldList(schema)))
         return TableStructure::Invalid();
-    else
-        if(!parseFieldList(ts, field_list))
-            return TableStructure::Invalid();
+
     return ts;
 }
+
+QString removeRedundantWhitespaces(QString str)
+{
+    return str.replace(QRegularExpression("\\s+"), " ");
+}
+
 
 QString getTableName(QString schema)
 {
     QString prefix{"CREATE TABLE "};
     if (!schema.startsWith(prefix))
         return QString{};
+
     schema = schema.remove(0, prefix.length());
     QStringList parts = schema.split(" ");
     if (parts.length() == 0)
         return QString{};
+
     return parts.at(0);
 }
 
 bool parseFieldList(TableStructure &ts, QString field_list)
 {
+    if (field_list.isEmpty())
+        return false;
+
     QStringList fields = field_list.split(",");
     for(QString field : fields)
     {
         if (!addField(ts, field))
-        {
             return false;
-        }
     }
     return true;
 }
@@ -72,14 +79,14 @@ bool addField(TableStructure &ts, QString field)
 }
 
 
-QString removeQuote(QString name)
+QString removeQuote(QString str)
 {
-    if (name.startsWith("\"") && name.endsWith("\""))
+    if (str.startsWith("\"") && str.endsWith("\""))
     {
-        name.chop(1);
-        return name.remove(0, 1);
+        str.chop(1);
+        return str.remove(0, 1);
     }
-    return name;
+    return str;
 }
 
 QString getFieldList(QString schema)

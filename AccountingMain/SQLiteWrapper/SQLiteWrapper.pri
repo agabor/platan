@@ -7,7 +7,8 @@ HEADERS += \
     ../AccountingMain/SQLiteWrapper/sqlquerycomponents.h \
     ../AccountingMain/SQLiteWrapper/sqlupdate.h \
     ../AccountingMain/SQLiteWrapper/sqlselect.h \
-    ../AccountingMain/SQLiteWrapper/tablestructure.h
+    ../AccountingMain/SQLiteWrapper/tablestructure.h \
+    ../AccountingMain/SQLiteWrapper/databaseschema.h
 
 SOURCES += \
     ../AccountingMain/SQLiteWrapper/sqlitestatement.cpp \
@@ -17,4 +18,5 @@ SOURCES += \
     ../AccountingMain/SQLiteWrapper/sqlupdate.cpp \
     ../AccountingMain/SQLiteWrapper/sqlselect.cpp \
     ../AccountingMain/SQLiteWrapper/tablestructure.cpp \
-    ../AccountingMain/SQLiteWrapper/tablestructure_fromschema.cpp
+    ../AccountingMain/SQLiteWrapper/tablestructure_fromschema.cpp \
+    ../AccountingMain/SQLiteWrapper/databaseschema.cpp

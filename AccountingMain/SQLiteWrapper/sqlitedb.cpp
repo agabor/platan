@@ -46,46 +46,48 @@ bool isSQLiteDB(const QSqlDatabase &db)
     return true;
 }
 
-bool SQLiteDB::checkApplicationTables() const
-{
-    set<QString> application_tables {
-        "classes",
-        "payee",
-        "rules",
-        "statements"
-    };
-
-    QStringList tables = db.tables();
-
-    for(auto & table : tables)
-    {
-        if (application_tables.find(table) == application_tables.end())
-            continue;
-
-        SQLSelect s{"sqlite_master"};
-        s.field("sql");
-        s.where(QString("name = \"%1\"").arg(table));
-        string query{s.toString()};
-        QSqlQuery q(query.c_str());
-        while(q.next())
-        {
-            TableStructure ts(q.value(0).toString());
-            if(!ts.isValid())
-                return false;
-        }
-
-        application_tables.erase(table);
-    }
-
-    return application_tables.empty();
-}
-
 bool SQLiteDB::isDatabaseValid() const
 {
     if(!isSQLiteDB(db))
         return false;
 
-    return checkApplicationTables();
+    return schema.isConform(db);
+}
+
+void SQLiteDB::initSchema()
+{
+    TableStructure classes{"classes"};
+    classes.addField("En", "TEXT");
+    classes.addField("De", "TEXT");
+    classes.addField("Hu", "TEXT");
+    classes.addField("ID", "INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL");
+    schema.addTable(classes);
+
+    TableStructure payee{"payee"};
+    payee.addField("ID", "INTEGER PRIMARY KEY");
+    payee.addField("Name", "TEXT");
+    payee.addField("Account", "TEXT");
+    payee.addField("Type", "NUMERIC");
+    schema.addTable(payee);
+
+    TableStructure rules{"rules"};
+    rules.addField("Payee", "INTEGER");
+    rules.addField("Type", "INTEGER");
+    rules.addField("Column", "INTEGER");
+    rules.addField("Value", "TEXT");
+    rules.addField("Class", "INTEGER");
+    schema.addTable(rules);
+
+    TableStructure statements{"statements"};
+    statements.addField("ID", "INTEGER PRIMARY KEY");
+    statements.addField("Date", "INTEGER");
+    statements.addField("Type", "TEXT");
+    statements.addField("Description", "TEXT");
+    statements.addField("Payee", "TEXT");
+    statements.addField("PayeeAccount", "TEXT");
+    statements.addField("Amount", "REAL");
+    statements.addField("Class", "INTEGER");
+    schema.addTable(statements);
 }
 
 bool SQLiteDB::Step(SQLiteStatement &statement)
@@ -102,7 +104,7 @@ SQLiteDB::SQLiteDB()
   : db(QSqlDatabase::addDatabase("QSQLITE")),
     is_open(false)
 {
-
+    initSchema();
 }
 
 void SQLiteDB::SetPath(string data_base_path)

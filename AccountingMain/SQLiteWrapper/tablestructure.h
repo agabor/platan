@@ -24,6 +24,10 @@ public:
     {
         return is_valid;
     }
+    QString getName() const
+    {
+        return name;
+    }
 private:
     std::vector<std::pair<QString, QString>> name_type_pairs;
     int fieldCount() const;
