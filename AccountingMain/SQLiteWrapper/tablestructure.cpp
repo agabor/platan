@@ -10,6 +10,16 @@ TableStructure::TableStructure()
     is_valid = true;
 }
 
+QString removeQuote(QString name)
+{
+    if (name.startsWith("\"") && name.endsWith("\""))
+    {
+        name.chop(1);
+        return name.remove(0, 1);
+    }
+    return name;
+}
+
 TableStructure::TableStructure(QString schema)
 {
     is_valid = true;
@@ -31,20 +41,24 @@ TableStructure::TableStructure(QString schema)
     QStringList fields = field_list.split(",");
     for(QString field : fields)
     {
-        field = field.trimmed().replace(QRegularExpression("\\s+"), " ");
+        field = field.trimmed();
+        field = field.replace(QRegularExpression("\\s+"), " ");
         auto name_type = field.split(" ");
-        if (name_type.length() != 2)
+        if (name_type.length() < 2)
         {
             is_valid = false;
             return;
         }
-        addField(name_type.at(0), name_type.at(1));
+        QString name = name_type.at(0);
+        QString type = field.remove(0, name.length() + 1);
+        name = removeQuote(name);
+        addField(name, type);
     }
 }
 
 bool TableStructure::operator ==(const TableStructure &other) const
 {
-    if (!is_valid || !other.is_valid)
+    if (!isValid() || !other.isValid())
         return false;
     const int field_count = fieldCount();
     if (other.fieldCount() != field_count)

@@ -46,6 +46,7 @@ public:
     void Finalize(SQLiteStatement &statement);
     bool Step(SQLiteStatement &statement);
     void Prepare(SQLiteStatement &statement, SQLSelect &select);
+    bool checkApplicationTables() const;
 protected:
     QSqlDatabase db;
     std::string data_base_path;

@@ -26,6 +26,7 @@ private Q_SLOTS:
     void createSQLSelect3();
     void tableStructureEquality();
     void parseSchema();
+    void parseSchema2();
 };
 
 void SQLiteTest::equalsQDate()
@@ -142,6 +143,18 @@ void SQLiteTest::parseSchema()
     ts2.addField("Column", "INTEGER");
     ts2.addField("Value", "TEXT");
     ts2.addField("Class", "INTEGER");
+    QCOMPARE(ts1, ts2);
+}
+
+void SQLiteTest::parseSchema2()
+{
+    TableStructure ts1("CREATE TABLE classes (\n    \"En\" TEXT,\n    \"De\" TEXT,\n    \"Hu\" TEXT,\n    \"ID\" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL\n)" );
+    QVERIFY(ts1.isValid());
+    TableStructure ts2;
+    ts2.addField("En", "TEXT");
+    ts2.addField("De", "TEXT");
+    ts2.addField("Hu", "TEXT");
+    ts2.addField("ID", "INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL");
     QCOMPARE(ts1, ts2);
 }
 

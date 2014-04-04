@@ -22,6 +22,7 @@
 #include <QDebug>
 #include <set>
 #include <assert.h>
+#include "tablestructure.h"
 
 using namespace std;
 
@@ -45,12 +46,9 @@ bool isSQLiteDB(const QSqlDatabase &db)
     return true;
 }
 
-bool SQLiteDB::isDatabaseValid() const
+bool SQLiteDB::checkApplicationTables() const
 {
-    if(!isSQLiteDB(db))
-        return false;
-
-    set<string> platan_tables {
+    set<QString> application_tables {
         "classes",
         "payee",
         "rules",
@@ -61,10 +59,33 @@ bool SQLiteDB::isDatabaseValid() const
 
     for(auto & table : tables)
     {
-        platan_tables.erase(table.toStdString());
+        if (application_tables.find(table) == application_tables.end())
+            continue;
+
+        SQLSelect s{"sqlite_master"};
+        s.field("sql");
+        s.where(QString("name = \"%1\"").arg(table));
+        string query{s.toString()};
+        QSqlQuery q(query.c_str());
+        while(q.next())
+        {
+            TableStructure ts(q.value(0).toString());
+            if(!ts.isValid())
+                return false;
+        }
+
+        application_tables.erase(table);
     }
 
-    return platan_tables.empty();
+    return application_tables.empty();
+}
+
+bool SQLiteDB::isDatabaseValid() const
+{
+    if(!isSQLiteDB(db))
+        return false;
+
+    return checkApplicationTables();
 }
 
 bool SQLiteDB::Step(SQLiteStatement &statement)
