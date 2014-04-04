@@ -49,6 +49,8 @@ public:
 protected:
     QSqlDatabase db;
     std::string data_base_path;
+    bool is_open;
+    bool isDatabaseValid() const;
 };
 
 #endif // SQLITEDB_H

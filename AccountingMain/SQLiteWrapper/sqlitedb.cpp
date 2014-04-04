@@ -18,6 +18,10 @@
 #include <iostream>
 #include <string>
 #include <QSqlError>
+#include <QStringList>
+#include <QDebug>
+#include <set>
+#include <assert.h>
 
 using namespace std;
 
@@ -26,6 +30,41 @@ void SQLiteDB::Prepare(SQLiteStatement &statement, SQLSelect &select)
     string s = select.toString();
     const char *select_query = s.c_str();
     statement.statement = QSqlQuery(select_query);
+}
+
+bool isSQLiteDB(const QSqlDatabase &db)
+{
+    QStringList system_tables = db.tables(QSql::SystemTables);
+
+    if(system_tables.length() != 1)
+        return false;
+
+    if(system_tables.at(0) != "sqlite_master")
+        return false;
+
+    return true;
+}
+
+bool SQLiteDB::isDatabaseValid() const
+{
+    if(!isSQLiteDB(db))
+        return false;
+
+    set<string> platan_tables {
+        "classes",
+        "payee",
+        "rules",
+        "statements"
+    };
+
+    QStringList tables = db.tables();
+
+    for(auto & table : tables)
+    {
+        platan_tables.erase(table.toStdString());
+    }
+
+    return platan_tables.empty();
 }
 
 bool SQLiteDB::Step(SQLiteStatement &statement)
@@ -39,7 +78,8 @@ void SQLiteDB::Finalize(SQLiteStatement &statement)
 }
 
 SQLiteDB::SQLiteDB()
-  : db(QSqlDatabase::addDatabase("QSQLITE"))
+  : db(QSqlDatabase::addDatabase("QSQLITE")),
+    is_open(false)
 {
 
 }
@@ -51,14 +91,19 @@ void SQLiteDB::SetPath(string data_base_path)
 
 void SQLiteDB::Open()
 {
+    assert(!is_open);
     db.setDatabaseName(data_base_path.c_str());
-    if (!db.open())
+    if (!db.open() || db.isOpenError())
     {
         QString error_msg{db.lastError().text()};
         cerr << "Can't open database. " << error_msg.toStdString() << endl;
         Close();
         throw db_exception();
     }
+
+    is_open = isDatabaseValid();
+    if (!is_open)
+        Close();
 }
 
 void SQLiteDB::Close()
