@@ -54,3 +54,17 @@ int TableStructure::fieldCount() const
 {
     return name_type_pairs.size();
 }
+
+
+QString TableStructure::sqlCommand() const
+{
+    QString sql{"CREATE TABLE %1 (%2)"};
+    QString field_list;
+    for(auto &field : name_type_pairs)
+    {
+        if (!field_list.isEmpty())
+            field_list +=", ";
+        field_list += QString("%1 %2").arg(field.first, field.second);
+    }
+    return sql.arg(name, field_list);
+}

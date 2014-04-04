@@ -135,7 +135,8 @@ void SQLiteTest::tableStructureEquality()
 
 void SQLiteTest::parseSchema()
 {
-    TableStructure ts1 = TableStructure::fromSchema("CREATE TABLE rules (Payee INTEGER, Type INTEGER, Column INTEGER, Value TEXT, Class INTEGER)");
+    QString schema{"CREATE TABLE rules (Payee INTEGER, Type INTEGER, Column INTEGER, Value TEXT, Class INTEGER)"};
+    TableStructure ts1 = TableStructure::fromSchema(schema);
     QVERIFY(ts1.isValid());
     TableStructure ts2("rules");
     ts2.addField("Payee", "INTEGER");
@@ -144,6 +145,7 @@ void SQLiteTest::parseSchema()
     ts2.addField("Value", "TEXT");
     ts2.addField("Class", "INTEGER");
     QCOMPARE(ts1, ts2);
+    QCOMPARE(schema, ts2.sqlCommand());
 }
 
 void SQLiteTest::parseSchema2()
