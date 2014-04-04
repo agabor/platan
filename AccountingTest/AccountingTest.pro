@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += widgets testlib
+QT       += widgets testlib sql
 
 TARGET = tst_sqlite
 CONFIG   += console

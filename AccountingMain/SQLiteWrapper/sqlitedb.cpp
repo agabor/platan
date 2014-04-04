@@ -25,14 +25,7 @@ void SQLiteDB::Prepare(SQLiteStatement &statement, SQLSelect &select)
 {
     string s = select.toString();
     const char *select_query = s.c_str();
-    statement.statement.prepare(select_query);
-
-//    if(statement.statement.isValid())
-//    {
-//        cerr << select_query << endl;
-//        cerr << "Selecting data from DB Failed (err_code="<< retval <<")" << endl;
-//        return;
-//    }
+    statement.statement = QSqlQuery(select_query);
 }
 
 bool SQLiteDB::Step(SQLiteStatement &statement)
