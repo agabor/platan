@@ -1,9 +1,25 @@
+// This file is part of Platan.
+// Copyright (C) 2014 Gábor Angyal
+//
+// Platan is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Platan is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Platan.  If not, see <http://www.gnu.org/licenses/>.
+
 #include "tablestructure.h"
 #include <QStringList>
+#include <set>
 #include <QRegularExpression>
 
 using namespace std;
-
 
 TableStructure::TableStructure(QString name)
 {
@@ -45,9 +61,9 @@ bool TableStructure::operator !=(const TableStructure &other) const
     return !(*this == other);
 }
 
-void TableStructure::addField(QString name, QString type)
+void TableStructure::addField(QString name, SQLType type)
 {
-    name_type_pairs.push_back(pair<QString, QString>(name, type));
+    name_type_pairs.push_back(pair<QString, SQLType>(name, type));
 }
 
 int TableStructure::fieldCount() const
@@ -64,7 +80,7 @@ QString TableStructure::sqlCommand() const
     {
         if (!field_list.isEmpty())
             field_list +=", ";
-        field_list += QString("%1 %2").arg(field.first, field.second);
+        field_list += QString("%1 %2").arg(field.first, field.second.toString());
     }
     return sql.arg(name, field_list);
 }

@@ -57,36 +57,36 @@ bool SQLiteDB::isDatabaseValid() const
 void SQLiteDB::initSchema()
 {
     TableStructure classes{"classes"};
-    classes.addField("En", "TEXT");
-    classes.addField("De", "TEXT");
-    classes.addField("Hu", "TEXT");
-    classes.addField("ID", "INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL");
+    classes.addField("En", SQLType::Text);
+    classes.addField("De", SQLType::Text);
+    classes.addField("Hu", SQLType::Text);
+    classes.addField("ID", SQLType::DefaultPK());
     schema.addTable(classes);
 
     TableStructure payee{"payee"};
-    payee.addField("ID", "INTEGER PRIMARY KEY");
-    payee.addField("Name", "TEXT");
-    payee.addField("Account", "TEXT");
-    payee.addField("Type", "NUMERIC");
+    payee.addField("ID", SQLType::Integer.PK());
+    payee.addField("Name", SQLType::Text);
+    payee.addField("Account", SQLType::Text);
+    payee.addField("Type", SQLType::Numeric);
     schema.addTable(payee);
 
     TableStructure rules{"rules"};
-    rules.addField("Payee", "INTEGER");
-    rules.addField("Type", "INTEGER");
-    rules.addField("Column", "INTEGER");
-    rules.addField("Value", "TEXT");
-    rules.addField("Class", "INTEGER");
+    rules.addField("Payee", SQLType::Integer);
+    rules.addField("Type", SQLType::Integer);
+    rules.addField("Column", SQLType::Integer);
+    rules.addField("Value", SQLType::Text);
+    rules.addField("Class", SQLType::Integer);
     schema.addTable(rules);
 
     TableStructure statements{"statements"};
-    statements.addField("ID", "INTEGER PRIMARY KEY");
-    statements.addField("Date", "INTEGER");
-    statements.addField("Type", "TEXT");
-    statements.addField("Description", "TEXT");
-    statements.addField("Payee", "TEXT");
-    statements.addField("PayeeAccount", "TEXT");
-    statements.addField("Amount", "REAL");
-    statements.addField("Class", "INTEGER");
+    statements.addField("ID", SQLType::Integer.PK());
+    statements.addField("Date", SQLType::Integer);
+    statements.addField("Type", SQLType::Text);
+    statements.addField("Description", SQLType::Text);
+    statements.addField("Payee", SQLType::Text);
+    statements.addField("PayeeAccount", SQLType::Text);
+    statements.addField("Amount", SQLType::Real);
+    statements.addField("Class", SQLType::Integer);
     schema.addTable(statements);
 }
 

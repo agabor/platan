@@ -159,6 +159,11 @@ void SQLiteTest::parseSchema2()
     ts2.addField("Hu", "TEXT");
     ts2.addField("ID", "INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL");
     QCOMPARE(ts1, ts2);
+    QString sql1 = schema.replace(QRegularExpression("\\s+"), "");
+    sql1.replace(QRegularExpression("\""), "");
+    QString sql2 = ts2.sqlCommand();
+    sql2.replace(QRegularExpression("\\s+"), "");
+    QCOMPARE(sql1, sql2);
 }
 
 QTEST_APPLESS_MAIN(SQLiteTest)

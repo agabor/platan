@@ -14,23 +14,38 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef DATABASESCHEMA_H
-#define DATABASESCHEMA_H
+#ifndef SQLTYPE_H
+#define SQLTYPE_H
 
-#include "tablestructure.h"
-#include <vector>
 #include <QString>
-#include <QSqlDatabase>
 
-class DataBaseSchema
+class SQLType
 {
 public:
-    DataBaseSchema();
-    void addTable(TableStructure table);
-    bool isConform(const QSqlDatabase &db) const;
-    const TableStructure &getTable(QString name) const;
+    static SQLType Invalid;
+    static SQLType Integer;
+    static SQLType Real;
+    static SQLType Text;
+    static SQLType Numeric;
+    static SQLType DefaultPK()
+    {
+        return Integer.PK().AutoIncrement().NotNull();
+    }
+
+    SQLType PK() const;
+    SQLType AutoIncrement() const;
+    SQLType NotNull() const;
+    bool operator ==(const SQLType& other) const;
+    bool operator !=(const SQLType& other) const;
+    QString toString() const;
+    static SQLType parse(QString sqlstring);
 private:
-    std::vector<TableStructure> tables;
+    SQLType(char val);
+    SQLType(SQLType other, bool isPK, bool isAutoIncrement, bool isNotNull);
+    char val;
+    bool isPK;
+    bool isAutoIncrement;
+    bool isNotNull;
 };
 
-#endif // DATABASESCHEMA_H
+#endif // SQLTYPE_H

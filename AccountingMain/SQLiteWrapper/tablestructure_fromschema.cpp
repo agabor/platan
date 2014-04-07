@@ -73,7 +73,7 @@ bool addField(TableStructure &ts, QString field)
     QString name = name_type.at(0);
     QString type = field.remove(0, name.length() + 1);
     name = removeQuote(name);
-    ts.addField(name, type);
+    ts.addField(name, SQLType::parse(type));
 
     return true;
 }
