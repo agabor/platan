@@ -30,7 +30,8 @@ class AccDataBase
 {
 public:
     AccDataBase();
-    void SetPath(std::string data_base_path);
+    void SetPath(QString data_base_path);
+    void Create(QString data_base_path);
     void InsertData(StatementTableModel &model);
     void ReadData(std::vector<StatementRow> &model, bool only_unclassified = false);
     void ReadData(StatementExtractTableModel &model, int Class);

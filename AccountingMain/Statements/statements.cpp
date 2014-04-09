@@ -61,10 +61,15 @@ void Statements::GetCalssification(QMap<int, float> &result)
 }
 
 
-void Statements::SetPath(string data_base_path)
+void Statements::Open(QString data_base_path)
 {
     data_base.SetPath(data_base_path);
     data_base.ReadData(statements);
+}
+
+void Statements::New(QString data_base_path)
+{
+    data_base.Create(data_base_path);
 }
 
 

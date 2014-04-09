@@ -38,9 +38,10 @@ class SQLiteDB
 {
 public:
     SQLiteDB();
-    void SetPath(std::string data_base_path);
+    void SetPath(QString data_base_path);
     void Open();
     void Close();
+    void Create();
     void BeginTransaction();
     void EndTransaction();
     void Execute(SQLQuery &query);
@@ -48,8 +49,9 @@ public:
     bool Step(SQLiteStatement &statement);
     void Prepare(SQLiteStatement &statement, SQLSelect &select);
 protected:
+    void connect();
     QSqlDatabase db;
-    std::string data_base_path;
+    QString data_base_path;
     bool is_open;
     bool isDatabaseValid() const;
     DataBaseSchema schema;

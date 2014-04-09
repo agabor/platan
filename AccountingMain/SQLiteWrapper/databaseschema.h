@@ -29,6 +29,7 @@ public:
     void addTable(TableStructure table);
     bool isConform(const QSqlDatabase &db) const;
     const TableStructure &getTable(QString name) const;
+    void createTables(const QSqlDatabase &db) const;
 private:
     std::vector<TableStructure> tables;
 };

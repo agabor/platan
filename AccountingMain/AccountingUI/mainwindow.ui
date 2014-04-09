@@ -105,7 +105,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionHome"/>
-   <addaction name="actionStatements"/>
+   <addaction name="actionNew"/>
+   <addaction name="actionLoad"/>
    <addaction name="actionPythonConsole"/>
   </widget>
   <action name="actionLoad_File">
@@ -154,6 +155,24 @@
    </property>
    <property name="text">
     <string>PythonConsole</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/document-new.png</normaloff>:/icons/icons/document-new.png</iconset>
+   </property>
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
+  <action name="actionLoad">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/document-open.png</normaloff>:/icons/icons/document-open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load</string>
    </property>
   </action>
  </widget>

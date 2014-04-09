@@ -37,9 +37,15 @@ AccDataBase::AccDataBase()
     time_interval_set = false;
 }
 
-void AccDataBase::SetPath(string data_base_path)
+void AccDataBase::SetPath(QString data_base_path)
 {
     data_base.SetPath(data_base_path);
+}
+
+void AccDataBase::Create(QString data_base_path)
+{
+    SetPath(data_base_path);
+    data_base.Create();
 }
 
 void AccDataBase::InsertData(StatementTableModel &model)

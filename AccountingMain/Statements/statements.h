@@ -34,7 +34,8 @@ public:
   void SetTimeInterval(QDate start_date, QDate end_date);
   void UnsetTimeInterval();
   void GetCalssification(QMap<int, float> &result);
-  void SetPath(std::string data_base_path);
+  void Open(QString data_base_path);
+  void New(QString data_base_path);
   void GetClasses(QString lan, QMap<int, QString> &classes);
 private:
   AccDataBase data_base;

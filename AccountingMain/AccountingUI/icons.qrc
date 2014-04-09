@@ -4,5 +4,7 @@
         <file>icons/go-home.png</file>
         <file>icons/folder.png</file>
         <file>icons/run.png</file>
+        <file>icons/document-new.png</file>
+        <file>icons/document-open.png</file>
     </qresource>
 </RCC>

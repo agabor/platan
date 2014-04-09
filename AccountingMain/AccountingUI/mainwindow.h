@@ -75,6 +75,10 @@ private slots:
 
     void on_actionPythonConsole_triggered();
 
+    void on_actionNew_triggered();
+
+    void on_actionLoad_triggered();
+
 private:
 
     void SetStatements();

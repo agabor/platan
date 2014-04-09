@@ -237,3 +237,17 @@ void MainWindow::on_actionPythonConsole_triggered()
 {
     application->getPythonConsole()->show();
 }
+
+void MainWindow::on_actionNew_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save file"));
+    if (!fileName.isEmpty())
+        statements.New(fileName);
+}
+
+void MainWindow::on_actionLoad_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"));
+    if (!fileName.isEmpty())
+        statements.Open(fileName);
+}

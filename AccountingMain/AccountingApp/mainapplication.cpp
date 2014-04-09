@@ -46,7 +46,7 @@ void MainApplication::setDateRange(QDate start, QDate end)
 
 void MainApplication::OpenDataBase(const char *data_base_path)
 {
-    statements.SetPath(data_base_path);
+    statements.Open(data_base_path);
 }
 
 MainApplication::~MainApplication()

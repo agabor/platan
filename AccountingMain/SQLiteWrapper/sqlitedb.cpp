@@ -107,23 +107,14 @@ SQLiteDB::SQLiteDB()
     initSchema();
 }
 
-void SQLiteDB::SetPath(string data_base_path)
+void SQLiteDB::SetPath(QString data_base_path)
 {
     this->data_base_path = data_base_path;
 }
 
 void SQLiteDB::Open()
 {
-    assert(!is_open);
-    db.setDatabaseName(data_base_path.c_str());
-    if (!db.open() || db.isOpenError())
-    {
-        QString error_msg{db.lastError().text()};
-        cerr << "Can't open database. " << error_msg.toStdString() << endl;
-        Close();
-        throw db_exception();
-    }
-
+    connect();
     is_open = isDatabaseValid();
     if (!is_open)
         Close();
@@ -132,6 +123,25 @@ void SQLiteDB::Open()
 void SQLiteDB::Close()
 {
     db.close();
+}
+
+void SQLiteDB::Create()
+{
+    connect();
+    schema.createTables(db);
+}
+
+void SQLiteDB::connect()
+{
+    assert(!is_open);
+    db.setDatabaseName(data_base_path.toStdString().c_str());
+    if (!db.open() || db.isOpenError())
+    {
+        QString error_msg{db.lastError().text()};
+        cerr << "Can't open database. " << error_msg.toStdString() << endl;
+        Close();
+        throw db_exception();
+    }
 }
 
 void SQLiteDB::Execute(SQLQuery &query)

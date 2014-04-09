@@ -73,3 +73,9 @@ const TableStructure &DataBaseSchema::getTable(QString name) const
     }
     return TableStructure::Invalid();
 }
+
+void DataBaseSchema::createTables(const QSqlDatabase &db) const
+{
+    for (auto & table : tables)
+        db.exec(table.sqlCommand());
+}
