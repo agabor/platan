@@ -85,7 +85,7 @@ void SQLiteTest::createSQLUpdate2()
 
 void SQLiteTest::createSQLSelect1()
 {
-    SQLSelect select{"Cars"};
+    SQLSelect select{"Cars2"};
     select.field("color");
     select.field("brand");
 
