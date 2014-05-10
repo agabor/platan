@@ -89,7 +89,7 @@
     </property>
     <addaction name="actionLoad_File"/>
     <addaction name="actionClose"/>
-    <addaction name="actionPython_console"/>
+    <addaction name="actionPythonConsole"/>
    </widget>
    <addaction name="menuAccounting"/>
   </widget>
@@ -141,11 +141,6 @@
   <action name="actionClose">
    <property name="text">
     <string>Close</string>
-   </property>
-  </action>
-  <action name="actionPython_console">
-   <property name="text">
-    <string>Python console</string>
    </property>
   </action>
   <action name="actionPythonConsole">

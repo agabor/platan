@@ -6,5 +6,7 @@
         <file>icons/run.png</file>
         <file>icons/document-new.png</file>
         <file>icons/document-open.png</file>
+        <file>icons/document-save-as.png</file>
+        <file>icons/document-save.png</file>
     </qresource>
 </RCC>

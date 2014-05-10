@@ -24,6 +24,7 @@
 
 
 class QsciScintilla;
+class QToolBar;
 
 class PythonConsole : public QDialog
 {
@@ -34,12 +35,14 @@ public:
     ~PythonConsole();
     void PushOutput(QString output);
     void PushError(QString output);
+    QAction * AddAction(QString text, QString icon_name, const char *tooltip);
 private slots:
     void run();
 
 private:
     QsciScintilla *code_window;
     QTextEdit *output_window;
+    QToolBar *toolbar;
 
 };
 

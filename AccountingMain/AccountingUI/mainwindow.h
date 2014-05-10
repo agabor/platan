@@ -71,7 +71,6 @@ private slots:
 
     void onUnsetDateRange();
     void doubleClicked(QModelIndex index);
-    void on_actionPython_console_triggered();
 
     void on_actionPythonConsole_triggered();
 

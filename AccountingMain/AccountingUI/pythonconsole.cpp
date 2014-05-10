@@ -23,12 +23,26 @@
 #include <Qsci/qsciscintilla.h>
 #include <Qsci/qscilexerpython.h>
 
+QAction * PythonConsole::AddAction(QString text, QString icon_name, const char* tooltip)
+{
+    QString icon_path{":/icons/icons/%1.png"};
+    QIcon icon(icon_path.arg(icon_name));
+    QAction *run_action = toolbar->addAction(icon, text);
+    run_action->setStatusTip(tr(tooltip));
+
+    return run_action;
+}
+
 PythonConsole::PythonConsole(QWidget *parent) :
     QDialog(parent)
 {
-    QToolBar *toolbar = new QToolBar();
-    QAction *run_action = toolbar->addAction(QIcon(":/icons/icons/run.png"), "Run");
-    run_action->setStatusTip(tr("Run script"));
+    toolbar = new QToolBar();
+
+    QAction *run_action = AddAction("Run", "run", "Run script");
+    QAction *save_action = AddAction("Save", "document-save", "Save script");
+    QAction *save_as_action = AddAction("Save", "document-save-as", "Save script as ...");
+    QAction *load_action = AddAction("Load", "document-open", "Load script");
+
     connect(run_action, SIGNAL(triggered()), this, SLOT(run()));
 
     QVBoxLayout *layout = new QVBoxLayout(this);

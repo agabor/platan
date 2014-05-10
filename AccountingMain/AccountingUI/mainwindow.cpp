@@ -30,6 +30,7 @@
 #include "PythonAPI/pythonapi.h"
 #include "ui_mainwindow.h"
 #include "mainapplication.h"
+#include "pythonide.h"
 
 MainWindow::MainWindow(MainApplication * const application, Statements &statements, QWidget *parent) :
     QMainWindow(parent),
@@ -55,9 +56,10 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
 
     connect(ui->chart, SIGNAL(sliceClicked(int)), this, SLOT(sliceClicked(int)));
 
-    ui->actionHome->setStatusTip(tr("Go to home screen"));
-    ui->actionStatements->setStatusTip(tr("Show statements"));
-    ui->actionPythonConsole->setStatusTip(tr("Open Python console"));
+    for (auto action : ui->toolBar->actions())
+    {
+        action->setStatusTip(action->toolTip());
+    }
 }
 
 void MainWindow::SetStatements()
@@ -227,15 +229,11 @@ void MainWindow::doubleClicked( QModelIndex  index)
     //db->InsertRule(type, index.column(), unclassified_statements->data(index,Qt::DisplayRole).toString(), ard.Class(), ard.name());
 }
 
-
-void MainWindow::on_actionPython_console_triggered()
-{
-    application->getPythonConsole()->show();
-}
-
 void MainWindow::on_actionPythonConsole_triggered()
 {
-    application->getPythonConsole()->show();
+    //application->getPythonConsole()->show();
+    auto ide = new PythonIDE(this);
+    ide->show();
 }
 
 void MainWindow::on_actionNew_triggered()
