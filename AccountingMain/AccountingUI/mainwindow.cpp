@@ -231,9 +231,7 @@ void MainWindow::doubleClicked( QModelIndex  index)
 
 void MainWindow::on_actionPythonConsole_triggered()
 {
-    //application->getPythonConsole()->show();
-    auto ide = new PythonIDE(this);
-    ide->show();
+    application->getPythonConsole()->show();
 }
 
 void MainWindow::on_actionNew_triggered()

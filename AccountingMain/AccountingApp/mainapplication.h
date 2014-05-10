@@ -26,7 +26,7 @@
 #include "statementtablemodel.h"
 #include <memory>
 #include "statements.h"
-#include "pythonconsole.h"
+#include "pythonide.h"
 
 class MainApplication : public QApplication
 {
@@ -35,14 +35,14 @@ public:
     explicit MainApplication(int &argc, char *argv[]);
     void setDateRange(QDate start, QDate end);
     ~MainApplication();
-    PythonConsole *getPythonConsole() const
+    PythonIDE *getPythonConsole() const
     {
         return python_console.get();
     }
 private:
     void OpenDataBase(const char *data_base_path);
     std::unique_ptr<MainWindow> main_window;
-    std::unique_ptr<PythonConsole> python_console;
+    std::unique_ptr<PythonIDE> python_console;
     Statements statements;
 
 };

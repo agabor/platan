@@ -11,15 +11,15 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Python Scripts</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QsciScintilla" name="widget" native="true"/>
+     <widget class="QsciScintilla" name="code" native="true"/>
     </item>
     <item>
-     <widget class="QTextEdit" name="textEdit"/>
+     <widget class="QTextEdit" name="output"/>
     </item>
    </layout>
   </widget>
