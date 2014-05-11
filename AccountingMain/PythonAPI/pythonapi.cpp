@@ -24,6 +24,8 @@
 #include "pythonstdout.h"
 #include <memory>
 
+#define MODUL_NAME "Platan"
+
 using namespace std;
 
 string get_file_contents(const char *filename)
@@ -42,7 +44,7 @@ string get_file_contents(const char *filename)
   throw(errno);
 }
 
-static PyObject* PyInit_Accounting();
+static PyObject* PyInit_Platan();
 
 MainApplication *PythonAPI::main_application;
 
@@ -53,10 +55,10 @@ PythonAPI::PythonAPI()
 void PythonAPI::init(MainApplication *main_application)
 {
     PythonAPI::main_application = main_application;
-    PyImport_AppendInittab("accounting", &PyInit_Accounting);
+    PyImport_AppendInittab(MODUL_NAME, &PyInit_Platan);
     emb::init();
     Py_Initialize();
-    PyImport_ImportModule("accounting");
+    PyImport_ImportModule(MODUL_NAME);
     emb::import();
 }
 
@@ -103,15 +105,15 @@ static PyObject* runScript(PyObject *self, PyObject *args)
     return PyLong_FromLong(0);
 }
 
-static PyMethodDef AccountingMethods[] = {
-    {"setDateRange", setDateRange, METH_VARARGS, "Set current date range in application. e.g.: emb.setDateRange(2013, 02, 15, 2014, 04, 02)"},
-    {"runScript", runScript, METH_VARARGS, "Run python script e.g.: runScript(\"print(\\\"hello\\\")\")"},
+static PyMethodDef PlatanMethods[] = {
+    {"setDateRange", setDateRange, METH_VARARGS, "Set current date range in application. e.g.: Platan.setDateRange(2013, 02, 15, 2014, 04, 02)"},
+    {"runScript", runScript, METH_VARARGS, "Run python script e.g.: Platan.runScript(\"print(\\\"hello\\\")\")"},
     {NULL, NULL, 0, NULL}
 };
 
 
-static PyModuleDef AccountingModule = {
-    PyModuleDef_HEAD_INIT, "accounting", NULL, -1, AccountingMethods,
+static PyModuleDef PlatanModule = {
+    PyModuleDef_HEAD_INIT, MODUL_NAME, NULL, -1, PlatanMethods,
     NULL, NULL, NULL, NULL
 };
 
@@ -119,7 +121,7 @@ static PyModuleDef AccountingModule = {
 vector<pair<QString, QString> > PythonAPI::GetFunctionDocs()
 {
     vector<pair<QString, QString> > result;
-    for(PyMethodDef& def : AccountingMethods)
+    for(PyMethodDef& def : PlatanMethods)
     {
         if (def.ml_name == NULL)
             break;
@@ -128,7 +130,7 @@ vector<pair<QString, QString> > PythonAPI::GetFunctionDocs()
     return result;
 }
 
-static PyObject* PyInit_Accounting()
+static PyObject* PyInit_Platan()
 {
-    return PyModule_Create(&AccountingModule);
+    return PyModule_Create(&PlatanModule);
 }
