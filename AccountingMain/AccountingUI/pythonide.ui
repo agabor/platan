@@ -19,7 +19,14 @@
      <widget class="QsciScintilla" name="code" native="true"/>
     </item>
     <item>
-     <widget class="QTextEdit" name="output"/>
+     <widget class="QTextEdit" name="output">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
