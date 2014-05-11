@@ -16,7 +16,8 @@ SOURCES += \
     AccountingUI/daterangewidget.cpp \
     AccountingUI/maintabwidget.cpp \
     AccountingUI/pythonide.cpp \
-    AccountingUI/helpwindow.cpp
+    AccountingUI/helpwindow.cpp \
+    AccountingUI/projectswindow.cpp
 
 HEADERS  += \
     AccountingUI/mainwindow.h \
@@ -36,7 +37,8 @@ HEADERS  += \
     AccountingUI/daterangewidget.h \
     AccountingUI/maintabwidget.h \
     AccountingUI/pythonide.h \
-    AccountingUI/helpwindow.h
+    AccountingUI/helpwindow.h \
+    AccountingUI/projectswindow.h
 
 FORMS    += \
     AccountingUI/mainwindow.ui \
@@ -44,7 +46,8 @@ FORMS    += \
     AccountingUI/addruledialog.ui \
     AccountingUI/choosedatedialog.ui \
     AccountingUI/pythonide.ui \
-    AccountingUI/helpwindow.ui
+    AccountingUI/helpwindow.ui \
+    AccountingUI/projectswindow.ui
 
 RESOURCES += \
     AccountingUI/icons.qrc
