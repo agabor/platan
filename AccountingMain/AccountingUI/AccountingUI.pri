@@ -15,7 +15,8 @@ SOURCES += \
     AccountingUI/qstatemenview.cpp \
     AccountingUI/daterangewidget.cpp \
     AccountingUI/maintabwidget.cpp \
-    AccountingUI/pythonide.cpp
+    AccountingUI/pythonide.cpp \
+    AccountingUI/helpwindow.cpp
 
 HEADERS  += \
     AccountingUI/mainwindow.h \
@@ -34,14 +35,16 @@ HEADERS  += \
     AccountingUI/qstatemenview.h \
     AccountingUI/daterangewidget.h \
     AccountingUI/maintabwidget.h \
-    AccountingUI/pythonide.h
+    AccountingUI/pythonide.h \
+    AccountingUI/helpwindow.h
 
 FORMS    += \
     AccountingUI/mainwindow.ui \
     AccountingUI/importdialog.ui \
     AccountingUI/addruledialog.ui \
     AccountingUI/choosedatedialog.ui \
-    AccountingUI/pythonide.ui
+    AccountingUI/pythonide.ui \
+    AccountingUI/helpwindow.ui
 
 RESOURCES += \
     AccountingUI/icons.qrc

@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QString>
 #include <QTextCursor>
+#include "helpwindow.h"
 
 namespace Ui{
 class PythonIDE;
@@ -34,6 +35,8 @@ private slots:
 
     void on_actionSave_triggered();
 
+    void on_actionHelp_triggered();
+
 private:
     Ui::PythonIDE *ui;
     std::unique_ptr<QFile> TryOpenFile(QString fileName, QIODevice::OpenModeFlag flag);
@@ -44,6 +47,7 @@ private:
     void saveCodeToFile(QString fileName);
     bool text_changed;
     QString saved_code;
+    std::unique_ptr<HelpWindow> helpwindow;
 protected:
      void closeEvent(QCloseEvent *event);
 };

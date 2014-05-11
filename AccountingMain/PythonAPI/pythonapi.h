@@ -18,6 +18,9 @@
 #define PYTHONAPI_H
 
 #include <string>
+#include <utility>
+#include <vector>
+#include <QString>
 
 class MainApplication;
 
@@ -30,6 +33,7 @@ public:
     static void showConsole();
     static void run(std::string script);
     static MainApplication *main_application;
+    static std::vector<std::pair<QString, QString>> GetFunctionDocs();
 };
 
 #endif // PYTHONAPI_H

@@ -55,6 +55,7 @@
    <addaction name="actionSave"/>
    <addaction name="actionSave_as"/>
    <addaction name="actionOpen"/>
+   <addaction name="actionHelp"/>
   </widget>
   <action name="actionRun">
    <property name="icon">
@@ -114,6 +115,18 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/help-browser.png</normaloff>:/icons/icons/help-browser.png</iconset>
+   </property>
+   <property name="text">
+    <string>Help</string>
+   </property>
+   <property name="toolTip">
+    <string>Show scripting help</string>
    </property>
   </action>
  </widget>

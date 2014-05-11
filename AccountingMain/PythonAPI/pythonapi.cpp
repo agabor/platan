@@ -24,15 +24,17 @@
 #include "pythonstdout.h"
 #include <memory>
 
-std::string get_file_contents(const char *filename)
+using namespace std;
+
+string get_file_contents(const char *filename)
 {
-  std::ifstream in(filename, std::ios::in | std::ios::binary);
+  ifstream in(filename, ios::in | ios::binary);
   if (in)
   {
-    std::string contents;
-    in.seekg(0, std::ios::end);
+    string contents;
+    in.seekg(0, ios::end);
     contents.resize(in.tellg());
-    in.seekg(0, std::ios::beg);
+    in.seekg(0, ios::beg);
     in.read(&contents[0], contents.size());
     in.close();
     return(contents);
@@ -63,12 +65,12 @@ void PythonAPI::finalize()
     Py_Finalize();
 }
 
-void PythonAPI::run(std::string script)
+void PythonAPI::run(string script)
 {
     auto console = main_application->getPythonConsole();
-    stdout_write_type write_output = [&console] (std::string s) { console->PushOutput(QString(s.c_str())); };
+    stdout_write_type write_output = [&console] (string s) { console->PushOutput(QString(s.c_str())); };
     emb::set_stdout(write_output);
-    stdout_write_type write_error = [&console] (std::string s) { console->PushError(QString(s.c_str())); };
+    stdout_write_type write_error = [&console] (string s) { console->PushError(QString(s.c_str())); };
     emb::set_stderr(write_error);
     PyRun_SimpleString(script.c_str());
     emb::reset_stdout();
@@ -94,16 +96,16 @@ static PyObject* runScript(PyObject *self, PyObject *args)
     if(!PyArg_ParseTuple(args, "s", &script))
         return NULL;
 
-    std::cout << script << std::endl;
+    cout << script << endl;
 
-    PythonAPI::run(std::string(script));
+    PythonAPI::run(string(script));
 
     return PyLong_FromLong(0);
 }
 
 static PyMethodDef AccountingMethods[] = {
-    {"setDateRange", setDateRange, METH_VARARGS, "blabla"},
-    {"runScript", runScript, METH_VARARGS, "blabla"},
+    {"setDateRange", setDateRange, METH_VARARGS, "Set current date range in application. e.g.: emb.setDateRange(2013, 02, 15, 2014, 04, 02)"},
+    {"runScript", runScript, METH_VARARGS, "Run python script e.g.: runScript(\"print(\\\"hello\\\")\")"},
     {NULL, NULL, 0, NULL}
 };
 
@@ -112,6 +114,19 @@ static PyModuleDef AccountingModule = {
     PyModuleDef_HEAD_INIT, "accounting", NULL, -1, AccountingMethods,
     NULL, NULL, NULL, NULL
 };
+
+
+vector<pair<QString, QString> > PythonAPI::GetFunctionDocs()
+{
+    vector<pair<QString, QString> > result;
+    for(PyMethodDef& def : AccountingMethods)
+    {
+        if (def.ml_name == NULL)
+            break;
+        result.push_back(pair<QString, QString>(def.ml_name, def.ml_doc));
+    }
+    return result;
+}
 
 static PyObject* PyInit_Accounting()
 {

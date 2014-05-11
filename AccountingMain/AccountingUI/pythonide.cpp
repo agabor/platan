@@ -6,10 +6,14 @@
 #include <QMessageBox>
 #include <QTextStream>
 #include <memory>
+#include <utility>
+
+using namespace std;
 
 PythonIDE::PythonIDE(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::PythonIDE)
+    ui(new Ui::PythonIDE),
+    helpwindow{new HelpWindow(this)}
 {
     ui->setupUi(this);
     ui->code->setLexer(new QsciLexerPython());
@@ -22,6 +26,10 @@ PythonIDE::PythonIDE(QWidget *parent) :
 
     connect(ui->code, SIGNAL(textChanged()), this, SLOT(textChanged()));
     SetWindowTitle();
+    for(pair<QString, QString> doc : PythonAPI::GetFunctionDocs())
+    {
+        helpwindow->AddFunctionDoc(doc.first, doc.second);
+    }
 }
 
 QTextCursor PythonIDE::GetOutputEndCursor()
@@ -162,4 +170,9 @@ void PythonIDE::on_actionSave_triggered()
         on_actionSave_as_triggered();
     else
         saveCodeToFile(activeFileName);
+}
+
+void PythonIDE::on_actionHelp_triggered()
+{
+    helpwindow->show();
 }
