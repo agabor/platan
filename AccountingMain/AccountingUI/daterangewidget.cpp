@@ -116,7 +116,7 @@ std::vector<QDate> MonthesBetween(QDate min_date, QDate max_date)
 {
     std::vector<QDate> result;
 
-    if (!min_date.isValid() || max_date.isValid())
+    if (!min_date.isValid() || !max_date.isValid())
         return result;
 
     QDate i(min_date.year(), min_date.month(), 1);
