@@ -19,34 +19,65 @@
 
 using namespace std;
 
+
 MainApplication::MainApplication(int &argc, char *argv[]) :
-    QApplication(argc, argv)
+    QApplication(argc, argv),
+    settings("configs/platan.ini", QSettings::IniFormat)
 {
     PythonAPI::init(this);
 
-    OpenDataBase("../accountdb");
+    projects_window.reset(new ProjectsWindow(this, statements));
+    projects_window->show();
+}
 
+
+void MainApplication::OpenProject(QString project_path)
+{
+    statements.Open(project_path);
 
     main_window.reset(new MainWindow(this, statements));
 
     main_window->InitChart();
     main_window->InitLegend();
 
-    //connect(main_window.tabWidget(),SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
     main_window->show();
 
     python_console.reset(new PythonIDE(main_window.get()));
 }
 
+const QString projectpathkey{"misc/projectpath%1"};
+const QString projectnumkey{"misc/projectnum"};
+
+QVector<QString> MainApplication::RecentProjects()
+{
+    QString projectNum = settings.value(projectnumkey, QString{"0"}).toString();
+    bool ok;
+    int count = projectNum.toInt(&ok);
+    QVector<QString> result;
+    for(int i = 0; i < count; ++i)
+    {
+
+        QString projectpath = settings.value(projectpathkey.arg(i), QString{""}).toString();
+        if (!projectpath.isEmpty())
+            result.push_back(projectpath);
+    }
+    return result;
+}
+
+void MainApplication::SaveProjectPaths(QVector<QString> path_list)
+{
+    settings.setValue(projectnumkey, QString::number(path_list.length()));
+    int i = 0;
+    for(QString path : path_list)
+    {
+        settings.setValue(projectpathkey.arg(i++), path);
+    }
+
+}
+
 void MainApplication::setDateRange(QDate start, QDate end)
 {
     main_window->setDateRange(start, end);
-}
-
-
-void MainApplication::OpenDataBase(const char *data_base_path)
-{
-    statements.Open(data_base_path);
 }
 
 MainApplication::~MainApplication()

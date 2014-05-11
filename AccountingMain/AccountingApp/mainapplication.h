@@ -27,6 +27,8 @@
 #include <memory>
 #include "statements.h"
 #include "pythonide.h"
+#include "projectswindow.h"
+#include <QSettings>
 
 class MainApplication : public QApplication
 {
@@ -39,12 +41,15 @@ public:
     {
         return python_console.get();
     }
+    void OpenProject(QString project_path);
+    QVector<QString> RecentProjects();
+    void SaveProjectPaths(QVector<QString> path_list);
 private:
-    void OpenDataBase(const char *data_base_path);
     std::unique_ptr<MainWindow> main_window;
     std::unique_ptr<PythonIDE> python_console;
+    std::unique_ptr<ProjectsWindow> projects_window;
     Statements statements;
-
+    QSettings settings;
 };
 
 #endif // MAINAPPLICATION_H
