@@ -55,6 +55,7 @@
    <addaction name="actionSave"/>
    <addaction name="actionSave_as"/>
    <addaction name="actionOpen"/>
+   <addaction name="actionTile_windows"/>
    <addaction name="actionHelp"/>
   </widget>
   <action name="actionRun">
@@ -127,6 +128,21 @@
    </property>
    <property name="toolTip">
     <string>Show scripting help</string>
+   </property>
+  </action>
+  <action name="actionTile_windows">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/preferences-system-windows.png</normaloff>:/icons/icons/preferences-system-windows.png</iconset>
+   </property>
+   <property name="text">
+    <string>Tile windows</string>
+   </property>
+   <property name="toolTip">
+    <string>Tile windows</string>
    </property>
   </action>
  </widget>

@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QString>
 #include <QTextCursor>
+#include <QByteArray>
 #include "helpwindow.h"
 
 namespace Ui{
@@ -17,7 +18,7 @@ class PythonIDE : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit PythonIDE(QWidget *parent = 0);
+    explicit PythonIDE(QMainWindow *mainWindow);
     void PushOutput(QString output);
     void PushError(QString output);
     ~PythonIDE();
@@ -37,6 +38,8 @@ private slots:
 
     void on_actionHelp_triggered();
 
+    void on_actionTile_windows_triggered();
+
 private:
     Ui::PythonIDE *ui;
     std::unique_ptr<QFile> TryOpenFile(QString fileName, QIODevice::OpenModeFlag flag);
@@ -48,6 +51,13 @@ private:
     bool text_changed;
     QString saved_code;
     std::unique_ptr<HelpWindow> helpwindow;
+    QMainWindow *mainWindow;
+    std::unique_ptr<QByteArray> geometry;
+    std::unique_ptr<QByteArray> mainWindowGeometry;
+    std::unique_ptr<QByteArray> helpWindowGeometry;
+    void RestoreWindowGeometries();
+    void SaveWindowGeometries();
+    void TileWindows();
 protected:
      void closeEvent(QCloseEvent *event);
 };

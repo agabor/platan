@@ -106,7 +106,7 @@ static PyObject* runScript(PyObject *self, PyObject *args)
 }
 
 static PyMethodDef PlatanMethods[] = {
-    {"setDateRange", setDateRange, METH_VARARGS, "Set current date range in application. e.g.: Platan.setDateRange(2013, 02, 15, 2014, 04, 02)"},
+    {"setDateRange", setDateRange, METH_VARARGS, "Set current date range in application. e.g.: Platan.setDateRange(2013, 8, 1, 2013, 8, 31)"},
     {"runScript", runScript, METH_VARARGS, "Run python script e.g.: Platan.runScript(\"print(\\\"hello\\\")\")"},
     {NULL, NULL, 0, NULL}
 };

@@ -9,5 +9,6 @@
         <file>icons/document-save-as.png</file>
         <file>icons/document-save.png</file>
         <file>icons/help-browser.png</file>
+        <file>icons/preferences-system-windows.png</file>
     </qresource>
 </RCC>

@@ -3,7 +3,8 @@
 
 HelpWindow::HelpWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::HelpWindow)
+    ui(new Ui::HelpWindow),
+    shown{false}
 {
     ui->setupUi(this);
     AddHeader(1, tr("Platan Python scripting help"));
@@ -23,6 +24,16 @@ void HelpWindow::AddParagraph(QString text)
     ui->textEdit->insertHtml(QString("<p>%1</p><br>").arg(text));
 }
 
+void HelpWindow::closeEvent(QCloseEvent *event)
+{
+    shown = false;
+}
+
+void HelpWindow::showEvent(QShowEvent *event)
+{
+    shown = true;
+}
+
 HelpWindow::~HelpWindow()
 {
     delete ui;
@@ -32,4 +43,9 @@ void HelpWindow::AddFunctionDoc(QString name, QString doc)
 {
     AddHeader(2, name);
     AddParagraph(doc);
+}
+
+bool HelpWindow::isShown() const
+{
+    return shown;
 }

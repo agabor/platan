@@ -7,13 +7,16 @@
 #include <QTextStream>
 #include <memory>
 #include <utility>
+#include <QDesktopWidget>
 
 using namespace std;
 
-PythonIDE::PythonIDE(QWidget *parent) :
-    QMainWindow(parent),
+PythonIDE::PythonIDE(QMainWindow *mainWindow) :
+    QMainWindow(nullptr),
     ui(new Ui::PythonIDE),
-    helpwindow{new HelpWindow(this)}
+    helpwindow{new HelpWindow},
+    mainWindow{mainWindow},
+    geometry{nullptr}
 {
     ui->setupUi(this);
     ui->code->setLexer(new QsciLexerPython());
@@ -175,4 +178,51 @@ void PythonIDE::on_actionSave_triggered()
 void PythonIDE::on_actionHelp_triggered()
 {
     helpwindow->show();
+}
+
+void PythonIDE::RestoreWindowGeometries()
+{
+    if (mainWindowGeometry.get() != nullptr)
+        mainWindow->restoreGeometry(*mainWindowGeometry.get());
+    if (geometry.get() != nullptr)
+        restoreGeometry(*geometry.get());
+    if (helpWindowGeometry.get() != nullptr)
+        helpwindow->restoreGeometry(*helpWindowGeometry.get());
+}
+
+void PythonIDE::SaveWindowGeometries()
+{
+    mainWindowGeometry.reset(new QByteArray(mainWindow->saveGeometry()));
+    geometry.reset(new QByteArray(saveGeometry()));
+    helpWindowGeometry.reset(new QByteArray(helpwindow->saveGeometry()));
+}
+
+void PythonIDE::TileWindows()
+{
+    QWidget *desk = QApplication::desktop()->screen(QApplication::desktop()->primaryScreen());
+    mainWindow->resize(desk->width()/2, desk->height());
+    mainWindow->move(0,0);
+    if(helpwindow->isShown())
+    {
+        move(mainWindow->width(),0);
+        resize(desk->width() - mainWindow->width(), desk->height() / 2);
+        helpwindow->move(mainWindow->width(),desk->height() / 2);
+        helpwindow->resize(desk->width() - mainWindow->width(), desk->height() / 2);
+    } else
+    {
+        move(mainWindow->width(),0);
+        resize(desk->width() - mainWindow->width(), desk->height());
+    }
+}
+
+void PythonIDE::on_actionTile_windows_triggered()
+{
+    if (ui->actionTile_windows->isChecked())
+    {
+        SaveWindowGeometries();
+        TileWindows();
+    } else
+    {
+        RestoreWindowGeometries();
+    }
 }

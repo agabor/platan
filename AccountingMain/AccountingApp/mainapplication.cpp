@@ -35,7 +35,7 @@ MainApplication::MainApplication(int &argc, char *argv[]) :
     //connect(main_window.tabWidget(),SIGNAL(tabCloseRequested(int)),this,SLOT(closeTab(int)));
     main_window->show();
 
-    python_console.reset(new PythonIDE);
+    python_console.reset(new PythonIDE(main_window.get()));
 }
 
 void MainApplication::setDateRange(QDate start, QDate end)
