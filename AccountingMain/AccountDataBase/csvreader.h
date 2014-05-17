@@ -23,7 +23,7 @@ class CSVReader
 {
 
 public:
-    CSVReader(QString fileName);
+    CSVReader(QIODevice &i);
     CSVTableModel* read();
     void setSeparator(char s);
     inline char separator() const;
@@ -36,7 +36,7 @@ private:
     char _separator;
     char _quote;
     bool headersInFirstRow;
-    QString fileName;
+    QIODevice &input;
 };
 
 char CSVReader::separator() const

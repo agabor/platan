@@ -193,7 +193,9 @@ void SQLiteTest::testCSV(char separator, QVector<QVector<QString>> data, char qu
     }
     file.close();
 
-    CSVReader r(filename);
+    QFile input(filename);
+    input.open(QIODevice::ReadOnly | QIODevice::Text);
+    CSVReader r(input);
     r.setHeadersInFirstRow(false);
     r.setSeparator(separator);
     r.setQuote(quote);

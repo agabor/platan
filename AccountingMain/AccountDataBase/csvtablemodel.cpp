@@ -29,6 +29,8 @@ int CSVTableModel::rowCount(const QModelIndex& parent) const
 
 int CSVTableModel::columnCount(const QModelIndex& parent) const
 {
+    if (Rows.size() == 0)
+        return 0;
     return Rows[0].size();
 }
 

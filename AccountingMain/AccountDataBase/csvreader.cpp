@@ -22,12 +22,11 @@
 
 using namespace std;
 
-CSVReader::CSVReader(QString filename)
+CSVReader::CSVReader(QIODevice &i) : input(i)
 {
     _separator = ',';
     _quote ='\0';
     headersInFirstRow = false;
-    fileName = filename;
 }
 
 QStringList CSVReader::removeQuotes(QStringList string_list)
@@ -54,9 +53,7 @@ QString CSVReader::removeQuotes(QString str)
 CSVTableModel *CSVReader::read()
 {
     CSVTableModel *result = new CSVTableModel();
-    QFile csv_file(fileName);
-    csv_file.open(QIODevice::ReadOnly | QIODevice::Text);
-    QTextStream in(&csv_file);
+    QTextStream in(&input);
     QString line;
     int col_num = -1;
     while (!in.atEnd())
@@ -81,7 +78,6 @@ CSVTableModel *CSVReader::read()
             result->addRow(string_list);
         }
     }
-    csv_file.close();
     return result;
 }
 

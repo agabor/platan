@@ -98,7 +98,9 @@ void MainWindow::on_actionLoad_File_triggered()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                     "",
                                                     tr("Files (*.csv)"));
-    CSVReader adb{fileName};
+    QFile input(fileName);
+    input.open(QIODevice::ReadOnly | QIODevice::Text);
+    CSVReader adb(input);
     ImportDialog id(this, adb);
     id.exec();
 }
