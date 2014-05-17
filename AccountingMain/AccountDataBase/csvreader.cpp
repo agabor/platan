@@ -30,13 +30,33 @@ CSVReader::CSVReader(QString filename)
     fileName = filename;
 }
 
+QStringList CSVReader::removeQuotes(QStringList string_list)
+{
+    QStringList withoutQuotes;
+    for (QString elem : string_list)
+    {
+        withoutQuotes.append(removeQuotes(elem));
+    }
+
+    return withoutQuotes;
+}
+
+QString CSVReader::removeQuotes(QString str)
+{
+    if (str.at(0) == quote && str.at(str.length() -1) == quote)
+    {
+        str = str.mid(1);
+        str.chop(1);
+    }
+    return str;
+}
+
 CSVTableModel *CSVReader::read()
 {
     CSVTableModel *result = new CSVTableModel();
     QFile csv_file(fileName);
     csv_file.open(QIODevice::ReadOnly | QIODevice::Text);
     QTextStream in(&csv_file);
-    //in.setCodec("UTF-8");
     QString line;
     int col_num = -1;
     while (!in.atEnd())
@@ -53,7 +73,13 @@ CSVTableModel *CSVReader::read()
             }
         }
         if (col_num == string_list.length())
+        {
+            if (quote != '\0')
+            {
+                string_list = removeQuotes(string_list);
+            }
             result->addRow(string_list);
+        }
     }
     csv_file.close();
     return result;

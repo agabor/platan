@@ -28,6 +28,8 @@ public:
     void setSeparator(char s);
     void setQuote(char q);
     void setHeadersInFirstRow(bool b);
+    QStringList removeQuotes(QStringList string_list);
+    QString removeQuotes(QString str);
 protected:
     char separator;
     char quote;

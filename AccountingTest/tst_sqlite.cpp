@@ -30,6 +30,8 @@ private Q_SLOTS:
     void parseSchema();
     void parseSchema2();
     void readCSV1();
+private:
+    void testCSV(char separator, QVector<QVector<QString>> data, char quote);
 };
 
 void SQLiteTest::equalsQDate()
@@ -169,23 +171,22 @@ void SQLiteTest::parseSchema2()
     QCOMPARE(sql1, sql2);
 }
 
-void SQLiteTest::readCSV1()
+void SQLiteTest::testCSV(char separator, QVector<QVector<QString>> data, char quote)
 {
     const char* filename = "test.csv";
     QFile file(filename);
     file.open(QIODevice::WriteOnly);
-
-    QVector<QVector<QString>> data
-    {{"a","b","c","d"},
-    {"e","f","g","h"}};
     for(auto line : data)
     {
         QString aggregate;
         for (auto elem : line)
         {
             if (!aggregate.isEmpty())
-                aggregate += ',';
-            aggregate += elem;
+                aggregate += separator;
+            if (quote != '\0')
+                aggregate += quote + elem + quote;
+            else
+                aggregate += elem;
         }
         aggregate += '\n';
         file.write(aggregate.toStdString().c_str());
@@ -194,6 +195,8 @@ void SQLiteTest::readCSV1()
 
     CSVReader r(filename);
     r.setHeadersInFirstRow(false);
+    r.setSeparator(separator);
+    r.setQuote(quote);
     CSVTableModel *model = r.read();
     int row = 0;
     for(auto line : data)
@@ -208,6 +211,18 @@ void SQLiteTest::readCSV1()
         ++row;
     }
     QVERIFY(file.remove());
+}
+
+void SQLiteTest::readCSV1()
+{
+    QVector<QVector<QString>> data{
+    {"a","b","c","d"},
+    {"e","f","g","h"},
+    {"i","j","k","l"},
+    {"m","n","o","p"}};
+    testCSV(',', data, '"');
+    testCSV(';', data, '\0');
+    testCSV(';', data, '\'');
 }
 
 QTEST_APPLESS_MAIN(SQLiteTest)
