@@ -47,8 +47,10 @@ CSVTableModel *CSVReader::read()
         {
             col_num = string_list.length();
             if (headersInFirstRow)
+            {
                 result->setHeaders(string_list);
-            continue;
+                continue;
+            }
         }
         if (col_num == string_list.length())
             result->addRow(string_list);

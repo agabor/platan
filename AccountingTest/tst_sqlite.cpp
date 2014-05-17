@@ -174,15 +174,39 @@ void SQLiteTest::readCSV1()
     const char* filename = "test.csv";
     QFile file(filename);
     file.open(QIODevice::WriteOnly);
-    file.write("a,b,c,d\n");
-    file.write("e,f,g,h\n");
+
+    QVector<QVector<QString>> data
+    {{"a","b","c","d"},
+    {"e","f","g","h"}};
+    for(auto line : data)
+    {
+        QString aggregate;
+        for (auto elem : line)
+        {
+            if (!aggregate.isEmpty())
+                aggregate += ',';
+            aggregate += elem;
+        }
+        aggregate += '\n';
+        file.write(aggregate.toStdString().c_str());
+    }
     file.close();
 
     CSVReader r(filename);
+    r.setHeadersInFirstRow(false);
     CSVTableModel *model = r.read();
-
-    QString d = model->data(model->index(0,0), Qt::DisplayRole).toString();
-
+    int row = 0;
+    for(auto line : data)
+    {
+        int column = 0;
+        for (auto elem : line)
+        {
+            QString d = model->data(model->index(row,column), Qt::DisplayRole).toString();
+            QCOMPARE(elem, d);
+            ++column;
+        }
+        ++row;
+    }
     QVERIFY(file.remove());
 }
 
