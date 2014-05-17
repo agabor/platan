@@ -3,7 +3,7 @@
 #include <QTextStream>
 #include <csvreader.h>
 #include <QTableView>
-#include <csvimportwidget.h>
+#include <csvpropertieswidget.h>
 #include <QVBoxLayout>
 
 CSVConfigWidget::CSVConfigWidget(QWidget *parent) :
@@ -11,7 +11,7 @@ CSVConfigWidget::CSVConfigWidget(QWidget *parent) :
 {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-    CSVReaderProperties = new CSVImportWidget(this);
+    CSVReaderProperties = new CSVPropertiesWidget(this);
     mainLayout->addWidget(CSVReaderProperties);
 
     connect(CSVReaderProperties, SIGNAL(readerParametersChanged()), this, SLOT(readCSV()));

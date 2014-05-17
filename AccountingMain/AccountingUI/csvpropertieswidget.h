@@ -8,11 +8,11 @@
 class QComboBox;
 class QCheckBox;
 
-class CSVImportWidget : public QWidget
+class CSVPropertiesWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit CSVImportWidget(QWidget *parent = 0);
+    explicit CSVPropertiesWidget(QWidget *parent = 0);
     void setReader(CSVReader *r);
     void SelectData(QComboBox *comboBox, char c);
 signals:

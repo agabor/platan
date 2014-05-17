@@ -18,9 +18,9 @@ SOURCES += \
     AccountingUI/pythonide.cpp \
     AccountingUI/helpwindow.cpp \
     AccountingUI/projectswindow.cpp \
-    AccountingUI/csvimportwidget.cpp \
     AccountingUI/importcolumnproperties.cpp \
-    AccountingUI/csvconfigwidget.cpp
+    AccountingUI/csvconfigwidget.cpp \
+    AccountingUI/csvpropertieswidget.cpp
 
 HEADERS  += \
     AccountingUI/mainwindow.h \
@@ -42,10 +42,10 @@ HEADERS  += \
     AccountingUI/pythonide.h \
     AccountingUI/helpwindow.h \
     AccountingUI/projectswindow.h \
-    AccountingUI/csvimportwidget.h \
     AccountingUI/importcolumnproperties.h \
     AccountingUI/widgethelpers.h \
-    AccountingUI/csvconfigwidget.h
+    AccountingUI/csvconfigwidget.h \
+    AccountingUI/csvpropertieswidget.h
 
 FORMS    += \
     AccountingUI/mainwindow.ui \

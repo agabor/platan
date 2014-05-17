@@ -1,11 +1,11 @@
-#include "csvimportwidget.h"
+#include "csvpropertieswidget.h"
 #include <QComboBox>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QCheckBox>
 #include <widgethelpers.h>
 
-CSVImportWidget::CSVImportWidget(QWidget *parent) :
+CSVPropertiesWidget::CSVPropertiesWidget(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
@@ -26,7 +26,7 @@ CSVImportWidget::CSVImportWidget(QWidget *parent) :
     headers = AddLabeledWidget<QCheckBox>(mainLayout, tr("Headers are in the first row."));
 }
 
-void CSVImportWidget::SelectData(QComboBox* comboBox, char c)
+void CSVPropertiesWidget::SelectData(QComboBox* comboBox, char c)
 {
     for(int i= 0; i < comboBox->count(); ++i)
     {
@@ -35,25 +35,25 @@ void CSVImportWidget::SelectData(QComboBox* comboBox, char c)
     }
 }
 
-void CSVImportWidget::setSeparator(int index)
+void CSVPropertiesWidget::setSeparator(int index)
 {
     reader->setSeparator(separator->itemData(index).toChar().toLatin1());
     emit readerParametersChanged();
 }
 
-void CSVImportWidget::setQuote(int index)
+void CSVPropertiesWidget::setQuote(int index)
 {
     reader->setQuote(quote->itemData(index).toChar().toLatin1());
     emit readerParametersChanged();
 }
 
-void CSVImportWidget::setHeaders(bool b)
+void CSVPropertiesWidget::setHeaders(bool b)
 {
     reader->setHeadersInFirstRow(b);
     emit readerParametersChanged();
 }
 
-void CSVImportWidget::setReader(CSVReader* r)
+void CSVPropertiesWidget::setReader(CSVReader* r)
 {
     reader = r;
     SelectData(quote, r->quote());

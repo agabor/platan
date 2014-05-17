@@ -5,7 +5,7 @@
 #include <QString>
 
 class CSVReader;
-class CSVImportWidget;
+class CSVPropertiesWidget;
 class QTableView;
 
 class CSVConfigWidget : public QWidget
@@ -19,7 +19,7 @@ private slots:
 private:
     CSVReader *reader;
     QByteArray input;
-    CSVImportWidget *CSVReaderProperties;
+    CSVPropertiesWidget *CSVReaderProperties;
     QTableView *tableView;
 };
 
