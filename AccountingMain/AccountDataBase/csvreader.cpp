@@ -22,11 +22,14 @@
 
 using namespace std;
 
-CSVReader::CSVReader()
+CSVReader::CSVReader(QString filename)
 {
+    separator = ',';
+    quote ='\0';
+    this->filename = filename;
 }
 
-CSVTableModel* CSVReader::ReadCSV(QString filename)
+CSVTableModel *CSVReader::read()
 {
     CSVTableModel *result = new CSVTableModel();
     QFile csv_file(filename);
@@ -50,4 +53,14 @@ CSVTableModel* CSVReader::ReadCSV(QString filename)
     }
     csv_file.close();
     return result;
+}
+
+void CSVReader::setSeparator(char s)
+{
+    separator = s;
+}
+
+void CSVReader::setQuote(char q)
+{
+    quote = q;
 }

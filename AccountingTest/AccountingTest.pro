@@ -20,5 +20,6 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 
 include(../AccountingMain/SQLiteWrapper/SQLiteWrapper.pri)
+include(../AccountingMain/AccountDataBase/AccountDataBase.pri)
 
 HEADERS +=

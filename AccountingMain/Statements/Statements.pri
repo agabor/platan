@@ -1,12 +1,12 @@
 
 SOURCES += \
-    Statements/statementextracttablemodel.cpp \
-    Statements/statements.cpp \
-    Statements/statementtablemodel.cpp
+    ../AccountingMain/Statements/statementextracttablemodel.cpp \
+    ../AccountingMain/Statements/statements.cpp \
+    ../AccountingMain/Statements/statementtablemodel.cpp
 
 HEADERS += \
-    Statements/statementextracttablemodel.h \
-    Statements/statements.h \
-    Statements/statementtablemodel.h
+    ../AccountingMain/Statements/statementextracttablemodel.h \
+    ../AccountingMain/Statements/statements.h \
+    ../AccountingMain/Statements/statementtablemodel.h
 
 

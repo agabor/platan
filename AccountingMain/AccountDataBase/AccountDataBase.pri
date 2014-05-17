@@ -1,19 +1,27 @@
 
 SOURCES += \
-    AccountDataBase/csvtablemodel.cpp \
-    AccountDataBase/accdatabase.cpp \
-    AccountDataBase/datetransformation.cpp \
-    AccountDataBase/csvreader.cpp
+    ../AccountingMain/AccountDataBase/csvtablemodel.cpp \
+    ../AccountingMain/AccountDataBase/accdatabase.cpp \
+    ../AccountingMain/AccountDataBase/datetransformation.cpp \
+    ../AccountingMain/AccountDataBase/csvreader.cpp \
+    ../AccountingMain/AccountDataBase/statementextracttablemodel.cpp \
+    ../AccountingMain/AccountDataBase/statements.cpp \
+    ../AccountingMain/AccountDataBase/statementtablemodel.cpp
 
 HEADERS += \
-    AccountDataBase/csvtablemodel.h \
-    AccountDataBase/accdatabase.h \
-    AccountDataBase/statementrow.h \
-    AccountDataBase/simpletransformations.h \
-    AccountDataBase/datetransformation.h \
-    AccountDataBase/transformation.h \
-    AccountDataBase/statementextractrow.h \
-    AccountDataBase/csvreader.h
+    ../AccountingMain/AccountDataBase/csvtablemodel.h \
+    ../AccountingMain/AccountDataBase/accdatabase.h \
+    ../AccountingMain/AccountDataBase/statementrow.h \
+    ../AccountingMain/AccountDataBase/statementtablemodel.h \
+    ../AccountingMain/AccountDataBase/simpletransformations.h \
+    ../AccountingMain/AccountDataBase/datetransformation.h \
+    ../AccountingMain/AccountDataBase/transformation.h \
+    ../AccountingMain/AccountDataBase/statementextractrow.h \
+    ../AccountingMain/AccountDataBase/statementextractrow.h \
+    ../AccountingMain/AccountDataBase/csvreader.h \
+    ../AccountingMain/AccountDataBase/statementextracttablemodel.h \
+    ../AccountingMain/AccountDataBase/statements.h \
+    ../AccountingMain/AccountDataBase/statementtablemodel.h
 
 unix:!symbian {
     maemo5 {

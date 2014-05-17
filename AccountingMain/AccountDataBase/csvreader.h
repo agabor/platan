@@ -23,9 +23,14 @@ class CSVReader
 {
 
 public:
-    CSVReader();
-    CSVTableModel* ReadCSV(QString filename);
-
+    CSVReader(QString filename);
+    CSVTableModel* read();
+    void setSeparator(char s);
+    void setQuote(char q);
+protected:
+    char separator;
+    char quote;
+    QString filename;
 };
 
-#endif // ACCOUNTDB_H
+#endif // CSVREADER_H
