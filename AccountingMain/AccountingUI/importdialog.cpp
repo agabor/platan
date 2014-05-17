@@ -20,11 +20,13 @@
 #include <datetransformation.h>
 #include <accdatabase.h>
 
-ImportDialog::ImportDialog(QWidget *parent, CSVReader &r) :
+ImportDialog::ImportDialog(QWidget *parent, QString filename) :
     QDialog(parent),
-    ui(new Ui::ImportDialog),
-    reader(r)
+    ui(new Ui::ImportDialog)
 {
+    QFile inFile(filename);
+    inFile.open(QIODevice::ReadOnly | QIODevice::Text);
+    input = inFile.readAll();
     ui->setupUi(this);
     ui->CSVReaderProperties->setReader(&reader);
 
@@ -57,5 +59,6 @@ void ImportDialog::on_buttonBox_accepted()
 
 void ImportDialog::readCSV()
 {
-    ui->tableViewDB->setModel(reader.read());
+    QTextStream input_stream(&input);
+    ui->tableViewDB->setModel(reader.read(input_stream));
 }

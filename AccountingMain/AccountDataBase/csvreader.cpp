@@ -22,7 +22,7 @@
 
 using namespace std;
 
-CSVReader::CSVReader(QIODevice &i) : input(i)
+CSVReader::CSVReader()
 {
     _separator = ',';
     _quote ='\0';
@@ -50,16 +50,20 @@ QString CSVReader::removeQuotes(QString str)
     return str;
 }
 
-CSVTableModel *CSVReader::read()
+CSVTableModel *CSVReader::read(QTextStream &input)
 {
     CSVTableModel *result = new CSVTableModel();
-    QTextStream in(&input);
     QString line;
     int col_num = -1;
-    while (!in.atEnd())
+    input.reset();
+    while (!input.atEnd())
     {
-        line = in.readLine();
+        line = input.readLine();
         QStringList string_list = line.split(_separator);
+        if (_quote != '\0')
+        {
+            string_list = removeQuotes(string_list);
+        }
         if (col_num == -1)
         {
             col_num = string_list.length();
@@ -71,10 +75,6 @@ CSVTableModel *CSVReader::read()
         }
         if (col_num == string_list.length())
         {
-            if (_quote != '\0')
-            {
-                string_list = removeQuotes(string_list);
-            }
             result->addRow(string_list);
         }
     }

@@ -17,14 +17,15 @@
 #ifndef CSVREADER_H
 #define CSVREADER_H
 #include <QString>
+#include <QTextStream>
 #include "csvtablemodel.h"
 
 class CSVReader
 {
 
 public:
-    CSVReader(QIODevice &i);
-    CSVTableModel* read();
+    CSVReader();
+    CSVTableModel* read(QTextStream &input);
     void setSeparator(char s);
     inline char separator() const;
     void setQuote(char q);
@@ -36,7 +37,6 @@ private:
     char _separator;
     char _quote;
     bool headersInFirstRow;
-    QIODevice &input;
 };
 
 char CSVReader::separator() const

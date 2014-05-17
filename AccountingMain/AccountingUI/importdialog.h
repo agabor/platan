@@ -18,6 +18,7 @@
 #define IMPORTDIALOG_H
 
 #include <QDialog>
+#include <QFile>
 #include <QAbstractTableModel>
 #include <statementtablemodel.h>
 #include <memory>
@@ -32,7 +33,7 @@ class ImportDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ImportDialog(QWidget *parent, CSVReader &r);
+    explicit ImportDialog(QWidget *parent, QString filename);
     ~ImportDialog();
 
 private slots:
@@ -42,7 +43,8 @@ private slots:
 private:
     Ui::ImportDialog *ui;
     std::unique_ptr<StatementTableModel> dbModel;
-    CSVReader &reader;
+    CSVReader reader;
+    QByteArray input;
 };
 
 #endif // IMPORTDIALOG_H
