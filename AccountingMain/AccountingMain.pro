@@ -16,7 +16,6 @@ INCLUDEPATH += SQLiteWrapper \
                AccountingUI \
                AccountingApp \
                PythonAPI \
-               Statements \
                /usr/include/python3.2
 
 include(SQLiteWrapper/SQLiteWrapper.pri)

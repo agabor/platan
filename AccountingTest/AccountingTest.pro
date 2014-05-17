@@ -18,6 +18,8 @@ SOURCES += \
     tst_sqlite.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
+INCLUDEPATH += ../AccountingMain/SQLiteWrapper \
+               ../AccountingMain/AccountDataBase
 
 include(../AccountingMain/SQLiteWrapper/SQLiteWrapper.pri)
 include(../AccountingMain/AccountDataBase/AccountDataBase.pri)
