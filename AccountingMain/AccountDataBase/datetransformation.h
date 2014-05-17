@@ -48,8 +48,8 @@ inline DatePart part(DateOrder date, int i)
 class DateTransformation : public Transformation<QDate>
 {
 public:
-    DateTransformation(int column, DateOrder order, char separator, bool remove_quot)
-        : Transformation(column, remove_quot), order(order), separator(separator)
+    DateTransformation(DateOrder order, char separator)
+        : order(order), separator(separator)
     {
 
     }

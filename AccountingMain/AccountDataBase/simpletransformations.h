@@ -24,8 +24,7 @@
 class IdentityTransFormation : public Transformation<QString>
 {
 public:
-    IdentityTransFormation(int column, bool remove_quot)
-        : Transformation(column, remove_quot)
+    IdentityTransFormation()
     {
 
     }
@@ -39,8 +38,7 @@ public:
 class IntTransformation : public Transformation<int>
 {
 public:
-    IntTransformation(int column, bool remove_quot)
-        : Transformation(column, remove_quot)
+    IntTransformation()
     {
 
     }
@@ -54,8 +52,8 @@ public:
 class FloatTransformation : public Transformation<float>
 {
 public:
-    FloatTransformation(int column, char decimal, bool remove_quot)
-        : Transformation(column, remove_quot), decimal(decimal)
+    FloatTransformation(char decimal)
+        : decimal(decimal)
     {
 
     }
