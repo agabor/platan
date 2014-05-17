@@ -195,11 +195,12 @@ void SQLiteTest::testCSV(char separator, QVector<QVector<QString>> data, char qu
 
     QFile input(filename);
     input.open(QIODevice::ReadOnly | QIODevice::Text);
-    CSVReader r(input);
+    CSVReader r;
     r.setHeadersInFirstRow(false);
     r.setSeparator(separator);
     r.setQuote(quote);
-    CSVTableModel *model = r.read();
+    QTextStream stream(&input);
+    CSVTableModel *model = r.read(stream);
     int row = 0;
     for(auto line : data)
     {
