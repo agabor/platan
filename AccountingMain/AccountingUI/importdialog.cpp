@@ -24,11 +24,8 @@ ImportDialog::ImportDialog(QWidget *parent, QString filename) :
     QDialog(parent),
     ui(new Ui::ImportDialog)
 {
-    QFile inFile(filename);
-    inFile.open(QIODevice::ReadOnly | QIODevice::Text);
-    input = inFile.readAll();
     ui->setupUi(this);
-    ui->CSVReaderProperties->setReader(&reader);
+    ui->csvConfigWidget->setReader(filename, &reader);
 
 //    dbModel = std::unique_ptr<StatementTableModel> (new StatementTableModel());
 //    dbModel->Ammount_tr = new FloatTransformation(8, ',', true);
@@ -41,8 +38,6 @@ ImportDialog::ImportDialog(QWidget *parent, QString filename) :
 
 //    ui->tableView->setModel(model);
 //    ui->tableViewDB->setModel(dbModel.get());
-    readCSV();
-    connect(ui->CSVReaderProperties, SIGNAL(readerParametersChanged()), this, SLOT(readCSV()));
 }
 
 ImportDialog::~ImportDialog()
@@ -55,10 +50,4 @@ void ImportDialog::on_buttonBox_accepted()
 //    AccDataBase db;
 //    db.SetPath("../accountdb");
 //    db.InsertData(*dbModel);
-}
-
-void ImportDialog::readCSV()
-{
-    QTextStream input_stream(&input);
-    ui->tableViewDB->setModel(reader.read(input_stream));
 }

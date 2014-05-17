@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QCheckBox>
+#include <widgethelpers.h>
 
 CSVImportWidget::CSVImportWidget(QWidget *parent) :
     QWidget(parent)

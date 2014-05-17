@@ -38,13 +38,12 @@ public:
 
 private slots:
     void on_buttonBox_accepted();
-    void readCSV();
+
 
 private:
     Ui::ImportDialog *ui;
     std::unique_ptr<StatementTableModel> dbModel;
     CSVReader reader;
-    QByteArray input;
 };
 
 #endif // IMPORTDIALOG_H
