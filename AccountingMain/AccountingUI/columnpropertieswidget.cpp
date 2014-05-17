@@ -1,9 +1,9 @@
-#include "importcolumnproperties.h"
+#include "columnpropertieswidget.h"
 #include <QVBoxLayout>
 #include <QComboBox>
 #include <widgethelpers.h>
 
-ImportColumnProperties::ImportColumnProperties(QWidget *parent) :
+ColumnPropertiesWidget::ColumnPropertiesWidget(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
@@ -30,7 +30,7 @@ ImportColumnProperties::ImportColumnProperties(QWidget *parent) :
     separator->setVisible(false);
 }
 
-void ImportColumnProperties::setType(int idx)
+void ColumnPropertiesWidget::setType(int idx)
 {
     format->setVisible(idx == 3);
     separator->setVisible(idx == 1);

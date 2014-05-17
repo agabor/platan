@@ -4,11 +4,11 @@
 #include <QWidget>
 class QComboBox;
 
-class ImportColumnProperties : public QWidget
+class ColumnPropertiesWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ImportColumnProperties(QWidget *parent = 0);
+    explicit ColumnPropertiesWidget(QWidget *parent = 0);
 
 private slots:
     void setType(int idx);
