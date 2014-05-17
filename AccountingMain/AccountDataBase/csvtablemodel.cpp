@@ -48,6 +48,10 @@ QVariant CSVTableModel::headerData(int section, Qt::Orientation orientation, int
         std::stringstream ss;
         if(orientation == Qt::Horizontal)
         {
+            if (headers.length() <= section)
+            {
+                return QString{};
+            }
             return headers.at(section);
         }
         else if(orientation == Qt::Vertical)

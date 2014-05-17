@@ -46,7 +46,7 @@ void CSVImportWidget::setQuote(int index)
     emit readerParametersChanged();
 }
 
-void CSVImportWidget::setReader(std::shared_ptr<CSVReader> r)
+void CSVImportWidget::setReader(CSVReader* r)
 {
     reader = r;
     SelectData(quote, r->quote());

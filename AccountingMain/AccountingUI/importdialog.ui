@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <widget class="CSVImportWidget" name="widget" native="true"/>
+    <widget class="CSVImportWidget" name="CSVReaderProperties" native="true"/>
    </item>
    <item>
     <widget class="QTableView" name="tableViewDB"/>

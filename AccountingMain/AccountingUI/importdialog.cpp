@@ -20,11 +20,13 @@
 #include <datetransformation.h>
 #include <accdatabase.h>
 
-ImportDialog::ImportDialog(QWidget *parent, QAbstractTableModel *model) :
+ImportDialog::ImportDialog(QWidget *parent, CSVReader &r) :
     QDialog(parent),
-    ui(new Ui::ImportDialog)
+    ui(new Ui::ImportDialog),
+    reader(r)
 {
     ui->setupUi(this);
+    ui->CSVReaderProperties->setReader(&reader);
 
 //    dbModel = std::unique_ptr<StatementTableModel> (new StatementTableModel());
 //    dbModel->Ammount_tr = new FloatTransformation(8, ',', true);
@@ -37,6 +39,8 @@ ImportDialog::ImportDialog(QWidget *parent, QAbstractTableModel *model) :
 
 //    ui->tableView->setModel(model);
 //    ui->tableViewDB->setModel(dbModel.get());
+    readCSV();
+    connect(ui->CSVReaderProperties, SIGNAL(readerParametersChanged()), this, SLOT(readCSV()));
 }
 
 ImportDialog::~ImportDialog()
@@ -46,7 +50,12 @@ ImportDialog::~ImportDialog()
 
 void ImportDialog::on_buttonBox_accepted()
 {
-    AccDataBase db;
-    db.SetPath("../accountdb");
-    db.InsertData(*dbModel);
+//    AccDataBase db;
+//    db.SetPath("../accountdb");
+//    db.InsertData(*dbModel);
+}
+
+void ImportDialog::readCSV()
+{
+    ui->tableViewDB->setModel(reader.read());
 }

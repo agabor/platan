@@ -99,8 +99,7 @@ void MainWindow::on_actionLoad_File_triggered()
                                                     "",
                                                     tr("Files (*.csv)"));
     CSVReader adb{fileName};
-    adb.setHeadersInFirstRow(true);
-    ImportDialog id(this, adb.read());
+    ImportDialog id(this, adb);
     id.exec();
 }
 

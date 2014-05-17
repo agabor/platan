@@ -21,6 +21,7 @@
 #include <QAbstractTableModel>
 #include <statementtablemodel.h>
 #include <memory>
+#include <csvreader.h>
 
 namespace Ui {
 class ImportDialog;
@@ -31,15 +32,17 @@ class ImportDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ImportDialog(QWidget *parent, QAbstractTableModel *model);
+    explicit ImportDialog(QWidget *parent, CSVReader &r);
     ~ImportDialog();
 
 private slots:
     void on_buttonBox_accepted();
+    void readCSV();
 
 private:
     Ui::ImportDialog *ui;
     std::unique_ptr<StatementTableModel> dbModel;
+    CSVReader &reader;
 };
 
 #endif // IMPORTDIALOG_H

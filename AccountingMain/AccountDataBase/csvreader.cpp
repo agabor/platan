@@ -43,7 +43,7 @@ QStringList CSVReader::removeQuotes(QStringList string_list)
 
 QString CSVReader::removeQuotes(QString str)
 {
-    if (str.at(0) == _quote && str.at(str.length() -1) == _quote)
+    if (str.length() >= 2 && str.at(0) == _quote && str.at(str.length() -1) == _quote)
     {
         str = str.mid(1);
         str.chop(1);
