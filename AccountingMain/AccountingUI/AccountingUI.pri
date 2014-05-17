@@ -17,7 +17,8 @@ SOURCES += \
     AccountingUI/maintabwidget.cpp \
     AccountingUI/pythonide.cpp \
     AccountingUI/helpwindow.cpp \
-    AccountingUI/projectswindow.cpp
+    AccountingUI/projectswindow.cpp \
+    AccountingUI/csvimportwidget.cpp
 
 HEADERS  += \
     AccountingUI/mainwindow.h \
@@ -38,7 +39,8 @@ HEADERS  += \
     AccountingUI/maintabwidget.h \
     AccountingUI/pythonide.h \
     AccountingUI/helpwindow.h \
-    AccountingUI/projectswindow.h
+    AccountingUI/projectswindow.h \
+    AccountingUI/csvimportwidget.h
 
 FORMS    += \
     AccountingUI/mainwindow.ui \

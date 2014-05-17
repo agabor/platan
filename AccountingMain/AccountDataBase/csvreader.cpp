@@ -24,8 +24,8 @@ using namespace std;
 
 CSVReader::CSVReader(QString filename)
 {
-    separator = ',';
-    quote ='\0';
+    _separator = ',';
+    _quote ='\0';
     headersInFirstRow = false;
     fileName = filename;
 }
@@ -43,7 +43,7 @@ QStringList CSVReader::removeQuotes(QStringList string_list)
 
 QString CSVReader::removeQuotes(QString str)
 {
-    if (str.at(0) == quote && str.at(str.length() -1) == quote)
+    if (str.at(0) == _quote && str.at(str.length() -1) == _quote)
     {
         str = str.mid(1);
         str.chop(1);
@@ -62,7 +62,7 @@ CSVTableModel *CSVReader::read()
     while (!in.atEnd())
     {
         line = in.readLine();
-        QStringList string_list = line.split(separator);
+        QStringList string_list = line.split(_separator);
         if (col_num == -1)
         {
             col_num = string_list.length();
@@ -74,7 +74,7 @@ CSVTableModel *CSVReader::read()
         }
         if (col_num == string_list.length())
         {
-            if (quote != '\0')
+            if (_quote != '\0')
             {
                 string_list = removeQuotes(string_list);
             }
@@ -87,12 +87,12 @@ CSVTableModel *CSVReader::read()
 
 void CSVReader::setSeparator(char s)
 {
-    separator = s;
+    _separator = s;
 }
 
 void CSVReader::setQuote(char q)
 {
-    quote = q;
+    _quote = q;
 }
 
 void CSVReader::setHeadersInFirstRow(bool b)

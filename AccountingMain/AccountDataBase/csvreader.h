@@ -26,15 +26,27 @@ public:
     CSVReader(QString fileName);
     CSVTableModel* read();
     void setSeparator(char s);
+    inline char separator() const;
     void setQuote(char q);
+    inline char quote() const;
     void setHeadersInFirstRow(bool b);
     QStringList removeQuotes(QStringList string_list);
     QString removeQuotes(QString str);
-protected:
-    char separator;
-    char quote;
+private:
+    char _separator;
+    char _quote;
     bool headersInFirstRow;
     QString fileName;
 };
+
+char CSVReader::separator() const
+{
+    return _separator;
+}
+
+char CSVReader::quote() const
+{
+    return _quote;
+}
 
 #endif // CSVREADER_H
