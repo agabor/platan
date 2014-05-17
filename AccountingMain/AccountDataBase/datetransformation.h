@@ -48,14 +48,19 @@ inline DatePart part(DateOrder date, int i)
 class DateTransformation : public Transformation<QDate>
 {
 public:
-    DateTransformation(DateOrder order, char separator)
-        : order(order), separator(separator)
+    DateTransformation()
     {
 
     }
 
     QDate convert(QString Data) const;
     static QDate convert(QString Data, DateOrder order, char separator);
+    DateOrder getOrder() const;
+    void setOrder(const DateOrder &value);
+
+    char getSeparator() const;
+    void setSeparator(char value);
+
 protected:
     DateOrder order;
     char separator;

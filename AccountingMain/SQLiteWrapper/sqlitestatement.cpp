@@ -41,9 +41,9 @@ double SQLiteStatement::GetDouble(int idx)
     return statement.value(idx).toDouble();
 }
 
-std::string SQLiteStatement::GetText(int idx)
+QString SQLiteStatement::GetText(int idx)
 {
-    return statement.value(idx).toString().toStdString();
+    return statement.value(idx).toString();
 }
 
 QDate SQLiteStatement::GetDate(int idx)

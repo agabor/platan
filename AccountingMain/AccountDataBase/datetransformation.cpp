@@ -52,4 +52,24 @@ QDate DateTransformation::convert(QString Data, DateOrder order, char separator)
 
     return QDate(year, month, day);
 }
+DateOrder DateTransformation::getOrder() const
+{
+    return order;
+}
+
+void DateTransformation::setOrder(const DateOrder &value)
+{
+    order = value;
+}
+char DateTransformation::getSeparator() const
+{
+    return separator;
+}
+
+void DateTransformation::setSeparator(char value)
+{
+    separator = value;
+}
+
+
 

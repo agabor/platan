@@ -28,7 +28,7 @@ public:
     ~SQLiteStatement();
     int GetInt(int idx);
     double GetDouble(int idx);
-    std::string GetText(int idx);
+    QString GetText(int idx);
     QDate GetDate(int idx);
 protected:
     QSqlQuery statement;

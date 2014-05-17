@@ -52,8 +52,7 @@ public:
 class FloatTransformation : public Transformation<float>
 {
 public:
-    FloatTransformation(char decimal)
-        : decimal(decimal)
+    FloatTransformation()
     {
 
     }
@@ -82,8 +81,19 @@ public:
         return w + (w < 0 ? -1 : 1) * frac * frac_mul;
     }
 
+    char getDecimal() const
+    {
+        return decimal;
+    }
+    void setDecimal(char value)
+    {
+        decimal = value;
+    }
+
 protected:
     char decimal;
 };
 
+
 #endif // SIMPLETRANSFORMATIONS_H
+

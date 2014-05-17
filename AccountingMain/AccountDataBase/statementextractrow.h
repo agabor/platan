@@ -25,7 +25,7 @@
 struct StatementExtractRow
 {
     QDate Date;
-    std::string Payee;
+    QString Payee;
     float Ammount;
 
     static int size()
@@ -39,7 +39,7 @@ struct StatementExtractRow
         case 0:
             return Date;
         case 1:
-            return QString(Payee.c_str());
+            return Payee;
         case 2:
             return Ammount;
         }

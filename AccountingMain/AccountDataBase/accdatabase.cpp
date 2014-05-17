@@ -189,7 +189,7 @@ void AccDataBase::Classify()
         SQLUpdate update("statements");
         update.set("Class", statement.GetInt(1));
         update.where("Class = 0");
-        update.where(QString("PayeeAccount = \"%1\"").arg(QString(statement.GetText(0).c_str())));
+        update.where(QString("PayeeAccount = \"%1\"").arg(statement.GetText(0)));
         data_base.Execute(update);
     }
 
@@ -205,7 +205,7 @@ void AccDataBase::Classify()
         SQLUpdate update("statements");
         update.set("Class", statement.GetInt(1));
         update.where("Class = 0");
-        update.where(QString("Type = \"%2\"").arg(QString(statement.GetText(0).c_str())));
+        update.where(QString("Type = \"%2\"").arg(statement.GetText(0)));
         data_base.Execute(update);
     }
 
@@ -240,8 +240,7 @@ void AccDataBase::GetClasses(QString lan, QMap<int, QString> &classes)
     while (data_base.Step(statement))
     {
         int id = statement.GetInt(0);
-        QString Class(statement.GetText(1).c_str());
-        classes.insert(id, Class);
+        classes.insert(id, statement.GetText(1));
     }
 
     data_base.Finalize(statement);

@@ -26,10 +26,10 @@
 struct StatementRow
 {
     SQLiteDate Date;
-    std::string Type;
-    std::string Description;
-    std::string Payee;
-    std::string PayeeAccount;
+    QString Type;
+    QString Description;
+    QString Payee;
+    QString PayeeAccount;
     float Ammount;
     int Class;
 
@@ -44,13 +44,13 @@ struct StatementRow
         case 0:
             return Date;
         case 1:
-            return QString(Type.c_str());
+            return Type;
         case 2:
-            return QString(Description.c_str());
+            return Description;
         case 3:
-            return QString(Payee.c_str());
+            return Payee;
         case 4:
-            return QString(PayeeAccount.c_str());
+            return PayeeAccount;
         case 5:
             return Ammount;
         }

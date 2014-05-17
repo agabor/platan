@@ -6,7 +6,8 @@ SOURCES += \
     ../AccountingMain/AccountDataBase/csvreader.cpp \
     ../AccountingMain/AccountDataBase/statementextracttablemodel.cpp \
     ../AccountingMain/AccountDataBase/statements.cpp \
-    ../AccountingMain/AccountDataBase/statementtablemodel.cpp
+    ../AccountingMain/AccountDataBase/statementtablemodel.cpp \
+    AccountDataBase/tabletransformer.cpp
 
 HEADERS += \
     ../AccountingMain/AccountDataBase/csvtablemodel.h \
@@ -21,7 +22,8 @@ HEADERS += \
     ../AccountingMain/AccountDataBase/csvreader.h \
     ../AccountingMain/AccountDataBase/statementextracttablemodel.h \
     ../AccountingMain/AccountDataBase/statements.h \
-    ../AccountingMain/AccountDataBase/statementtablemodel.h
+    ../AccountingMain/AccountDataBase/statementtablemodel.h \
+    AccountDataBase/tabletransformer.h
 
 unix:!symbian {
     maemo5 {
