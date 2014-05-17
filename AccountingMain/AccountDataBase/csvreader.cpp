@@ -14,7 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "accountdata.h"
+#include "csvreader.h"
 #include <string>
 #include <QStringList>
 #include <QFile>
@@ -22,11 +22,11 @@
 
 using namespace std;
 
-AccountData::AccountData()
+CSVReader::CSVReader()
 {
 }
 
-CSVTableModel* AccountData::ReadCSV(QString filename)
+CSVTableModel* CSVReader::ReadCSV(QString filename)
 {
     CSVTableModel *result = new CSVTableModel();
     QFile csv_file(filename);

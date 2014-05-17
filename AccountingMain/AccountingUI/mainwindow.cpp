@@ -16,7 +16,7 @@
 
 #include "mainwindow.h"
 #include <QFileDialog>
-#include <accountdata.h>
+#include <csvreader.h>
 #include "importdialog.h"
 #include <sstream>
 #include "qpiechart.h"
@@ -98,7 +98,7 @@ void MainWindow::on_actionLoad_File_triggered()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                     "",
                                                     tr("Files (*.csv)"));
-    AccountData adb;
+    CSVReader adb;
 
     ImportDialog id(this, adb.ReadCSV(fileName));
     id.exec();

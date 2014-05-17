@@ -14,16 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef ACCOUNTDB_H
-#define ACCOUNTDB_H
+#ifndef CSVREADER_H
+#define CSVREADER_H
 #include <QString>
 #include "csvtablemodel.h"
 
-class AccountData
+class CSVReader
 {
 
 public:
-    AccountData();
+    CSVReader();
     CSVTableModel* ReadCSV(QString filename);
 
 };
