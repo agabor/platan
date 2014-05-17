@@ -23,14 +23,16 @@ class CSVReader
 {
 
 public:
-    CSVReader(QString filename);
+    CSVReader(QString fileName);
     CSVTableModel* read();
     void setSeparator(char s);
     void setQuote(char q);
+    void setHeadersInFirstRow(bool b);
 protected:
     char separator;
     char quote;
-    QString filename;
+    bool headersInFirstRow;
+    QString fileName;
 };
 
 #endif // CSVREADER_H

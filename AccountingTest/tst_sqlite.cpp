@@ -1,12 +1,14 @@
 #include <QString>
 #include <QtTest>
-#include <../AccountingMain/SQLiteWrapper/sqlitedate.h>
-#include <../AccountingMain/SQLiteWrapper/sqlinsert.h>
-#include <../AccountingMain/SQLiteWrapper/sqlupdate.h>
-#include <../AccountingMain/SQLiteWrapper/sqlselect.h>
-#include <../AccountingMain/SQLiteWrapper/tablestructure.h>
+#include <sqlitedate.h>
+#include <sqlinsert.h>
+#include <sqlupdate.h>
+#include <sqlselect.h>
+#include <tablestructure.h>
 #include <QSqlQuery>
 #include <string>
+#include <csvreader.h>
+#include <QFile>
 
 using namespace std;
 
@@ -27,6 +29,7 @@ private Q_SLOTS:
     void tableStructureEquality();
     void parseSchema();
     void parseSchema2();
+    void readCSV1();
 };
 
 void SQLiteTest::equalsQDate()
@@ -164,6 +167,23 @@ void SQLiteTest::parseSchema2()
     QString sql2 = ts2.sqlCommand();
     sql2.replace(QRegularExpression("\\s+"), "");
     QCOMPARE(sql1, sql2);
+}
+
+void SQLiteTest::readCSV1()
+{
+    const char* filename = "test.csv";
+    QFile file(filename);
+    file.open(QIODevice::WriteOnly);
+    file.write("a,b,c,d\n");
+    file.write("e,f,g,h\n");
+    file.close();
+
+    CSVReader r(filename);
+    CSVTableModel *model = r.read();
+
+    QString d = model->data(model->index(0,0), Qt::DisplayRole).toString();
+
+    QVERIFY(file.remove());
 }
 
 QTEST_APPLESS_MAIN(SQLiteTest)

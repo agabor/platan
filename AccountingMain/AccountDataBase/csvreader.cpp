@@ -26,13 +26,14 @@ CSVReader::CSVReader(QString filename)
 {
     separator = ',';
     quote ='\0';
-    this->filename = filename;
+    headersInFirstRow = false;
+    fileName = filename;
 }
 
 CSVTableModel *CSVReader::read()
 {
     CSVTableModel *result = new CSVTableModel();
-    QFile csv_file(filename);
+    QFile csv_file(fileName);
     csv_file.open(QIODevice::ReadOnly | QIODevice::Text);
     QTextStream in(&csv_file);
     //in.setCodec("UTF-8");
@@ -41,11 +42,12 @@ CSVTableModel *CSVReader::read()
     while (!in.atEnd())
     {
         line = in.readLine();
-        QStringList string_list = line.split(";");
+        QStringList string_list = line.split(separator);
         if (col_num == -1)
         {
             col_num = string_list.length();
-            result->setHeaders(string_list);
+            if (headersInFirstRow)
+                result->setHeaders(string_list);
             continue;
         }
         if (col_num == string_list.length())
@@ -63,4 +65,9 @@ void CSVReader::setSeparator(char s)
 void CSVReader::setQuote(char q)
 {
     quote = q;
+}
+
+void CSVReader::setHeadersInFirstRow(bool b)
+{
+    headersInFirstRow = b;
 }
