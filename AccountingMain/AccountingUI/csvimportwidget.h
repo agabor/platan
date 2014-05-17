@@ -4,9 +4,11 @@
 #include <QWidget>
 #include <csvreader.h>
 #include <memory>
+#include <QBoxLayout>
+#include <QLabel>
 
 class QComboBox;
-class QVBoxLayout;
+class QCheckBox;
 
 class CSVImportWidget : public QWidget
 {
@@ -20,12 +22,29 @@ signals:
 private slots:
     void setSeparator(int index);
     void setQuote(int index);
+    void setHeaders(bool b);
 
 private:
     CSVReader* reader;
-    QComboBox* AddComboBox(QVBoxLayout* mainLayout, QString name);
+    template<class T>
+    T* AddLabeledWidget(QBoxLayout* mainLayout, QString name);
     QComboBox* quote;
     QComboBox* separator;
+    QCheckBox* headers;
 };
+
+template<class T>
+T* CSVImportWidget::AddLabeledWidget(QBoxLayout* mainLayout, QString name)
+{
+    QHBoxLayout* subLayout = new QHBoxLayout();
+    QLabel *label = new QLabel(name, this);
+    subLayout->addWidget(label);
+    T* comboBox = new T(this);
+    subLayout->addWidget(comboBox);
+
+    mainLayout->addLayout(subLayout);
+
+    return comboBox;
+}
 
 #endif // CSVIMPORTWIDGET_H

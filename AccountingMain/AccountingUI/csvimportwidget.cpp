@@ -2,14 +2,14 @@
 #include <QComboBox>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QLabel>
+#include <QCheckBox>
 
 CSVImportWidget::CSVImportWidget(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-    separator = AddComboBox(mainLayout, tr("separator"));
+    separator = AddLabeledWidget<QComboBox>(mainLayout, tr("separator"));
     separator->addItem(",", QChar(','));
     separator->addItem(";", QChar(';'));
     separator->addItem(".", QChar('.'));
@@ -17,12 +17,12 @@ CSVImportWidget::CSVImportWidget(QWidget *parent) :
     separator->addItem(tr("tab"), QChar('\t'));
 
 
-    quote = AddComboBox(mainLayout, tr("quote"));
+    quote = AddLabeledWidget<QComboBox>(mainLayout, tr("quote"));
     quote->addItem(tr("none"), QChar('\0'));
     quote->addItem("\"", QChar('"'));
     quote->addItem("'", QChar('\''));
 
-    mainLayout->addWidget(quote);
+    headers = AddLabeledWidget<QCheckBox>(mainLayout, tr("Headers are in the first row."));
 }
 
 void CSVImportWidget::SelectData(QComboBox* comboBox, char c)
@@ -46,6 +46,12 @@ void CSVImportWidget::setQuote(int index)
     emit readerParametersChanged();
 }
 
+void CSVImportWidget::setHeaders(bool b)
+{
+    reader->setHeadersInFirstRow(b);
+    emit readerParametersChanged();
+}
+
 void CSVImportWidget::setReader(CSVReader* r)
 {
     reader = r;
@@ -53,17 +59,8 @@ void CSVImportWidget::setReader(CSVReader* r)
     SelectData(separator, r->separator());
     connect(quote, SIGNAL(currentIndexChanged(int)), this, SLOT(setQuote(int)));
     connect(separator, SIGNAL(currentIndexChanged(int)), this, SLOT(setSeparator(int)));
+    connect(headers, SIGNAL(toggled(bool)), this, SLOT(setHeaders(bool)));
 }
 
-QComboBox * CSVImportWidget::AddComboBox(QVBoxLayout* mainLayout, QString name)
-{
-    QHBoxLayout* subLayout = new QHBoxLayout();
-    QLabel *label = new QLabel(name, this);
-    subLayout->addWidget(label);
-    QComboBox* comboBox = new QComboBox(this);
-    subLayout->addWidget(comboBox);
 
-    mainLayout->addLayout(subLayout);
 
-    return comboBox;
-}
