@@ -61,4 +61,5 @@ void ImportDialog::on_next_clicked()
 {
     ui->csvConfigWidget->setVisible(false);
     ui->csvImportWidget->setVisible(true);
+    ui->csvImportWidget->setTableModel(ui->csvConfigWidget->getTableModel());
 }

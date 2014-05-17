@@ -3,6 +3,7 @@
 
 #include <QWidget>
 class QComboBox;
+class QLabel;
 
 class ColumnPropertiesWidget : public QWidget
 {
@@ -16,7 +17,9 @@ private slots:
 private:
     QComboBox *useAs;
     QComboBox *separator;
+    QLabel *separatorLabel;
     QComboBox *format;
+    QLabel *formatLabel;
 };
 
 #endif // IMPORTCOLUMNPROPERTIES_H

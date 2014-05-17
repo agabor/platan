@@ -3,9 +3,10 @@
 
 #include <QLabel>
 #include <QHBoxLayout>
+#include <utility>
 
 template<class T>
-T* AddLabeledWidget(QBoxLayout* mainLayout, QString name)
+std::pair<T*, QLabel*> AddLabeledWidget(QBoxLayout* mainLayout, QString name)
 {
     QHBoxLayout* subLayout = new QHBoxLayout();
     QLabel *label = new QLabel(name, mainLayout->parentWidget());
@@ -15,7 +16,14 @@ T* AddLabeledWidget(QBoxLayout* mainLayout, QString name)
 
     mainLayout->addLayout(subLayout);
 
-    return comboBox;
+    return std::make_pair(comboBox, label);
+}
+
+
+template<class T>
+T *AddNamedWidget(QBoxLayout* mainLayout, QString name)
+{
+    return AddLabeledWidget<T>(mainLayout, name).first;
 }
 
 #endif // WIDGETHELPERS_H

@@ -10,7 +10,7 @@ CSVPropertiesWidget::CSVPropertiesWidget(QWidget *parent) :
 {
     QVBoxLayout* mainLayout = new QVBoxLayout(this);
 
-    separator = AddLabeledWidget<QComboBox>(mainLayout, tr("separator"));
+    separator = AddNamedWidget<QComboBox>(mainLayout, tr("separator"));
     separator->addItem(",", QChar(','));
     separator->addItem(";", QChar(';'));
     separator->addItem(".", QChar('.'));
@@ -18,12 +18,12 @@ CSVPropertiesWidget::CSVPropertiesWidget(QWidget *parent) :
     separator->addItem(tr("tab"), QChar('\t'));
 
 
-    quote = AddLabeledWidget<QComboBox>(mainLayout, tr("quote"));
+    quote = AddNamedWidget<QComboBox>(mainLayout, tr("quote"));
     quote->addItem(tr("none"), QChar('\0'));
     quote->addItem("\"", QChar('"'));
     quote->addItem("'", QChar('\''));
 
-    headers = AddLabeledWidget<QCheckBox>(mainLayout, tr("Headers are in the first row."));
+    headers = AddNamedWidget<QCheckBox>(mainLayout, tr("Headers are in the first row."));
 }
 
 void CSVPropertiesWidget::SelectData(QComboBox* comboBox, char c)

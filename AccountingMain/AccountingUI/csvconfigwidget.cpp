@@ -33,5 +33,11 @@ void CSVConfigWidget::setReader(QString filename, CSVReader *r)
 void CSVConfigWidget::readCSV()
 {
     QTextStream input_stream(&input);
-    tableView->setModel(reader->read(input_stream));
+    tableModel = reader->read(input_stream);
+    tableView->setModel(tableModel);
+}
+
+CSVTableModel *CSVConfigWidget::getTableModel() const
+{
+    return tableModel;
 }
