@@ -26,7 +26,7 @@ ImportDialog::ImportDialog(QWidget *parent, QString filename) :
 {
     ui->setupUi(this);
     ui->csvConfigWidget->setReader(filename, &reader);
-
+    ui->csvImportWidget->setVisible(false);
 //    dbModel = std::unique_ptr<StatementTableModel> (new StatementTableModel());
 //    dbModel->Ammount_tr = new FloatTransformation(8, ',', true);
 //    dbModel->Type_tr = new IdentityTransFormation(3, true);
@@ -45,9 +45,20 @@ ImportDialog::~ImportDialog()
     delete ui;
 }
 
-void ImportDialog::on_buttonBox_accepted()
-{
+//void ImportDialog::on_buttonBox_accepted()
+//{
 //    AccDataBase db;
 //    db.SetPath("../accountdb");
 //    db.InsertData(*dbModel);
+//}
+
+void ImportDialog::on_cancel_clicked()
+{
+    close();
+}
+
+void ImportDialog::on_next_clicked()
+{
+    ui->csvConfigWidget->setVisible(false);
+    ui->csvImportWidget->setVisible(true);
 }

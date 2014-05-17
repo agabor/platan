@@ -37,8 +37,9 @@ public:
     ~ImportDialog();
 
 private slots:
-    void on_buttonBox_accepted();
+    void on_cancel_clicked();
 
+    void on_next_clicked();
 
 private:
     Ui::ImportDialog *ui;
