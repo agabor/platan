@@ -77,3 +77,8 @@ void Statements::GetClasses(QString lan, QMap<int, QString> &classes)
 {
     data_base.GetClasses(lan, classes);
 }
+
+void Statements::InsertData(StatementTableModel &model)
+{
+    data_base.InsertData(model);
+}

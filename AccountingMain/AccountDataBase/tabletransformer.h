@@ -4,8 +4,21 @@
 #include <simpletransformations.h>
 #include <datetransformation.h>
 
+#include <vector>
+
 class StatementTableModel;
 class CSVTableModel;
+
+enum class ColumnType
+{
+    Amount,
+    Type,
+    Date,
+    Payee,
+    PayeeAccount,
+    Description,
+    None
+};
 
 class TableTransformer
 {
@@ -17,7 +30,12 @@ public:
     IdentityTransFormation Payee;
     IdentityTransFormation PayeeAccount;
     IdentityTransFormation Description;
-    StatementTableModel *transform(CSVTableModel *model) const;
+    StatementTableModel *transform(QAbstractTableModel *model) const;
+    void setColumnType(int column, ColumnType type);
+    void removeColumnType(int column);
+    ColumnType getColumnType(int column);
+private:
+    std::vector<TransformationBase*> transformations;
 };
 
 #endif // TABLETRANSFORMER_H

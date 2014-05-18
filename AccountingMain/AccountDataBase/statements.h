@@ -37,6 +37,7 @@ public:
   void Open(QString data_base_path);
   void New(QString data_base_path);
   void GetClasses(QString lan, QMap<int, QString> &classes);
+  void InsertData(StatementTableModel &model);
 private:
   AccDataBase data_base;
   std::map<int, std::unique_ptr<StatementExtractTableModel>> class_statements;

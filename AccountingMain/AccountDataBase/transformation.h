@@ -19,8 +19,28 @@
 
 #include <QAbstractTableModel>
 
+class TransformationBase
+{
+public:
+    TransformationBase() : column(-1)
+    {
+
+    }
+
+    int getColumn() const
+    {
+        return column;
+    }
+    void setColumn(int value)
+    {
+        column = value;
+    }
+protected:
+    int column;
+};
+
 template <class Result>
-class Transformation
+class Transformation : public TransformationBase
 {
 public:
     Transformation()
@@ -36,18 +56,8 @@ public:
         return convert(data_string);
     }
 
-    int getColumn() const
-    {
-        return column;
-    }
-    void setColumn(int value)
-    {
-        column = value;
-    }
-
 protected:
     virtual Result convert(QString Data) const = 0;
-    int column;
 };
 
 #endif // TRANSFORMATION_H

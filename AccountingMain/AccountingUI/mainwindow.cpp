@@ -101,6 +101,7 @@ void MainWindow::on_actionLoad_File_triggered()
     CSVReader adb;
     ImportDialog id(this, fileName);
     id.exec();
+    statements.InsertData(*id.getModel());
 }
 
 

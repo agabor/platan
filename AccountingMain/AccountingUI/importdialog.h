@@ -35,11 +35,13 @@ class ImportDialog : public QDialog
 public:
     explicit ImportDialog(QWidget *parent, QString filename);
     ~ImportDialog();
-
+    StatementTableModel *getModel() const;
 private slots:
     void on_cancel_clicked();
 
     void on_next_clicked();
+
+    void on_finish_clicked();
 
 private:
     Ui::ImportDialog *ui;
