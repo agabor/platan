@@ -32,7 +32,7 @@ std::vector<StatementExtractRow> Statements::GetStatementsForClass(int class_idx
       if (row.Class == class_idx)
       {
           StatementExtractRow extract_row;
-          extract_row.Ammount = row.Ammount;
+          extract_row.Ammount = row.Amount;
           extract_row.Date = row.Date;
           extract_row.Payee = row.Payee;
           result.push_back(extract_row);
@@ -81,4 +81,5 @@ void Statements::GetClasses(QString lan, QMap<int, QString> &classes)
 void Statements::InsertData(StatementTableModel &model)
 {
     data_base.InsertData(model);
+    emit dataChanged();
 }

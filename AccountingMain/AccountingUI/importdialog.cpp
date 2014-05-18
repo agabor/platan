@@ -20,6 +20,8 @@
 #include <datetransformation.h>
 #include <accdatabase.h>
 
+#include <QMessageBox>
+
 ImportDialog::ImportDialog(QWidget *parent, QString filename) :
     QDialog(parent),
     ui(new Ui::ImportDialog)
@@ -44,7 +46,7 @@ StatementTableModel *ImportDialog::getModel() const
 
 void ImportDialog::on_cancel_clicked()
 {
-    close();
+    reject();
 }
 
 void ImportDialog::on_next_clicked()
@@ -57,5 +59,38 @@ void ImportDialog::on_next_clicked()
 
 void ImportDialog::on_finish_clicked()
 {
-    close();
+    QVector<ColumnType> unsetMandatoryFields = ui->csvImportWidget->getTransformer().unsetMandatoryFields();
+    if (unsetMandatoryFields.isEmpty())
+    {
+        accept();
+    }
+    else
+    {
+        QMessageBox msgBox;
+        QString msg("The following mandatory fields are unset: ");
+        QString fieldList;
+        for (ColumnType type : unsetMandatoryFields)
+        {
+            if (!fieldList.isEmpty())
+                fieldList += ", ";
+            fieldList += getFieldName(type);
+        }
+        msgBox.setText(msg + fieldList);
+        msgBox.exec();
+    }
+}
+
+QString ImportDialog::getFieldName(ColumnType type)
+{
+    switch (type) {
+    case ColumnType::Amount:
+        return tr("Amount");
+    case ColumnType::Date:
+        return tr("Date");
+    case ColumnType::Payee:
+        return tr("Payee");
+    case ColumnType::PayeeAccount:
+        return tr("Payee account");
+    }
+    return QString();
 }

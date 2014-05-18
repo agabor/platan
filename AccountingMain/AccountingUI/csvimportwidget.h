@@ -31,6 +31,7 @@ public:
     explicit CSVImportWidget(QWidget *parent = 0);
     void setTableModel (QAbstractTableModel *model);
     StatementTableModel *getModel() const;
+    const TableTransformer &getTransformer() const;
 
 private slots:
     void typeChanged(ColumnType type);

@@ -60,6 +60,8 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     {
         action->setStatusTip(action->toolTip());
     }
+
+    connect(&statements,SIGNAL(dataChanged()), this, SLOT(refreshData()));
 }
 
 void MainWindow::SetStatements()
@@ -98,10 +100,10 @@ void MainWindow::on_actionLoad_File_triggered()
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
                                                     "",
                                                     tr("Files (*.csv)"));
-    CSVReader adb;
+
     ImportDialog id(this, fileName);
-    id.exec();
-    statements.InsertData(*id.getModel());
+    if (id.exec() == QDialog::Accepted)
+        statements.InsertData(*id.getModel());
 }
 
 
@@ -194,20 +196,24 @@ void MainWindow::sliceClicked(int idx)
     ui->tabWidget->openLastTab();
 }
 
+void MainWindow::refreshData()
+{
+    statements.GetCalssification(classes);
+    palette.init(classes.size());
+    InitChart();
+    InitLegend();
+}
+
 void MainWindow::onDateRangeChanged(QDate start, QDate end)
 {
     statements.SetTimeInterval(start, end);
-    statements.GetCalssification(classes);
-    InitChart();
-    InitLegend();
+    refreshData();
 }
 
 void MainWindow::onUnsetDateRange()
 {
     statements.UnsetTimeInterval();
-    statements.GetCalssification(classes);
-    InitChart();
-    InitLegend();
+    refreshData();
 }
 
 

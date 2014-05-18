@@ -42,6 +42,11 @@ StatementTableModel *CSVImportWidget::getModel() const
     return transformer.transform(tableModel);
 }
 
+const TableTransformer &CSVImportWidget::getTransformer() const
+{
+    return transformer;
+}
+
 void CSVImportWidget::typeChanged(ColumnType type)
 {
     transformer.setColumnType(currentColumn(), type);

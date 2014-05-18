@@ -4,7 +4,7 @@
 #include <simpletransformations.h>
 #include <datetransformation.h>
 
-#include <vector>
+#include <QVector>
 
 class StatementTableModel;
 class CSVTableModel;
@@ -34,8 +34,10 @@ public:
     void setColumnType(int column, ColumnType type);
     void removeColumnType(int column);
     ColumnType getColumnType(int column);
+    QVector<ColumnType> unsetMandatoryFields() const;
+    QVector<ColumnType> unsetNotMandatoryFields() const;
 private:
-    std::vector<TransformationBase*> transformations;
+    QVector<TransformationBase*> transformations;
 };
 
 #endif // TABLETRANSFORMER_H

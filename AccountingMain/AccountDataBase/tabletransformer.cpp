@@ -20,7 +20,7 @@ StatementTableModel *TableTransformer::transform(QAbstractTableModel *model) con
     for(int r = 0; r < model->rowCount(); ++r)
     {
         StatementRow row;
-        row.Ammount = Amount.apply(model, r);
+        row.Amount = Amount.apply(model, r);
         row.Type = Type.apply(model, r);
         row.Date = Date.apply(model, r);
         row.Payee = Payee.apply(model, r);
@@ -54,6 +54,35 @@ ColumnType TableTransformer::getColumnType(int column)
     }
     return ColumnType::None;
 }
+
+QVector<ColumnType> TableTransformer::unsetMandatoryFields() const
+{
+    QVector<ColumnType> result;
+
+    if (Amount.getColumn() == -1)
+        result.push_back(ColumnType::Amount);
+    if (Date.getColumn() == -1)
+        result.push_back(ColumnType::Date);
+    if (Payee.getColumn() == -1)
+        result.push_back(ColumnType::Payee);
+    if (PayeeAccount.getColumn() == -1)
+        result.push_back(ColumnType::PayeeAccount);
+
+    return result;
+}
+
+QVector<ColumnType> TableTransformer::unsetNotMandatoryFields() const
+{
+    QVector<ColumnType> result;
+
+    if (Type.getColumn() == -1)
+        result.push_back(ColumnType::Type);
+    if (Description.getColumn() == -1)
+        result.push_back(ColumnType::Description);
+
+    return result;
+}
+
 
 void TableTransformer::setColumnType(int column, ColumnType type)
 {

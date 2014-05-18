@@ -64,7 +64,7 @@ void AccDataBase::InsertData(StatementTableModel &model)
         insert.set("Description", row.Description);
         insert.set("Payee", row.Payee);
         insert.set("PayeeAccount", row.PayeeAccount);
-        insert.set("Amount", row.Ammount);
+        insert.set("Amount", row.Amount);
         insert.set("Class", 0);
 
         data_base.Execute(insert);
@@ -103,7 +103,7 @@ void AccDataBase::ReadData(std::vector<StatementRow> &model, bool only_unclassif
         row.Description = statement.GetText(2);
         row.Payee = statement.GetText(3);
         row.PayeeAccount = statement.GetText(4);
-        row.Ammount = statement.GetDouble(5);
+        row.Amount = statement.GetDouble(5);
         row.Class = statement.GetInt(6);
         model.push_back(row);
     }

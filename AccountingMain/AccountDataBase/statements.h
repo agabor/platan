@@ -25,23 +25,27 @@
 #include <vector>
 #include <memory>
 #include <utility>
+#include <QObject>
 
-class Statements
+class Statements : public QObject
 {
+    Q_OBJECT
 public:
-  std::vector<StatementRow> GetStatements();
-  std::vector<StatementExtractRow> GetStatementsForClass(int class_idx);
-  void SetTimeInterval(QDate start_date, QDate end_date);
-  void UnsetTimeInterval();
-  void GetCalssification(QMap<int, float> &result);
-  void Open(QString data_base_path);
-  void New(QString data_base_path);
-  void GetClasses(QString lan, QMap<int, QString> &classes);
-  void InsertData(StatementTableModel &model);
+    std::vector<StatementRow> GetStatements();
+    std::vector<StatementExtractRow> GetStatementsForClass(int class_idx);
+    void SetTimeInterval(QDate start_date, QDate end_date);
+    void UnsetTimeInterval();
+    void GetCalssification(QMap<int, float> &result);
+    void Open(QString data_base_path);
+    void New(QString data_base_path);
+    void GetClasses(QString lan, QMap<int, QString> &classes);
+    void InsertData(StatementTableModel &model);
+signals:
+    void dataChanged();
 private:
-  AccDataBase data_base;
-  std::map<int, std::unique_ptr<StatementExtractTableModel>> class_statements;
-  std::vector<StatementRow> statements;
+    AccDataBase data_base;
+    std::map<int, std::unique_ptr<StatementExtractTableModel>> class_statements;
+    std::vector<StatementRow> statements;
 };
 
 #endif // STATEMENTS_H

@@ -24,6 +24,8 @@
 #include <memory>
 #include <csvreader.h>
 
+enum class ColumnType;
+
 namespace Ui {
 class ImportDialog;
 }
@@ -44,6 +46,7 @@ private slots:
     void on_finish_clicked();
 
 private:
+    QString getFieldName(ColumnType type);
     Ui::ImportDialog *ui;
     std::unique_ptr<StatementTableModel> dbModel;
     CSVReader reader;

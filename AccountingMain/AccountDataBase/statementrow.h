@@ -30,7 +30,7 @@ struct StatementRow
     QString Description;
     QString Payee;
     QString PayeeAccount;
-    float Ammount;
+    float Amount;
     int Class;
 
     int size() const
@@ -52,7 +52,7 @@ struct StatementRow
         case 4:
             return PayeeAccount;
         case 5:
-            return Ammount;
+            return Amount;
         }
         return 0;
     }
