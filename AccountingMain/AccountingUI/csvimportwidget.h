@@ -19,6 +19,8 @@
 
 #include <QWidget>
 #include <tabletransformer.h>
+#include <statementtablemodel.h>
+#include <memory>
 
 class QAbstractTableModel;
 class QTableView;
@@ -30,7 +32,7 @@ class CSVImportWidget : public QWidget
 public:
     explicit CSVImportWidget(QWidget *parent = 0);
     void setTableModel (QAbstractTableModel *model);
-    StatementTableModel *getModel() const;
+    std::shared_ptr<StatementTableModel> getModel() const;
     const TableTransformer &getTransformer() const;
 
 private slots:

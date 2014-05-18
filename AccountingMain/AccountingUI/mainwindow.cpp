@@ -103,7 +103,7 @@ void MainWindow::on_actionLoad_File_triggered()
 
     ImportDialog id(this, fileName);
     if (id.exec() == QDialog::Accepted)
-        statements.InsertData(*id.getModel());
+        statements.InsertData(*id.getModel().get());
 }
 
 

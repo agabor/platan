@@ -37,7 +37,7 @@ void CSVImportWidget::setTableModel(QAbstractTableModel *model)
     tableView->setModel(model);
 }
 
-StatementTableModel *CSVImportWidget::getModel() const
+std::shared_ptr<StatementTableModel> CSVImportWidget::getModel() const
 {
     return transformer.transform(tableModel);
 }

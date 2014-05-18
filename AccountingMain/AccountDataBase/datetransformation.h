@@ -61,6 +61,7 @@ public:
     char getSeparator() const;
     void setSeparator(char value);
 
+    QString getErrorMessage() const;
 protected:
     DateOrder order;
     char separator;

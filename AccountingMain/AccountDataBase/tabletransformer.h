@@ -6,7 +6,9 @@
 
 #include <QVector>
 
-class StatementTableModel;
+#include <memory>
+#include <statementtablemodel.h>
+
 class CSVTableModel;
 
 enum class ColumnType
@@ -30,12 +32,14 @@ public:
     IdentityTransFormation Payee;
     IdentityTransFormation PayeeAccount;
     IdentityTransFormation Description;
-    StatementTableModel *transform(QAbstractTableModel *model) const;
+    std::shared_ptr<StatementTableModel> transform(QAbstractTableModel *model) const;
     void setColumnType(int column, ColumnType type);
     void removeColumnType(int column);
     ColumnType getColumnType(int column);
     QVector<ColumnType> unsetMandatoryFields() const;
     QVector<ColumnType> unsetNotMandatoryFields() const;
+    bool errorInImport() const;
+    QString getErrorMessage() const;
 private:
     QVector<TransformationBase*> transformations;
 };

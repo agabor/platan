@@ -92,5 +92,11 @@ void DateTransformation::setSeparator(char value)
     separator = value;
 }
 
+QString DateTransformation::getErrorMessage() const
+{
+    QString result = QObject::tr("The following values do not look like correctly formated dates: ");
+    return result + errorListString();
+}
+
 
 

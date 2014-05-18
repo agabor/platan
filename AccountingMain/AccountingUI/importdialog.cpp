@@ -38,9 +38,9 @@ ImportDialog::~ImportDialog()
     delete ui;
 }
 
-StatementTableModel *ImportDialog::getModel() const
+std::shared_ptr<StatementTableModel> ImportDialog::getModel() const
 {
-    return ui->csvImportWidget->getModel();
+    return dbModel;
 }
 
 
@@ -72,23 +72,35 @@ QString ImportDialog::getFieldNameList(QVector<ColumnType> fields)
 
 void ImportDialog::on_finish_clicked()
 {
-    QVector<ColumnType> unsetMandatoryFields = ui->csvImportWidget->getTransformer().unsetMandatoryFields();
+    const TableTransformer &transformer = ui->csvImportWidget->getTransformer();
+    QVector<ColumnType> unsetMandatoryFields = transformer.unsetMandatoryFields();
     if (unsetMandatoryFields.isEmpty())
     {
-        QVector<ColumnType> unsetNotMandatoryFields = ui->csvImportWidget->getTransformer().unsetNotMandatoryFields();
+        QVector<ColumnType> unsetNotMandatoryFields = transformer.unsetNotMandatoryFields();
 
-        if (unsetNotMandatoryFields.isEmpty())
+        if (!unsetNotMandatoryFields.isEmpty())
         {
-            accept();
-            return;
+
+            QMessageBox::StandardButton reply;
+            QString msg(tr("The following fields are unset: %1. Do you want to continue?"));
+            reply = QMessageBox::question(this, "Continue", msg.arg(getFieldNameList(unsetNotMandatoryFields)),
+                                          QMessageBox::Yes|QMessageBox::No);
+            if (reply == QMessageBox::No)
+                return;
         }
 
-        QMessageBox::StandardButton reply;
-        QString msg(tr("The following fields are unset: %1. Do you want to continue?"));
-        reply = QMessageBox::question(this, "Continue", msg.arg(getFieldNameList(unsetNotMandatoryFields)),
-                                      QMessageBox::Yes|QMessageBox::No);
-        if (reply == QMessageBox::Yes)
-            accept();
+        dbModel = ui->csvImportWidget->getModel();
+
+        if (transformer.errorInImport())
+        {
+            QMessageBox::StandardButton reply;
+            QString msg(tr("There were errors while importing:\n%1\nDo you want to continue?"));
+
+            reply = QMessageBox::question(this, "Continue", msg.arg(transformer.getErrorMessage()), QMessageBox::Yes|QMessageBox::No);
+            if (reply == QMessageBox::No)
+                return;
+        }
+        accept();
     }
     else
     {

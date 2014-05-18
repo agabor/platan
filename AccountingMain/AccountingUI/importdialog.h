@@ -37,7 +37,7 @@ class ImportDialog : public QDialog
 public:
     explicit ImportDialog(QWidget *parent, QString filename);
     ~ImportDialog();
-    StatementTableModel *getModel() const;
+    std::shared_ptr<StatementTableModel> getModel() const;
 private slots:
     void on_cancel_clicked();
 
@@ -49,7 +49,7 @@ private:
     QString getFieldNameList(QVector<ColumnType> fields);
     QString getFieldName(ColumnType type);
     Ui::ImportDialog *ui;
-    std::unique_ptr<StatementTableModel> dbModel;
+    std::shared_ptr<StatementTableModel> dbModel;
     CSVReader reader;
 };
 

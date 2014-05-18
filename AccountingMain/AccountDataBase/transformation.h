@@ -43,10 +43,29 @@ public:
         return column != -1;
     }
 
+    QVector<QString> getErrorList() const
+    {
+        return errorList;
+    }
+
+    virtual QString getErrorMessage() const = 0;
+
     
 protected:
     int column;
     mutable QVector<QString> errorList;
+    QString errorListString() const
+    {
+        QString values;
+        for (QString val : errorList)
+        {
+            if (!values.isEmpty())
+                values += ", ";
+            values += val;
+        }
+
+        return values;
+    }
 };
 
 template <class Result>

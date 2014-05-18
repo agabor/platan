@@ -17,7 +17,7 @@ TableTransformer::TableTransformer()
     transformations.push_back(&Description);
 }
 
-StatementTableModel *TableTransformer::transform(QAbstractTableModel *model) const
+shared_ptr<StatementTableModel> TableTransformer::transform(QAbstractTableModel *model) const
 {
     vector<StatementRow> rows;
     for(int r = 0; r < model->rowCount(); ++r)
@@ -37,7 +37,7 @@ StatementTableModel *TableTransformer::transform(QAbstractTableModel *model) con
             row.Description = Description.apply(model, r);
         rows.push_back(row);
     }
-    return new StatementTableModel(rows);
+    return unique_ptr<StatementTableModel> (new StatementTableModel(rows));
 }
 
 void TableTransformer::removeColumnType(int column)
@@ -89,6 +89,27 @@ QVector<ColumnType> TableTransformer::unsetNotMandatoryFields() const
     if (!Description.configured())
         result.push_back(ColumnType::Description);
 
+    return result;
+}
+
+bool TableTransformer::errorInImport() const
+{
+    for (TransformationBase *tr : transformations)
+        if (!tr->getErrorList().isEmpty())
+            return true;
+    return false;
+}
+
+QString TableTransformer::getErrorMessage() const
+{
+    QString result;
+    for (TransformationBase *tr : transformations)
+        if (!tr->getErrorList().isEmpty())
+        {
+            if (!result.isEmpty())
+                result += "\n";
+            result += tr->getErrorMessage();
+        }
     return result;
 }
 

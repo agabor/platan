@@ -33,6 +33,11 @@ public:
     {
         return Data;
     }
+
+    QString getErrorMessage() const
+    {
+        return QString();
+    }
 };
 
 class IntTransformation : public Transformation<int>
@@ -50,6 +55,12 @@ public:
         if (!ok)
             errorList.push_back(data);
         return result;
+    }
+
+    QString getErrorMessage() const
+    {
+        QString result= QObject::tr("The following values do not look like integers: ");
+        return result + errorListString();
     }
 };
 
@@ -111,6 +122,12 @@ public:
     void setDecimal(char value)
     {
         decimal = value;
+    }
+
+    QString getErrorMessage() const
+    {
+        QString result = QObject::tr("The following values do not look like real numbers: ");
+        return result + errorListString();
     }
 
 protected:
