@@ -20,6 +20,7 @@
 #include <QSqlError>
 #include <QStringList>
 #include <QDebug>
+#include <QFile>
 #include <set>
 #include <assert.h>
 #include "tablestructure.h"
@@ -144,14 +145,35 @@ void SQLiteDB::connect()
     }
 }
 
-void SQLiteDB::Execute(SQLQuery &query)
+void SQLiteDB::Execute(const char *query_str)
 {
-    QSqlQuery qry = db.exec(query.toString().c_str());
+    QSqlQuery qry = db.exec(query_str);
 
     if( !qry.exec() )
     {
         QString error_msg{db.lastError().text()};
         cerr << error_msg.toStdString() << endl;
+    }
+}
+
+void SQLiteDB::Execute(SQLQuery &query)
+{
+    Execute(query.toString().c_str());
+}
+
+void SQLiteDB::ExecuteScript(QString filename)
+{
+    QFile scriptFile(filename);
+    if (scriptFile.open(QIODevice::ReadOnly))
+    {
+        QStringList scriptQueries = QTextStream(&scriptFile).readAll().split(';');
+        BeginTransaction();
+        for (QString insert : scriptQueries)
+        {
+            std::string query = insert.toStdString();
+            Execute(query.c_str());
+        }
+        EndTransaction();
     }
 }
 

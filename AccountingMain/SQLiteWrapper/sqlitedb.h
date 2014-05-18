@@ -45,10 +45,12 @@ public:
     void BeginTransaction();
     void EndTransaction();
     void Execute(SQLQuery &query);
+    void ExecuteScript(QString filename);
     void Finalize(SQLiteStatement &statement);
     bool Step(SQLiteStatement &statement);
     void Prepare(SQLiteStatement &statement, SQLSelect &select);
 protected:
+    void Execute(const char *query_str);
     void connect();
     QSqlDatabase db;
     QString data_base_path;

@@ -46,6 +46,7 @@ void AccDataBase::Create(QString data_base_path)
 {
     SetPath(data_base_path);
     data_base.Create();
+    data_base.ExecuteScript("../rules.sql");
 }
 
 void AccDataBase::InsertData(StatementTableModel &model)

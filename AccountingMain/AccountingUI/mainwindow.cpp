@@ -202,6 +202,7 @@ void MainWindow::refreshData()
     palette.init(classes.size());
     InitChart();
     InitLegend();
+    SetStatements();
 }
 
 void MainWindow::onDateRangeChanged(QDate start, QDate end)
