@@ -48,6 +48,12 @@ public:
         return errorList;
     }
 
+
+    void clearErrorList() const
+    {
+        errorList.clear();
+    }
+
     virtual QString getErrorMessage() const = 0;
 
     

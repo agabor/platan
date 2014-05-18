@@ -19,6 +19,9 @@ TableTransformer::TableTransformer()
 
 shared_ptr<StatementTableModel> TableTransformer::transform(QAbstractTableModel *model) const
 {
+    for (TransformationBase *tr : transformations)
+        tr->clearErrorList();
+
     vector<StatementRow> rows;
     for(int r = 0; r < model->rowCount(); ++r)
     {

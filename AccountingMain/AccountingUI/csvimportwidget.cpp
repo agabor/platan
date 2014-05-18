@@ -28,6 +28,8 @@ CSVImportWidget::CSVImportWidget(QWidget *parent) :
     tableView = new QTableView(this);
     mainLayount->addWidget(tableView);
     connect(columnPropertiesWidget, SIGNAL(typeChanged(ColumnType)), this, SLOT(typeChanged(ColumnType)));
+    connect(columnPropertiesWidget, SIGNAL(separatorChanged(char)), this, SLOT(separatorChanged(char)));
+    connect(columnPropertiesWidget, SIGNAL(formatChanged(DateOrder)), this, SLOT(dateOrderChanged(DateOrder)));
     connect(tableView, SIGNAL(clicked(QModelIndex)), this, SLOT(currentCellChanged(QModelIndex)));
 }
 
