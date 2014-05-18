@@ -57,26 +57,43 @@ void ImportDialog::on_next_clicked()
     ui->finish->setVisible(true);
 }
 
+QString ImportDialog::getFieldNameList(QVector<ColumnType> fields)
+{
+    QString fieldNameList;
+    for (ColumnType type : fields)
+    {
+        if (!fieldNameList.isEmpty())
+            fieldNameList += ", ";
+        fieldNameList += getFieldName(type);
+    }
+
+    return fieldNameList;
+}
+
 void ImportDialog::on_finish_clicked()
 {
     QVector<ColumnType> unsetMandatoryFields = ui->csvImportWidget->getTransformer().unsetMandatoryFields();
     if (unsetMandatoryFields.isEmpty())
     {
-        accept();
+        QVector<ColumnType> unsetNotMandatoryFields = ui->csvImportWidget->getTransformer().unsetNotMandatoryFields();
+
+        if (unsetNotMandatoryFields.isEmpty())
+        {
+            accept();
+            return;
+        }
+
+        QMessageBox::StandardButton reply;
+        QString msg(tr("The following fields are unset: %1. Do you want to continue?"));
+        reply = QMessageBox::question(this, "Continue", msg.arg(getFieldNameList(unsetNotMandatoryFields)),
+                                      QMessageBox::Yes|QMessageBox::No);
+        if (reply == QMessageBox::Yes)
+            accept();
     }
     else
     {
-        QMessageBox msgBox;
-        QString msg("The following mandatory fields are unset: ");
-        QString fieldList;
-        for (ColumnType type : unsetMandatoryFields)
-        {
-            if (!fieldList.isEmpty())
-                fieldList += ", ";
-            fieldList += getFieldName(type);
-        }
-        msgBox.setText(msg + fieldList);
-        msgBox.exec();
+        QString msg(tr("The following mandatory fields are unset: "));
+        QMessageBox::warning(this, tr("Error"), msg +  getFieldNameList(unsetMandatoryFields));
     }
 }
 
@@ -91,6 +108,10 @@ QString ImportDialog::getFieldName(ColumnType type)
         return tr("Payee");
     case ColumnType::PayeeAccount:
         return tr("Payee account");
+    case ColumnType::Type:
+        return tr("Type");
+    case ColumnType::Description:
+        return tr("Description");
     }
     return QString();
 }

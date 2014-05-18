@@ -46,6 +46,7 @@ private slots:
     void on_finish_clicked();
 
 private:
+    QString getFieldNameList(QVector<ColumnType> fields);
     QString getFieldName(ColumnType type);
     Ui::ImportDialog *ui;
     std::unique_ptr<StatementTableModel> dbModel;
