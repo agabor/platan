@@ -42,6 +42,7 @@ ColumnPropertiesWidget::ColumnPropertiesWidget(QWidget *parent) :
     format->addItem(tr("Day - Month - Year"), (int)DMY);
     format->setVisible(false);
     formatLabel->setVisible(false);
+    connect(format, SIGNAL(currentIndexChanged(int)), this, SLOT(setDateOrder(int)));
 
     data = AddLabeledWidget<QComboBox>(mainLayout, tr("Separator"));
     separator = data.first;
@@ -51,7 +52,7 @@ ColumnPropertiesWidget::ColumnPropertiesWidget(QWidget *parent) :
     separator->addItem(tr("None"), QChar('\0'));
     separator->setVisible(false);
     separatorLabel->setVisible(false);
-    connect(useAs, SIGNAL(currentIndexChanged(int)), this, SLOT(setSeparator(int)));
+    connect(separator, SIGNAL(currentIndexChanged(int)), this, SLOT(setSeparator(int)));
 }
 
 ColumnType ColumnPropertiesWidget::type()

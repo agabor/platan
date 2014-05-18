@@ -20,12 +20,18 @@ StatementTableModel *TableTransformer::transform(QAbstractTableModel *model) con
     for(int r = 0; r < model->rowCount(); ++r)
     {
         StatementRow row;
-        row.Amount = Amount.apply(model, r);
-        row.Type = Type.apply(model, r);
-        row.Date = Date.apply(model, r);
-        row.Payee = Payee.apply(model, r);
-        row.PayeeAccount = PayeeAccount.apply(model, r);
-        row.Description = Description.apply(model, r);
+        if (Amount.configured())
+            row.Amount = Amount.apply(model, r);
+        if (Type.configured())
+            row.Type = Type.apply(model, r);
+        if (Date.configured())
+            row.Date = Date.apply(model, r);
+        if (Payee.configured())
+            row.Payee = Payee.apply(model, r);
+        if (PayeeAccount.configured())
+            row.PayeeAccount = PayeeAccount.apply(model, r);
+        if (Description.configured())
+            row.Description = Description.apply(model, r);
         rows.push_back(row);
     }
     return new StatementTableModel(rows);
@@ -59,13 +65,13 @@ QVector<ColumnType> TableTransformer::unsetMandatoryFields() const
 {
     QVector<ColumnType> result;
 
-    if (Amount.getColumn() == -1)
+    if (!Amount.configured())
         result.push_back(ColumnType::Amount);
-    if (Date.getColumn() == -1)
+    if (!Date.configured())
         result.push_back(ColumnType::Date);
-    if (Payee.getColumn() == -1)
+    if (!Payee.configured())
         result.push_back(ColumnType::Payee);
-    if (PayeeAccount.getColumn() == -1)
+    if (!PayeeAccount.configured())
         result.push_back(ColumnType::PayeeAccount);
 
     return result;
@@ -75,9 +81,9 @@ QVector<ColumnType> TableTransformer::unsetNotMandatoryFields() const
 {
     QVector<ColumnType> result;
 
-    if (Type.getColumn() == -1)
+    if (!Type.configured())
         result.push_back(ColumnType::Type);
-    if (Description.getColumn() == -1)
+    if (!Description.configured())
         result.push_back(ColumnType::Description);
 
     return result;

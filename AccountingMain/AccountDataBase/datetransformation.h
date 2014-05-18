@@ -48,7 +48,7 @@ inline DatePart part(DateOrder date, int i)
 class DateTransformation : public Transformation<QDate>
 {
 public:
-    DateTransformation()
+    DateTransformation() : separator('.'), order(YMD)
     {
 
     }

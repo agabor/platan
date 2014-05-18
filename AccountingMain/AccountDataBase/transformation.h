@@ -35,6 +35,11 @@ public:
     {
         column = value;
     }
+    bool configured() const
+    {
+        return column != -1;
+    }
+
 protected:
     int column;
 };
