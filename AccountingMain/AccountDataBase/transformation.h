@@ -18,6 +18,7 @@
 #define TRANSFORMATION_H
 
 #include <QAbstractTableModel>
+#include <QVector>
 
 class TransformationBase
 {
@@ -31,17 +32,21 @@ public:
     {
         return column;
     }
+    
     void setColumn(int value)
     {
         column = value;
     }
+    
     bool configured() const
     {
         return column != -1;
     }
 
+    
 protected:
     int column;
+    mutable QVector<QString> errorList;
 };
 
 template <class Result>

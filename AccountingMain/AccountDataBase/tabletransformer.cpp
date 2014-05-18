@@ -2,7 +2,10 @@
 #include <statementtablemodel.h>
 #include <csvtablemodel.h>
 #include <vector>
+#include <utility>
 #include <QVector>
+
+using namespace std;
 
 TableTransformer::TableTransformer()
 {
@@ -16,7 +19,7 @@ TableTransformer::TableTransformer()
 
 StatementTableModel *TableTransformer::transform(QAbstractTableModel *model) const
 {
-    std::vector<StatementRow> rows;
+    vector<StatementRow> rows;
     for(int r = 0; r < model->rowCount(); ++r)
     {
         StatementRow row;

@@ -54,7 +54,7 @@ public:
     }
 
     QDate convert(QString Data) const;
-    static QDate convert(QString Data, DateOrder order, char separator);
+    QDate convert(QString Data, DateOrder order, char separator) const;
     DateOrder getOrder() const;
     void setOrder(const DateOrder &value);
 

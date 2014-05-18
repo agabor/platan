@@ -23,16 +23,24 @@ QDate DateTransformation::convert(QString Data) const
     return convert(Data, order, separator);
 }
 
-QDate DateTransformation::convert(QString Data, DateOrder order, char separator)
+QDate DateTransformation::convert(QString data, DateOrder order, char separator) const
 {
-    QStringList string_list = Data.split(separator);
+    QStringList string_list = data.split(separator);
     if (string_list.length() != 3 && string_list.length() != 4)
+    {
+        errorList.push_back(data);
         return QDate();
+    }
+
     if(string_list.length() != 3 && string_list.at(4).length() != 0)
+    {
+        errorList.push_back(data);
         return QDate();
+    }
 
     int year, month, day;
 
+    bool error = false;
     for (int i = 0; i < 3; ++i)
     {
         int data = string_list[i].toInt();
@@ -43,14 +51,27 @@ QDate DateTransformation::convert(QString Data, DateOrder order, char separator)
             break;
         case MONTH:
             month = data;
+            if (month < 1 || month > 12)
+                error = true;
             break;
         case DAY:
             day = data;
+            if (day < 1 || day > 31)
+                error = true;
+
             break;
         }
     }
 
-    return QDate(year, month, day);
+    QDate result(year, month, day);
+
+    if (result.daysInMonth() < day)
+        error = true;
+
+    if (error)
+        errorList.push_back(data);
+
+    return result;
 }
 DateOrder DateTransformation::getOrder() const
 {

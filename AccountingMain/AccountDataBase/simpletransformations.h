@@ -43,9 +43,13 @@ public:
 
     }
 
-    int convert(QString Data) const
+    int convert(QString data) const
     {
-        return Data.toInt();
+        bool ok;
+        int result = data.toInt(&ok);
+        if (!ok)
+            errorList.push_back(data);
+        return result;
     }
 };
 
@@ -57,20 +61,39 @@ public:
 
     }
 
-    float convert(QString Data) const
+    float convert(QString data) const
     {
-        QStringList string_list = Data.split(decimal);
+        QStringList string_list = data.split(decimal);
         const int length = string_list.length();
 
+        bool error_found = false;
         if (length == 0)
+        {
+            errorList.push_back(data);
+            error_found = true;
             return 0;
+        }
 
-        const int w = string_list.at(0).toInt();
+        bool ok;
+        const int w = string_list.at(0).toInt(&ok);
+
+        if (!ok && !error_found)
+        {
+            errorList.push_back(data);
+            error_found = true;
+        }
+
         if (length == 1)
             return (float)w;
 
         const QString frac_string = string_list.at(1);
-        const int frac = frac_string.toInt();
+        const int frac = frac_string.toInt(&ok);
+
+        if (!ok && !error_found)
+        {
+            errorList.push_back(data);
+            error_found = true;
+        }
 
         const int decimal_places = frac_string.length();
 
