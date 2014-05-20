@@ -87,8 +87,9 @@
     <property name="title">
      <string>File</string>
     </property>
-    <addaction name="actionClose"/>
+    <addaction name="actionImport_Bank_Statements"/>
     <addaction name="actionPythonConsole"/>
+    <addaction name="actionClose"/>
    </widget>
    <addaction name="menuAccounting"/>
   </widget>
@@ -104,6 +105,7 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionHome"/>
+   <addaction name="actionImport_Bank_Statements"/>
    <addaction name="actionPythonConsole"/>
   </widget>
   <action name="actionHome">
@@ -131,6 +133,10 @@
    </property>
   </action>
   <action name="actionClose">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/system-log-out.png</normaloff>:/icons/icons/system-log-out.png</iconset>
+   </property>
    <property name="text">
     <string>Close</string>
    </property>
@@ -142,6 +148,15 @@
    </property>
    <property name="text">
     <string>PythonConsole</string>
+   </property>
+  </action>
+  <action name="actionImport_Bank_Statements">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/document-import.png</normaloff>:/icons/icons/document-import.png</iconset>
+   </property>
+   <property name="text">
+    <string>Import Bank Statements</string>
    </property>
   </action>
  </widget>

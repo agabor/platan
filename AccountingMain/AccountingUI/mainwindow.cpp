@@ -235,3 +235,14 @@ void MainWindow::on_actionPythonConsole_triggered()
     application->getPythonConsole()->show();
 }
 
+
+void MainWindow::on_actionImport_Bank_Statements_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                    "",
+                                                    tr("Files (*.csv)"));
+
+    ImportDialog id(this, fileName);
+    if (id.exec() == QDialog::Accepted)
+        statements.InsertData(*id.getModel().get());
+}

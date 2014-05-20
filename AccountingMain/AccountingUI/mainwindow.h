@@ -78,6 +78,8 @@ private slots:
 
     void refreshChart();
 
+    void on_actionImport_Bank_Statements_triggered();
+
 private:
 
     void SetStatements();

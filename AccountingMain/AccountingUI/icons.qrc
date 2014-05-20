@@ -12,5 +12,6 @@
         <file>icons/preferences-system-windows.png</file>
         <file>icons/system-log-out.png</file>
         <file>icons/edit-delete.png</file>
+        <file>icons/document-import.png</file>
     </qresource>
 </RCC>
