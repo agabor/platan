@@ -26,6 +26,7 @@ AnalogousColorPalette::AnalogousColorPalette(int colorcode, int hue_size)
 
 void AnalogousColorPalette::init(int count)
 {
+    colors.clear();
     if (count == 1)
     {
         colors.push_back(base_color);

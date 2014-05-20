@@ -61,6 +61,7 @@ void DateRangeWidget::setInterval(QDate start, QDate end)
     start_date->setDate(start);
     end_date->setDate(end);
     monthes = MonthesBetween(start, end);
+    monthes_cbx->clear();
     for(const QDate& month : monthes)
     {
         monthes_cbx->addItem(MonthToString(month), month);

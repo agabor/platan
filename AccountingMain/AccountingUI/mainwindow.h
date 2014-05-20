@@ -55,10 +55,10 @@ public:
     void InitChart();
     void InitLegend();
     void setDateRange(QDate start, QDate end);
+
 public slots:
     void onDateRangeChanged(QDate start, QDate end);
 private slots:
-    void on_actionLoad_File_triggered();
 
     void on_actionClose_triggered();
 
@@ -74,10 +74,9 @@ private slots:
 
     void on_actionPythonConsole_triggered();
 
-    void on_actionNew_triggered();
+    void refreshStatements();
 
-    void on_actionLoad_triggered();
-    void refreshData();
+    void refreshChart();
 
 private:
 

@@ -61,7 +61,7 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
         action->setStatusTip(action->toolTip());
     }
 
-    connect(&statements,SIGNAL(dataChanged()), this, SLOT(refreshData()));
+    connect(&statements,SIGNAL(dataChanged()), this, SLOT(refreshStatements()));
 }
 
 void MainWindow::SetStatements()
@@ -93,17 +93,6 @@ void MainWindow::InitLegend(ColorPalette *palette, QMap<int, QString> class_name
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::on_actionLoad_File_triggered()
-{
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                    "",
-                                                    tr("Files (*.csv)"));
-
-    ImportDialog id(this, fileName);
-    if (id.exec() == QDialog::Accepted)
-        statements.InsertData(*id.getModel().get());
 }
 
 
@@ -196,25 +185,30 @@ void MainWindow::sliceClicked(int idx)
     ui->tabWidget->openLastTab();
 }
 
-void MainWindow::refreshData()
+void MainWindow::refreshStatements()
+{
+    SetStatements();
+    refreshChart();
+}
+
+void MainWindow::refreshChart()
 {
     statements.GetCalssification(classes);
     palette.init(classes.size());
     InitChart();
     InitLegend();
-    SetStatements();
 }
 
 void MainWindow::onDateRangeChanged(QDate start, QDate end)
 {
     statements.SetTimeInterval(start, end);
-    refreshData();
+    refreshChart();
 }
 
 void MainWindow::onUnsetDateRange()
 {
     statements.UnsetTimeInterval();
-    refreshData();
+    refreshChart();
 }
 
 
@@ -241,16 +235,3 @@ void MainWindow::on_actionPythonConsole_triggered()
     application->getPythonConsole()->show();
 }
 
-void MainWindow::on_actionNew_triggered()
-{
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save file"));
-    if (!fileName.isEmpty())
-        statements.New(fileName);
-}
-
-void MainWindow::on_actionLoad_triggered()
-{
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"));
-    if (!fileName.isEmpty())
-        statements.Open(fileName);
-}
