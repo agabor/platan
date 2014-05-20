@@ -10,5 +10,7 @@
         <file>icons/document-save.png</file>
         <file>icons/help-browser.png</file>
         <file>icons/preferences-system-windows.png</file>
+        <file>icons/system-log-out.png</file>
+        <file>icons/edit-delete.png</file>
     </qresource>
 </RCC>

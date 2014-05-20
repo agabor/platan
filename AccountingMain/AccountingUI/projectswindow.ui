@@ -38,7 +38,10 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="openButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="text">
          <string>Open</string>
         </property>
@@ -71,6 +74,7 @@
    </attribute>
    <addaction name="actionNew_Project"/>
    <addaction name="actionLoad_Project"/>
+   <addaction name="actionRemove"/>
   </widget>
   <action name="actionNew_Project">
    <property name="icon">
@@ -83,6 +87,9 @@
    <property name="toolTip">
     <string>New Project</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
   </action>
   <action name="actionLoad_Project">
    <property name="icon">
@@ -94,6 +101,27 @@
    </property>
    <property name="toolTip">
     <string>Load Project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionRemove">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/edit-delete.png</normaloff>:/icons/icons/edit-delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
    </property>
   </action>
  </widget>
