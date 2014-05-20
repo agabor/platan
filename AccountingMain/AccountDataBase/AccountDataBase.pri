@@ -7,7 +7,8 @@ SOURCES += \
     ../AccountingMain/AccountDataBase/statementextracttablemodel.cpp \
     ../AccountingMain/AccountDataBase/statements.cpp \
     ../AccountingMain/AccountDataBase/statementtablemodel.cpp \
-    AccountDataBase/tabletransformer.cpp
+    AccountDataBase/tabletransformer.cpp \
+    AccountDataBase/csvanalyser.cpp
 
 HEADERS += \
     ../AccountingMain/AccountDataBase/csvtablemodel.h \
@@ -23,7 +24,8 @@ HEADERS += \
     ../AccountingMain/AccountDataBase/statementextracttablemodel.h \
     ../AccountingMain/AccountDataBase/statements.h \
     ../AccountingMain/AccountDataBase/statementtablemodel.h \
-    AccountDataBase/tabletransformer.h
+    AccountDataBase/tabletransformer.h \
+    AccountDataBase/csvanalyser.h
 
 unix:!symbian {
     maemo5 {

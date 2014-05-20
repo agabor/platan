@@ -21,6 +21,7 @@
 #include <QTableView>
 #include <csvpropertieswidget.h>
 #include <QVBoxLayout>
+#include <csvanalyser.h>
 
 CSVConfigWidget::CSVConfigWidget(QWidget *parent) :
     QWidget(parent)
@@ -39,10 +40,15 @@ CSVConfigWidget::CSVConfigWidget(QWidget *parent) :
 void CSVConfigWidget::setReader(QString filename, CSVReader *r)
 {
     reader = r;
-    CSVReaderProperties->setReader(r);
     QFile inFile(filename);
     inFile.open(QIODevice::ReadOnly | QIODevice::Text);
     input = inFile.readAll();
+    QTextStream input_stream(&input);
+    CSVAnalyser analyser(input_stream);
+    char c = analyser.getSeparator();
+    if (c != '\0')
+        reader->setSeparator(c);
+    CSVReaderProperties->setReader(reader);
     readCSV();
 }
 
