@@ -81,5 +81,6 @@ void Statements::GetClasses(QString lan, QMap<int, QString> &classes)
 void Statements::InsertData(StatementTableModel &model)
 {
     data_base.InsertData(model);
+    data_base.ReadData(statements);
     emit dataChanged();
 }
