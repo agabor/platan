@@ -38,6 +38,7 @@ public:
     void set(QString field, QString value);
     void set(QString field, std::string value);
     void set(QString field, int value);
+    void set(QString field, float value);
 protected:
     SQLFieldValue();
     void addFieldValuePair(QString field, QString value);

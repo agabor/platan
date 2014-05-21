@@ -89,6 +89,12 @@ void SQLFieldValue::set(QString field, int value)
     addFieldValuePair(field, svalue);
 }
 
+void SQLFieldValue::set(QString field, float value)
+{
+    auto svalue = QString(to_string(value).c_str());
+    addFieldValuePair(field, svalue);
+}
+
 
 void SQLWhere::where(QString condition)
 {
