@@ -24,10 +24,14 @@ class CSVAnalyser
 public:
     CSVAnalyser(QTextStream &_input);
     char getSeparator() const;
+    char getQuote() const;
+    bool areHeadersInFirstLine() const;
 private:
     void analyse();
     QTextStream &input;
     char separator;
+    char quote;
+    bool headers;
 };
 
 #endif // CSVANALYSER_H

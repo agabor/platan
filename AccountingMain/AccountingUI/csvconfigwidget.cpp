@@ -48,6 +48,10 @@ void CSVConfigWidget::setReader(QString filename, CSVReader *r)
     char c = analyser.getSeparator();
     if (c != '\0')
         reader->setSeparator(c);
+    c = analyser.getQuote();
+    if (c != '\0')
+        reader->setQuote(c);
+    reader->setHeadersInFirstRow(analyser.areHeadersInFirstLine());
     CSVReaderProperties->setReader(reader);
     readCSV();
 }
