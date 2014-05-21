@@ -26,7 +26,7 @@ CSVReader::CSVReader()
 {
     _separator = ',';
     _quote ='\0';
-    headersInFirstRow = false;
+    _headersInFirstRow = false;
 }
 
 QStringList CSVReader::removeQuotes(QStringList string_list)
@@ -67,7 +67,7 @@ CSVTableModel *CSVReader::read(QTextStream &input)
         if (col_num == -1)
         {
             col_num = string_list.length();
-            if (headersInFirstRow)
+            if (headersInFirstRow())
             {
                 result->setHeaders(string_list);
                 continue;
@@ -93,5 +93,5 @@ void CSVReader::setQuote(char q)
 
 void CSVReader::setHeadersInFirstRow(bool b)
 {
-    headersInFirstRow = b;
+    _headersInFirstRow = b;
 }

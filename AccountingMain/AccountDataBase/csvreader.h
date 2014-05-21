@@ -31,12 +31,13 @@ public:
     void setQuote(char q);
     inline char quote() const;
     void setHeadersInFirstRow(bool b);
+    inline bool headersInFirstRow() const;
     QStringList removeQuotes(QStringList string_list);
     QString removeQuotes(QString str);
 private:
     char _separator;
     char _quote;
-    bool headersInFirstRow;
+    bool _headersInFirstRow;
 };
 
 char CSVReader::separator() const
@@ -47,6 +48,11 @@ char CSVReader::separator() const
 char CSVReader::quote() const
 {
     return _quote;
+}
+
+bool CSVReader::headersInFirstRow() const
+{
+    return _headersInFirstRow;
 }
 
 #endif // CSVREADER_H

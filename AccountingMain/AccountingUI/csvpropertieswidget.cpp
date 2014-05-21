@@ -74,6 +74,7 @@ void CSVPropertiesWidget::setReader(CSVReader* r)
     reader = r;
     SelectData(quote, r->quote());
     SelectData(separator, r->separator());
+    headers->setChecked(r->headersInFirstRow());
     connect(quote, SIGNAL(currentIndexChanged(int)), this, SLOT(setQuote(int)));
     connect(separator, SIGNAL(currentIndexChanged(int)), this, SLOT(setSeparator(int)));
     connect(headers, SIGNAL(toggled(bool)), this, SLOT(setHeaders(bool)));
