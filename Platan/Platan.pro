@@ -12,14 +12,14 @@ QMAKE_CXXFLAGS -= -O2
 LIBS += $$system(python3.2-config --ldflags)
 
 INCLUDEPATH += SQLiteWrapper \
-               AccountDataBase \
+               PlatanData \
                PlatanUI \
-               AccountingApp \
+               PlatanApp \
                PythonAPI \
                /usr/include/python3.2
 
 include(SQLiteWrapper/SQLiteWrapper.pri)
-include(AccountDataBase/AccountDataBase.pri)
+include(PlatanData/PlatanData.pri)
 include(PlatanUI/PlatanUI.pri)
-include(AccountingApp/AccountingApp.pri)
+include(PlatanApp/PlatanApp.pri)
 include(PythonAPI/PythonAPI.pri)
