@@ -153,6 +153,7 @@ void SQLiteDB::Execute(const char *query_str)
     {
         QString error_msg{db.lastError().text()};
         cerr << error_msg.toStdString() << endl;
+        assert(false);
     }
 }
 

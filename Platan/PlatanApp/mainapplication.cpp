@@ -25,7 +25,6 @@ MainApplication::MainApplication(int &argc, char *argv[]) :
     settings("configs/platan.ini", QSettings::IniFormat)
 {
     PythonAPI::init(this);
-
     projects_window.reset(new ProjectsWindow(this, statements));
     projects_window->show();
 }
