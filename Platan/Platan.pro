@@ -13,13 +13,13 @@ LIBS += $$system(python3.2-config --ldflags)
 
 INCLUDEPATH += SQLiteWrapper \
                AccountDataBase \
-               AccountingUI \
+               PlatanUI \
                AccountingApp \
                PythonAPI \
                /usr/include/python3.2
 
 include(SQLiteWrapper/SQLiteWrapper.pri)
 include(AccountDataBase/AccountDataBase.pri)
-include(AccountingUI/AccountingUI.pri)
+include(PlatanUI/PlatanUI.pri)
 include(AccountingApp/AccountingApp.pri)
 include(PythonAPI/PythonAPI.pri)
