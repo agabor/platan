@@ -18,10 +18,6 @@
 
 using namespace std;
 
-Statements::Statements() : _lan{"None"}
-{
-}
-
 std::vector<StatementRow> Statements::GetStatements()
 {
     return statements;
@@ -77,22 +73,9 @@ void Statements::New(QString data_base_path)
 }
 
 
-void Statements::GetClasses(QString lan, QMap<int, QString> &classes)
-{
-    if (_lan == lan)
-    {
-        for(int i : _classes.keys())
-            classes.insert(i, _classes[i]);
-        return;
-    }
-
-    data_base.GetClasses(lan, classes);
-}
-
 void Statements::InsertData(StatementTableModel &model)
 {
     data_base.InsertData(model);
     data_base.ReadData(statements);
-    data_base.GetClasses(_lan, _classes);
     emit dataChanged();
 }

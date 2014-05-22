@@ -224,31 +224,6 @@ void AccDataBase::SetTimeInterval(SQLSelect &select)
 }
 
 
-
-void AccDataBase::GetClasses(QString lan, QMap<int, QString> &classes)
-{
-    data_base.Open();
-
-    SQLiteStatement statement;
-
-    SQLSelect select{"classes"};
-    select.field("ID");
-    select.field(lan);
-
-    data_base.Prepare(statement, select);
-
-
-    while (data_base.Step(statement))
-    {
-        int id = statement.GetInt(0);
-        classes.insert(id, statement.GetText(1));
-    }
-
-    data_base.Finalize(statement);
-
-    data_base.Close();
-}
-
 void AccDataBase::InsertRule(int type, int column, QString value, int Class, QString name)
 {
     data_base.Open();
@@ -260,7 +235,7 @@ void AccDataBase::InsertRule(int type, int column, QString value, int Class, QSt
     insert.set("Column", column);
     insert.set("Value", value);
     insert.set("Class", Class);
-    //insert.set("Name", name);
+    insert.set("Name", name);
 
     data_base.Execute(insert);
 

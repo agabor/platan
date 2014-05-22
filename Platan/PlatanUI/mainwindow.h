@@ -45,7 +45,7 @@ public:
 
     void initChart(QVector<float> values, ColorPalette *palette);
 
-    void InitLegend(ColorPalette *palette, QMap<int, QString> class_names);
+    void InitLegend(ColorPalette *palette, QMap<int, QString> classNames);
 
     QTabWidget *tabWidget() const;
 
@@ -56,6 +56,7 @@ public:
     void InitLegend();
     void setDateRange(QDate start, QDate end);
 
+    void setClassNames(QMap<int, QString> &classNames);
 public slots:
     void onDateRangeChanged(QDate start, QDate end);
 private slots:
@@ -87,7 +88,7 @@ private:
     std::vector<QDate> months;
     Statements &statements;
     QMap<int, float> classes;
-    QMap<int, QString> class_names;
+    QMap<int, QString> classNames;
     MultiColorPalette palette;
     std::unique_ptr<QStatemenView> unclassified_table;
     MainApplication const * application;

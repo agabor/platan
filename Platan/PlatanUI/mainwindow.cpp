@@ -138,22 +138,41 @@ void MainWindow::InitChart()
     initChart(values, &palette);
 }
 
+void MainWindow::setClassNames(QMap<int, QString> &class_names)
+{
+    class_names.insert(0, tr("Undefined"));
+    class_names.insert(1, tr("Food"));
+    class_names.insert(2, tr("Clothes"));
+    class_names.insert(3, tr("Housing"));
+    class_names.insert(4, tr("Public transportation"));
+    class_names.insert(5, tr("House costs"));
+    class_names.insert(6, tr("Electronics"));
+    class_names.insert(7, tr("Cash"));
+    class_names.insert(8, tr("Furniture"));
+    class_names.insert(9, tr("Restaurant"));
+    class_names.insert(10, tr("Sport"));
+    class_names.insert(11, tr("Insurance"));
+    class_names.insert(12, tr("Bank"));
+    class_names.insert(13, tr("Drogstore"));
+    class_names.insert(14, tr("Mobil"));
+}
+
 void MainWindow::InitLegend()
 {
-    statements.GetClasses("EN", class_names);
+    setClassNames(classNames);
 
     //remove empty classes
-    for(int i = 0; i < class_names.size(); ++i)
+    for(int i = 0; i < classNames.size(); ++i)
     {
-        const int key = class_names.keys().at(i);
+        const int key = classNames.keys().at(i);
         if (!classes.contains(key))
         {
-            class_names.remove(key);
+            classNames.remove(key);
             --i;
         }
     }
 
-    InitLegend(&palette, class_names);
+    InitLegend(&palette, classNames);
 }
 
 void MainWindow::setDateRange(QDate start, QDate end)
@@ -165,7 +184,7 @@ void MainWindow::setDateRange(QDate start, QDate end)
 void MainWindow::sliceClicked(int idx)
 {
     const int class_idx = classes.keys().at(idx);
-    const QString &class_name = class_names[class_idx];
+    const QString &class_name = classNames[class_idx];
     if (!ui->tabWidget->isOpen(class_name))
     {
         QTableView *class_table;
@@ -217,10 +236,9 @@ void MainWindow::doubleClicked( QModelIndex  index)
 {
     if (index.column() != 4 && index.column() != 1)
         return;
-
-    QMap<int, QString> classes;
-    statements.GetClasses("EN", classes);
-    AddRuleDialog ard(classes);
+    QMap<int, QString> class_names;
+    setClassNames(class_names);
+    AddRuleDialog ard(class_names);
     ard.exec();
 
     if (!ard.ok())

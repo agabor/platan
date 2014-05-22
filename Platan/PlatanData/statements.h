@@ -33,7 +33,6 @@ class Statements : public QObject
 {
     Q_OBJECT
 public:
-    Statements();
     std::vector<StatementRow> GetStatements();
     std::vector<StatementExtractRow> GetStatementsForClass(int class_idx);
     void SetTimeInterval(QDate start_date, QDate end_date);
@@ -49,8 +48,6 @@ private:
     AccDataBase data_base;
     std::map<int, std::unique_ptr<StatementExtractTableModel>> class_statements;
     std::vector<StatementRow> statements;
-    QString _lan;
-    QMap<int, QString> _classes;
 };
 
 #endif // STATEMENTS_H
