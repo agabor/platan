@@ -22,10 +22,6 @@ AddRuleDialog::AddRuleDialog(QMap<int, QString> classes, QWidget *parent) :
     ui(new Ui::AddRuleDialog)
 {
     ui->setupUi(this);
-    foreach(int i, classes.keys())
-    {
-        ui->cbxClass->addItem(classes[i], i);
-    }
     accepted = false;
 }
 
@@ -36,13 +32,12 @@ AddRuleDialog::~AddRuleDialog()
 
 int AddRuleDialog::Class() const
 {
-    QComboBox *cbxClass = ui->cbxClass;
-    return cbxClass->itemData(cbxClass->currentIndex()).toInt();
+    return 0;
 }
 
 QString AddRuleDialog::name() const
 {
-    return ui->nameEdit->text();
+    return QString();
 }
 
 bool AddRuleDialog::ok() const

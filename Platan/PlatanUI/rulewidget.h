@@ -10,12 +10,16 @@ class RuleWidget : public QWidget
 {
     Q_OBJECT
 public:
+    explicit RuleWidget(Rule _rule, QWidget *parent = 0);
     explicit RuleWidget(QWidget *parent = 0);
-    void setRule(Rule _rule);
 private:
+    void setCategories();
+    QString condition(Rule rule);
     Rule rule;
     QComboBox* column;
     QComboBox* category;
+    const QString ifStr() const;
+    const QString thenStr() const;
 };
 
 #endif // RULEWIDGET_H

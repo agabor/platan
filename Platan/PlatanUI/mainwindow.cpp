@@ -71,9 +71,7 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     auto layout = new QVBoxLayout(groupBox);
     for(Rule rule : statements.getRules())
     {
-        auto rw = new RuleWidget(ui->scrollArea);
-        rw->setRule(rule);
-        layout->addWidget(rw);
+        layout->addWidget(new RuleWidget(rule,ui->scrollArea));
     }
 }
 
