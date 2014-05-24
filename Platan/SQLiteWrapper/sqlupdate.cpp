@@ -21,11 +21,11 @@ SQLUpdate::SQLUpdate(QString table_name)
     this->table_name = table_name;
 }
 
-std::string SQLUpdate::toString() const
+QString SQLUpdate::toString() const
 {
     QString result("UPDATE %1 SET %2%3");
     result = result.arg(table_name)
              .arg(setFieldsList())
              .arg(whereClause());
-    return result.toStdString();
+    return result;
 }

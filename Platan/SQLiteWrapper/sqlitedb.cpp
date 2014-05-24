@@ -29,9 +29,12 @@ using namespace std;
 
 void SQLiteDB::Prepare(SQLiteStatement &statement, SQLSelect &select)
 {
-    string s = select.toString();
-    const char *select_query = s.c_str();
-    statement.statement = QSqlQuery(select_query);
+    statement.SetStatement(select.toString());
+}
+
+bool SQLiteDB::isOpen() const
+{
+    return is_open;
 }
 
 bool isSQLiteDB(const QSqlDatabase &db)
@@ -145,7 +148,7 @@ void SQLiteDB::connect()
     }
 }
 
-void SQLiteDB::Execute(const char *query_str)
+void SQLiteDB::Execute(QString query_str)
 {
     QSqlQuery qry;
 
@@ -159,7 +162,7 @@ void SQLiteDB::Execute(const char *query_str)
 
 void SQLiteDB::Execute(SQLQuery &query)
 {
-    Execute(query.toString().c_str());
+    Execute(query.toString());
 }
 
 void SQLiteDB::ExecuteScript(QString filename)

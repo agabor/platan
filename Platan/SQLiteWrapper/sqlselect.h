@@ -33,7 +33,7 @@ private:
     QString groupByClause() const;
     // SQLQuery interface
 public:
-    std::string toString() const;
+    QString toString() const;
     QString group_by_field;
 };
 

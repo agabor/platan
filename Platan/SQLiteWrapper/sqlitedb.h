@@ -49,8 +49,9 @@ public:
     void Finalize(SQLiteStatement &statement);
     bool Step(SQLiteStatement &statement);
     void Prepare(SQLiteStatement &statement, SQLSelect &select);
+    bool isOpen() const;
 protected:
-    void Execute(const char *query_str);
+    void Execute(QString query_str);
     void connect();
     QSqlDatabase db;
     QString data_base_path;

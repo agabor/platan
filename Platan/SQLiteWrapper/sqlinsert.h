@@ -27,7 +27,7 @@ class SQLInsert : public SQLQuery, public SQLFieldValue
 {
 public:
     SQLInsert(QString table_name);
-    std::string toString() const;
+    QString toString() const;
 private:
     QString table_name;
 };

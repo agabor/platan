@@ -30,12 +30,12 @@ QString SQLSelect::groupByClause() const
     return QString(" GROUP BY %1").arg(group_by_field);
 }
 
-std::string SQLSelect::toString() const
+QString SQLSelect::toString() const
 {
     QString result("SELECT %1 FROM %2%3%4");
     result = result.arg(fieldList())
             .arg(concatenate(tables, ", "))
             .arg(whereClause())
             .arg(groupByClause());
-    return result.toStdString();
+    return result;
 }

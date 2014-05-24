@@ -23,12 +23,12 @@ SQLInsert::SQLInsert(QString table_name)
     this->table_name = table_name;
 }
 
-std::string SQLInsert::toString() const
+QString SQLInsert::toString() const
 {
     QString result("INSERT INTO %1 (%2) VALUES (%3)");
     result = result.arg(table_name);
     result = result.arg(fieldList());
     result = result.arg(valueList());
-    return result.toStdString();
+    return result;
 }
 

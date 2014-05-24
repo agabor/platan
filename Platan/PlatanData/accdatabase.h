@@ -30,6 +30,7 @@ class AccDataBase
 {
 public:
     AccDataBase();
+    ~AccDataBase();
     void SetPath(QString data_base_path);
     void Create(QString data_base_path);
     void InsertData(StatementTableModel &model);

@@ -30,10 +30,13 @@ public:
     double GetDouble(int idx);
     QString GetText(int idx);
     QDate GetDate(int idx);
+    void SetStatement(QString query);
 protected:
+    QString _query;
     QSqlQuery statement;
     friend class SQLiteDB;
 };
+
 
 
 #endif // SQLITESTATEMENT_H

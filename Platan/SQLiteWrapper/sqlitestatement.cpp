@@ -50,3 +50,9 @@ QDate SQLiteStatement::GetDate(int idx)
 {
    return SQLiteDate(GetInt(idx));
 }
+
+void SQLiteStatement::SetStatement(QString query)
+{
+    _query = query;
+    statement = QSqlQuery(_query);
+}

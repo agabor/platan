@@ -37,9 +37,17 @@ AccDataBase::AccDataBase()
     time_interval_set = false;
 }
 
+AccDataBase::~AccDataBase()
+{
+    data_base.Close();
+}
+
 void AccDataBase::SetPath(QString data_base_path)
 {
     data_base.SetPath(data_base_path);
+    if(data_base.isOpen())
+        data_base.Close();
+    data_base.Open();
 }
 
 void AccDataBase::Create(QString data_base_path)
@@ -51,8 +59,6 @@ void AccDataBase::Create(QString data_base_path)
 
 void AccDataBase::InsertData(StatementTableModel &model)
 {
-    data_base.Open();
-
     data_base.BeginTransaction();
 
     const int row_count = model.rowCount();
@@ -71,14 +77,11 @@ void AccDataBase::InsertData(StatementTableModel &model)
         data_base.Execute(insert);
     }
     data_base.EndTransaction();
-    data_base.Close();
 }
 
 
 void AccDataBase::ReadData(std::vector<StatementRow> &model, bool only_unclassified)
 {
-    data_base.Open();
-
     SQLiteStatement statement;
 
     SQLSelect select{"statements"};
@@ -110,14 +113,11 @@ void AccDataBase::ReadData(std::vector<StatementRow> &model, bool only_unclassif
     }
 
     data_base.Finalize(statement);
-
-    data_base.Close();
 }
 
 void AccDataBase::GetCalssification(QMap<int, float> &result)
 {
     result.clear();
-    data_base.Open();
 
     Classify();
 
@@ -140,8 +140,6 @@ void AccDataBase::GetCalssification(QMap<int, float> &result)
     }
 
     data_base.Finalize(statement);
-
-    data_base.Close();
 }
 
 void AccDataBase::Classify()
@@ -198,8 +196,6 @@ void AccDataBase::SetTimeInterval(SQLSelect &select)
 
 void AccDataBase::InsertRule(int type, int column, QString value, int Class, QString name)
 {
-    data_base.Open();
-
     data_base.BeginTransaction();
 
     SQLInsert insert("rules");
@@ -212,7 +208,6 @@ void AccDataBase::InsertRule(int type, int column, QString value, int Class, QSt
     data_base.Execute(insert);
 
     data_base.EndTransaction();
-    data_base.Close();
 }
 
 void AccDataBase::SetTimeInterval(QDate start_date, QDate end_date)

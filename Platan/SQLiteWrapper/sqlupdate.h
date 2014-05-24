@@ -25,7 +25,7 @@ class SQLUpdate : public SQLQuery, public SQLFieldValue, public SQLWhere
 {
 public:
     SQLUpdate(QString table_name);
-    std::string toString() const;
+    QString toString() const;
 private:
     QString table_name;
 };

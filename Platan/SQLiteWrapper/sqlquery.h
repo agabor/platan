@@ -20,11 +20,12 @@
 #include <string>
 #include <initializer_list>
 #include <vector>
+#include <QString>
 
 class SQLQuery
 {
 public:
-    virtual std::string toString() const = 0;
+    virtual QString toString() const = 0;
 };
 
 #endif // SQLQUERY_H
