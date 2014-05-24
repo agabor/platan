@@ -60,20 +60,6 @@ bool SQLiteDB::isDatabaseValid() const
 
 void SQLiteDB::initSchema()
 {
-    TableStructure classes{"classes"};
-    classes.addField("En", SQLType::Text);
-    classes.addField("De", SQLType::Text);
-    classes.addField("Hu", SQLType::Text);
-    classes.addField("ID", SQLType::DefaultPK());
-    schema.addTable(classes);
-
-    TableStructure payee{"payee"};
-    payee.addField("ID", SQLType::Integer.PK());
-    payee.addField("Name", SQLType::Text);
-    payee.addField("Account", SQLType::Text);
-    payee.addField("Type", SQLType::Numeric);
-    schema.addTable(payee);
-
     TableStructure rules{"rules"};
     rules.addField("Payee", SQLType::Integer);
     rules.addField("Type", SQLType::Integer);
@@ -97,11 +83,6 @@ void SQLiteDB::initSchema()
 bool SQLiteDB::Step(SQLiteStatement &statement)
 {
     return statement.statement.next();
-}
-
-void SQLiteDB::Finalize(SQLiteStatement &statement)
-{
-    //sqlite3_finalize(statement.statement);
 }
 
 SQLiteDB::SQLiteDB()

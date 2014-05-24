@@ -1,21 +1,3 @@
-
-INSERT INTO classes VALUES('undefined','undefiniert','nincs megadva',0);
-INSERT INTO classes VALUES('Food','Lebensmittel','Élelmiszer',1);
-INSERT INTO classes VALUES('Clothes','Wesche','Ruha',2);
-INSERT INTO classes VALUES('Housing','Wohnen','Lakhatás',3);
-INSERT INTO classes VALUES('Public transportation','Öffentliche Verkehrsmittel','Tömegközlekedés',4);
-INSERT INTO classes VALUES('Costs','Nebenkosten','Rezsi',5);
-INSERT INTO classes VALUES('Elektronics','Elektronics','Elektronics',6);
-INSERT INTO classes VALUES('Cash','BAR','Készpénz',7);
-INSERT INTO classes VALUES('Furniture','Möbel','Bútor',8);
-INSERT INTO classes VALUES('Restaurant','Restaurant','Étterem',9);
-INSERT INTO classes VALUES('Sport','Sport','Sport',10);
-INSERT INTO classes VALUES('Insurance','Versicherung','Biztosítás',11);
-INSERT INTO classes VALUES('Bank','Bank','Bank',12);
-INSERT INTO classes VALUES('Own','Eigene','Saját',13);
-INSERT INTO classes VALUES('Drogstore','Drogerie','Drogéria',14);
-INSERT INTO classes VALUES('mobil','Handy','mobil',15);
-
 INSERT INTO rules VALUES(NULL,0,4,506361506,1);
 INSERT INTO rules VALUES(NULL,0,4,308692,10);
 INSERT INTO rules VALUES(NULL,0,4,'DE40700515400200325355',10);

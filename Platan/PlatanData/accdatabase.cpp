@@ -25,12 +25,6 @@
 
 using namespace std;
 
-inline string stringify(float x)
-{
-    ostringstream o;
-    o << x;
-    return o.str();
-}
 
 AccDataBase::AccDataBase()
 {
@@ -111,8 +105,6 @@ void AccDataBase::ReadData(std::vector<StatementRow> &model, bool only_unclassif
         row.Class = statement.GetInt(6);
         model.push_back(row);
     }
-
-    data_base.Finalize(statement);
 }
 
 void AccDataBase::GetCalssification(QMap<int, float> &result)
@@ -138,8 +130,6 @@ void AccDataBase::GetCalssification(QMap<int, float> &result)
         int Class = statement.GetInt(1);
         result.insert(Class, sum);
     }
-
-    data_base.Finalize(statement);
 }
 
 void AccDataBase::Classify()
@@ -180,7 +170,6 @@ void AccDataBase::Classify()
         data_base.Execute(update);
     }
 
-    data_base.Finalize(statement);
     data_base.EndTransaction();
 }
 

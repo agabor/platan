@@ -46,7 +46,6 @@ public:
     void EndTransaction();
     void Execute(SQLQuery &query);
     void ExecuteScript(QString filename);
-    void Finalize(SQLiteStatement &statement);
     bool Step(SQLiteStatement &statement);
     void Prepare(SQLiteStatement &statement, SQLSelect &select);
     bool isOpen() const;
