@@ -76,6 +76,7 @@ void Statements::New(QString data_base_path)
 void Statements::InsertData(StatementTableModel &model)
 {
     data_base.InsertData(model);
+    data_base.Classify();
     data_base.ReadData(statements);
     emit dataChanged();
 }

@@ -147,9 +147,9 @@ void SQLiteDB::connect()
 
 void SQLiteDB::Execute(const char *query_str)
 {
-    QSqlQuery qry = db.exec(query_str);
+    QSqlQuery qry;
 
-    if( !qry.exec() )
+    if( !qry.exec(query_str) )
     {
         QString error_msg{db.lastError().text()};
         cerr << error_msg.toStdString() << endl;

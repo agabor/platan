@@ -114,34 +114,6 @@ void AccDataBase::ReadData(std::vector<StatementRow> &model, bool only_unclassif
     data_base.Close();
 }
 
-void AccDataBase::ReadData(StatementExtractTableModel &model, int Class)
-{
-//    data_base.Open();
-
-//    SQLiteStatement statement;
-
-//    SQLSelect select{"statements"};
-//    select.field("Date");
-//    select.field("Payee");
-//    select.field("Amount");
-//    select.where(QString("Class = %1").arg(Class));
-//    SetTimeInterval(select);
-//    data_base.Prepare(statement, select);
-
-//    while (data_base.Step(statement))
-//    {
-//        StatementExtractRow row;
-//        row.Date = statement.GetDate(0);
-//        row.Payee = statement.GetText(1);
-//        row.Ammount = statement.GetDouble(2);
-//        model.addRow(row);
-//    }
-
-//    data_base.Finalize(statement);
-
-//    data_base.Close();
-}
-
 void AccDataBase::GetCalssification(QMap<int, float> &result)
 {
     result.clear();

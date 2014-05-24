@@ -34,15 +34,14 @@ public:
     void Create(QString data_base_path);
     void InsertData(StatementTableModel &model);
     void ReadData(std::vector<StatementRow> &model, bool only_unclassified = false);
-    void ReadData(StatementExtractTableModel &model, int Class);
     void GetCalssification(QMap<int, float> &result);
     void GetClasses(QString lan, QMap<int, QString> &classes);
     void InsertRule(int type, int column, QString value, int Class, QString name);
     void SetTimeInterval(QDate start_date, QDate end_date);
     void UnsetTimeInterval();
+    void Classify();
 protected:
     SQLiteDB data_base;
-    void Classify();
     SQLiteDate start_date, end_date;
     bool time_interval_set;
     void SetTimeInterval(SQLSelect &select);
