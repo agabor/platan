@@ -56,7 +56,7 @@ void SQLiteTest::createSQLInsert1()
     SQLInsert insert("Cars");
     insert.set("color", QString("blue"));
     insert.set("brand", QString("volkswagen"));
-    QCOMPARE(insert.toString(), string("INSERT INTO Cars (color, brand) VALUES (\"blue\", \"volkswagen\")"));
+    QCOMPARE(insert.toString(), QString("INSERT INTO Cars (color, brand) VALUES (\"blue\", \"volkswagen\")"));
 }
 
 void SQLiteTest::createSQLInsert2()
@@ -64,7 +64,7 @@ void SQLiteTest::createSQLInsert2()
     SQLInsert insert("Cars");
     insert.set("varrianty", 2);
     insert.set("brand", QString("volkswagen"));
-    QCOMPARE(insert.toString(), string("INSERT INTO Cars (varrianty, brand) VALUES (2, \"volkswagen\")"));
+    QCOMPARE(insert.toString(), QString("INSERT INTO Cars (varrianty, brand) VALUES (2, \"volkswagen\")"));
 }
 
 void SQLiteTest::createSQLUpdate1()
@@ -73,7 +73,7 @@ void SQLiteTest::createSQLUpdate1()
     update.set("color", QString("red"));
     update.set("brand", QString("opel"));
 
-    QCOMPARE(update.toString(), string("UPDATE Cars SET color = \"red\", brand = \"opel\""));
+    QCOMPARE(update.toString(), QString("UPDATE Cars SET color = \"red\", brand = \"opel\""));
 }
 
 
@@ -85,7 +85,7 @@ void SQLiteTest::createSQLUpdate2()
     update.where("color = \"blue\"");
     update.where("brand = \"volkswagen\"");
 
-    QCOMPARE(update.toString(), string("UPDATE Cars SET color = \"red\", brand = \"opel\" WHERE color = \"blue\" AND brand = \"volkswagen\""));
+    QCOMPARE(update.toString(), QString("UPDATE Cars SET color = \"red\", brand = \"opel\" WHERE color = \"blue\" AND brand = \"volkswagen\""));
 }
 
 void SQLiteTest::createSQLSelect1()
@@ -94,11 +94,7 @@ void SQLiteTest::createSQLSelect1()
     select.field("color");
     select.field("brand");
 
-    QCOMPARE(select.toString(), string("SELECT color, brand FROM Cars"));
-    //QSqlQuery q(select.toString().c_str());
-    //q.exec();
-    //QVERIFY(q.isValid());
-    //QVERIFY(q.isSelect());
+    QCOMPARE(select.toString(), QString("SELECT color, brand FROM Cars"));
 }
 
 void SQLiteTest::createSQLSelect2()
@@ -108,7 +104,7 @@ void SQLiteTest::createSQLSelect2()
     select.field("brand");
     select.where("color = \"blue\"");
 
-    QCOMPARE(select.toString(), string("SELECT color, brand FROM Cars WHERE color = \"blue\""));
+    QCOMPARE(select.toString(), QString("SELECT color, brand FROM Cars WHERE color = \"blue\""));
 
 }
 
@@ -121,7 +117,7 @@ void SQLiteTest::createSQLSelect3()
     select.where("color = \"blue\"");
     select.groupBy("color");
 
-    QCOMPARE(select.toString(), string("SELECT color, brand FROM Cars WHERE color = \"blue\" GROUP BY color"));
+    QCOMPARE(select.toString(), QString("SELECT color, brand FROM Cars WHERE color = \"blue\" GROUP BY color"));
 
 }
 

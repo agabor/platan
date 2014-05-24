@@ -18,10 +18,10 @@ SOURCES += \
     tst_sqlite.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
-INCLUDEPATH += ../AccountingMain/SQLiteWrapper \
-               ../AccountingMain/AccountDataBase
+INCLUDEPATH += ../Platan/SQLiteWrapper \
+               ../Platan/PlatanData
 
-include(../AccountingMain/SQLiteWrapper/SQLiteWrapper.pri)
-include(../AccountingMain/AccountDataBase/AccountDataBase.pri)
+include(../Platan/SQLiteWrapper/SQLiteWrapper.pri)
+include(../Platan/PlatanData/PlatanData.pri)
 
 HEADERS +=
