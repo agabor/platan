@@ -141,7 +141,7 @@ void AccDataBase::Classify()
     SQLSelect select{"rules"};
     select.field("Value");
     select.field("Class");
-    select.where("Type = 0");
+    select.where("Column = 4");
 
     data_base.Prepare(statement, select);
 
@@ -157,7 +157,7 @@ void AccDataBase::Classify()
     select = SQLSelect {"rules"};
     select.field("Value");
     select.field("Class");
-    select.where("Type = 1");
+    select.where("Column = 1");
 
     data_base.Prepare(statement, select);
 
@@ -183,16 +183,14 @@ void AccDataBase::SetTimeInterval(SQLSelect &select)
 }
 
 
-void AccDataBase::InsertRule(int type, int column, QString value, int Class, QString name)
+void AccDataBase::InsertRule(int column, QString value, int Class)
 {
     data_base.BeginTransaction();
 
     SQLInsert insert("rules");
-    insert.set("Type", type);
     insert.set("Column", column);
     insert.set("Value", value);
     insert.set("Class", Class);
-    insert.set("Name", name);
 
     data_base.Execute(insert);
 

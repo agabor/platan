@@ -61,8 +61,6 @@ bool SQLiteDB::isDatabaseValid() const
 void SQLiteDB::initSchema()
 {
     TableStructure rules{"rules"};
-    rules.addField("Payee", SQLType::Integer);
-    rules.addField("Type", SQLType::Integer);
     rules.addField("Column", SQLType::Integer);
     rules.addField("Value", SQLType::Text);
     rules.addField("Class", SQLType::Integer);

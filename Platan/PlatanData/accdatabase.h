@@ -37,7 +37,7 @@ public:
     void ReadData(std::vector<StatementRow> &model, bool only_unclassified = false);
     void GetCalssification(QMap<int, float> &result);
     void GetClasses(QString lan, QMap<int, QString> &classes);
-    void InsertRule(int type, int column, QString value, int Class, QString name);
+    void InsertRule(int column, QString value, int Class);
     void SetTimeInterval(QDate start_date, QDate end_date);
     void UnsetTimeInterval();
     void Classify();
