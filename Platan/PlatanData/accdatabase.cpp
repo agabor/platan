@@ -36,7 +36,7 @@ AccDataBase::~AccDataBase()
     data_base.Close();
 }
 
-void AccDataBase::SetPath(QString data_base_path)
+void AccDataBase::setPath(QString data_base_path)
 {
     data_base.SetPath(data_base_path);
     if(data_base.isOpen())
@@ -44,14 +44,14 @@ void AccDataBase::SetPath(QString data_base_path)
     data_base.Open();
 }
 
-void AccDataBase::Create(QString data_base_path)
+void AccDataBase::create(QString data_base_path)
 {
-    SetPath(data_base_path);
+    setPath(data_base_path);
     data_base.Create();
     data_base.ExecuteScript("../rules.sql");
 }
 
-void AccDataBase::InsertData(StatementTableModel &model)
+void AccDataBase::insertData(StatementTableModel &model)
 {
     data_base.BeginTransaction();
 
@@ -74,7 +74,7 @@ void AccDataBase::InsertData(StatementTableModel &model)
 }
 
 
-void AccDataBase::ReadData(std::vector<StatementRow> &model, bool only_unclassified)
+void AccDataBase::readData(std::vector<StatementRow> &model, bool only_unclassified)
 {
     SQLiteStatement statement;
 
@@ -89,7 +89,7 @@ void AccDataBase::ReadData(std::vector<StatementRow> &model, bool only_unclassif
     select.where("Amount < 0");
     if (only_unclassified)
         select.where("Class = 0");
-    SetTimeInterval(select);
+    setTimeInterval(select);
 
     data_base.Prepare(statement, select);
 
@@ -107,11 +107,11 @@ void AccDataBase::ReadData(std::vector<StatementRow> &model, bool only_unclassif
     }
 }
 
-void AccDataBase::GetCalssification(QMap<int, float> &result)
+void AccDataBase::getCalssification(QMap<int, float> &result)
 {
     result.clear();
 
-    Classify();
+    classify();
 
     SQLiteStatement statement;
 
@@ -119,7 +119,7 @@ void AccDataBase::GetCalssification(QMap<int, float> &result)
     select.field("SUM(Amount) as Sum");
     select.field("Class");
     select.where("Amount < 0");
-    SetTimeInterval(select);
+    setTimeInterval(select);
     select.groupBy("Class");
 
     data_base.Prepare(statement, select);
@@ -132,48 +132,32 @@ void AccDataBase::GetCalssification(QMap<int, float> &result)
     }
 }
 
-void AccDataBase::Classify()
+void AccDataBase::classify()
 {
-    SQLiteStatement statement;
-
     data_base.BeginTransaction();
 
-    SQLSelect select{"rules"};
-    select.field("Value");
-    select.field("Class");
-    select.where("Column = 4");
-
-    data_base.Prepare(statement, select);
-
-    while (data_base.Step(statement))
+    for(Rule &rule : getRules(4))
     {
         SQLUpdate update("statements");
-        update.set("Class", statement.GetInt(1));
+        update.set("Class", rule.category);
         update.where("Class = 0");
-        update.where(QString("PayeeAccount = \"%1\"").arg(statement.GetText(0)));
+        update.where(QString("PayeeAccount = \"%1\"").arg(rule.value));
         data_base.Execute(update);
     }
 
-    select = SQLSelect {"rules"};
-    select.field("Value");
-    select.field("Class");
-    select.where("Column = 1");
-
-    data_base.Prepare(statement, select);
-
-    while (data_base.Step(statement))
+    for(Rule &rule : getRules(1))
     {
         SQLUpdate update("statements");
-        update.set("Class", statement.GetInt(1));
+        update.set("Class", rule.category);
         update.where("Class = 0");
-        update.where(QString("Type = \"%2\"").arg(statement.GetText(0)));
+        update.where(QString("Type = \"%1\"").arg(rule.value));
         data_base.Execute(update);
     }
 
     data_base.EndTransaction();
 }
 
-void AccDataBase::SetTimeInterval(SQLSelect &select)
+void AccDataBase::setTimeInterval(SQLSelect &select)
 {
     if (time_interval_set)
     {
@@ -183,28 +167,51 @@ void AccDataBase::SetTimeInterval(SQLSelect &select)
 }
 
 
-void AccDataBase::InsertRule(int column, QString value, int Class)
+void AccDataBase::insertRule(Rule rule)
 {
     data_base.BeginTransaction();
 
     SQLInsert insert("rules");
-    insert.set("Column", column);
-    insert.set("Value", value);
-    insert.set("Class", Class);
+    insert.set("Column", rule.column);
+    insert.set("Value", rule.value);
+    insert.set("Class", rule.category);
 
     data_base.Execute(insert);
 
     data_base.EndTransaction();
 }
 
-void AccDataBase::SetTimeInterval(QDate start_date, QDate end_date)
+void AccDataBase::setTimeInterval(QDate start_date, QDate end_date)
 {
     this->start_date = start_date;
     this->end_date = end_date;
     time_interval_set = true;
 }
 
-void AccDataBase::UnsetTimeInterval()
+void AccDataBase::unsetTimeInterval()
 {
     time_interval_set = false;
+}
+
+QVector<Rule> AccDataBase::getRules(int column)
+{
+    SQLSelect select{"rules"};
+    select.field("Column");
+    select.field("Value");
+    select.field("Class");
+    if (column != -1)
+        select.where(QString("Column = %1").arg(column));
+
+    SQLiteStatement statement;
+
+    data_base.Prepare(statement, select);
+
+    QVector<Rule> result;
+
+    while (data_base.Step(statement))
+    {
+        result.push_back(Rule(statement.GetInt(0), statement.GetText(1), statement.GetInt(2)));
+    }
+
+    return result;
 }

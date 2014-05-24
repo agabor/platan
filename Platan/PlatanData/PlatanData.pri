@@ -25,7 +25,8 @@ HEADERS += \
     ../Platan/PlatanData/statements.h \
     ../Platan/PlatanData/statementtablemodel.h \
     ../Platan/PlatanData/tabletransformer.h \
-    ../Platan/PlatanData/csvanalyser.h
+    ../Platan/PlatanData/csvanalyser.h \
+    PlatanData/rule.h
 
 unix:!symbian {
     maemo5 {

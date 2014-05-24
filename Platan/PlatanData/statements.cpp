@@ -18,6 +18,9 @@
 
 using namespace std;
 
+const CategoryList Statements::categoryList;
+const ColumnList Statements::columnList;
+
 std::vector<StatementRow> Statements::GetStatements()
 {
     return statements;
@@ -45,38 +48,43 @@ std::vector<StatementExtractRow> Statements::GetStatementsForClass(int class_idx
 
 void Statements::SetTimeInterval(QDate start_date, QDate end_date)
 {
-    data_base.SetTimeInterval(start_date, end_date);
+    data_base.setTimeInterval(start_date, end_date);
 }
 
 
 void Statements::UnsetTimeInterval()
 {
-    data_base.UnsetTimeInterval();
+    data_base.unsetTimeInterval();
 }
 
 
 void Statements::GetCalssification(QMap<int, float> &result)
 {
-    data_base.GetCalssification(result);
+    data_base.getCalssification(result);
 }
 
 
 void Statements::Open(QString data_base_path)
 {
-    data_base.SetPath(data_base_path);
-    data_base.ReadData(statements);
+    data_base.setPath(data_base_path);
+    data_base.readData(statements);
 }
 
 void Statements::New(QString data_base_path)
 {
-    data_base.Create(data_base_path);
+    data_base.create(data_base_path);
 }
 
 
 void Statements::InsertData(StatementTableModel &model)
 {
-    data_base.InsertData(model);
-    data_base.Classify();
-    data_base.ReadData(statements);
+    data_base.insertData(model);
+    data_base.classify();
+    data_base.readData(statements);
     emit dataChanged();
+}
+
+QVector<Rule> Statements::getRules()
+{
+    return data_base.getRules();
 }

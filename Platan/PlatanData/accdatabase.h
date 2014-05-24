@@ -25,27 +25,29 @@
 #include <QDate>
 #include "sqlitedb.h"
 #include <sqlitedate.h>
+#include <rule.h>
 
 class AccDataBase
 {
 public:
     AccDataBase();
     ~AccDataBase();
-    void SetPath(QString data_base_path);
-    void Create(QString data_base_path);
-    void InsertData(StatementTableModel &model);
-    void ReadData(std::vector<StatementRow> &model, bool only_unclassified = false);
-    void GetCalssification(QMap<int, float> &result);
-    void GetClasses(QString lan, QMap<int, QString> &classes);
-    void InsertRule(int column, QString value, int Class);
-    void SetTimeInterval(QDate start_date, QDate end_date);
-    void UnsetTimeInterval();
-    void Classify();
+    void setPath(QString data_base_path);
+    void create(QString data_base_path);
+    void insertData(StatementTableModel &model);
+    void readData(std::vector<StatementRow> &model, bool only_unclassified = false);
+    void getCalssification(QMap<int, float> &result);
+    void getClasses(QString lan, QMap<int, QString> &classes);
+    void insertRule(Rule rule);
+    void setTimeInterval(QDate start_date, QDate end_date);
+    void unsetTimeInterval();
+    QVector<Rule> getRules(int column = -1);
+    void classify();
 protected:
     SQLiteDB data_base;
     SQLiteDate start_date, end_date;
     bool time_interval_set;
-    void SetTimeInterval(SQLSelect &select);
+    void setTimeInterval(SQLSelect &select);
 };
 
 #endif // ACCDATABASE_H

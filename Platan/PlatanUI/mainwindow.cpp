@@ -31,6 +31,9 @@
 #include "ui_mainwindow.h"
 #include "mainapplication.h"
 #include "pythonide.h"
+#include <rulewidget.h>
+#include <QVBoxLayout>
+#include <QGroupBox>
 
 MainWindow::MainWindow(MainApplication * const application, Statements &statements, QWidget *parent) :
     QMainWindow(parent),
@@ -62,6 +65,16 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     }
 
     connect(&statements,SIGNAL(dataChanged()), this, SLOT(refreshStatements()));
+
+    QGroupBox *groupBox = new QGroupBox(ui->scrollArea);
+    ui->scrollArea->setWidget(groupBox);
+    auto layout = new QVBoxLayout(groupBox);
+    for(Rule rule : statements.getRules())
+    {
+        auto rw = new RuleWidget(ui->scrollArea);
+        rw->setRule(rule);
+        layout->addWidget(rw);
+    }
 }
 
 void MainWindow::SetStatements()
@@ -140,21 +153,9 @@ void MainWindow::InitChart()
 
 void MainWindow::setClassNames(QMap<int, QString> &class_names)
 {
-    class_names.insert(0, tr("Undefined"));
-    class_names.insert(1, tr("Food"));
-    class_names.insert(2, tr("Clothes"));
-    class_names.insert(3, tr("Housing"));
-    class_names.insert(4, tr("Public transportation"));
-    class_names.insert(5, tr("House costs"));
-    class_names.insert(6, tr("Electronics"));
-    class_names.insert(7, tr("Cash"));
-    class_names.insert(8, tr("Furniture"));
-    class_names.insert(9, tr("Restaurant"));
-    class_names.insert(10, tr("Sport"));
-    class_names.insert(11, tr("Insurance"));
-    class_names.insert(12, tr("Bank"));
-    class_names.insert(13, tr("Drogstore"));
-    class_names.insert(14, tr("Mobil"));
+    int i = 0;
+    for(QString category : Statements::categoryList)
+        class_names.insert(i++, category);
 }
 
 void MainWindow::InitLegend()

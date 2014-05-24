@@ -21,7 +21,8 @@ SOURCES += \
     PlatanUI/csvconfigwidget.cpp \
     PlatanUI/csvpropertieswidget.cpp \
     PlatanUI/csvimportwidget.cpp \
-    PlatanUI/columnpropertieswidget.cpp
+    PlatanUI/columnpropertieswidget.cpp \
+    PlatanUI/rulewidget.cpp
 
 HEADERS  += \
     PlatanUI/mainwindow.h \
@@ -47,7 +48,8 @@ HEADERS  += \
     PlatanUI/csvconfigwidget.h \
     PlatanUI/csvpropertieswidget.h \
     PlatanUI/csvimportwidget.h \
-    PlatanUI/columnpropertieswidget.h
+    PlatanUI/columnpropertieswidget.h \
+    PlatanUI/rulewidget.h
 
 FORMS    += \
     PlatanUI/mainwindow.ui \
