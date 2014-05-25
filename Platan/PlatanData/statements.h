@@ -74,7 +74,8 @@ class Statements : public QObject
 public:
     static const CategoryList categoryList;
     static const ColumnList columnList;
-    std::vector<StatementRow> GetStatements();
+    QVector<StatementRow> GetStatements();
+    QVector<StatementRow> GetUncategorisedStatements();
     std::vector<StatementExtractRow> GetStatementsForClass(int class_idx);
     void SetTimeInterval(QDate start_date, QDate end_date);
     void UnsetTimeInterval();
@@ -83,13 +84,14 @@ public:
     void New(QString data_base_path);
     void GetClasses(QString lan, QMap<int, QString> &classes);
     void InsertData(StatementTableModel &model);
+    void InsertRule(Rule rule);
     QVector<Rule> getRules();
 signals:
     void dataChanged();
 private:
     AccDataBase data_base;
     std::map<int, std::unique_ptr<StatementExtractTableModel>> class_statements;
-    std::vector<StatementRow> statements;
+    QVector<StatementRow> statements;
 };
 
 #endif // STATEMENTS_H

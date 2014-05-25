@@ -21,9 +21,22 @@ using namespace std;
 const CategoryList Statements::categoryList;
 const ColumnList Statements::columnList;
 
-std::vector<StatementRow> Statements::GetStatements()
+QVector<StatementRow> Statements::GetStatements()
 {
     return statements;
+}
+
+QVector<StatementRow> Statements::GetUncategorisedStatements()
+{
+    QVector<StatementRow> result;
+    for(const StatementRow &row : statements)
+    {
+        if (row.Class == 0)
+        {
+            result.push_back(row);
+        }
+    }
+    return result;
 }
 
 std::vector<StatementExtractRow> Statements::GetStatementsForClass(int class_idx)
@@ -79,6 +92,14 @@ void Statements::New(QString data_base_path)
 void Statements::InsertData(StatementTableModel &model)
 {
     data_base.insertData(model);
+    data_base.classify();
+    data_base.readData(statements);
+    emit dataChanged();
+}
+
+void Statements::InsertRule(Rule rule)
+{
+    data_base.insertRule(rule);
     data_base.classify();
     data_base.readData(statements);
     emit dataChanged();

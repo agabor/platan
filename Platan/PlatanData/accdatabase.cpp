@@ -74,7 +74,7 @@ void AccDataBase::insertData(StatementTableModel &model)
 }
 
 
-void AccDataBase::readData(std::vector<StatementRow> &model, bool only_unclassified)
+void AccDataBase::readData(QVector<StatementRow> &model, bool only_unclassified)
 {
     SQLiteStatement statement;
 

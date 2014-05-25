@@ -11,6 +11,7 @@ RuleWidget::RuleWidget(Rule _rule, QWidget *parent) :
     auto layout = new QHBoxLayout(this);
     layout->addWidget(new QLabel(ifStr() + condition(rule) + thenStr(), this));
     setCategories();
+    category->setEnabled(false);
 }
 
 RuleWidget::RuleWidget(QWidget *parent) :
@@ -22,7 +23,35 @@ RuleWidget::RuleWidget(QWidget *parent) :
     layout->addWidget(column);
     layout->addWidget(new QLabel(thenStr(), this));
     setCategories();
+    connect(column, SIGNAL(currentIndexChanged(int)), this, SLOT(columnChanged(int)));
 }
+
+void RuleWidget::setRow(StatementRow _row)
+{
+    row = _row;
+    column->clear();
+    int idx = 0;
+    for(QString columnName : Statements::columnList)
+        column->addItem(columnName + tr(" is ") + row.at(idx++).toString());
+    columnChanged(column->currentIndex());
+}
+
+Rule RuleWidget::getRule() const
+{
+    return rule;
+}
+
+void RuleWidget::categoryChanged(int idx)
+{
+    rule.category = idx;
+}
+
+void RuleWidget::columnChanged(int idx)
+{
+    rule.column = idx;
+    rule.value = row.at(idx).toString();
+}
+
 
 void RuleWidget::setCategories()
 {
@@ -30,6 +59,7 @@ void RuleWidget::setCategories()
     category->addItems(Statements::categoryList);
     category->setCurrentIndex(rule.category);
     layout()->addWidget(category);
+    connect(category, SIGNAL(currentIndexChanged(int)), this, SLOT(categoryChanged(int)));
 }
 
 QString RuleWidget::condition(Rule rule)

@@ -92,6 +92,7 @@ private:
     MultiColorPalette palette;
     std::unique_ptr<QStatemenView> unclassified_table;
     MainApplication const * application;
+    StatementTableModel* uncategorisedTableModel;
 };
 
 #endif // MAINWINDOW_H

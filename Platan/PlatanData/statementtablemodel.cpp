@@ -18,7 +18,7 @@
 #include <sstream>
 
 
-StatementTableModel::StatementTableModel(std::vector<StatementRow> rows, QObject *parent) :
+StatementTableModel::StatementTableModel(QVector<StatementRow> rows, QObject *parent) :
     QAbstractTableModel(parent)
 {
     for (auto &r : rows)

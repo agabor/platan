@@ -19,6 +19,8 @@
 
 #include <QDialog>
 #include <QMap>
+#include <statementrow.h>
+#include <rule.h>
 
 namespace Ui {
 class AddRuleDialog;
@@ -29,17 +31,15 @@ class AddRuleDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit AddRuleDialog(QMap<int, QString> classes, QWidget *parent = 0);
+    explicit AddRuleDialog(QWidget *parent = 0);
     ~AddRuleDialog();
-    int Class() const;
+    Rule getRule() const;
     QString name() const;
-    bool ok() const;
-private slots:
-    void on_AddRuleDialog_accepted();
+    void setRow(StatementRow row);
+
 
 private:
     Ui::AddRuleDialog *ui;
-    bool accepted;
 };
 
 #endif // ADDRULEDIALOG_H

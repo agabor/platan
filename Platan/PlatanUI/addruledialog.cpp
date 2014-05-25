@@ -17,12 +17,11 @@
 #include "addruledialog.h"
 #include "ui_addruledialog.h"
 
-AddRuleDialog::AddRuleDialog(QMap<int, QString> classes, QWidget *parent) :
+AddRuleDialog::AddRuleDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddRuleDialog)
 {
     ui->setupUi(this);
-    accepted = false;
 }
 
 AddRuleDialog::~AddRuleDialog()
@@ -30,9 +29,9 @@ AddRuleDialog::~AddRuleDialog()
     delete ui;
 }
 
-int AddRuleDialog::Class() const
+Rule AddRuleDialog::getRule() const
 {
-    return 0;
+    return ui->ruleWidget->getRule();
 }
 
 QString AddRuleDialog::name() const
@@ -40,12 +39,7 @@ QString AddRuleDialog::name() const
     return QString();
 }
 
-bool AddRuleDialog::ok() const
+void AddRuleDialog::setRow(StatementRow row)
 {
-  return accepted;
-}
-
-void AddRuleDialog::on_AddRuleDialog_accepted()
-{
-    accepted = true;
+    ui->ruleWidget->setRow(row);
 }

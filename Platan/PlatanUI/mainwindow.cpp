@@ -190,7 +190,8 @@ void MainWindow::sliceClicked(int idx)
         if (class_idx == 0)
         {
             class_table = unclassified_table.get();
-            class_table->setModel(new StatementTableModel(statements.GetStatements(), class_table));
+            uncategorisedTableModel = new StatementTableModel(statements.GetUncategorisedStatements(), class_table);
+            class_table->setModel(uncategorisedTableModel);
             connect(unclassified_table.get(), SIGNAL(SetClass(QModelIndex)), this, SLOT(doubleClicked(QModelIndex)));
         } else
         {
@@ -235,16 +236,14 @@ void MainWindow::doubleClicked( QModelIndex  index)
 {
     if (index.column() != 4 && index.column() != 1)
         return;
-    QMap<int, QString> class_names;
-    setClassNames(class_names);
-    AddRuleDialog ard(class_names);
-    ard.exec();
 
-    if (!ard.ok())
+    AddRuleDialog ard;
+    ard.setRow(uncategorisedTableModel->row(index.row()));
+
+    if (QDialog::Accepted != ard.exec())
         return;
 
-    const int type = index.column() == 4 ? 0 : 1;
-    //db->InsertRule(type, index.column(), unclassified_statements->data(index,Qt::DisplayRole).toString(), ard.Class(), ard.name());
+    statements.InsertRule(ard.getRule());
 }
 
 void MainWindow::on_actionPythonConsole_triggered()

@@ -22,7 +22,7 @@ shared_ptr<StatementTableModel> TableTransformer::transform(QAbstractTableModel 
     for (TransformationBase *tr : transformations)
         tr->clearErrorList();
 
-    vector<StatementRow> rows;
+    QVector<StatementRow> rows;
     for(int r = 0; r < model->rowCount(); ++r)
     {
         StatementRow row;
