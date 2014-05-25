@@ -27,6 +27,8 @@ CSVImportWidget::CSVImportWidget(QWidget *parent) :
     mainLayount->addWidget(columnPropertiesWidget);
     tableView = new QTableView(this);
     mainLayount->addWidget(tableView);
+    tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    tableView->setSelectionBehavior(QAbstractItemView::SelectColumns);
     connect(columnPropertiesWidget, SIGNAL(typeChanged(ColumnType)), this, SLOT(typeChanged(ColumnType)));
     connect(columnPropertiesWidget, SIGNAL(separatorChanged(char)), this, SLOT(separatorChanged(char)));
     connect(columnPropertiesWidget, SIGNAL(formatChanged(DateOrder)), this, SLOT(dateOrderChanged(DateOrder)));

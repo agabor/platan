@@ -86,6 +86,8 @@ private slots:
 
     void onTabChanged(int idx);
 
+    void on_actionSet_category_triggered();
+
 private:
 
     Ui::MainWindow *ui;

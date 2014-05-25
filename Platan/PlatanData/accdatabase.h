@@ -39,6 +39,7 @@ public:
     void getCalssification(QMap<int, float> &result);
     void getClasses(QString lan, QMap<int, QString> &classes);
     void insertRule(Rule rule);
+    void setCategory(StatementRow &row, int category);
     void setTimeInterval(QDate start_date, QDate end_date);
     void unsetTimeInterval();
     QVector<Rule> getRules(int column = -1);

@@ -94,6 +94,13 @@ void Statements::refreshTableModels()
         initClassStatements(classIdx);
 }
 
+void Statements::setCategory(StatementRow &row, int category)
+{
+    data_base.setCategory(row, category);
+    data_base.readData(*this);
+    refreshTableModels();
+}
+
 void Statements::SetTimeInterval(QDate start_date, QDate end_date)
 {
     data_base.setTimeInterval(start_date, end_date);

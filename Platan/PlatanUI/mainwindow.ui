@@ -217,6 +217,9 @@
    <property name="toolTip">
     <string>Set category</string>
    </property>
+   <property name="shortcut">
+    <string>Right</string>
+   </property>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

@@ -25,7 +25,6 @@ class SQLiteStatement
 {
 public:
     SQLiteStatement();
-    ~SQLiteStatement();
     int GetInt(int idx);
     double GetDouble(int idx);
     QString GetText(int idx);

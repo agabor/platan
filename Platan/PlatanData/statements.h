@@ -88,6 +88,7 @@ public:
     QVector<Rule> getRules();
     void initClassStatements(int classIdx);
     void refreshTableModels();
+    void setCategory(StatementRow &row, int category);
 signals:
     void dataChanged();
 private:

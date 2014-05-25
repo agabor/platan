@@ -23,6 +23,8 @@
 QStatemenView::QStatemenView(QWidget *parent) :
     QTableView(parent)
 {
+    setSelectionMode(QAbstractItemView::SingleSelection);
+    setSelectionBehavior(QAbstractItemView::SelectRows);
 }
 
 void QStatemenView::mouseReleaseEvent(QMouseEvent *ev)

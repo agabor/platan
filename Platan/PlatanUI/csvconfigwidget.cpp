@@ -34,6 +34,8 @@ CSVConfigWidget::CSVConfigWidget(QWidget *parent) :
     connect(CSVReaderProperties, SIGNAL(readerParametersChanged()), this, SLOT(readCSV()));
 
     tableView = new QTableView(this);
+    tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+    tableView->setSelectionBehavior(QAbstractItemView::SelectColumns);
     mainLayout->addWidget(tableView);
 }
 

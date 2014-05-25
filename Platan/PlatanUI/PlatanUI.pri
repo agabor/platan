@@ -22,7 +22,8 @@ SOURCES += \
     PlatanUI/csvpropertieswidget.cpp \
     PlatanUI/csvimportwidget.cpp \
     PlatanUI/columnpropertieswidget.cpp \
-    PlatanUI/rulewidget.cpp
+    PlatanUI/rulewidget.cpp \
+    PlatanUI/setcategorydialog.cpp
 
 HEADERS  += \
     PlatanUI/mainwindow.h \
@@ -49,7 +50,8 @@ HEADERS  += \
     PlatanUI/csvpropertieswidget.h \
     PlatanUI/csvimportwidget.h \
     PlatanUI/columnpropertieswidget.h \
-    PlatanUI/rulewidget.h
+    PlatanUI/rulewidget.h \
+    PlatanUI/setcategorydialog.h
 
 FORMS    += \
     PlatanUI/mainwindow.ui \
@@ -58,7 +60,8 @@ FORMS    += \
     PlatanUI/choosedatedialog.ui \
     PlatanUI/pythonide.ui \
     PlatanUI/helpwindow.ui \
-    PlatanUI/projectswindow.ui
+    PlatanUI/projectswindow.ui \
+    PlatanUI/setcategorydialog.ui
 
 RESOURCES += \
     PlatanUI/icons.qrc

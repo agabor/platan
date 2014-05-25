@@ -120,7 +120,7 @@ void StatementTableModel::setData(QVector<StatementRow> rows)
     emit layoutChanged ();
 }
 
-StatementRow StatementTableModel::row(int idx)
+StatementRow& StatementTableModel::row(int idx)
 {
     return Rows[idx];
 }

@@ -170,16 +170,20 @@ void AccDataBase::setTimeInterval(SQLSelect &select)
 
 void AccDataBase::insertRule(Rule rule)
 {
-    data_base.BeginTransaction();
-
     SQLInsert insert("rules");
     insert.set("Column", rule.column);
     insert.set("Value", rule.value);
     insert.set("Class", rule.category);
 
     data_base.Execute(insert);
+}
 
-    data_base.EndTransaction();
+void AccDataBase::setCategory(StatementRow &row, int category)
+{
+    SQLUpdate update("statements");
+    update.set("Class", category);
+    update.where(QString("ID = %1").arg(row.id));
+    data_base.Execute(update);
 }
 
 void AccDataBase::setTimeInterval(QDate start_date, QDate end_date)

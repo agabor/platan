@@ -34,6 +34,7 @@
 #include <rulewidget.h>
 #include <QVBoxLayout>
 #include <QGroupBox>
+#include <setcategorydialog.h>
 
 MainWindow::MainWindow(MainApplication * const application, Statements &statements, QWidget *parent) :
     QMainWindow(parent),
@@ -82,7 +83,7 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     uncategorisedTableModel = nullptr;
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
     unclassifiedTable->addAction(ui->actionAdd_rule);
-    unclassifiedTable->addAction(ui->actionsetCategory);
+    unclassifiedTable->addAction(ui->actionSet_category);
 }
 
 
@@ -268,9 +269,22 @@ void MainWindow::onTabChanged(int idx)
     if (uc_idx == -1)
     {
         ui->actionAdd_rule->setEnabled(false);
-        ui->actionsetCategory->setEnabled(false);
+        ui->actionSet_category->setEnabled(false);
         return;
     }
     ui->actionAdd_rule->setEnabled(uc_idx == idx);
-    ui->actionsetCategory->setEnabled(uc_idx == idx);
+    ui->actionSet_category->setEnabled(uc_idx == idx);
+}
+
+void MainWindow::on_actionSet_category_triggered()
+{
+    QModelIndex index = unclassifiedTable->currentIndex();
+    if (!index.isValid())
+        return;
+    SetCategoryDialog d;
+
+    if (QDialog::Accepted != d.exec())
+        return;
+
+    statements.setCategory(uncategorisedTableModel->row(index.row()), d.category());
 }

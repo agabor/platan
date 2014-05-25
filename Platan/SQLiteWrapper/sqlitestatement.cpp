@@ -26,11 +26,6 @@ SQLiteStatement::SQLiteStatement()
 {
 }
 
-SQLiteStatement::~SQLiteStatement()
-{
-    //delete statement;
-}
-
 int SQLiteStatement::GetInt(int idx)
 {
     return statement.value(idx).toInt();
