@@ -14,6 +14,7 @@ public:
     explicit RuleWidget(Rule _rule, QWidget *parent = 0);
     explicit RuleWidget(QWidget *parent = 0);
     void setRow(StatementRow _row);
+    void setColumn(int idx);
     Rule getRule() const;
 private slots:
     void categoryChanged(int idx);

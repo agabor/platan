@@ -36,6 +36,7 @@ public:
     Rule getRule() const;
     QString name() const;
     void setRow(StatementRow row);
+    void setColumn(int idx);
 
 
 private:

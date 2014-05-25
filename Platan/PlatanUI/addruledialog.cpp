@@ -43,3 +43,8 @@ void AddRuleDialog::setRow(StatementRow row)
 {
     ui->ruleWidget->setRow(row);
 }
+
+void AddRuleDialog::setColumn(int idx)
+{
+    ui->ruleWidget->setColumn(idx);
+}

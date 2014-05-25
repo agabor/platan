@@ -254,6 +254,7 @@ void MainWindow::on_actionAdd_rule_triggered()
         return;
     AddRuleDialog ard;
     ard.setRow(uncategorisedTableModel->row(index.row()));
+    ard.setColumn(index.column());
 
     if (QDialog::Accepted != ard.exec())
         return;

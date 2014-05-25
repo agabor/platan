@@ -41,6 +41,11 @@ void RuleWidget::setRow(StatementRow _row)
     columnChanged(column->currentIndex());
 }
 
+void RuleWidget::setColumn(int idx)
+{
+    column->setCurrentIndex(idx);
+}
+
 Rule RuleWidget::getRule() const
 {
     return rule;
