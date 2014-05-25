@@ -73,7 +73,6 @@ private slots:
 
 
     void onUnsetDateRange();
-    void doubleClicked(QModelIndex index);
 
     void on_actionPythonConsole_triggered();
 
@@ -82,6 +81,10 @@ private slots:
     void refreshChart();
 
     void on_actionImport_Bank_Statements_triggered();
+
+    void on_actionAdd_rule_triggered();
+
+    void onTabChanged(int idx);
 
 private:
 

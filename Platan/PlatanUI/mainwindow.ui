@@ -75,8 +75,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>98</width>
-             <height>28</height>
+             <width>746</width>
+             <height>391</height>
             </rect>
            </property>
           </widget>
@@ -119,6 +119,9 @@
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -131,6 +134,7 @@
    <addaction name="actionHome"/>
    <addaction name="actionImport_Bank_Statements"/>
    <addaction name="actionPythonConsole"/>
+   <addaction name="actionAdd_rule"/>
   </widget>
   <action name="actionHome">
    <property name="icon">
@@ -181,6 +185,21 @@
    </property>
    <property name="text">
     <string>Import Bank Statements</string>
+   </property>
+  </action>
+  <action name="actionAdd_rule">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/emblem-system.png</normaloff>:/icons/icons/emblem-system.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add rule</string>
+   </property>
+   <property name="shortcut">
+    <string>+</string>
    </property>
   </action>
  </widget>

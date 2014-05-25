@@ -41,7 +41,7 @@ void MainTabWidget::openLastTab()
     setCurrentIndex(count()-1);
 }
 
-bool MainTabWidget::isOpen(QString name)
+bool MainTabWidget::isOpen(QString name) const
 {
     for(int i = 0; i < count(); ++i)
     {
@@ -49,6 +49,16 @@ bool MainTabWidget::isOpen(QString name)
             return true;
     }
     return false;
+}
+
+int MainTabWidget::getIndex(QString name) const
+{
+    for(int i = 0; i < count(); ++i)
+    {
+        if (tabBar()->tabText(i) == name)
+            return i;
+    }
+    return -1;
 }
 
 void MainTabWidget::closeTab(int idx)

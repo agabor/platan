@@ -80,6 +80,7 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     }
 
     uncategorisedTableModel = nullptr;
+    connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
 }
 
 
@@ -187,7 +188,6 @@ void MainWindow::sliceClicked(int idx)
         {
             uncategorisedTableModel = statements.getUncategorisedStatements();
             unclassified_table->setModel(uncategorisedTableModel.get());
-            connect(unclassified_table.get(), SIGNAL(SetClass(QModelIndex)), this, SLOT(doubleClicked(QModelIndex)));
             class_table = unclassified_table.get();
         } else
         {
@@ -226,21 +226,6 @@ void MainWindow::onUnsetDateRange()
 }
 
 
-
-void MainWindow::doubleClicked( QModelIndex  index)
-{
-    if (index.column() != 4 && index.column() != 1)
-        return;
-
-    AddRuleDialog ard;
-    ard.setRow(uncategorisedTableModel->row(index.row()));
-
-    if (QDialog::Accepted != ard.exec())
-        return;
-
-    statements.InsertRule(ard.getRule());
-}
-
 void MainWindow::on_actionPythonConsole_triggered()
 {
     application->getPythonConsole()->show();
@@ -256,4 +241,29 @@ void MainWindow::on_actionImport_Bank_Statements_triggered()
     ImportDialog id(this, fileName);
     if (id.exec() == QDialog::Accepted)
         statements.InsertData(*id.getModel().get());
+}
+
+void MainWindow::on_actionAdd_rule_triggered()
+{
+    QModelIndex index = unclassified_table->currentIndex();
+    if (!index.isValid())
+        return;
+    AddRuleDialog ard;
+    ard.setRow(uncategorisedTableModel->row(index.row()));
+
+    if (QDialog::Accepted != ard.exec())
+        return;
+
+    statements.InsertRule(ard.getRule());
+}
+
+void MainWindow::onTabChanged(int idx)
+{
+    int uc_idx = ui->tabWidget->getIndex(Statements::categoryList.at(0));
+    if (uc_idx == -1)
+    {
+        ui->actionAdd_rule->setEnabled(false);
+        return;
+    }
+    ui->actionAdd_rule->setEnabled(uc_idx == idx);
 }

@@ -29,7 +29,8 @@ public:
     void addTableViewTab(QTableView *table_view, const QString &name);
     void removeCloseButtons();
     void openLastTab();
-    bool isOpen(QString name);
+    bool isOpen(QString name) const;
+    int getIndex(QString name) const;
 private slots:
     void closeTab(int idx);
 };

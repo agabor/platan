@@ -13,5 +13,7 @@
         <file>icons/system-log-out.png</file>
         <file>icons/edit-delete.png</file>
         <file>icons/document-import.png</file>
+        <file>icons/system-exit.png</file>
+        <file>icons/emblem-system.png</file>
     </qresource>
 </RCC>
