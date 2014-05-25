@@ -32,7 +32,12 @@ void RuleWidget::setRow(StatementRow _row)
     column->clear();
     int idx = 0;
     for(QString columnName : Statements::columnList)
-        column->addItem(columnName + tr(" is ") + row.at(idx++).toString());
+    {
+        QString value = row.at(idx++).toString();
+        if (value.length() > 20)
+            value = value.left(17) + "...";
+        column->addItem(columnName + tr(" is ") + value);
+    }
     columnChanged(column->currentIndex());
 }
 
