@@ -21,53 +21,92 @@ using namespace std;
 const CategoryList Statements::categoryList;
 const ColumnList Statements::columnList;
 
-QVector<StatementRow> Statements::GetStatements()
-{
-    return statements;
-}
 
-QVector<StatementRow> Statements::GetUncategorisedStatements()
+void Statements::initUncategorisedStatements()
 {
     QVector<StatementRow> result;
-    for(const StatementRow &row : statements)
+    for(const StatementRow &row : *this)
     {
         if (row.Class == 0)
         {
             result.push_back(row);
         }
     }
-    return result;
+    if (uncategorisedStatements.get() == nullptr)
+        uncategorisedStatements.reset(new StatementTableModel(result));
+    else
+        uncategorisedStatements->setData(result);
 }
 
-QVector<StatementExtractRow> Statements::GetStatementsForClass(int class_idx)
+void Statements::initAllStatements()
 {
-  QVector<StatementExtractRow> result;
-
-  for(const StatementRow &row : statements)
-  {
-      if (row.Class == class_idx)
-      {
-          StatementExtractRow extract_row;
-          extract_row.Ammount = row.Amount;
-          extract_row.Date = row.Date;
-          extract_row.Payee = row.Payee;
-          result.push_back(extract_row);
-      }
-  }
-
-  return result;
+    if (allStatements.get() == nullptr)
+        allStatements.reset(new StatementTableModel(*this));
+    else
+        allStatements->setData(*this);
 }
 
+std::shared_ptr<StatementTableModel> Statements::getUncategorisedStatements()
+{
+    initUncategorisedStatements();
+    return uncategorisedStatements;
+}
+
+std::shared_ptr<StatementTableModel> Statements::getAllStatements()
+{
+    initAllStatements();
+    return allStatements;
+}
+
+void Statements::initClassStatements(int classIdx)
+{
+    QVector<StatementExtractRow> result;
+
+    for(const StatementRow &row : *this)
+    {
+        if (row.Class == classIdx)
+        {
+            StatementExtractRow extract_row;
+            extract_row.Ammount = row.Amount;
+            extract_row.Date = row.Date;
+            extract_row.Payee = row.Payee;
+            result.push_back(extract_row);
+        }
+    }
+    if (classStatements.find(classIdx) == classStatements.end())
+        classStatements[classIdx] = std::shared_ptr<StatementExtractTableModel>(new StatementExtractTableModel(result));
+    else
+        classStatements[classIdx]->setData(result);
+}
+
+std::shared_ptr<StatementExtractTableModel> Statements::getStatementsForClass(int classIdx)
+{
+    initClassStatements(classIdx);
+    return classStatements[classIdx];
+}
+
+
+void Statements::refreshTableModels()
+{
+    initUncategorisedStatements();
+    initAllStatements();
+    for(int classIdx : classStatements.keys())
+        initClassStatements(classIdx);
+}
 
 void Statements::SetTimeInterval(QDate start_date, QDate end_date)
 {
     data_base.setTimeInterval(start_date, end_date);
+    data_base.readData(*this);
+    refreshTableModels();
 }
 
 
 void Statements::UnsetTimeInterval()
 {
     data_base.unsetTimeInterval();
+    data_base.readData(*this);
+    refreshTableModels();
 }
 
 
@@ -80,7 +119,7 @@ void Statements::GetCalssification(QMap<int, float> &result)
 void Statements::Open(QString data_base_path)
 {
     data_base.setPath(data_base_path);
-    data_base.readData(statements);
+    data_base.readData(*this);
 }
 
 void Statements::New(QString data_base_path)
@@ -93,7 +132,7 @@ void Statements::InsertData(StatementTableModel &model)
 {
     data_base.insertData(model);
     data_base.classify();
-    data_base.readData(statements);
+    data_base.readData(*this);
     emit dataChanged();
 }
 
@@ -101,7 +140,8 @@ void Statements::InsertRule(Rule rule)
 {
     data_base.insertRule(rule);
     data_base.classify();
-    data_base.readData(statements);
+    data_base.readData(*this);
+    initUncategorisedStatements();
     emit dataChanged();
 }
 

@@ -75,3 +75,9 @@ QVariant StatementExtractTableModel::headerData(int section, Qt::Orientation ori
 
     return QVariant::Invalid;
 }
+
+void StatementExtractTableModel::setData(QVector<StatementExtractRow> rows)
+{
+    Rows = rows;
+    emit layoutChanged();
+}

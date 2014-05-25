@@ -68,15 +68,15 @@ public:
 };
 
 
-class Statements : public QObject
+class Statements : public QObject, public QVector<StatementRow>
 {
     Q_OBJECT
 public:
     static const CategoryList categoryList;
     static const ColumnList columnList;
-    QVector<StatementRow> GetStatements();
-    QVector<StatementRow> GetUncategorisedStatements();
-    QVector<StatementExtractRow> GetStatementsForClass(int class_idx);
+    std::shared_ptr<StatementTableModel> getUncategorisedStatements();
+    std::shared_ptr<StatementTableModel> getAllStatements();
+    std::shared_ptr<StatementExtractTableModel> getStatementsForClass(int classIdx);
     void SetTimeInterval(QDate start_date, QDate end_date);
     void UnsetTimeInterval();
     void GetCalssification(QMap<int, float> &result);
@@ -86,12 +86,17 @@ public:
     void InsertData(StatementTableModel &model);
     void InsertRule(Rule rule);
     QVector<Rule> getRules();
+    void initClassStatements(int classIdx);
+    void refreshTableModels();
 signals:
     void dataChanged();
 private:
+    void initUncategorisedStatements();
+    void initAllStatements();
     AccDataBase data_base;
-    std::map<int, std::unique_ptr<StatementExtractTableModel>> class_statements;
-    QVector<StatementRow> statements;
+    QMap<int, std::shared_ptr<StatementExtractTableModel>> classStatements;
+    std::shared_ptr<StatementTableModel> uncategorisedStatements;
+    std::shared_ptr<StatementTableModel> allStatements;
 };
 
 #endif // STATEMENTS_H

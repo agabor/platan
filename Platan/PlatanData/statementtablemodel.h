@@ -32,12 +32,14 @@ public:
     int rowCount(const QModelIndex& parent) const;
     int rowCount() const;
     int columnCount(const QModelIndex& parent) const;
+    int columnCount() const;
     QVariant data(const QModelIndex& index, int role) const;
     StatementRow row(int idx);
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     std::pair<QDate, QDate> DateRange() const;
+    void setData(QVector<StatementRow> rows);
 protected:
-    std::vector<StatementRow> Rows;
+    QVector<StatementRow> Rows;
 };
 
 #endif // STATEMENTTABLEMODEL_H

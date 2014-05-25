@@ -57,9 +57,10 @@ public:
     void setDateRange(QDate start, QDate end);
 
     void setClassNames(QMap<int, QString> &classNames);
-    void setUncategorisedTable();
+
 public slots:
     void onDateRangeChanged(QDate start, QDate end);
+
 private slots:
 
     void on_actionClose_triggered();
@@ -84,16 +85,15 @@ private slots:
 
 private:
 
-    void SetStatements();
     Ui::MainWindow *ui;
-    std::vector<QDate> months;
+    QVector<QDate> months;
     Statements &statements;
     QMap<int, float> classes;
     QMap<int, QString> classNames;
     MultiColorPalette palette;
     std::unique_ptr<QStatemenView> unclassified_table;
     MainApplication const * application;
-    StatementTableModel* uncategorisedTableModel;
+    std::shared_ptr<StatementTableModel> uncategorisedTableModel;
 };
 
 #endif // MAINWINDOW_H

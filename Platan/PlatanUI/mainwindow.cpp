@@ -52,7 +52,12 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     palette.push_back(AnalogousColorPalette(0x7FBCE6, 55));
     palette.init(classes.size());
 
-    SetStatements();
+    auto model = statements.getAllStatements();
+
+    ui->statements_table->setModel(model.get());
+
+    auto range = model->DateRange();
+    ui->date_range->setInterval(range.first, range.second);
 
     connect(ui->date_range, SIGNAL(dateRangeChanged(QDate,QDate)), this, SLOT(onDateRangeChanged(QDate,QDate)));
     connect(ui->date_range, SIGNAL(unsetDateRange()), this, SLOT(onUnsetDateRange()));
@@ -73,16 +78,8 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     {
         layout->addWidget(new RuleWidget(rule,ui->scrollArea));
     }
-}
 
-void MainWindow::SetStatements()
-{
-    auto model = new StatementTableModel(statements.GetStatements());
-
-    ui->statements_table->setModel(model);
-
-    auto range = model->DateRange();
-    ui->date_range->setInterval(range.first, range.second);
+    uncategorisedTableModel = nullptr;
 }
 
 
@@ -179,14 +176,6 @@ void MainWindow::setDateRange(QDate start, QDate end)
     ui->date_range->setRange(start, end);
 }
 
-
-void MainWindow::setUncategorisedTable()
-{
-    uncategorisedTableModel = new StatementTableModel(statements.GetUncategorisedStatements(), this);
-    unclassified_table->setModel(uncategorisedTableModel);
-    connect(unclassified_table.get(), SIGNAL(SetClass(QModelIndex)), this, SLOT(doubleClicked(QModelIndex)));
-}
-
 void MainWindow::sliceClicked(int idx)
 {
     const int class_idx = classes.keys().at(idx);
@@ -196,12 +185,14 @@ void MainWindow::sliceClicked(int idx)
         QTableView *class_table;
         if (class_idx == 0)
         {
-            setUncategorisedTable();
+            uncategorisedTableModel = statements.getUncategorisedStatements();
+            unclassified_table->setModel(uncategorisedTableModel.get());
+            connect(unclassified_table.get(), SIGNAL(SetClass(QModelIndex)), this, SLOT(doubleClicked(QModelIndex)));
             class_table = unclassified_table.get();
         } else
         {
             class_table = new QTableView();
-            class_table->setModel(new StatementExtractTableModel(statements.GetStatementsForClass(class_idx), class_table));
+            class_table->setModel(statements.getStatementsForClass(class_idx).get());
         }
 
         ui->tabWidget->addTableViewTab(class_table, class_name);
@@ -211,10 +202,7 @@ void MainWindow::sliceClicked(int idx)
 
 void MainWindow::refreshStatements()
 {
-    SetStatements();
     refreshChart();
-    if (ui->tabWidget->isOpen(classNames[0]))
-        setUncategorisedTable();
 }
 
 void MainWindow::refreshChart()

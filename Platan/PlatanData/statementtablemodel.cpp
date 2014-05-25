@@ -21,13 +21,12 @@
 StatementTableModel::StatementTableModel(QVector<StatementRow> rows, QObject *parent) :
     QAbstractTableModel(parent)
 {
-    for (auto &r : rows)
-        Rows.push_back(r);
+    Rows = rows;
 }
 
 int StatementTableModel::rowCount(const QModelIndex& parent) const
 {
-    return Rows.size();
+    return rowCount();
 }
 
 int StatementTableModel::rowCount() const
@@ -37,8 +36,15 @@ int StatementTableModel::rowCount() const
 
 int StatementTableModel::columnCount(const QModelIndex& parent) const
 {
-    return Rows[0].size();
+    return columnCount();
 }
+
+
+int StatementTableModel::columnCount() const
+{
+    return StatementRow::size();
+}
+
 
 QVariant StatementTableModel::data(const QModelIndex& index, int role) const
 {
@@ -106,6 +112,12 @@ std::pair<QDate, QDate> StatementTableModel::DateRange() const
     }
 
     return std::pair<QDate, QDate>(min_date, max_date);
+}
+
+void StatementTableModel::setData(QVector<StatementRow> rows)
+{
+    Rows = rows;
+    emit layoutChanged ();
 }
 
 StatementRow StatementTableModel::row(int idx)

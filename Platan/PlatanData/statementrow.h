@@ -33,7 +33,7 @@ struct StatementRow
     float Amount;
     int Class;
 
-    int size() const
+    static int size()
     {
         return 6;
     }
