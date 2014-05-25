@@ -23,21 +23,13 @@
 QStatemenView::QStatemenView(QWidget *parent) :
     QTableView(parent)
 {
-    QAction* setClass = new QAction("Set class", this);
-    addAction(setClass);
-    connect(setClass, SIGNAL(triggered()), this, SLOT(onSetClass()));
 }
 
 void QStatemenView::mouseReleaseEvent(QMouseEvent *ev)
 {
+    if (ev->button() != Qt::RightButton)
+        return;
     QMenu MyMenu(this);
-    MyMenu.addActions(this->actions());
+    MyMenu.addActions(actions());
     MyMenu.exec(ev->globalPos());
 }
-
-void QStatemenView::onSetClass()
-{
-    QModelIndex index = selectionModel()->currentIndex();
-    emit SetClass(index);
-}
-

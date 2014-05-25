@@ -15,5 +15,6 @@
         <file>icons/document-import.png</file>
         <file>icons/system-exit.png</file>
         <file>icons/emblem-system.png</file>
+        <file>icons/go-jump.png</file>
     </qresource>
 </RCC>

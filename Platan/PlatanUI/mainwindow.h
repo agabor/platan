@@ -94,7 +94,7 @@ private:
     QMap<int, float> classes;
     QMap<int, QString> classNames;
     MultiColorPalette palette;
-    std::unique_ptr<QStatemenView> unclassified_table;
+    std::unique_ptr<QStatemenView> unclassifiedTable;
     MainApplication const * application;
     std::shared_ptr<StatementTableModel> uncategorisedTableModel;
 };

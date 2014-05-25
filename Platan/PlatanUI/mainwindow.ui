@@ -135,6 +135,7 @@
    <addaction name="actionImport_Bank_Statements"/>
    <addaction name="actionPythonConsole"/>
    <addaction name="actionAdd_rule"/>
+   <addaction name="actionSet_category"/>
   </widget>
   <action name="actionHome">
    <property name="icon">
@@ -200,6 +201,21 @@
    </property>
    <property name="shortcut">
     <string>+</string>
+   </property>
+  </action>
+  <action name="actionSet_category">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/go-jump.png</normaloff>:/icons/icons/go-jump.png</iconset>
+   </property>
+   <property name="text">
+    <string>Set category</string>
+   </property>
+   <property name="toolTip">
+    <string>Set category</string>
    </property>
   </action>
  </widget>

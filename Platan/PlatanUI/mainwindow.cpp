@@ -39,7 +39,7 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     statements(statements),
-    unclassified_table(new QStatemenView(this)),
+    unclassifiedTable(new QStatemenView(this)),
     application(application)
 {
     ui->setupUi(this);
@@ -81,6 +81,8 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
 
     uncategorisedTableModel = nullptr;
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
+    unclassifiedTable->addAction(ui->actionAdd_rule);
+    unclassifiedTable->addAction(ui->actionsetCategory);
 }
 
 
@@ -187,8 +189,8 @@ void MainWindow::sliceClicked(int idx)
         if (class_idx == 0)
         {
             uncategorisedTableModel = statements.getUncategorisedStatements();
-            unclassified_table->setModel(uncategorisedTableModel.get());
-            class_table = unclassified_table.get();
+            unclassifiedTable->setModel(uncategorisedTableModel.get());
+            class_table = unclassifiedTable.get();
         } else
         {
             class_table = new QTableView();
@@ -238,6 +240,8 @@ void MainWindow::on_actionImport_Bank_Statements_triggered()
                                                     "",
                                                     tr("Files (*.csv)"));
 
+    if (fileName.isEmpty())
+        return;
     ImportDialog id(this, fileName);
     if (id.exec() == QDialog::Accepted)
         statements.InsertData(*id.getModel().get());
@@ -245,7 +249,7 @@ void MainWindow::on_actionImport_Bank_Statements_triggered()
 
 void MainWindow::on_actionAdd_rule_triggered()
 {
-    QModelIndex index = unclassified_table->currentIndex();
+    QModelIndex index = unclassifiedTable->currentIndex();
     if (!index.isValid())
         return;
     AddRuleDialog ard;
@@ -263,7 +267,9 @@ void MainWindow::onTabChanged(int idx)
     if (uc_idx == -1)
     {
         ui->actionAdd_rule->setEnabled(false);
+        ui->actionsetCategory->setEnabled(false);
         return;
     }
     ui->actionAdd_rule->setEnabled(uc_idx == idx);
+    ui->actionsetCategory->setEnabled(uc_idx == idx);
 }

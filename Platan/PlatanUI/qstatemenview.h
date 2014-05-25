@@ -27,10 +27,6 @@ public:
 
 protected:
     virtual void mouseReleaseEvent ( QMouseEvent * ev );
-signals:
-    void SetClass(QModelIndex index);
-protected slots:
-    void onSetClass();
 };
 
 #endif // QSTATEMENVIEW_H
