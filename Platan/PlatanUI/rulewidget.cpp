@@ -52,7 +52,6 @@ void RuleWidget::columnChanged(int idx)
     rule.value = row.at(idx).toString();
 }
 
-
 void RuleWidget::setCategories()
 {
     category = new QComboBox(this);

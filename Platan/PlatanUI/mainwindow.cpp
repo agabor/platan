@@ -180,6 +180,13 @@ void MainWindow::setDateRange(QDate start, QDate end)
 }
 
 
+void MainWindow::setUncategorisedTable()
+{
+    uncategorisedTableModel = new StatementTableModel(statements.GetUncategorisedStatements(), this);
+    unclassified_table->setModel(uncategorisedTableModel);
+    connect(unclassified_table.get(), SIGNAL(SetClass(QModelIndex)), this, SLOT(doubleClicked(QModelIndex)));
+}
+
 void MainWindow::sliceClicked(int idx)
 {
     const int class_idx = classes.keys().at(idx);
@@ -189,10 +196,8 @@ void MainWindow::sliceClicked(int idx)
         QTableView *class_table;
         if (class_idx == 0)
         {
+            setUncategorisedTable();
             class_table = unclassified_table.get();
-            uncategorisedTableModel = new StatementTableModel(statements.GetUncategorisedStatements(), class_table);
-            class_table->setModel(uncategorisedTableModel);
-            connect(unclassified_table.get(), SIGNAL(SetClass(QModelIndex)), this, SLOT(doubleClicked(QModelIndex)));
         } else
         {
             class_table = new QTableView();
@@ -208,6 +213,8 @@ void MainWindow::refreshStatements()
 {
     SetStatements();
     refreshChart();
+    if (ui->tabWidget->isOpen(classNames[0]))
+        setUncategorisedTable();
 }
 
 void MainWindow::refreshChart()

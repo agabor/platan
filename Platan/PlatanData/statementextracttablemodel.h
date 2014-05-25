@@ -25,14 +25,14 @@ class StatementExtractTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    explicit StatementExtractTableModel(std::vector<StatementExtractRow> rows, QObject *parent = 0);
+    explicit StatementExtractTableModel(QVector<StatementExtractRow> rows, QObject *parent = 0);
     int rowCount(const QModelIndex& parent) const;
     int rowCount() const;
     int columnCount(const QModelIndex& parent) const;
     QVariant data(const QModelIndex& index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
 protected:
-    std::vector<StatementExtractRow> Rows;
+    QVector<StatementExtractRow> Rows;
 };
 
 #endif // STATEMENTEXTRACTTABLEMODEL_H

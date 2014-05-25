@@ -17,7 +17,7 @@
 #include "statementextracttablemodel.h"
 #include <sstream>
 
-StatementExtractTableModel::StatementExtractTableModel(std::vector<StatementExtractRow> rows, QObject *parent) :
+StatementExtractTableModel::StatementExtractTableModel(QVector<StatementExtractRow> rows, QObject *parent) :
     QAbstractTableModel(parent)
 {
     Rows = rows;

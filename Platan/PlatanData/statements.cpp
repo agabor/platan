@@ -39,9 +39,9 @@ QVector<StatementRow> Statements::GetUncategorisedStatements()
     return result;
 }
 
-std::vector<StatementExtractRow> Statements::GetStatementsForClass(int class_idx)
+QVector<StatementExtractRow> Statements::GetStatementsForClass(int class_idx)
 {
-  std::vector<StatementExtractRow> result;
+  QVector<StatementExtractRow> result;
 
   for(const StatementRow &row : statements)
   {

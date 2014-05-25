@@ -76,7 +76,7 @@ public:
     static const ColumnList columnList;
     QVector<StatementRow> GetStatements();
     QVector<StatementRow> GetUncategorisedStatements();
-    std::vector<StatementExtractRow> GetStatementsForClass(int class_idx);
+    QVector<StatementExtractRow> GetStatementsForClass(int class_idx);
     void SetTimeInterval(QDate start_date, QDate end_date);
     void UnsetTimeInterval();
     void GetCalssification(QMap<int, float> &result);

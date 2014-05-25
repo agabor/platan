@@ -76,6 +76,7 @@ void AccDataBase::insertData(StatementTableModel &model)
 
 void AccDataBase::readData(QVector<StatementRow> &model, bool only_unclassified)
 {
+    model.clear();
     SQLiteStatement statement;
 
     SQLSelect select{"statements"};

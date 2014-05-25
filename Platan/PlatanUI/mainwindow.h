@@ -57,6 +57,7 @@ public:
     void setDateRange(QDate start, QDate end);
 
     void setClassNames(QMap<int, QString> &classNames);
+    void setUncategorisedTable();
 public slots:
     void onDateRangeChanged(QDate start, QDate end);
 private slots:
