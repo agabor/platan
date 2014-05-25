@@ -133,6 +133,7 @@ void Statements::InsertData(StatementTableModel &model)
     data_base.insertData(model);
     data_base.classify();
     data_base.readData(*this);
+    refreshTableModels();
     emit dataChanged();
 }
 
@@ -141,7 +142,7 @@ void Statements::InsertRule(Rule rule)
     data_base.insertRule(rule);
     data_base.classify();
     data_base.readData(*this);
-    initUncategorisedStatements();
+    refreshTableModels();
     emit dataChanged();
 }
 
