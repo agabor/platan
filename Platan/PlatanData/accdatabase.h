@@ -35,7 +35,7 @@ public:
     void setPath(QString data_base_path);
     void create(QString data_base_path);
     void insertData(StatementTableModel &model);
-    void readData(QVector<StatementRow> &model, bool only_unclassified = false);
+    void readData(QVector<StatementRow> &model);
     void getCalssification(QMap<int, float> &result);
     void getClasses(QString lan, QMap<int, QString> &classes);
     void insertRule(Rule rule);

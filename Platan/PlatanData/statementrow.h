@@ -25,6 +25,7 @@
 
 struct StatementRow
 {
+    int id;
     SQLiteDate Date;
     QString Type;
     QString Description;

@@ -74,12 +74,13 @@ void AccDataBase::insertData(StatementTableModel &model)
 }
 
 
-void AccDataBase::readData(QVector<StatementRow> &model, bool only_unclassified)
+void AccDataBase::readData(QVector<StatementRow> &model)
 {
     model.clear();
     SQLiteStatement statement;
 
     SQLSelect select{"statements"};
+    select.field("ID");
     select.field("Date");
     select.field("Type");
     select.field("Description");
@@ -88,8 +89,6 @@ void AccDataBase::readData(QVector<StatementRow> &model, bool only_unclassified)
     select.field("Amount");
     select.field("Class");
     select.where("Amount < 0");
-    if (only_unclassified)
-        select.where("Class = 0");
     setTimeInterval(select);
 
     data_base.Prepare(statement, select);
@@ -97,13 +96,14 @@ void AccDataBase::readData(QVector<StatementRow> &model, bool only_unclassified)
     while (data_base.Step(statement))
     {
         StatementRow row;
-        row.Date = statement.GetDate(0);
-        row.Type = statement.GetText(1);
-        row.Description = statement.GetText(2);
-        row.Payee = statement.GetText(3);
-        row.PayeeAccount = statement.GetText(4);
-        row.Amount = statement.GetDouble(5);
-        row.Class = statement.GetInt(6);
+        row.id = statement.GetInt(0);
+        row.Date = statement.GetDate(1);
+        row.Type = statement.GetText(2);
+        row.Description = statement.GetText(3);
+        row.Payee = statement.GetText(4);
+        row.PayeeAccount = statement.GetText(5);
+        row.Amount = statement.GetDouble(6);
+        row.Class = statement.GetInt(7);
         model.push_back(row);
     }
 }
