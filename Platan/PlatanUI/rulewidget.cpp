@@ -26,7 +26,7 @@ RuleWidget::RuleWidget(QWidget *parent) :
     connect(column, SIGNAL(currentIndexChanged(int)), this, SLOT(columnChanged(int)));
 }
 
-void RuleWidget::setRow(StatementRow _row)
+void RuleWidget::setRow(Statement _row)
 {
     row = _row;
     column->clear();

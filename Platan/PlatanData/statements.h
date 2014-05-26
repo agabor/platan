@@ -17,7 +17,7 @@
 #ifndef STATEMENTS_H
 #define STATEMENTS_H
 
-#include "statementrow.h"
+#include "statement.h"
 #include "statementextractrow.h"
 #include "accdatabase.h"
 
@@ -68,7 +68,7 @@ public:
 };
 
 
-class Statements : public QObject, public QVector<StatementRow>
+class Statements : public QObject, public QVector<Statement>
 {
     Q_OBJECT
 public:
@@ -87,7 +87,7 @@ public:
     void InsertRule(Rule rule);
     void initClassStatements(int classIdx);
     void refreshTableModels();
-    void setCategory(StatementRow &row, int category);
+    void setCategory(Statement &row, int category);
 signals:
     void dataChanged();
 private:

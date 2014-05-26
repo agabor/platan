@@ -24,8 +24,8 @@ const ColumnList Statements::columnList;
 
 void Statements::initUncategorisedStatements()
 {
-    QVector<StatementRow> result;
-    for(const StatementRow &row : *this)
+    QVector<Statement> result;
+    for(const Statement &row : *this)
     {
         if (row.Class == 0)
         {
@@ -62,7 +62,7 @@ void Statements::initClassStatements(int classIdx)
 {
     QVector<StatementExtractRow> result;
 
-    for(const StatementRow &row : *this)
+    for(const Statement &row : *this)
     {
         if (row.Class == classIdx)
         {
@@ -94,7 +94,7 @@ void Statements::refreshTableModels()
         initClassStatements(classIdx);
 }
 
-void Statements::setCategory(StatementRow &row, int category)
+void Statements::setCategory(Statement &row, int category)
 {
     data_base.setCategory(row, category);
     data_base.readData(*this);

@@ -35,10 +35,10 @@ public:
     void setPath(QString data_base_path);
     void create(QString data_base_path);
     void insertData(StatementTableModel &model);
-    void readData(QVector<StatementRow> &model);
+    void readData(QVector<Statement> &model);
     void getCalssification(QMap<int, float> &result);
     void getClasses(QString lan, QMap<int, QString> &classes);
-    void setCategory(StatementRow &row, int category);
+    void setCategory(Statement &row, int category);
     void setTimeInterval(QDate start_date, QDate end_date);
     void unsetTimeInterval();
     void classify();

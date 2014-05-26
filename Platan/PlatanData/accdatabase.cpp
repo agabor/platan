@@ -61,7 +61,7 @@ void AccDataBase::insertData(StatementTableModel &model)
     const int row_count = model.rowCount();
     for(int i = 0; i < row_count; ++i)
     {
-        StatementRow row = model.row(i);
+        Statement row = model.row(i);
         SQLInsert insert("Statements");
         insert.set("Date", row.Date.toInt());
         insert.set("Type", row.Type);
@@ -77,7 +77,7 @@ void AccDataBase::insertData(StatementTableModel &model)
 }
 
 
-void AccDataBase::readData(QVector<StatementRow> &model)
+void AccDataBase::readData(QVector<Statement> &model)
 {
     model.clear();
     SQLiteStatement statement;
@@ -99,7 +99,7 @@ void AccDataBase::readData(QVector<StatementRow> &model)
 
     while (data_base.Step(statement))
     {
-        StatementRow row;
+        Statement row;
         row.id = statement.GetInt(0);
         row.Date = statement.GetDate(1);
         row.Type = statement.GetText(2);
@@ -174,7 +174,7 @@ void AccDataBase::setTimeInterval(SQLSelect &select)
 }
 
 
-void AccDataBase::setCategory(StatementRow &row, int category)
+void AccDataBase::setCategory(Statement &row, int category)
 {
     SQLUpdate update("statements");
     update.set("Class", category);

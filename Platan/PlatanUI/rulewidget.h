@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <rule.h>
-#include <statementrow.h>
+#include <statement.h>
 
 class QComboBox;
 
@@ -13,7 +13,7 @@ class RuleWidget : public QWidget
 public:
     explicit RuleWidget(Rule _rule, QWidget *parent = 0);
     explicit RuleWidget(QWidget *parent = 0);
-    void setRow(StatementRow _row);
+    void setRow(Statement _row);
     void setColumn(int idx);
     Rule getRule() const;
 private slots:
@@ -27,7 +27,7 @@ private:
     QComboBox* category;
     const QString ifStr() const;
     const QString thenStr() const;
-    StatementRow row;
+    Statement row;
 };
 
 #endif // RULEWIDGET_H

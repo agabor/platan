@@ -22,10 +22,10 @@ shared_ptr<StatementTableModel> TableTransformer::transform(QAbstractTableModel 
     for (TransformationBase *tr : transformations)
         tr->clearErrorList();
 
-    QVector<StatementRow> rows;
+    QVector<Statement> rows;
     for(int r = 0; r < model->rowCount(); ++r)
     {
-        StatementRow row;
+        Statement row;
         if (Amount.configured())
             row.Amount = Amount.apply(model, r);
         if (Type.configured())

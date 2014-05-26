@@ -39,7 +39,7 @@ QString AddRuleDialog::name() const
     return QString();
 }
 
-void AddRuleDialog::setRow(StatementRow row)
+void AddRuleDialog::setRow(Statement row)
 {
     ui->ruleWidget->setRow(row);
 }

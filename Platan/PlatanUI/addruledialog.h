@@ -19,7 +19,7 @@
 
 #include <QDialog>
 #include <QMap>
-#include <statementrow.h>
+#include <statement.h>
 #include <rule.h>
 
 namespace Ui {
@@ -35,7 +35,7 @@ public:
     ~AddRuleDialog();
     Rule getRule() const;
     QString name() const;
-    void setRow(StatementRow row);
+    void setRow(Statement row);
     void setColumn(int idx);
 
 

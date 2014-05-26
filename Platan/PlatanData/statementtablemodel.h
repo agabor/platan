@@ -18,7 +18,7 @@
 #define STATEMENTTABLEMODEL_H
 
 #include <QAbstractTableModel>
-#include "statementrow.h"
+#include "statement.h"
 #include <vector>
 #include <QStringList>
 #include "transformation.h"
@@ -28,18 +28,18 @@ class StatementTableModel : public QAbstractTableModel
 {
     Q_OBJECT
 public:
-    explicit StatementTableModel(QVector<StatementRow> rows, QObject *parent = 0);
+    explicit StatementTableModel(QVector<Statement> rows, QObject *parent = 0);
     int rowCount(const QModelIndex& parent) const;
     int rowCount() const;
     int columnCount(const QModelIndex& parent) const;
     int columnCount() const;
     QVariant data(const QModelIndex& index, int role) const;
-    StatementRow &row(int idx);
+    Statement &row(int idx);
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     std::pair<QDate, QDate> DateRange() const;
-    void setData(QVector<StatementRow> rows);
+    void setData(QVector<Statement> rows);
 protected:
-    QVector<StatementRow> Rows;
+    QVector<Statement> Rows;
 };
 
 #endif // STATEMENTTABLEMODEL_H

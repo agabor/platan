@@ -18,7 +18,7 @@
 #include <sstream>
 
 
-StatementTableModel::StatementTableModel(QVector<StatementRow> rows, QObject *parent) :
+StatementTableModel::StatementTableModel(QVector<Statement> rows, QObject *parent) :
     QAbstractTableModel(parent)
 {
     Rows = rows;
@@ -42,7 +42,7 @@ int StatementTableModel::columnCount(const QModelIndex& parent) const
 
 int StatementTableModel::columnCount() const
 {
-    return StatementRow::size();
+    return Statement::size();
 }
 
 
@@ -114,13 +114,13 @@ std::pair<QDate, QDate> StatementTableModel::DateRange() const
     return std::pair<QDate, QDate>(min_date, max_date);
 }
 
-void StatementTableModel::setData(QVector<StatementRow> rows)
+void StatementTableModel::setData(QVector<Statement> rows)
 {
     Rows = rows;
     emit layoutChanged ();
 }
 
-StatementRow& StatementTableModel::row(int idx)
+Statement& StatementTableModel::row(int idx)
 {
     return Rows[idx];
 }
