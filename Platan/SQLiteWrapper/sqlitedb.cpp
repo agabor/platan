@@ -27,6 +27,8 @@
 
 using namespace std;
 
+SQLiteDB SQLiteDB::instance;
+
 void SQLiteDB::Prepare(SQLiteStatement &statement, SQLSelect &select)
 {
     statement.SetStatement(select.toString());
@@ -88,6 +90,11 @@ SQLiteDB::SQLiteDB()
     is_open(false)
 {
     initSchema();
+}
+
+SQLiteDB &SQLiteDB::getInstance()
+{
+    return instance;
 }
 
 void SQLiteDB::SetPath(QString data_base_path)

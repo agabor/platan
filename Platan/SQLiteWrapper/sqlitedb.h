@@ -26,6 +26,7 @@
 #include "sqlselect.h"
 #include <QSqlDatabase>
 #include "databaseschema.h"
+#include <memory>
 
 class db_exception : public std::exception
 {
@@ -37,7 +38,7 @@ public:
 class SQLiteDB
 {
 public:
-    SQLiteDB();
+    static SQLiteDB &getInstance();
     void SetPath(QString data_base_path);
     void Open();
     void Close();
@@ -49,7 +50,8 @@ public:
     bool Step(SQLiteStatement &statement);
     void Prepare(SQLiteStatement &statement, SQLSelect &select);
     bool isOpen() const;
-protected:
+private:
+    SQLiteDB();
     void Execute(QString query_str);
     void connect();
     QSqlDatabase db;
@@ -58,6 +60,7 @@ protected:
     bool isDatabaseValid() const;
     DataBaseSchema schema;
     void initSchema();
+    static SQLiteDB instance;
 };
 
 #endif // SQLITEDB_H

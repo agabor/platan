@@ -8,7 +8,8 @@ SOURCES += \
     ../Platan/PlatanData/statements.cpp \
     ../Platan/PlatanData/statementtablemodel.cpp \
     ../Platan/PlatanData/tabletransformer.cpp \
-    ../Platan/PlatanData/csvanalyser.cpp
+    ../Platan/PlatanData/csvanalyser.cpp \
+    PlatanData/rule.cpp
 
 HEADERS += \
     ../Platan/PlatanData/csvtablemodel.h \

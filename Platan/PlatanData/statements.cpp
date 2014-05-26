@@ -146,14 +146,10 @@ void Statements::InsertData(StatementTableModel &model)
 
 void Statements::InsertRule(Rule rule)
 {
-    data_base.insertRule(rule);
+    rule.insert();
     data_base.classify();
     data_base.readData(*this);
     refreshTableModels();
     emit dataChanged();
 }
 
-QVector<Rule> Statements::getRules()
-{
-    return data_base.getRules();
-}

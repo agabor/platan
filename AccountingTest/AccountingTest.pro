@@ -12,7 +12,10 @@ CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-QMAKE_CXXFLAGS += -std=c++11 -Werror=return-type
+QMAKE_CXXFLAGS += -std=c++11 -Werror=return-type -g -fprofile-arcs -ftest-coverage -O0
+QMAKE_LFLAGS += -g -Wall -fprofile-arcs -ftest-coverage -O0
+
+LIBS += -lgcov
 
 SOURCES += \
     tst_sqlite.cpp

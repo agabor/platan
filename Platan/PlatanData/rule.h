@@ -3,23 +3,21 @@
 
 #include <QString>
 
+template <typename T>
+class QVector;
+
 class Rule
 {
 public:
-    Rule(int _column, QString _value, int _category)
-        :column(_column), value(_value), category(_category)
-    {
-
-    }
-
-    Rule()
-    {
-
-    }
+    Rule(int _column, QString _value, int _category);
+    Rule();
 
     int column;
     QString value;
     int category;
+
+    void insert() const;
+    static QVector<Rule> getAll(int column = -1);
 };
 
 

@@ -85,7 +85,6 @@ public:
     void GetClasses(QString lan, QMap<int, QString> &classes);
     void InsertData(StatementTableModel &model);
     void InsertRule(Rule rule);
-    QVector<Rule> getRules();
     void initClassStatements(int classIdx);
     void refreshTableModels();
     void setCategory(StatementRow &row, int category);

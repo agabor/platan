@@ -38,14 +38,11 @@ public:
     void readData(QVector<StatementRow> &model);
     void getCalssification(QMap<int, float> &result);
     void getClasses(QString lan, QMap<int, QString> &classes);
-    void insertRule(Rule rule);
     void setCategory(StatementRow &row, int category);
     void setTimeInterval(QDate start_date, QDate end_date);
     void unsetTimeInterval();
-    QVector<Rule> getRules(int column = -1);
     void classify();
 protected:
-    SQLiteDB data_base;
     SQLiteDate start_date, end_date;
     bool time_interval_set;
     void setTimeInterval(SQLSelect &select);
