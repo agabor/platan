@@ -129,10 +129,11 @@ void Statements::GetCalssification(QMap<int, float> &result)
 
 bool Statements::Open(QString data_base_path)
 {
-    bool result = data_base.setPath(data_base_path);
+    if(!data_base.setPath(data_base_path))
+        return false;
     clear();
     *this << Statement::getAll();
-    return result;
+    return true;
 }
 
 void Statements::New(QString data_base_path)
