@@ -16,6 +16,14 @@
 
 #include "sqltype.h"
 
+const QString INTEGER{"INTEGER"};
+const QString REAL{"REAL"};
+const QString NUMERIC{"NUMERIC"};
+const QString TEXT{"TEXT"};
+const QString PRIMARY_KEY{"PRIMARY KEY"};
+const QString AUTOINCREMENT{"AUTOINCREMENT"};
+const QString NOT_NULL{"NOT NULL"};
+
 
 SQLType::SQLType(char val)
     :val(val), isPK(false), isAutoIncrement(false), isNotNull(false)
@@ -23,7 +31,7 @@ SQLType::SQLType(char val)
 
 }
 
-SQLType::SQLType(SQLType other, bool isPK, bool isAutoIncrement, bool isNotNull)
+SQLType::SQLType(const SQLType &other, bool isPK, bool isAutoIncrement, bool isNotNull)
     :val(other.val), isPK(isPK), isAutoIncrement(isAutoIncrement), isNotNull(isNotNull)
 {
 
@@ -85,50 +93,51 @@ bool SQLType::operator !=(const SQLType &other) const
 QString SQLType::toString() const
 {
     QString result;
-    switch (val) {
+    switch (val)
+    {
     case 0:
-        result = "INTEGER";
+        result = INTEGER;
         break;
     case 1:
-        result = "REAL";
+        result = REAL;
         break;
     case 2:
-        result = "TEXT";
+        result = TEXT;
         break;
     case 3:
-        result = "NUMERIC";
+        result = NUMERIC;
         break;
     }
     if (isPK)
-        result += " PRIMARY KEY";
+        result += " " + PRIMARY_KEY;
     if (isAutoIncrement)
-        result += " AUTOINCREMENT";
+        result += " " + AUTOINCREMENT;
     if (isNotNull)
-        result += " NOT NULL";
+        result += " " + NOT_NULL;
     return result;
 }
 
 SQLType SQLType::parse(QString sqlstring)
 {
     SQLType result = Invalid();
-    if (sqlstring.startsWith("INTEGER"))
+    if (sqlstring.startsWith(INTEGER))
         result = Integer();
-    else if (sqlstring.startsWith("REAL"))
+    else if (sqlstring.startsWith(REAL))
         result = Real();
-    else if (sqlstring.startsWith("TEXT"))
+    else if (sqlstring.startsWith(TEXT))
         result = Text();
-    else if (sqlstring.startsWith("NUMERIC"))
+    else if (sqlstring.startsWith(NUMERIC))
         result = Numeric();
     else
         return Invalid();
 
-    if (sqlstring.contains("PRIMARY KEY"))
+    if (sqlstring.contains(PRIMARY_KEY))
         result = result.PK();
 
-    if (sqlstring.contains("AUTOINCREMENT"))
+    if (sqlstring.contains(AUTOINCREMENT))
         result = result.AutoIncrement();
 
-    if (sqlstring.contains("NOT NULL"))
+    if (sqlstring.contains(NOT_NULL))
         result = result.NotNull();
 
     return result;

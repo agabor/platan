@@ -33,7 +33,7 @@ MainApplication::MainApplication(int &argc, char *argv[]) :
 
 bool MainApplication::OpenProject(QString project_path)
 {
-    if(!statements.Open(project_path))
+    if(!statements.open(project_path))
     {
         return false;
     }

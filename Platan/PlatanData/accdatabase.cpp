@@ -36,7 +36,7 @@ AccDataBase::~AccDataBase()
     SQLiteDB::getInstance().close();
 }
 
-bool AccDataBase::setPath(QString data_base_path)
+bool AccDataBase::open(QString data_base_path)
 {
     auto data_base = SQLiteDB::getInstance();
     if(data_base.isOpen())
@@ -48,7 +48,7 @@ bool AccDataBase::setPath(QString data_base_path)
 void AccDataBase::create(QString data_base_path)
 {
     auto data_base = SQLiteDB::getInstance();
-    setPath(data_base_path);
+    data_base.SetPath(data_base_path);
     data_base.create();
     data_base.ExecuteScript("../rules.sql");
 }
@@ -77,7 +77,7 @@ void AccDataBase::insertData(StatementTableModel &model)
 }
 
 
-void AccDataBase::getCalssification(QMap<int, float> &result)
+void AccDataBase::getCategories(QMap<int, float> &result)
 {
     result.clear();
 

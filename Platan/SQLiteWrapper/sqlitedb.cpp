@@ -125,8 +125,9 @@ void SQLiteDB::create()
 void SQLiteDB::connect()
 {
     assert(!is_open);
-    db.setDatabaseName(data_base_path.toStdString().c_str());
-    if (!db.open() || db.isOpenError())
+    db.setDatabaseName(data_base_path);
+    bool o = db.open();
+    if (!o || db.isOpenError())
     {
         QString error_msg{db.lastError().text()};
         cerr << "Can't open database. " << error_msg.toStdString() << endl;

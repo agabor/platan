@@ -28,12 +28,12 @@ ProjectsWindow::~ProjectsWindow()
     delete ui;
 }
 
-void ProjectsWindow::AddProjetPath(QString fileName)
+void ProjectsWindow::addProjetPath(QString fileName)
 {
     ListModel->appendRow(new QStandardItem(fileName));
 }
 
-bool ProjectsWindow::OpenProject(QString fileName)
+bool ProjectsWindow::openProject(QString fileName)
 {
     if(!application->OpenProject(fileName))
     {
@@ -51,10 +51,10 @@ void ProjectsWindow::on_actionNew_Project_triggered()
                                                     tr("Platan files (*.plat)"));
     if (!fileName.isEmpty())
     {
-        statements.New(fileName);
-        if(!OpenProject(fileName))
+        statements.create(fileName);
+        if(!openProject(fileName))
                 return;
-        AddProjetPath(fileName);
+        addProjetPath(fileName);
         close();
     }
 }
@@ -83,7 +83,7 @@ QString ProjectsWindow::GetSelectedProjectPath()
 
 void ProjectsWindow::on_openButton_clicked()
 {
-    if(!OpenProject(GetSelectedProjectPath()))
+    if(!openProject(GetSelectedProjectPath()))
         return;
     close();
 }
@@ -95,9 +95,9 @@ void ProjectsWindow::on_actionLoad_Project_triggered()
                                                     tr("Platan files (*.plat)"));
     if (!fileName.isEmpty())
     {
-        if(!OpenProject(fileName))
+        if(!openProject(fileName))
             return;
-        AddProjetPath(fileName);
+        addProjetPath(fileName);
         close();
     }
 }
@@ -114,7 +114,7 @@ QVector<QString> ProjectsWindow::ProjectPaths() const
 void ProjectsWindow::showEvent(QShowEvent *event)
 {
     for(auto path : application->RecentProjects())
-        AddProjetPath(path);
+        addProjetPath(path);
 }
 
 void ProjectsWindow::closeEvent(QCloseEvent *event)

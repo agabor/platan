@@ -79,12 +79,12 @@ public:
     std::shared_ptr<StatementExtractTableModel> getStatementsForClass(int classIdx);
     void SetTimeInterval(QDate start_date, QDate end_date);
     void UnsetTimeInterval();
-    void GetCalssification(QMap<int, float> &result);
-    bool Open(QString data_base_path);
-    void New(QString data_base_path);
+    void getCategories(QMap<int, float> &result);
+    bool open(QString data_base_path);
+    void create(QString data_base_path);
     void GetClasses(QString lan, QMap<int, QString> &classes);
-    void InsertData(StatementTableModel &model);
-    void InsertRule(Rule rule);
+    void insertData(StatementTableModel &model);
+    void insertRule(Rule rule);
     void initClassStatements(int classIdx);
     void refreshTableModels();
     void setCategory(Statement &row, int category);

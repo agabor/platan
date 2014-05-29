@@ -23,10 +23,10 @@ public:
     ~ProjectsWindow();
 
     QString GetSelectedProjectPath();
-    void AddProjetPath(QString fileName);
+    void addProjetPath(QString fileName);
     QString GetProjectPath(int row) const;
     int GetSelectedProjectRow();
-    bool OpenProject(QString fileName);
+    bool openProject(QString fileName);
 private slots:
     void on_actionNew_Project_triggered();
 

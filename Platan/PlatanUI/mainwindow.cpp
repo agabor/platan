@@ -46,7 +46,7 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     ui->setupUi(this);
     ui->tabWidget->removeCloseButtons();
 
-    this->statements.GetCalssification(classes);
+    this->statements.getCategories(classes);
 
     palette.push_back(AnalogousColorPalette(0xE67F90, 55));
     palette.push_back(AnalogousColorPalette(0x89E67E, 55));
@@ -210,7 +210,7 @@ void MainWindow::refreshStatements()
 
 void MainWindow::refreshChart()
 {
-    statements.GetCalssification(classes);
+    statements.getCategories(classes);
     palette.init(classes.size());
     InitChart();
     InitLegend();
@@ -245,7 +245,7 @@ void MainWindow::on_actionImport_Bank_Statements_triggered()
         return;
     ImportDialog id(this, fileName);
     if (id.exec() == QDialog::Accepted)
-        statements.InsertData(*id.getModel().get());
+        statements.insertData(*id.getModel().get());
 }
 
 void MainWindow::on_actionAdd_rule_triggered()
@@ -260,7 +260,7 @@ void MainWindow::on_actionAdd_rule_triggered()
     if (QDialog::Accepted != ard.exec())
         return;
 
-    statements.InsertRule(ard.getRule());
+    statements.insertRule(ard.getRule());
 }
 
 void MainWindow::onTabChanged(int idx)

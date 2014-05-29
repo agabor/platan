@@ -121,28 +121,28 @@ void Statements::UnsetTimeInterval()
 }
 
 
-void Statements::GetCalssification(QMap<int, float> &result)
+void Statements::getCategories(QMap<int, float> &result)
 {
-    data_base.getCalssification(result);
+    data_base.getCategories(result);
 }
 
 
-bool Statements::Open(QString data_base_path)
+bool Statements::open(QString data_base_path)
 {
-    if(!data_base.setPath(data_base_path))
+    if(!data_base.open(data_base_path))
         return false;
     clear();
     *this << Statement::getAll();
     return true;
 }
 
-void Statements::New(QString data_base_path)
+void Statements::create(QString data_base_path)
 {
     data_base.create(data_base_path);
 }
 
 
-void Statements::InsertData(StatementTableModel &model)
+void Statements::insertData(StatementTableModel &model)
 {
     data_base.insertData(model);
     data_base.classify();
@@ -152,7 +152,7 @@ void Statements::InsertData(StatementTableModel &model)
     emit dataChanged();
 }
 
-void Statements::InsertRule(Rule rule)
+void Statements::insertRule(Rule rule)
 {
     rule.insert();
     data_base.classify();

@@ -41,7 +41,7 @@ public:
     static SQLType parse(QString sqlstring);
 private:
     SQLType(char val);
-    SQLType(SQLType other, bool isPK, bool isAutoIncrement, bool isNotNull);
+    SQLType(const SQLType &other, bool isPK, bool isAutoIncrement, bool isNotNull);
     char val;
     bool isPK;
     bool isAutoIncrement;
