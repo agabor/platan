@@ -33,23 +33,23 @@ AccDataBase::AccDataBase()
 
 AccDataBase::~AccDataBase()
 {
-    SQLiteDB::getInstance().Close();
+    SQLiteDB::getInstance().close();
 }
 
-void AccDataBase::setPath(QString data_base_path)
+bool AccDataBase::setPath(QString data_base_path)
 {
     auto data_base = SQLiteDB::getInstance();
-    data_base.SetPath(data_base_path);
     if(data_base.isOpen())
-        data_base.Close();
-    data_base.Open();
+        data_base.close();
+    data_base.SetPath(data_base_path);
+    return data_base.open();
 }
 
 void AccDataBase::create(QString data_base_path)
 {
     auto data_base = SQLiteDB::getInstance();
     setPath(data_base_path);
-    data_base.Create();
+    data_base.create();
     data_base.ExecuteScript("../rules.sql");
 }
 
@@ -63,12 +63,12 @@ void AccDataBase::insertData(StatementTableModel &model)
     {
         Statement row = model.row(i);
         SQLInsert insert("Statements");
-        insert.set("Date", row.Date.toInt());
-        insert.set("Type", row.Type);
-        insert.set("Description", row.Description);
-        insert.set("Payee", row.Payee);
-        insert.set("PayeeAccount", row.PayeeAccount);
-        insert.set("Amount", row.Amount);
+        insert.set("Date", row.date.toInt());
+        insert.set("Type", row.type);
+        insert.set("Description", row.description);
+        insert.set("Payee", row.payee);
+        insert.set("PayeeAccount", row.payeeAccount);
+        insert.set("Amount", row.amount);
         insert.set("Class", 0);
 
         data_base.Execute(insert);
@@ -76,41 +76,6 @@ void AccDataBase::insertData(StatementTableModel &model)
     data_base.EndTransaction();
 }
 
-
-void AccDataBase::readData(QVector<Statement> &model)
-{
-    model.clear();
-    SQLiteStatement statement;
-
-    SQLSelect select{"statements"};
-    select.field("ID");
-    select.field("Date");
-    select.field("Type");
-    select.field("Description");
-    select.field("Payee");
-    select.field("PayeeAccount");
-    select.field("Amount");
-    select.field("Class");
-    select.where("Amount < 0");
-    setTimeInterval(select);
-
-    auto data_base = SQLiteDB::getInstance();
-    data_base.Prepare(statement, select);
-
-    while (data_base.Step(statement))
-    {
-        Statement row;
-        row.id = statement.GetInt(0);
-        row.Date = statement.GetDate(1);
-        row.Type = statement.GetText(2);
-        row.Description = statement.GetText(3);
-        row.Payee = statement.GetText(4);
-        row.PayeeAccount = statement.GetText(5);
-        row.Amount = statement.GetDouble(6);
-        row.Class = statement.GetInt(7);
-        model.push_back(row);
-    }
-}
 
 void AccDataBase::getCalssification(QMap<int, float> &result)
 {
@@ -173,14 +138,6 @@ void AccDataBase::setTimeInterval(SQLSelect &select)
     }
 }
 
-
-void AccDataBase::setCategory(Statement &row, int category)
-{
-    SQLUpdate update("statements");
-    update.set("Class", category);
-    update.where(QString("ID = %1").arg(row.id));
-    SQLiteDB::getInstance().Execute(update);
-}
 
 void AccDataBase::setTimeInterval(QDate start_date, QDate end_date)
 {

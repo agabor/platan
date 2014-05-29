@@ -40,9 +40,9 @@ class SQLiteDB
 public:
     static SQLiteDB &getInstance();
     void SetPath(QString data_base_path);
-    void Open();
-    void Close();
-    void Create();
+    bool open();
+    void close();
+    void create();
     void BeginTransaction();
     void EndTransaction();
     void Execute(SQLQuery &query);

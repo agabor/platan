@@ -32,13 +32,11 @@ class AccDataBase
 public:
     AccDataBase();
     ~AccDataBase();
-    void setPath(QString data_base_path);
+    bool setPath(QString data_base_path);
     void create(QString data_base_path);
     void insertData(StatementTableModel &model);
-    void readData(QVector<Statement> &model);
     void getCalssification(QMap<int, float> &result);
     void getClasses(QString lan, QMap<int, QString> &classes);
-    void setCategory(Statement &row, int category);
     void setTimeInterval(QDate start_date, QDate end_date);
     void unsetTimeInterval();
     void classify();

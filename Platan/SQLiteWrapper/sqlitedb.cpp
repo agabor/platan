@@ -102,20 +102,21 @@ void SQLiteDB::SetPath(QString data_base_path)
     this->data_base_path = data_base_path;
 }
 
-void SQLiteDB::Open()
+bool SQLiteDB::open()
 {
     connect();
     is_open = isDatabaseValid();
     if (!is_open)
-        Close();
+        close();
+    return is_open;
 }
 
-void SQLiteDB::Close()
+void SQLiteDB::close()
 {
     db.close();
 }
 
-void SQLiteDB::Create()
+void SQLiteDB::create()
 {
     connect();
     schema.createTables(db);
@@ -129,7 +130,7 @@ void SQLiteDB::connect()
     {
         QString error_msg{db.lastError().text()};
         cerr << "Can't open database. " << error_msg.toStdString() << endl;
-        Close();
+        close();
         throw db_exception();
     }
 }

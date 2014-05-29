@@ -27,7 +27,7 @@ void Statements::initUncategorisedStatements()
     QVector<Statement> result;
     for(const Statement &row : *this)
     {
-        if (row.Class == 0)
+        if (row.category == 0)
         {
             result.push_back(row);
         }
@@ -64,12 +64,12 @@ void Statements::initClassStatements(int classIdx)
 
     for(const Statement &row : *this)
     {
-        if (row.Class == classIdx)
+        if (row.category == classIdx)
         {
             StatementExtractRow extract_row;
-            extract_row.Ammount = row.Amount;
-            extract_row.Date = row.Date;
-            extract_row.Payee = row.Payee;
+            extract_row.Ammount = row.amount;
+            extract_row.Date = row.date;
+            extract_row.Payee = row.payee;
             result.push_back(extract_row);
         }
     }
@@ -96,15 +96,18 @@ void Statements::refreshTableModels()
 
 void Statements::setCategory(Statement &row, int category)
 {
-    data_base.setCategory(row, category);
-    data_base.readData(*this);
+    row.category = category;
+    row.update();
+    clear();
+    *this << Statement::getAll();
     refreshTableModels();
 }
 
 void Statements::SetTimeInterval(QDate start_date, QDate end_date)
 {
     data_base.setTimeInterval(start_date, end_date);
-    data_base.readData(*this);
+    clear();
+    *this << Statement::getAll();
     refreshTableModels();
 }
 
@@ -112,7 +115,8 @@ void Statements::SetTimeInterval(QDate start_date, QDate end_date)
 void Statements::UnsetTimeInterval()
 {
     data_base.unsetTimeInterval();
-    data_base.readData(*this);
+    clear();
+    *this << Statement::getAll();
     refreshTableModels();
 }
 
@@ -123,10 +127,12 @@ void Statements::GetCalssification(QMap<int, float> &result)
 }
 
 
-void Statements::Open(QString data_base_path)
+bool Statements::Open(QString data_base_path)
 {
-    data_base.setPath(data_base_path);
-    data_base.readData(*this);
+    bool result = data_base.setPath(data_base_path);
+    clear();
+    *this << Statement::getAll();
+    return result;
 }
 
 void Statements::New(QString data_base_path)
@@ -139,7 +145,8 @@ void Statements::InsertData(StatementTableModel &model)
 {
     data_base.insertData(model);
     data_base.classify();
-    data_base.readData(*this);
+    clear();
+    *this << Statement::getAll();
     refreshTableModels();
     emit dataChanged();
 }
@@ -148,7 +155,8 @@ void Statements::InsertRule(Rule rule)
 {
     rule.insert();
     data_base.classify();
-    data_base.readData(*this);
+    clear();
+    *this << Statement::getAll();
     refreshTableModels();
     emit dataChanged();
 }

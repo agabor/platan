@@ -33,6 +33,17 @@ void ProjectsWindow::AddProjetPath(QString fileName)
     ListModel->appendRow(new QStandardItem(fileName));
 }
 
+bool ProjectsWindow::OpenProject(QString fileName)
+{
+    if(!application->OpenProject(fileName))
+    {
+        QMessageBox::warning(this, tr("Failed to open file"),
+                             tr("The selected file does not seem to be a valid Platan project"));
+        return false;
+    }
+    return true;
+}
+
 void ProjectsWindow::on_actionNew_Project_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
@@ -41,7 +52,8 @@ void ProjectsWindow::on_actionNew_Project_triggered()
     if (!fileName.isEmpty())
     {
         statements.New(fileName);
-        application->OpenProject(fileName);
+        if(!OpenProject(fileName))
+                return;
         AddProjetPath(fileName);
         close();
     }
@@ -71,7 +83,9 @@ QString ProjectsWindow::GetSelectedProjectPath()
 
 void ProjectsWindow::on_openButton_clicked()
 {
-    application->OpenProject(GetSelectedProjectPath());
+    if(!OpenProject(GetSelectedProjectPath()))
+        return;
+    close();
 }
 
 void ProjectsWindow::on_actionLoad_Project_triggered()
@@ -81,7 +95,8 @@ void ProjectsWindow::on_actionLoad_Project_triggered()
                                                     tr("Platan files (*.plat)"));
     if (!fileName.isEmpty())
     {
-        application->OpenProject(fileName);
+        if(!OpenProject(fileName))
+            return;
         AddProjetPath(fileName);
         close();
     }

@@ -27,17 +27,17 @@ shared_ptr<StatementTableModel> TableTransformer::transform(QAbstractTableModel 
     {
         Statement row;
         if (Amount.configured())
-            row.Amount = Amount.apply(model, r);
+            row.amount = Amount.apply(model, r);
         if (Type.configured())
-            row.Type = Type.apply(model, r);
+            row.type = Type.apply(model, r);
         if (Date.configured())
-            row.Date = Date.apply(model, r);
+            row.date = Date.apply(model, r);
         if (Payee.configured())
-            row.Payee = Payee.apply(model, r);
+            row.payee = Payee.apply(model, r);
         if (PayeeAccount.configured())
-            row.PayeeAccount = PayeeAccount.apply(model, r);
+            row.payeeAccount = PayeeAccount.apply(model, r);
         if (Description.configured())
-            row.Description = Description.apply(model, r);
+            row.description = Description.apply(model, r);
         rows.push_back(row);
     }
     return unique_ptr<StatementTableModel> (new StatementTableModel(rows));

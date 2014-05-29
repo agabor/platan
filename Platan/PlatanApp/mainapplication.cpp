@@ -16,6 +16,7 @@
 
 #include "mainapplication.h"
 #include "PythonAPI/pythonapi.h"
+#include <QMessageBox>
 
 using namespace std;
 
@@ -30,9 +31,12 @@ MainApplication::MainApplication(int &argc, char *argv[]) :
 }
 
 
-void MainApplication::OpenProject(QString project_path)
+bool MainApplication::OpenProject(QString project_path)
 {
-    statements.Open(project_path);
+    if(!statements.Open(project_path))
+    {
+        return false;
+    }
 
     main_window.reset(new MainWindow(this, statements));
 
@@ -42,6 +46,8 @@ void MainApplication::OpenProject(QString project_path)
     main_window->show();
 
     python_console.reset(new PythonIDE(main_window.get()));
+
+    return true;
 }
 
 const QString projectpathkey{"misc/projectpath%1"};

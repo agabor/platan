@@ -22,24 +22,28 @@
 #include <QVariant>
 #include <sqlitedate.h>
 
+template <typename T>
+class QVector;
 
 class Statement
 {
 public:
     int id;
-    SQLiteDate Date;
-    QString Type;
-    QString Description;
-    QString Payee;
-    QString PayeeAccount;
-    float Amount;
-    int Class;
+    SQLiteDate date;
+    QString type;
+    QString description;
+    QString payee;
+    QString payeeAccount;
+    float amount;
+    int category;
 
     static int size()
     {
         return 6;
     }
     QVariant at(int idx) const;
+    void update() const;
+    static QVector<Statement> getAll();
 };
 
 #endif // STATEMENTROW_H

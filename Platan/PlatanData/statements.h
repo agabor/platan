@@ -80,7 +80,7 @@ public:
     void SetTimeInterval(QDate start_date, QDate end_date);
     void UnsetTimeInterval();
     void GetCalssification(QMap<int, float> &result);
-    void Open(QString data_base_path);
+    bool Open(QString data_base_path);
     void New(QString data_base_path);
     void GetClasses(QString lan, QMap<int, QString> &classes);
     void InsertData(StatementTableModel &model);

@@ -41,7 +41,7 @@ public:
     {
         return python_console.get();
     }
-    void OpenProject(QString project_path);
+    bool OpenProject(QString project_path);
     QVector<QString> RecentProjects();
     void SaveProjectPaths(QVector<QString> path_list);
 private:

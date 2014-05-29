@@ -59,7 +59,6 @@ QVariant StatementTableModel::headerData(int section, Qt::Orientation orientatio
 {
     if(role == Qt::DisplayRole)
     {
-        std::stringstream ss;
         if(orientation == Qt::Horizontal)
         {
             switch(section)
@@ -82,8 +81,7 @@ QVariant StatementTableModel::headerData(int section, Qt::Orientation orientatio
         }
         else if(orientation == Qt::Vertical)
         {
-            ss << section;
-            return QString(ss.str().c_str());
+            return QString::number(section);
         }
     }
 
@@ -97,18 +95,18 @@ std::pair<QDate, QDate> StatementTableModel::DateRange() const
     if (Rows.size() == 0)
         return std::pair<QDate, QDate>();
 
-    QDate min_date  = Rows.at(0).Date;
+    QDate min_date  = Rows.at(0).date;
     QDate max_date = min_date;
 
     for (auto row : Rows)
     {
-        if (row.Date == start)
+        if (row.date == start)
             continue;
 
-        if (row.Date < min_date)
-            min_date = row.Date;
-        if (row.Date > max_date)
-            max_date = row.Date;
+        if (row.date < min_date)
+            min_date = row.date;
+        if (row.date > max_date)
+            max_date = row.date;
     }
 
     return std::pair<QDate, QDate>(min_date, max_date);

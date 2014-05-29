@@ -26,6 +26,7 @@ public:
     void AddProjetPath(QString fileName);
     QString GetProjectPath(int row) const;
     int GetSelectedProjectRow();
+    bool OpenProject(QString fileName);
 private slots:
     void on_actionNew_Project_triggered();
 
