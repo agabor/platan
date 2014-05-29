@@ -22,14 +22,14 @@
 class SQLType
 {
 public:
-    static SQLType Invalid;
-    static SQLType Integer;
-    static SQLType Real;
-    static SQLType Text;
-    static SQLType Numeric;
+    static SQLType Invalid();
+    static SQLType Integer();
+    static SQLType Real();
+    static SQLType Text();
+    static SQLType Numeric();
     static SQLType DefaultPK()
     {
-        return Integer.PK().AutoIncrement().NotNull();
+        return Integer().PK().AutoIncrement().NotNull();
     }
 
     SQLType PK() const;

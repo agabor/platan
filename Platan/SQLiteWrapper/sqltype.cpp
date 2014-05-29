@@ -17,12 +17,6 @@
 #include "sqltype.h"
 
 
-SQLType SQLType::Invalid(-1);
-SQLType SQLType::Integer(0);
-SQLType SQLType::Real(1);
-SQLType SQLType::Text(2);
-SQLType SQLType::Numeric(3);
-
 SQLType::SQLType(char val)
     :val(val), isPK(false), isAutoIncrement(false), isNotNull(false)
 {
@@ -33,6 +27,31 @@ SQLType::SQLType(SQLType other, bool isPK, bool isAutoIncrement, bool isNotNull)
     :val(other.val), isPK(isPK), isAutoIncrement(isAutoIncrement), isNotNull(isNotNull)
 {
 
+}
+
+SQLType SQLType::Invalid()
+{
+    return SQLType(-1);
+}
+
+SQLType SQLType::Integer()
+{
+    return SQLType(0);
+}
+
+SQLType SQLType::Real()
+{
+    return SQLType(1);
+}
+
+SQLType SQLType::Text()
+{
+    return SQLType(2);
+}
+
+SQLType SQLType::Numeric()
+{
+    return SQLType(3);
 }
 
 SQLType SQLType::PK() const
@@ -91,18 +110,17 @@ QString SQLType::toString() const
 
 SQLType SQLType::parse(QString sqlstring)
 {
-
-    SQLType result = Invalid;
+    SQLType result = Invalid();
     if (sqlstring.startsWith("INTEGER"))
-        result = Integer;
+        result = Integer();
     else if (sqlstring.startsWith("REAL"))
-        result = Real;
+        result = Real();
     else if (sqlstring.startsWith("TEXT"))
-        result = Text;
+        result = Text();
     else if (sqlstring.startsWith("NUMERIC"))
-        result = Numeric;
+        result = Numeric();
     else
-        return Invalid;
+        return Invalid();
 
     if (sqlstring.contains("PRIMARY KEY"))
         result = result.PK();
