@@ -38,9 +38,9 @@ ImportDialog::~ImportDialog()
     delete ui;
 }
 
-std::shared_ptr<StatementTableModel> ImportDialog::getModel() const
+QVector<Statement> ImportDialog::getImportedStatements() const
 {
-    return dbModel;
+    return importedStatements;
 }
 
 
@@ -89,7 +89,7 @@ void ImportDialog::on_finish_clicked()
                 return;
         }
 
-        dbModel = ui->csvImportWidget->getModel();
+        importedStatements = ui->csvImportWidget->getImportedStatements();
 
         if (transformer.errorInImport())
         {

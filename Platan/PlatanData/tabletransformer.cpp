@@ -17,7 +17,7 @@ TableTransformer::TableTransformer()
     transformations.push_back(&Description);
 }
 
-shared_ptr<StatementTableModel> TableTransformer::transform(QAbstractTableModel *model) const
+QVector<Statement> TableTransformer::transform(QAbstractTableModel *model) const
 {
     for (TransformationBase *tr : transformations)
         tr->clearErrorList();
@@ -40,7 +40,7 @@ shared_ptr<StatementTableModel> TableTransformer::transform(QAbstractTableModel 
             row.description = Description.apply(model, r);
         rows.push_back(row);
     }
-    return unique_ptr<StatementTableModel> (new StatementTableModel(rows));
+    return rows;
 }
 
 void TableTransformer::removeColumnType(int column)

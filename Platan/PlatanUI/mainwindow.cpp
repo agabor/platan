@@ -245,7 +245,7 @@ void MainWindow::on_actionImport_Bank_Statements_triggered()
         return;
     ImportDialog id(this, fileName);
     if (id.exec() == QDialog::Accepted)
-        statements.insertData(*id.getModel().get());
+        statements.insertData(id.getImportedStatements());
 }
 
 void MainWindow::on_actionAdd_rule_triggered()

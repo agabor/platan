@@ -32,7 +32,7 @@ public:
     IdentityTransFormation Payee;
     IdentityTransFormation PayeeAccount;
     IdentityTransFormation Description;
-    std::shared_ptr<StatementTableModel> transform(QAbstractTableModel *model) const;
+    QVector<Statement> transform(QAbstractTableModel *model) const;
     void setColumnType(int column, ColumnType type);
     void removeColumnType(int column);
     ColumnType getColumnType(int column);

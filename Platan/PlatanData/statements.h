@@ -83,7 +83,7 @@ public:
     bool open(QString data_base_path);
     void create(QString data_base_path);
     void GetClasses(QString lan, QMap<int, QString> &classes);
-    void insertData(StatementTableModel &model);
+    void insertData(QVector<Statement> importedStatements);
     void insertRule(Rule rule);
     void initClassStatements(int classIdx);
     void refreshTableModels();

@@ -142,9 +142,13 @@ void Statements::create(QString data_base_path)
 }
 
 
-void Statements::insertData(StatementTableModel &model)
+void Statements::insertData(QVector<Statement> importedStatements)
 {
-    data_base.insertData(model);
+    auto database = SQLiteDB::getInstance();
+    database.BeginTransaction();
+    for(Statement& s : importedStatements)
+        s.insert();
+    database.EndTransaction();
     data_base.classify();
     clear();
     *this << Statement::getAll();

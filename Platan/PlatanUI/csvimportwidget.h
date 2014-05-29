@@ -32,7 +32,7 @@ class CSVImportWidget : public QWidget
 public:
     explicit CSVImportWidget(QWidget *parent = 0);
     void setTableModel (QAbstractTableModel *model);
-    std::shared_ptr<StatementTableModel> getModel() const;
+    QVector<Statement> getImportedStatements() const;
     const TableTransformer &getTransformer() const;
 
 private slots:

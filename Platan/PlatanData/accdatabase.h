@@ -34,7 +34,6 @@ public:
     ~AccDataBase();
     bool open(QString data_base_path);
     void create(QString data_base_path);
-    void insertData(StatementTableModel &model);
     void getCategories(QMap<int, float> &result);
     void getClasses(QString lan, QMap<int, QString> &classes);
     void setTimeInterval(QDate start_date, QDate end_date);

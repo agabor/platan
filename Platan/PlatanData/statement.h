@@ -43,6 +43,7 @@ public:
     }
     QVariant at(int idx) const;
     void update() const;
+    void insert() const;
     static QVector<Statement> getAll();
 };
 

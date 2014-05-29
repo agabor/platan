@@ -53,29 +53,6 @@ void AccDataBase::create(QString data_base_path)
     data_base.ExecuteScript("../rules.sql");
 }
 
-void AccDataBase::insertData(StatementTableModel &model)
-{
-    auto data_base = SQLiteDB::getInstance();
-    data_base.BeginTransaction();
-
-    const int row_count = model.rowCount();
-    for(int i = 0; i < row_count; ++i)
-    {
-        Statement row = model.row(i);
-        SQLInsert insert("Statements");
-        insert.set("Date", row.date.toInt());
-        insert.set("Type", row.type);
-        insert.set("Description", row.description);
-        insert.set("Payee", row.payee);
-        insert.set("PayeeAccount", row.payeeAccount);
-        insert.set("Amount", row.amount);
-        insert.set("Class", 0);
-
-        data_base.Execute(insert);
-    }
-    data_base.EndTransaction();
-}
-
 
 void AccDataBase::getCategories(QMap<int, float> &result)
 {

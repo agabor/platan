@@ -16,6 +16,7 @@
 
 #include "statement.h"
 #include <sqlupdate.h>
+#include <sqlinsert.h>
 #include <sqlitedb.h>
 #include <QVector>
 
@@ -53,12 +54,26 @@ void Statement::update() const
     SQLiteDB::getInstance().Execute(update);
 }
 
+void Statement::insert() const
+{
+    SQLInsert insert{"Statements"};
+    insert.set("Date", date.toInt());
+    insert.set("Type", type);
+    insert.set("Description", description);
+    insert.set("Payee", payee);
+    insert.set("PayeeAccount", payeeAccount);
+    insert.set("Amount", amount);
+    insert.set("Class", 0);
+
+    SQLiteDB::getInstance().Execute(insert);
+}
+
 QVector<Statement> Statement::getAll()
 {
     QVector<Statement> result;
     SQLiteStatement statement;
 
-    SQLSelect select{"statements"};
+    SQLSelect select{"Statements"};
     select.field("ID");
     select.field("Date");
     select.field("Type");
