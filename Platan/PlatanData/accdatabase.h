@@ -34,8 +34,6 @@ public:
     ~AccDataBase();
     bool open(QString data_base_path);
     void create(QString data_base_path);
-    void getCategories(QMap<int, float> &result);
-    void getClasses(QString lan, QMap<int, QString> &classes);
     void classify();
 };
 

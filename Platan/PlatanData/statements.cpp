@@ -120,6 +120,7 @@ bool Statements::apply(Statement &statement, Rule rule)
 
 void Statements::SetTimeInterval(QDate start_date, QDate end_date)
 {
+    timeIntervalSet = true;
     startDate = start_date;
     endDate = end_date;
     refreshTableModels();
@@ -133,15 +134,28 @@ void Statements::UnsetTimeInterval()
 }
 
 
-void Statements::getCategories(QMap<int, float> &result)
+QMap<int, float> Statements::getCategories()
 {
-    data_base.getCategories(result);
+    QMap<int, float> result;
+    for(const Statement &row : *this)
+    {
+        const int category = row.category;
+        if (result.keys().contains(category))
+            result[category] += row.amount;
+        else
+            result.insert(category, row.amount);
+    }
+    return result;
 }
 
 
 bool Statements::open(QString data_base_path)
 {
-    if(!data_base.open(data_base_path))
+    auto data_base = SQLiteDB::getInstance();
+    if(data_base.isOpen())
+        data_base.close();
+    data_base.SetPath(data_base_path);
+    if(!data_base.open())
         return false;
     refreshTableModels();
     return true;
@@ -149,7 +163,10 @@ bool Statements::open(QString data_base_path)
 
 void Statements::create(QString data_base_path)
 {
-    data_base.create(data_base_path);
+    auto data_base = SQLiteDB::getInstance();
+    data_base.SetPath(data_base_path);
+    data_base.create();
+    data_base.ExecuteScript("../rules.sql");
 }
 
 
@@ -160,7 +177,7 @@ void Statements::insertData(QVector<Statement> importedStatements)
     for(Statement& s : importedStatements)
         s.insert();
     database.EndTransaction();
-    data_base.classify();
+    categorizeUndefinedStatements();
     refreshTableModels();
     emit dataChanged();
 }
@@ -168,7 +185,7 @@ void Statements::insertData(QVector<Statement> importedStatements)
 void Statements::insertRule(Rule rule)
 {
     rule.insert();
-    data_base.classify();
+    categorizeUndefinedStatements();
     refreshTableModels();
     emit dataChanged();
 }

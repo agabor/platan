@@ -53,31 +53,6 @@ void AccDataBase::create(QString data_base_path)
 }
 
 
-void AccDataBase::getCategories(QMap<int, float> &result)
-{
-    result.clear();
-
-    classify();
-
-    SQLiteStatement statement;
-
-    SQLSelect select{"statements"};
-    select.field("SUM(Amount) as Sum");
-    select.field("Class");
-    select.where("Amount < 0");
-    select.groupBy("Class");
-
-    auto data_base = SQLiteDB::getInstance();
-    data_base.Prepare(statement, select);
-
-    while (data_base.Step(statement))
-    {
-        int sum = statement.GetDouble(0);
-        int Class = statement.GetInt(1);
-        result.insert(Class, sum);
-    }
-}
-
 void AccDataBase::classify()
 {
     auto data_base = SQLiteDB::getInstance();

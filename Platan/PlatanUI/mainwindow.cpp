@@ -46,7 +46,7 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     ui->setupUi(this);
     ui->tabWidget->removeCloseButtons();
 
-    this->statements.getCategories(classes);
+    classes = statements.getCategories();
 
     palette.push_back(AnalogousColorPalette(0xE67F90, 55));
     palette.push_back(AnalogousColorPalette(0x89E67E, 55));
@@ -210,7 +210,7 @@ void MainWindow::refreshStatements()
 
 void MainWindow::refreshChart()
 {
-    statements.getCategories(classes);
+    classes = statements.getCategories();
     palette.init(classes.size());
     InitChart();
     InitLegend();

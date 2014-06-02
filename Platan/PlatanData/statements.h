@@ -80,7 +80,7 @@ public:
     std::shared_ptr<StatementExtractTableModel> getStatementsForClass(int classIdx);
     void SetTimeInterval(QDate start_date, QDate end_date);
     void UnsetTimeInterval();
-    void getCategories(QMap<int, float> &result);
+    QMap<int, float> getCategories();
     bool open(QString data_base_path);
     void create(QString data_base_path);
     void GetClasses(QString lan, QMap<int, QString> &classes);
@@ -94,7 +94,6 @@ signals:
 private:
     void categorizeUndefinedStatements();
     bool apply(Statement &statement, Rule rule);
-    AccDataBase data_base;
     QMap<int, std::shared_ptr<StatementExtractTableModel>> classStatements;
     std::shared_ptr<StatementTableModel> uncategorisedStatements;
     std::shared_ptr<StatementTableModel> allStatements;
