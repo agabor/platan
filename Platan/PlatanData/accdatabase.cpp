@@ -28,7 +28,6 @@ using namespace std;
 
 AccDataBase::AccDataBase()
 {
-    time_interval_set = false;
 }
 
 AccDataBase::~AccDataBase()
@@ -66,7 +65,6 @@ void AccDataBase::getCategories(QMap<int, float> &result)
     select.field("SUM(Amount) as Sum");
     select.field("Class");
     select.where("Amount < 0");
-    setTimeInterval(select);
     select.groupBy("Class");
 
     auto data_base = SQLiteDB::getInstance();
@@ -105,27 +103,4 @@ void AccDataBase::classify()
 
     data_base.EndTransaction();
 }
-
-void AccDataBase::setTimeInterval(SQLSelect &select)
-{
-    if (time_interval_set)
-    {
-        select.where(QString("Date >= %1").arg(start_date.toInt()));
-        select.where(QString("Date <= %1").arg(end_date.toInt()));
-    }
-}
-
-
-void AccDataBase::setTimeInterval(QDate start_date, QDate end_date)
-{
-    this->start_date = start_date;
-    this->end_date = end_date;
-    time_interval_set = true;
-}
-
-void AccDataBase::unsetTimeInterval()
-{
-    time_interval_set = false;
-}
-
 

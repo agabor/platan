@@ -20,8 +20,11 @@
 #include <string>
 #include <QDate>
 #include <QString>
+#include <sqlcondition.h>
 
 const QDate start(1970, 1, 1);
+
+class DateCondition;
 
 class SQLiteDate : public QDate
 {
@@ -34,6 +37,8 @@ public:
     }
     SQLiteDate(const QDate &qdate) : QDate(qdate.year(), qdate.month(), qdate.day()) {}
     inline int toInt() const;
+    DateCondition greater(QString field) const;
+    DateCondition less(QString field) const;
 };
 
 //inline definitions
@@ -42,9 +47,6 @@ int SQLiteDate::toInt() const
 {
     return start.daysTo(*this);
 }
-
-
-
 
 
 #endif // SQLITEDATE_H

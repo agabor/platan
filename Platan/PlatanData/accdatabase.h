@@ -36,13 +36,7 @@ public:
     void create(QString data_base_path);
     void getCategories(QMap<int, float> &result);
     void getClasses(QString lan, QMap<int, QString> &classes);
-    void setTimeInterval(QDate start_date, QDate end_date);
-    void unsetTimeInterval();
     void classify();
-protected:
-    SQLiteDate start_date, end_date;
-    bool time_interval_set;
-    void setTimeInterval(SQLSelect &select);
 };
 
 #endif // ACCDATABASE_H

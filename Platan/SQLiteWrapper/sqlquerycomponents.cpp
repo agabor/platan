@@ -101,6 +101,11 @@ void SQLWhere::where(QString condition)
     conditions.push_back(condition);
 }
 
+void SQLWhere::where(SQLCondition &condition)
+{
+    where(condition.toString());
+}
+
 QString SQLWhere::whereClause() const
 {
     if (conditions.empty())

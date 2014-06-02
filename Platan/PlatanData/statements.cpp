@@ -21,30 +21,22 @@ using namespace std;
 const CategoryList Statements::categoryList;
 const ColumnList Statements::columnList;
 
-void Statements::initAllStatements()
-{
-    if (allStatements.get() == nullptr)
-        allStatements.reset(new StatementTableModel(*this));
-    else
-        allStatements->setData(*this);
-}
-
 Statements::Statements()
 {
     for(int i = 1; i < categoryList.count(); ++i)
         classStatements[i].reset(new StatementExtractTableModel(QVector<StatementExtractRow>()));
     uncategorisedStatements.reset(new StatementTableModel(QVector<Statement>()));
+    allStatements.reset(new StatementTableModel(QVector<Statement>()));
+    timeIntervalSet = false;
 }
 
 std::shared_ptr<StatementTableModel> Statements::getUncategorisedStatements()
 {
-    initStatementCategories();
     return uncategorisedStatements;
 }
 
 std::shared_ptr<StatementTableModel> Statements::getAllStatements()
 {
-    initAllStatements();
     return allStatements;
 }
 
@@ -78,14 +70,14 @@ void Statements::initStatementCategories()
 
 std::shared_ptr<StatementExtractTableModel> Statements::getStatementsForClass(int classIdx)
 {
-    initStatementCategories();
     return classStatements[classIdx];
 }
 
-
 void Statements::refreshTableModels()
 {
-    initAllStatements();
+    clear();
+    *this << Statement::getAll();
+    allStatements->setData(*this);
     initStatementCategories();
 }
 
@@ -93,8 +85,6 @@ void Statements::setCategory(Statement &row, int category)
 {
     row.category = category;
     row.update();
-    clear();
-    *this << Statement::getAll();
     refreshTableModels();
 }
 
@@ -127,18 +117,15 @@ bool Statements::apply(Statement &statement, Rule rule)
 
 void Statements::SetTimeInterval(QDate start_date, QDate end_date)
 {
-    data_base.setTimeInterval(start_date, end_date);
-    clear();
-    *this << Statement::getAll();
+    startDate = start_date;
+    endDate = end_date;
     refreshTableModels();
 }
 
 
 void Statements::UnsetTimeInterval()
 {
-    data_base.unsetTimeInterval();
-    clear();
-    *this << Statement::getAll();
+    timeIntervalSet = false;
     refreshTableModels();
 }
 
@@ -153,8 +140,7 @@ bool Statements::open(QString data_base_path)
 {
     if(!data_base.open(data_base_path))
         return false;
-    clear();
-    *this << Statement::getAll();
+    refreshTableModels();
     return true;
 }
 
@@ -172,8 +158,6 @@ void Statements::insertData(QVector<Statement> importedStatements)
         s.insert();
     database.EndTransaction();
     data_base.classify();
-    clear();
-    *this << Statement::getAll();
     refreshTableModels();
     emit dataChanged();
 }
@@ -182,8 +166,6 @@ void Statements::insertRule(Rule rule)
 {
     rule.insert();
     data_base.classify();
-    clear();
-    *this << Statement::getAll();
     refreshTableModels();
     emit dataChanged();
 }

@@ -94,11 +94,12 @@ signals:
 private:
     void categorizeUndefinedStatements();
     bool apply(Statement &statement, Rule rule);
-    void initAllStatements();
     AccDataBase data_base;
     QMap<int, std::shared_ptr<StatementExtractTableModel>> classStatements;
     std::shared_ptr<StatementTableModel> uncategorisedStatements;
     std::shared_ptr<StatementTableModel> allStatements;
+    SQLiteDate startDate, endDate;
+    bool timeIntervalSet;
 };
 
 #endif // STATEMENTS_H

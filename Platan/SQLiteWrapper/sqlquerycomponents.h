@@ -19,6 +19,7 @@
 
 #include <QString>
 #include <string>
+#include <sqlcondition.h>
 
 QString concatenate(const std::vector<QString> &strings, QString deliminator);
 
@@ -52,6 +53,7 @@ class SQLWhere
 {
 public:
     void where(QString condition);
+    void where(SQLCondition &condition);
 protected:
     QString whereClause() const;
 private:
