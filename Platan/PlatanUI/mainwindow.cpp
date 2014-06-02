@@ -71,6 +71,7 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     }
 
     connect(&statements,SIGNAL(dataChanged()), this, SLOT(refreshStatements()));
+    connect(&statements,SIGNAL(changeSetModified(bool)), this, SLOT(onChangeSetModified(bool)));
 
     QGroupBox *groupBox = new QGroupBox(ui->scrollArea);
     ui->scrollArea->setWidget(groupBox);
@@ -206,7 +207,6 @@ void MainWindow::sliceClicked(int idx)
 void MainWindow::refreshStatements()
 {
     refreshChart();
-    ui->actionSave->setEnabled(statements.changed());
 }
 
 void MainWindow::refreshChart()
@@ -287,5 +287,15 @@ void MainWindow::on_actionSet_category_triggered()
     if (QDialog::Accepted != d.exec())
         return;
 
-    statements.setCategory(uncategorisedTableModel->row(index.row()), d.category());
+    statements.setCategory(uncategorisedTableModel->row(index.row()).id, d.category());
+}
+
+void MainWindow::onChangeSetModified(bool changes)
+{
+    ui->actionSave->setEnabled(changes);
+}
+
+void MainWindow::on_actionSave_triggered()
+{
+    statements.save();
 }

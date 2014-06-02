@@ -91,11 +91,12 @@ public:
     void insertRule(Rule rule);
     void initStatementCategories();
     void refreshTableModels();
-    void setCategory(Statement &row, int category);
+    void setCategory(int id, int category);
     bool changed() const;
     void save();
 signals:
     void dataChanged();
+    void changeSetModified(bool changes);
 private:
     void categorizeUndefinedStatements();
     bool apply(Statement &statement, Rule rule);
@@ -104,7 +105,8 @@ private:
     std::shared_ptr<StatementTableModel> allStatements;
     SQLiteDate startDate, endDate;
     bool timeIntervalSet;
-    QSet<Statement*> changes;
+    QSet<int> changes;
+    QVector<const Statement *> statementsInDateRange();
 };
 
 #endif // STATEMENTS_H

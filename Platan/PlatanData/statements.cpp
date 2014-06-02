@@ -49,18 +49,18 @@ void Statements::initStatementCategories()
     for(int i : classStatements.keys())
         categories.insert(i, QVector<StatementExtractRow>());
 
-    for(const Statement &row : *this)
+    for(const Statement *row : statementsInDateRange())
     {
-        const int category = row.category;
+        const int category = row->category;
         if (category == 0)
-            uncategorised.push_back(row);
+            uncategorised.push_back(*row);
         else
             if (categories.keys().contains(category))
             {
                 StatementExtractRow extract_row;
-                extract_row.Ammount = row.amount;
-                extract_row.Date = row.date;
-                extract_row.Payee = row.payee;
+                extract_row.Ammount = row->amount;
+                extract_row.Date = row->date;
+                extract_row.Payee = row->payee;
                 categories[category].push_back(extract_row);
             }
     }
@@ -77,20 +77,35 @@ std::shared_ptr<StatementExtractTableModel> Statements::getStatementsForClass(in
 
 void Statements::refreshTableModels()
 {
-    clear();
-    if (timeIntervalSet)
-        *this << Statement::getAll(startDate.greater("Date") + endDate.less("Date"));
-    else
-        *this << Statement::getAll(SQLCondition::Empty);
     allStatements->setData(*this);
     categorizeUndefinedStatements();
     initStatementCategories();
 }
 
-void Statements::setCategory(Statement &row, int category)
+void Statements::setCategory(int id, int category)
 {
-    row.category = category;
-    row.update();
+    Statement *row(nullptr);
+    int idx = -1;
+    for (Statement &s : *this)
+    {
+        ++idx;
+        if(s.id == id)
+        {
+            row = &s;
+            break;
+        }
+    }
+
+    if (row == nullptr)
+        return;
+
+   row->category = category;
+
+    if (!changes.contains(row->id))
+    {
+        changes.insert(row->id);
+        emit changeSetModified(true);
+    }
     refreshTableModels();
 }
 
@@ -101,14 +116,22 @@ bool Statements::changed() const
 
 void Statements::save()
 {
-    for(Statement *st : changes)
-        st->update();
+    for (Statement &s : *this)
+    {
+        if (changes.contains(s.id))
+        {
+            changes.remove(s.id);
+            s.update();
+        }
+    }
     changes.clear();
+    emit changeSetModified(false);
 }
 
 void Statements::categorizeUndefinedStatements()
 {
     QVector<Rule> rules = Rule::getAll();
+    bool changed = false;
     for (Statement &s : *this)
     {
         if (s.category == 0)
@@ -116,10 +139,16 @@ void Statements::categorizeUndefinedStatements()
             for(Rule r : rules)
             {
                 if (apply(s, r))
+                {
+                    changes.insert(s.id);
+                    changed = true;
                     break;
+                }
             }
         }
     }
+    if (changed)
+        emit changeSetModified(true);
 }
 
 bool Statements::apply(Statement &statement, Rule rule)
@@ -128,10 +157,21 @@ bool Statements::apply(Statement &statement, Rule rule)
     if (statement.at(rule.column) == rule.value)
     {
         statement.category = rule.category;
-        changes.insert(&statement);
         return true;
     }
     return false;
+}
+
+QVector<const Statement *> Statements::statementsInDateRange()
+{
+    QVector<const Statement *> result;
+    for(const Statement &row : *this)
+    {
+        if (timeIntervalSet && (row.date < startDate || row.date > endDate))
+            continue;
+        result.append(&row);
+    }
+    return result;
 }
 
 void Statements::SetTimeInterval(QDate start_date, QDate end_date)
@@ -153,13 +193,13 @@ void Statements::UnsetTimeInterval()
 QMap<int, float> Statements::getCategories()
 {
     QMap<int, float> result;
-    for(const Statement &row : *this)
+    for(const Statement *row : statementsInDateRange())
     {
-        const int category = row.category;
+        const int category = row->category;
         if (result.keys().contains(category))
-            result[category] += row.amount;
+            result[category] += row->amount;
         else
-            result.insert(category, row.amount);
+            result.insert(category, row->amount);
     }
     return result;
 }
@@ -173,6 +213,8 @@ bool Statements::open(QString data_base_path)
     data_base.setPath(data_base_path);
     if(!data_base.open())
         return false;
+    clear();
+    *this << Statement::getAll(SQLCondition::Empty);
     refreshTableModels();
     return true;
 }

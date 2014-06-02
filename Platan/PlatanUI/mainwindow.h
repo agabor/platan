@@ -87,6 +87,9 @@ private slots:
 
     void on_actionSet_category_triggered();
 
+    void onChangeSetModified(bool changes);
+    void on_actionSave_triggered();
+
 private:
 
     Ui::MainWindow *ui;
