@@ -19,7 +19,6 @@
 
 #include <QApplication>
 #include "mainwindow.h"
-#include <accdatabase.h>
 #include <QMap>
 #include <QVector>
 #include <QTableView>

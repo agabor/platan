@@ -1,7 +1,6 @@
 
 SOURCES += \
     ../Platan/PlatanData/csvtablemodel.cpp \
-    ../Platan/PlatanData/accdatabase.cpp \
     ../Platan/PlatanData/datetransformation.cpp \
     ../Platan/PlatanData/csvreader.cpp \
     ../Platan/PlatanData/statementextracttablemodel.cpp \
@@ -14,7 +13,6 @@ SOURCES += \
 
 HEADERS += \
     ../Platan/PlatanData/csvtablemodel.h \
-    ../Platan/PlatanData/accdatabase.h \
     ../Platan/PlatanData/statementrow.h \
     ../Platan/PlatanData/statementtablemodel.h \
     ../Platan/PlatanData/simpletransformations.h \

@@ -20,7 +20,6 @@
 #include <QMainWindow>
 #include <set>
 #include <QMap>
-#include "accdatabase.h"
 #include "colorpalette.h"
 #include <QTabWidget>
 #include "qpiechart.h"

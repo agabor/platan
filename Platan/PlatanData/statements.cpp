@@ -15,11 +15,13 @@
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "statements.h"
+#include <sqlitedb.h>
 
 using namespace std;
 
 const CategoryList Statements::categoryList;
 const ColumnList Statements::columnList;
+
 
 Statements::Statements()
 {
@@ -81,6 +83,7 @@ void Statements::refreshTableModels()
     else
         *this << Statement::getAll(SQLCondition::Empty);
     allStatements->setData(*this);
+    categorizeUndefinedStatements();
     initStatementCategories();
 }
 
@@ -89,6 +92,18 @@ void Statements::setCategory(Statement &row, int category)
     row.category = category;
     row.update();
     refreshTableModels();
+}
+
+bool Statements::changed() const
+{
+    return !changes.isEmpty();
+}
+
+void Statements::save()
+{
+    for(Statement *st : changes)
+        st->update();
+    changes.clear();
 }
 
 void Statements::categorizeUndefinedStatements()
@@ -113,6 +128,7 @@ bool Statements::apply(Statement &statement, Rule rule)
     if (statement.at(rule.column) == rule.value)
     {
         statement.category = rule.category;
+        changes.insert(&statement);
         return true;
     }
     return false;

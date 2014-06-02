@@ -19,7 +19,6 @@
 
 #include "statement.h"
 #include "statementextractrow.h"
-#include "accdatabase.h"
 
 #include <map>
 #include <vector>
@@ -28,6 +27,10 @@
 #include <QObject>
 #include <QString>
 #include <QMap>
+#include <QSet>
+#include <statementtablemodel.h>
+#include <statementextracttablemodel.h>
+#include <rule.h>
 
 class CategoryList : public QStringList
 {
@@ -89,6 +92,8 @@ public:
     void initStatementCategories();
     void refreshTableModels();
     void setCategory(Statement &row, int category);
+    bool changed() const;
+    void save();
 signals:
     void dataChanged();
 private:
@@ -99,6 +104,7 @@ private:
     std::shared_ptr<StatementTableModel> allStatements;
     SQLiteDate startDate, endDate;
     bool timeIntervalSet;
+    QSet<Statement*> changes;
 };
 
 #endif // STATEMENTS_H

@@ -206,6 +206,7 @@ void MainWindow::sliceClicked(int idx)
 void MainWindow::refreshStatements()
 {
     refreshChart();
+    ui->actionSave->setEnabled(statements.changed());
 }
 
 void MainWindow::refreshChart()
