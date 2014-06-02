@@ -40,23 +40,23 @@ bool AccDataBase::open(QString data_base_path)
     auto data_base = SQLiteDB::getInstance();
     if(data_base.isOpen())
         data_base.close();
-    data_base.SetPath(data_base_path);
+    data_base.setPath(data_base_path);
     return data_base.open();
 }
 
 void AccDataBase::create(QString data_base_path)
 {
     auto data_base = SQLiteDB::getInstance();
-    data_base.SetPath(data_base_path);
+    data_base.setPath(data_base_path);
     data_base.create();
-    data_base.ExecuteScript("../rules.sql");
+    data_base.executeScript("../rules.sql");
 }
 
 
 void AccDataBase::classify()
 {
     auto data_base = SQLiteDB::getInstance();
-    data_base.BeginTransaction();
+    data_base.beginTransaction();
 
     for(Rule &rule : Rule::getAll(4))
     {
@@ -64,7 +64,7 @@ void AccDataBase::classify()
         update.set("Class", rule.category);
         update.where("Class = 0");
         update.where(QString("PayeeAccount = \"%1\"").arg(rule.value));
-        data_base.Execute(update);
+        data_base.execute(update);
     }
 
     for(Rule &rule : Rule::getAll(1))
@@ -73,9 +73,9 @@ void AccDataBase::classify()
         update.set("Class", rule.category);
         update.where("Class = 0");
         update.where(QString("Type = \"%1\"").arg(rule.value));
-        data_base.Execute(update);
+        data_base.execute(update);
     }
 
-    data_base.EndTransaction();
+    data_base.endTransaction();
 }
 

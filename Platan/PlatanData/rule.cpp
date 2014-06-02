@@ -35,7 +35,7 @@ void Rule::insert() const
     insert.set("Value", value);
     insert.set("Class", category);
 
-    SQLiteDB::getInstance().Execute(insert);
+    SQLiteDB::getInstance().execute(insert);
 }
 
 QVector<Rule> Rule::getAll(int column)
@@ -51,11 +51,11 @@ QVector<Rule> Rule::getAll(int column)
 
     auto data_base = SQLiteDB::getInstance();
 
-    data_base.Prepare(statement, select);
+    data_base.prepare(statement, select);
 
     QVector<Rule> result;
 
-    while (data_base.Step(statement))
+    while (data_base.step(statement))
     {
         result.push_back(Rule(statement.GetInt(0), statement.GetText(1), statement.GetInt(2)));
     }

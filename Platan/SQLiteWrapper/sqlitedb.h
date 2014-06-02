@@ -39,20 +39,20 @@ class SQLiteDB
 {
 public:
     static SQLiteDB &getInstance();
-    void SetPath(QString data_base_path);
+    void setPath(QString data_base_path);
     bool open();
     void close();
     void create();
-    void BeginTransaction();
-    void EndTransaction();
-    void Execute(SQLQuery &query);
-    void ExecuteScript(QString filename);
-    bool Step(SQLiteStatement &statement);
-    void Prepare(SQLiteStatement &statement, SQLSelect &select);
+    void beginTransaction();
+    void endTransaction();
+    void execute(SQLQuery &query);
+    void executeScript(QString filename);
+    bool step(SQLiteStatement &statement);
+    void prepare(SQLiteStatement &statement, SQLSelect &select);
     bool isOpen() const;
 private:
     SQLiteDB();
-    void Execute(QString query_str);
+    void execute(QString query_str);
     void connect();
     QSqlDatabase db;
     QString data_base_path;

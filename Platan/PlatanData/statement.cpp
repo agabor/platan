@@ -51,7 +51,7 @@ void Statement::update() const
     update.set("Amount", amount);
     update.set("Class", category);
     update.where(QString("ID = %1").arg(id));
-    SQLiteDB::getInstance().Execute(update);
+    SQLiteDB::getInstance().execute(update);
 }
 
 void Statement::insert() const
@@ -65,7 +65,7 @@ void Statement::insert() const
     insert.set("Amount", amount);
     insert.set("Class", 0);
 
-    SQLiteDB::getInstance().Execute(insert);
+    SQLiteDB::getInstance().execute(insert);
 }
 
 QVector<Statement> Statement::getAll(const SQLCondition &cond)
@@ -87,9 +87,9 @@ QVector<Statement> Statement::getAll(const SQLCondition &cond)
         select.where(cond);
 
     auto data_base = SQLiteDB::getInstance();
-    data_base.Prepare(statement, select);
+    data_base.prepare(statement, select);
 
-    while (data_base.Step(statement))
+    while (data_base.step(statement))
     {
         Statement row;
         row.id = statement.GetInt(0);

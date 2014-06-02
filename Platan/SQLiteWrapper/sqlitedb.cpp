@@ -29,7 +29,7 @@ using namespace std;
 
 SQLiteDB SQLiteDB::instance;
 
-void SQLiteDB::Prepare(SQLiteStatement &statement, SQLSelect &select)
+void SQLiteDB::prepare(SQLiteStatement &statement, SQLSelect &select)
 {
     statement.SetStatement(select.toString());
 }
@@ -80,7 +80,7 @@ void SQLiteDB::initSchema()
     schema.addTable(statements);
 }
 
-bool SQLiteDB::Step(SQLiteStatement &statement)
+bool SQLiteDB::step(SQLiteStatement &statement)
 {
     return statement.statement.next();
 }
@@ -97,7 +97,7 @@ SQLiteDB &SQLiteDB::getInstance()
     return instance;
 }
 
-void SQLiteDB::SetPath(QString data_base_path)
+void SQLiteDB::setPath(QString data_base_path)
 {
     this->data_base_path = data_base_path;
 }
@@ -136,7 +136,7 @@ void SQLiteDB::connect()
     }
 }
 
-void SQLiteDB::Execute(QString query_str)
+void SQLiteDB::execute(QString query_str)
 {
     QSqlQuery qry;
 
@@ -148,33 +148,33 @@ void SQLiteDB::Execute(QString query_str)
     }
 }
 
-void SQLiteDB::Execute(SQLQuery &query)
+void SQLiteDB::execute(SQLQuery &query)
 {
-    Execute(query.toString());
+    execute(query.toString());
 }
 
-void SQLiteDB::ExecuteScript(QString filename)
+void SQLiteDB::executeScript(QString filename)
 {
     QFile scriptFile(filename);
     if (scriptFile.open(QIODevice::ReadOnly))
     {
         QStringList scriptQueries = QTextStream(&scriptFile).readAll().split(';');
-        BeginTransaction();
+        beginTransaction();
         for (QString insert : scriptQueries)
         {
             std::string query = insert.toStdString();
-            Execute(query.c_str());
+            execute(query.c_str());
         }
-        EndTransaction();
+        endTransaction();
     }
 }
 
-void SQLiteDB::BeginTransaction()
+void SQLiteDB::beginTransaction()
 {
     db.transaction();
 }
 
-void SQLiteDB::EndTransaction()
+void SQLiteDB::endTransaction()
 {
     db.commit();
 }

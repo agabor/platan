@@ -154,7 +154,7 @@ bool Statements::open(QString data_base_path)
     auto data_base = SQLiteDB::getInstance();
     if(data_base.isOpen())
         data_base.close();
-    data_base.SetPath(data_base_path);
+    data_base.setPath(data_base_path);
     if(!data_base.open())
         return false;
     refreshTableModels();
@@ -164,19 +164,19 @@ bool Statements::open(QString data_base_path)
 void Statements::create(QString data_base_path)
 {
     auto data_base = SQLiteDB::getInstance();
-    data_base.SetPath(data_base_path);
+    data_base.setPath(data_base_path);
     data_base.create();
-    data_base.ExecuteScript("../rules.sql");
+    data_base.executeScript("../rules.sql");
 }
 
 
 void Statements::insertData(QVector<Statement> importedStatements)
 {
     auto database = SQLiteDB::getInstance();
-    database.BeginTransaction();
+    database.beginTransaction();
     for(Statement& s : importedStatements)
         s.insert();
-    database.EndTransaction();
+    database.endTransaction();
     categorizeUndefinedStatements();
     refreshTableModels();
     emit dataChanged();
