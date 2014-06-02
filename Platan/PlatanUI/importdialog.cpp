@@ -18,7 +18,6 @@
 #include "ui_importdialog.h"
 #include <simpletransformations.h>
 #include <datetransformation.h>
-#include <accdatabase.h>
 
 #include <QMessageBox>
 

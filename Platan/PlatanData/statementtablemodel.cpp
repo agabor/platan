@@ -18,10 +18,9 @@
 #include <sstream>
 
 
-StatementTableModel::StatementTableModel(QVector<Statement> rows, QObject *parent) :
+StatementTableModel::StatementTableModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
-    Rows = rows;
 }
 
 int StatementTableModel::rowCount(const QModelIndex& parent) const
@@ -50,7 +49,7 @@ QVariant StatementTableModel::data(const QModelIndex& index, int role) const
 {
     if(role == Qt::DisplayRole)
     {
-        return Rows[index.row()].at(index.column());
+        return Rows[index.row()]->at(index.column());
     }
     return QVariant::Invalid;
 }
@@ -90,29 +89,30 @@ QVariant StatementTableModel::headerData(int section, Qt::Orientation orientatio
 
 
 
-std::pair<QDate, QDate> StatementTableModel::DateRange() const
+QPair<QDate, QDate> StatementTableModel::DateRange() const
 {
     if (Rows.size() == 0)
-        return std::pair<QDate, QDate>();
+        return QPair<QDate, QDate>();
 
-    QDate min_date  = Rows.at(0).date;
+    QDate min_date  = Rows.at(0)->date;
     QDate max_date = min_date;
 
     for (auto row : Rows)
     {
-        if (row.date == start)
+        SQLiteDate date = row->date;
+        if (date == start)
             continue;
 
-        if (row.date < min_date)
-            min_date = row.date;
-        if (row.date > max_date)
-            max_date = row.date;
+        if (date < min_date)
+            min_date = date;
+        if (date > max_date)
+            max_date = date;
     }
 
-    return std::pair<QDate, QDate>(min_date, max_date);
+    return QPair<QDate, QDate>(min_date, max_date);
 }
 
-void StatementTableModel::setData(QVector<Statement> rows)
+void StatementTableModel::setData(QVector<std::shared_ptr<Statement>> rows)
 {
     Rows = rows;
     emit layoutChanged ();
@@ -120,5 +120,5 @@ void StatementTableModel::setData(QVector<Statement> rows)
 
 Statement& StatementTableModel::row(int idx)
 {
-    return Rows[idx];
+    return *Rows[idx];
 }

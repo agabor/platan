@@ -3,7 +3,6 @@ SOURCES += \
     ../Platan/PlatanData/csvtablemodel.cpp \
     ../Platan/PlatanData/datetransformation.cpp \
     ../Platan/PlatanData/csvreader.cpp \
-    ../Platan/PlatanData/statementextracttablemodel.cpp \
     ../Platan/PlatanData/statements.cpp \
     ../Platan/PlatanData/statementtablemodel.cpp \
     ../Platan/PlatanData/tabletransformer.cpp \
@@ -18,10 +17,7 @@ HEADERS += \
     ../Platan/PlatanData/simpletransformations.h \
     ../Platan/PlatanData/datetransformation.h \
     ../Platan/PlatanData/transformation.h \
-    ../Platan/PlatanData/statementextractrow.h \
-    ../Platan/PlatanData/statementextractrow.h \
     ../Platan/PlatanData/csvreader.h \
-    ../Platan/PlatanData/statementextracttablemodel.h \
     ../Platan/PlatanData/statements.h \
     ../Platan/PlatanData/statementtablemodel.h \
     ../Platan/PlatanData/tabletransformer.h \

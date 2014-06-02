@@ -26,43 +26,37 @@ const ColumnList Statements::columnList;
 Statements::Statements()
 {
     for(int i = 1; i < categoryList.count(); ++i)
-        classStatements[i].reset(new StatementExtractTableModel(QVector<StatementExtractRow>()));
-    uncategorisedStatements.reset(new StatementTableModel(QVector<Statement>()));
-    allStatements.reset(new StatementTableModel(QVector<Statement>()));
+        classStatements[i].reset(new StatementTableModel);
+    uncategorisedStatements.reset(new StatementTableModel);
+    allStatements.reset(new StatementTableModel);
     timeIntervalSet = false;
 }
 
-std::shared_ptr<StatementTableModel> Statements::getUncategorisedStatements()
+shared_ptr<StatementTableModel> Statements::getUncategorisedStatements()
 {
     return uncategorisedStatements;
 }
 
-std::shared_ptr<StatementTableModel> Statements::getAllStatements()
+shared_ptr<StatementTableModel> Statements::getAllStatements()
 {
     return allStatements;
 }
 
 void Statements::initStatementCategories()
 {
-    QVector<Statement> uncategorised;
-    QMap<int, QVector<StatementExtractRow>> categories;
+    QVector<shared_ptr<Statement>> uncategorised;
+    QMap<int, QVector<shared_ptr<Statement>>> categories;
     for(int i : classStatements.keys())
-        categories.insert(i, QVector<StatementExtractRow>());
+        categories.insert(i, QVector<shared_ptr<Statement>>());
 
-    for(const Statement *row : statementsInDateRange())
+    for(auto row : statementsInDateRange())
     {
         const int category = row->category;
         if (category == 0)
-            uncategorised.push_back(*row);
+            uncategorised.push_back(row);
         else
             if (categories.keys().contains(category))
-            {
-                StatementExtractRow extract_row;
-                extract_row.Ammount = row->amount;
-                extract_row.Date = row->date;
-                extract_row.Payee = row->payee;
-                categories[category].push_back(extract_row);
-            }
+                categories[category].push_back(row);
     }
 
     for (int k : categories.keys())
@@ -70,7 +64,7 @@ void Statements::initStatementCategories()
     uncategorisedStatements->setData(uncategorised);
 }
 
-std::shared_ptr<StatementExtractTableModel> Statements::getStatementsForClass(int classIdx)
+shared_ptr<StatementTableModel> Statements::getStatementsForClass(int classIdx)
 {
     return classStatements[classIdx];
 }
@@ -86,12 +80,12 @@ void Statements::setCategory(int id, int category)
 {
     Statement *row(nullptr);
     int idx = -1;
-    for (Statement &s : *this)
+    for (auto s : *this)
     {
         ++idx;
-        if(s.id == id)
+        if(s->id == id)
         {
-            row = &s;
+            row = s.get();
             break;
         }
     }
@@ -116,12 +110,12 @@ bool Statements::changed() const
 
 void Statements::save()
 {
-    for (Statement &s : *this)
+    for (auto s : *this)
     {
-        if (changes.contains(s.id))
+        if (changes.contains(s->id))
         {
-            changes.remove(s.id);
-            s.update();
+            changes.remove(s->id);
+            s->update();
         }
     }
     changes.clear();
@@ -132,15 +126,15 @@ void Statements::categorizeUndefinedStatements()
 {
     QVector<Rule> rules = Rule::getAll();
     bool changed = false;
-    for (Statement &s : *this)
+    for (auto s : *this)
     {
-        if (s.category == 0)
+        if (s->category == 0)
         {
             for(Rule r : rules)
             {
                 if (apply(s, r))
                 {
-                    changes.insert(s.id);
+                    changes.insert(s->id);
                     changed = true;
                     break;
                 }
@@ -151,25 +145,25 @@ void Statements::categorizeUndefinedStatements()
         emit changeSetModified(true);
 }
 
-bool Statements::apply(Statement &statement, Rule rule)
+bool Statements::apply(shared_ptr<Statement> statement, Rule rule)
 {
 
-    if (statement.at(rule.column) == rule.value)
+    if (statement->at(rule.column) == rule.value)
     {
-        statement.category = rule.category;
+        statement->category = rule.category;
         return true;
     }
     return false;
 }
 
-QVector<const Statement *> Statements::statementsInDateRange()
+QVector<shared_ptr<Statement>> Statements::statementsInDateRange()
 {
-    QVector<const Statement *> result;
-    for(const Statement &row : *this)
+    QVector<shared_ptr<Statement>> result;
+    for(shared_ptr<Statement> row : *this)
     {
-        if (timeIntervalSet && (row.date < startDate || row.date > endDate))
+        if (timeIntervalSet && (row->date < startDate || row->date > endDate))
             continue;
-        result.append(&row);
+        result.append(row);
     }
     return result;
 }
@@ -193,7 +187,7 @@ void Statements::UnsetTimeInterval()
 QMap<int, float> Statements::getCategories()
 {
     QMap<int, float> result;
-    for(const Statement *row : statementsInDateRange())
+    for(auto row : statementsInDateRange())
     {
         const int category = row->category;
         if (result.keys().contains(category))
@@ -214,7 +208,8 @@ bool Statements::open(QString data_base_path)
     if(!data_base.open())
         return false;
     clear();
-    *this << Statement::getAll(SQLCondition::Empty);
+    for(Statement &s : Statement::getAll(SQLCondition::Empty))
+        append(shared_ptr<Statement>(new Statement(s)));
     refreshTableModels();
     return true;
 }

@@ -18,7 +18,6 @@
 #define STATEMENTS_H
 
 #include "statement.h"
-#include "statementextractrow.h"
 
 #include <map>
 #include <vector>
@@ -29,7 +28,6 @@
 #include <QMap>
 #include <QSet>
 #include <statementtablemodel.h>
-#include <statementextracttablemodel.h>
 #include <rule.h>
 
 class CategoryList : public QStringList
@@ -71,7 +69,7 @@ public:
 };
 
 
-class Statements : public QObject, public QVector<Statement>
+class Statements : public QObject, public QVector<std::shared_ptr<Statement>>
 {
     Q_OBJECT
 public:
@@ -80,7 +78,7 @@ public:
     static const ColumnList columnList;
     std::shared_ptr<StatementTableModel> getUncategorisedStatements();
     std::shared_ptr<StatementTableModel> getAllStatements();
-    std::shared_ptr<StatementExtractTableModel> getStatementsForClass(int classIdx);
+    std::shared_ptr<StatementTableModel> getStatementsForClass(int classIdx);
     void SetTimeInterval(QDate start_date, QDate end_date);
     void UnsetTimeInterval();
     QMap<int, float> getCategories();
@@ -99,14 +97,14 @@ signals:
     void changeSetModified(bool changes);
 private:
     void categorizeUndefinedStatements();
-    bool apply(Statement &statement, Rule rule);
-    QMap<int, std::shared_ptr<StatementExtractTableModel>> classStatements;
+    bool apply(std::shared_ptr<Statement> statement, Rule rule);
+    QMap<int, std::shared_ptr<StatementTableModel>> classStatements;
     std::shared_ptr<StatementTableModel> uncategorisedStatements;
     std::shared_ptr<StatementTableModel> allStatements;
     SQLiteDate startDate, endDate;
     bool timeIntervalSet;
     QSet<int> changes;
-    QVector<const Statement *> statementsInDateRange();
+    QVector<std::shared_ptr<Statement>> statementsInDateRange();
 };
 
 #endif // STATEMENTS_H
