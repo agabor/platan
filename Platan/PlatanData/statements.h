@@ -72,6 +72,7 @@ class Statements : public QObject, public QVector<Statement>
 {
     Q_OBJECT
 public:
+    Statements();
     static const CategoryList categoryList;
     static const ColumnList columnList;
     std::shared_ptr<StatementTableModel> getUncategorisedStatements();
@@ -85,13 +86,14 @@ public:
     void GetClasses(QString lan, QMap<int, QString> &classes);
     void insertData(QVector<Statement> importedStatements);
     void insertRule(Rule rule);
-    void initClassStatements(int classIdx);
+    void initStatementCategories();
     void refreshTableModels();
     void setCategory(Statement &row, int category);
 signals:
     void dataChanged();
 private:
-    void initUncategorisedStatements();
+    void categorizeUndefinedStatements();
+    bool apply(Statement &statement, Rule rule);
     void initAllStatements();
     AccDataBase data_base;
     QMap<int, std::shared_ptr<StatementExtractTableModel>> classStatements;

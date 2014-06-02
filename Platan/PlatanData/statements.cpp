@@ -21,23 +21,6 @@ using namespace std;
 const CategoryList Statements::categoryList;
 const ColumnList Statements::columnList;
 
-
-void Statements::initUncategorisedStatements()
-{
-    QVector<Statement> result;
-    for(const Statement &row : *this)
-    {
-        if (row.category == 0)
-        {
-            result.push_back(row);
-        }
-    }
-    if (uncategorisedStatements.get() == nullptr)
-        uncategorisedStatements.reset(new StatementTableModel(result));
-    else
-        uncategorisedStatements->setData(result);
-}
-
 void Statements::initAllStatements()
 {
     if (allStatements.get() == nullptr)
@@ -46,9 +29,16 @@ void Statements::initAllStatements()
         allStatements->setData(*this);
 }
 
+Statements::Statements()
+{
+    for(int i = 1; i < categoryList.count(); ++i)
+        classStatements[i].reset(new StatementExtractTableModel(QVector<StatementExtractRow>()));
+    uncategorisedStatements.reset(new StatementTableModel(QVector<Statement>()));
+}
+
 std::shared_ptr<StatementTableModel> Statements::getUncategorisedStatements()
 {
-    initUncategorisedStatements();
+    initStatementCategories();
     return uncategorisedStatements;
 }
 
@@ -58,40 +48,45 @@ std::shared_ptr<StatementTableModel> Statements::getAllStatements()
     return allStatements;
 }
 
-void Statements::initClassStatements(int classIdx)
+void Statements::initStatementCategories()
 {
-    QVector<StatementExtractRow> result;
+    QVector<Statement> uncategorised;
+    QMap<int, QVector<StatementExtractRow>> categories;
+    for(int i : classStatements.keys())
+        categories.insert(i, QVector<StatementExtractRow>());
 
     for(const Statement &row : *this)
     {
-        if (row.category == classIdx)
-        {
-            StatementExtractRow extract_row;
-            extract_row.Ammount = row.amount;
-            extract_row.Date = row.date;
-            extract_row.Payee = row.payee;
-            result.push_back(extract_row);
-        }
+        const int category = row.category;
+        if (category == 0)
+            uncategorised.push_back(row);
+        else
+            if (categories.keys().contains(category))
+            {
+                StatementExtractRow extract_row;
+                extract_row.Ammount = row.amount;
+                extract_row.Date = row.date;
+                extract_row.Payee = row.payee;
+                categories[category].push_back(extract_row);
+            }
     }
-    if (classStatements.find(classIdx) == classStatements.end())
-        classStatements[classIdx] = std::shared_ptr<StatementExtractTableModel>(new StatementExtractTableModel(result));
-    else
-        classStatements[classIdx]->setData(result);
+
+    for (int k : categories.keys())
+        classStatements[k]->setData(categories[k]);
+    uncategorisedStatements->setData(uncategorised);
 }
 
 std::shared_ptr<StatementExtractTableModel> Statements::getStatementsForClass(int classIdx)
 {
-    initClassStatements(classIdx);
+    initStatementCategories();
     return classStatements[classIdx];
 }
 
 
 void Statements::refreshTableModels()
 {
-    initUncategorisedStatements();
     initAllStatements();
-    for(int classIdx : classStatements.keys())
-        initClassStatements(classIdx);
+    initStatementCategories();
 }
 
 void Statements::setCategory(Statement &row, int category)
@@ -101,6 +96,33 @@ void Statements::setCategory(Statement &row, int category)
     clear();
     *this << Statement::getAll();
     refreshTableModels();
+}
+
+void Statements::categorizeUndefinedStatements()
+{
+    QVector<Rule> rules = Rule::getAll();
+    for (Statement &s : *this)
+    {
+        if (s.category == 0)
+        {
+            for(Rule r : rules)
+            {
+                if (apply(s, r))
+                    break;
+            }
+        }
+    }
+}
+
+bool Statements::apply(Statement &statement, Rule rule)
+{
+
+    if (statement.at(rule.column) == rule.value)
+    {
+        statement.category = rule.category;
+        return true;
+    }
+    return false;
 }
 
 void Statements::SetTimeInterval(QDate start_date, QDate end_date)
