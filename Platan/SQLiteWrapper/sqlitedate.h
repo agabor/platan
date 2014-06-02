@@ -24,8 +24,6 @@
 
 const QDate start(1970, 1, 1);
 
-class DateCondition;
-
 class SQLiteDate : public QDate
 {
 public:
@@ -37,8 +35,8 @@ public:
     }
     SQLiteDate(const QDate &qdate) : QDate(qdate.year(), qdate.month(), qdate.day()) {}
     inline int toInt() const;
-    DateCondition greater(QString field) const;
-    DateCondition less(QString field) const;
+    SimpleCondition greater(QString field) const;
+    SimpleCondition less(QString field) const;
 };
 
 //inline definitions

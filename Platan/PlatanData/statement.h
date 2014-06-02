@@ -21,6 +21,7 @@
 #include <string>
 #include <QVariant>
 #include <sqlitedate.h>
+#include <sqlcondition.h>
 
 template <typename T>
 class QVector;
@@ -44,7 +45,7 @@ public:
     QVariant at(int idx) const;
     void update() const;
     void insert() const;
-    static QVector<Statement> getAll();
+    static QVector<Statement> getAll(const SQLCondition &cond);
 };
 
 #endif // STATEMENTROW_H

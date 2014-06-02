@@ -68,7 +68,7 @@ void Statement::insert() const
     SQLiteDB::getInstance().Execute(insert);
 }
 
-QVector<Statement> Statement::getAll()
+QVector<Statement> Statement::getAll(const SQLCondition &cond)
 {
     QVector<Statement> result;
     SQLiteStatement statement;
@@ -83,6 +83,8 @@ QVector<Statement> Statement::getAll()
     select.field("Amount");
     select.field("Class");
     select.where("Amount < 0");
+    if (!cond.isEmpty())
+        select.where(cond);
 
     auto data_base = SQLiteDB::getInstance();
     data_base.Prepare(statement, select);

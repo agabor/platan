@@ -47,13 +47,13 @@ private:
     RelOp op;
 };
 
-DateCondition SQLiteDate::greater(QString field) const
+SimpleCondition SQLiteDate::greater(QString field) const
 {
-    return DateCondition(*this, field, RelOp::GE);
+    return SimpleCondition(DateCondition(*this, field, RelOp::GE));
 }
 
-DateCondition SQLiteDate::less(QString field) const
+SimpleCondition SQLiteDate::less(QString field) const
 {
-    return DateCondition(*this, field, RelOp::LE);
+    return SimpleCondition(DateCondition(*this, field, RelOp::LE));
 }
 

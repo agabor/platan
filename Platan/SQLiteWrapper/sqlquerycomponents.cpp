@@ -78,11 +78,6 @@ void SQLFieldValue::set(QString field, QString value)
     addFieldValuePair(field, svalue);
 }
 
-void SQLFieldValue::set(QString field, string value)
-{
-    set(field, QString(value.c_str()));
-}
-
 void SQLFieldValue::set(QString field, int value)
 {
     auto svalue = QString(to_string(value).c_str());
@@ -101,7 +96,7 @@ void SQLWhere::where(QString condition)
     conditions.push_back(condition);
 }
 
-void SQLWhere::where(SQLCondition &condition)
+void SQLWhere::where(const SQLCondition &condition)
 {
     where(condition.toString());
 }

@@ -9,20 +9,33 @@ class SimpleCondition;
 class SQLCondition
 {
 public:
+    static const SimpleCondition Empty;
     virtual QString toString() const = 0;
     SimpleCondition operator+(const SQLCondition &cond) const;
+    virtual bool isEmpty() const;
 };
 
 class SimpleCondition : public SQLCondition
 {
 public:
-    SimpleCondition(QString _cond) :cond(_cond)
+    explicit SimpleCondition(const SQLCondition &_cond)
+        : cond (_cond.toString())
+    {
+    }
+
+    explicit SimpleCondition(QString _cond)
+        : cond(_cond)
     {
     }
 
     QString toString() const
     {
         return cond;
+    }
+
+    bool isEmpty() const
+    {
+        return cond.isEmpty();
     }
 
 private:

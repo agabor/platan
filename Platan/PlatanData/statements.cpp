@@ -76,7 +76,10 @@ std::shared_ptr<StatementExtractTableModel> Statements::getStatementsForClass(in
 void Statements::refreshTableModels()
 {
     clear();
-    *this << Statement::getAll();
+    if (timeIntervalSet)
+        *this << Statement::getAll(startDate.greater("Date") + endDate.less("Date"));
+    else
+        *this << Statement::getAll(SQLCondition::Empty);
     allStatements->setData(*this);
     initStatementCategories();
 }

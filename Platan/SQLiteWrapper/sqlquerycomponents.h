@@ -37,7 +37,6 @@ class SQLFieldValue : public SQLFields
 {
 public:
     void set(QString field, QString value);
-    void set(QString field, std::string value);
     void set(QString field, int value);
     void set(QString field, float value);
 protected:
@@ -53,7 +52,7 @@ class SQLWhere
 {
 public:
     void where(QString condition);
-    void where(SQLCondition &condition);
+    void where(const SQLCondition &condition);
 protected:
     QString whereClause() const;
 private:
