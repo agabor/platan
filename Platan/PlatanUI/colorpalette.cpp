@@ -36,15 +36,6 @@ ColorPalette::ColorPalette()
     colors.push_back(pastelize(QColor(0xfc, 0xaf, 0x3e)));
     colors.push_back(pastelize(QColor(0xfc, 0xe9, 0x4f)));
 
-    //middle
-    colors.push_back(pastelize(QColor(0xcc, 0x00, 0x00)));
-    colors.push_back(pastelize(QColor(0x75, 0x50, 0x7b)));
-    colors.push_back(pastelize(QColor(0x34, 0x65, 0xa4)));
-    colors.push_back(pastelize(QColor(0x73, 0xd2, 0x16)));
-    colors.push_back(pastelize(QColor(0xc1, 0x7d, 0x11)));
-    colors.push_back(pastelize(QColor(0xf5, 0x79, 0x00)));
-    colors.push_back(pastelize(QColor(0xed, 0xd4, 0x00)));
-
     //dark
     colors.push_back(pastelize(QColor(0xa4, 0x00, 0x00)));
     colors.push_back(pastelize(QColor(0x5c, 0x35, 0x66)));
@@ -53,6 +44,15 @@ ColorPalette::ColorPalette()
     colors.push_back(pastelize(QColor(0x8f, 0x59, 0x02)));
     colors.push_back(pastelize(QColor(0xce, 0x5c, 0x00)));
     colors.push_back(pastelize(QColor(0xc4, 0xa0, 0x00)));
+
+    //middle
+    colors.push_back(pastelize(QColor(0xcc, 0x00, 0x00)));
+    colors.push_back(pastelize(QColor(0x75, 0x50, 0x7b)));
+    colors.push_back(pastelize(QColor(0x34, 0x65, 0xa4)));
+    colors.push_back(pastelize(QColor(0x73, 0xd2, 0x16)));
+    colors.push_back(pastelize(QColor(0xc1, 0x7d, 0x11)));
+    colors.push_back(pastelize(QColor(0xf5, 0x79, 0x00)));
+    colors.push_back(pastelize(QColor(0xed, 0xd4, 0x00)));
 
     count = colors.length();
 }
