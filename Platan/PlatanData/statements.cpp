@@ -233,7 +233,8 @@ void Statements::insertData(QVector<Statement> statements)
     {
         shared_ptr<Statement> p(new Statement(s));
         newStatements.insert(p);
-        append(p);
+        if (p->amount < 0)
+            append(p);
     }
     refreshTableModels();
     emit dataChanged();

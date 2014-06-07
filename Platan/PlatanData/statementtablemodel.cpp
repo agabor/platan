@@ -94,18 +94,18 @@ QPair<QDate, QDate> StatementTableModel::DateRange() const
     if (Rows.size() == 0)
         return QPair<QDate, QDate>();
 
-    QDate min_date  = Rows.at(0)->date;
-    QDate max_date = min_date;
+    QDate min_date;
+    QDate max_date;
 
     for (auto row : Rows)
     {
         SQLiteDate date = row->date;
-        if (date == start)
+        if (date == start || !date.isValid())
             continue;
 
-        if (date < min_date)
+        if (!min_date.isValid() || date < min_date)
             min_date = date;
-        if (date > max_date)
+        if (!max_date.isValid() || date > max_date)
             max_date = date;
     }
 

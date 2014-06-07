@@ -53,12 +53,7 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     palette.push_back(AnalogousColorPalette(0x7FBCE6, 55));
     palette.init(classes.size());
 
-    auto model = statements.getAllStatements();
-
-    ui->statements_table->setModel(model.get());
-
-    auto range = model->DateRange();
-    ui->date_range->setInterval(range.first, range.second);
+    setDateInterval();
 
     connect(ui->date_range, SIGNAL(dateRangeChanged(QDate,QDate)), this, SLOT(onDateRangeChanged(QDate,QDate)));
     connect(ui->date_range, SIGNAL(unsetDateRange()), this, SLOT(onUnsetDateRange()));
@@ -87,6 +82,16 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     unclassifiedTable->addAction(ui->actionSet_category);
 }
 
+
+void MainWindow::setDateInterval()
+{
+    auto model = statements.getAllStatements();
+
+    ui->statements_table->setModel(model.get());
+
+    auto range = model->DateRange();
+    ui->date_range->setInterval(range.first, range.second);
+}
 
 void MainWindow::initChart(QVector<float> values, ColorPalette *palette)
 {
@@ -207,6 +212,7 @@ void MainWindow::sliceClicked(int idx)
 void MainWindow::refreshStatements()
 {
     refreshChart();
+    setDateInterval();
 }
 
 void MainWindow::refreshChart()

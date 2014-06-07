@@ -57,6 +57,7 @@ public:
 
     void setClassNames(QMap<int, QString> &classNames);
 
+    void setDateInterval();
 public slots:
     void onDateRangeChanged(QDate start, QDate end);
 
