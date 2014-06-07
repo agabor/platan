@@ -41,7 +41,7 @@ int StatementTableModel::columnCount(const QModelIndex& parent) const
 
 int StatementTableModel::columnCount() const
 {
-    return Statement::size();
+    return 6;
 }
 
 

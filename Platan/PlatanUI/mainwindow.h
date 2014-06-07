@@ -87,7 +87,7 @@ private slots:
 
     void on_actionSet_category_triggered();
 
-    void onChangeSetModified(bool changes);
+    void onModification();
     void on_actionSave_triggered();
 
 private:

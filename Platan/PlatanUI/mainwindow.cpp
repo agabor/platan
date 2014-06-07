@@ -71,7 +71,7 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     }
 
     connect(&statements,SIGNAL(dataChanged()), this, SLOT(refreshStatements()));
-    connect(&statements,SIGNAL(changeSetModified(bool)), this, SLOT(onChangeSetModified(bool)));
+    connect(&statements,SIGNAL(modification()), this, SLOT(onModification()));
 
     QGroupBox *groupBox = new QGroupBox(ui->scrollArea);
     ui->scrollArea->setWidget(groupBox);
@@ -290,9 +290,9 @@ void MainWindow::on_actionSet_category_triggered()
     statements.setCategory(uncategorisedTableModel->row(index.row()).id, d.category());
 }
 
-void MainWindow::onChangeSetModified(bool changes)
+void MainWindow::onModification()
 {
-    ui->actionSave->setEnabled(changes);
+    ui->actionSave->setEnabled(statements.changed());
 }
 
 void MainWindow::on_actionSave_triggered()

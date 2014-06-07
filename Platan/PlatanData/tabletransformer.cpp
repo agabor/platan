@@ -38,6 +38,7 @@ QVector<Statement> TableTransformer::transform(QAbstractTableModel *model) const
             row.payeeAccount = PayeeAccount.apply(model, r);
         if (Description.configured())
             row.description = Description.apply(model, r);
+        row.category = 0;
         rows.push_back(row);
     }
     return rows;

@@ -38,10 +38,6 @@ public:
     float amount;
     int category;
 
-    static int size()
-    {
-        return 6;
-    }
     QVariant at(int idx) const;
     void update() const;
     void insert() const;

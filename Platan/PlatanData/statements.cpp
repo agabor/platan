@@ -78,48 +78,52 @@ void Statements::refreshTableModels()
 
 void Statements::setCategory(int id, int category)
 {
-    Statement *row(nullptr);
+    std::shared_ptr<Statement> row;
     int idx = -1;
     for (auto s : *this)
     {
         ++idx;
         if(s->id == id)
         {
-            row = s.get();
+            row = s;
             break;
         }
     }
 
-    if (row == nullptr)
+    if (row.get() == nullptr)
         return;
 
    row->category = category;
 
-    if (!changes.contains(row->id))
+    if (!changes.contains(row))
     {
-        changes.insert(row->id);
-        emit changeSetModified(true);
+        changes.insert(row);
+        emit modification();
     }
     refreshTableModels();
 }
 
 bool Statements::changed() const
 {
-    return !changes.isEmpty();
+    return !changes.isEmpty() || !newStatements.isEmpty();
 }
 
 void Statements::save()
 {
-    for (auto s : *this)
+    SQLiteDB::getInstance().beginTransaction();
+    for (auto s : changes)
     {
-        if (changes.contains(s->id))
-        {
-            changes.remove(s->id);
-            s->update();
-        }
+        s->update();
     }
     changes.clear();
-    emit changeSetModified(false);
+
+    for (auto s : newStatements)
+    {
+        s->insert();
+    }
+    newStatements.clear();
+    SQLiteDB::getInstance().endTransaction();
+    emit modification();
 }
 
 void Statements::categorizeUndefinedStatements()
@@ -134,7 +138,7 @@ void Statements::categorizeUndefinedStatements()
             {
                 if (apply(s, r))
                 {
-                    changes.insert(s->id);
+                    changes.insert(s);
                     changed = true;
                     break;
                 }
@@ -142,7 +146,7 @@ void Statements::categorizeUndefinedStatements()
         }
     }
     if (changed)
-        emit changeSetModified(true);
+        emit modification();
 }
 
 bool Statements::apply(shared_ptr<Statement> statement, Rule rule)
@@ -223,14 +227,14 @@ void Statements::create(QString data_base_path)
 }
 
 
-void Statements::insertData(QVector<Statement> importedStatements)
+void Statements::insertData(QVector<Statement> statements)
 {
-    auto database = SQLiteDB::getInstance();
-    database.beginTransaction();
-    for(Statement& s : importedStatements)
-        s.insert();
-    database.endTransaction();
-    categorizeUndefinedStatements();
+    for(Statement &s : statements)
+    {
+        shared_ptr<Statement> p(new Statement(s));
+        newStatements.insert(p);
+        append(p);
+    }
     refreshTableModels();
     emit dataChanged();
 }

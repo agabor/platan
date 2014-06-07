@@ -30,6 +30,9 @@
 #include <statementtablemodel.h>
 #include <rule.h>
 
+
+inline uint qHash(std::shared_ptr<Statement> key, uint seed = 0) Q_DECL_NOTHROW { return ulong(key.get()) ^ seed; }
+
 class CategoryList : public QStringList
 {
 public:
@@ -85,7 +88,7 @@ public:
     bool open(QString data_base_path);
     void create(QString data_base_path);
     void GetClasses(QString lan, QMap<int, QString> &classes);
-    void insertData(QVector<Statement> importedStatements);
+    void insertData(QVector<Statement> statements);
     void insertRule(Rule rule);
     void initStatementCategories();
     void refreshTableModels();
@@ -94,7 +97,7 @@ public:
     void save();
 signals:
     void dataChanged();
-    void changeSetModified(bool changes);
+    void modification();
 private:
     void categorizeUndefinedStatements();
     bool apply(std::shared_ptr<Statement> statement, Rule rule);
@@ -103,7 +106,8 @@ private:
     std::shared_ptr<StatementTableModel> allStatements;
     SQLiteDate startDate, endDate;
     bool timeIntervalSet;
-    QSet<int> changes;
+    QSet<std::shared_ptr<Statement>> changes;
+    QSet<std::shared_ptr<Statement>> newStatements;
     QVector<std::shared_ptr<Statement>> statementsInDateRange();
 };
 
