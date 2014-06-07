@@ -20,8 +20,6 @@
 #include "importdialog.h"
 #include <sstream>
 #include "qpiechart.h"
-#include "analogouscolorpalette.h"
-#include "multicolorpalette.h"
 #include <QDebug>
 #include "qlegend.h"
 #include <QLayout>
@@ -47,11 +45,6 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     ui->tabWidget->removeCloseButtons();
 
     classes = statements.getCategories();
-
-    palette.push_back(AnalogousColorPalette(0xE67F90, 55));
-    palette.push_back(AnalogousColorPalette(0x89E67E, 55));
-    palette.push_back(AnalogousColorPalette(0x7FBCE6, 55));
-    palette.init(classes.size());
 
     setDateInterval();
 
@@ -218,7 +211,6 @@ void MainWindow::refreshStatements()
 void MainWindow::refreshChart()
 {
     classes = statements.getCategories();
-    palette.init(classes.size());
     InitChart();
     InitLegend();
 }

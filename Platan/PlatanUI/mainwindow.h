@@ -24,7 +24,6 @@
 #include <QTabWidget>
 #include "qpiechart.h"
 #include "statements.h"
-#include "multicolorpalette.h"
 #include "qstatemenview.h"
 
 namespace Ui{
@@ -98,7 +97,7 @@ private:
     Statements &statements;
     QMap<int, float> classes;
     QMap<int, QString> classNames;
-    MultiColorPalette palette;
+    ColorPalette palette;
     std::unique_ptr<QStatemenView> unclassifiedTable;
     MainApplication const * application;
     std::shared_ptr<StatementTableModel> uncategorisedTableModel;

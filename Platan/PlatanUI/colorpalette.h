@@ -18,13 +18,16 @@
 #define COLORPALETTE_H
 
 #include <QColor>
+#include <QVector>
 
 class ColorPalette
 {
 public:
-    virtual void init(int count) = 0;
-    virtual QColor getColor(int i) = 0;
+    ColorPalette();
+    virtual QColor getColor(int i);
+private:
+    QVector<QColor> colors;
+    int count;
 };
-#include <vector>
 
 #endif // COLORPALETTE_H

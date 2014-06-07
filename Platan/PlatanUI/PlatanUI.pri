@@ -5,8 +5,6 @@ SOURCES += \
     PlatanUI/importdialog.cpp \
     PlatanUI/qpiechart.cpp \
     PlatanUI/pieslice.cpp \
-    PlatanUI/analogouscolorpalette.cpp \
-    PlatanUI/multicolorpalette.cpp \
     PlatanUI/qlegenditem.cpp \
     PlatanUI/qlegend.cpp \
     PlatanUI/addruledialog.cpp \
@@ -23,16 +21,15 @@ SOURCES += \
     PlatanUI/csvimportwidget.cpp \
     PlatanUI/columnpropertieswidget.cpp \
     PlatanUI/rulewidget.cpp \
-    PlatanUI/setcategorydialog.cpp
+    PlatanUI/setcategorydialog.cpp \
+    PlatanUI/colorpalette.cpp
 
 HEADERS  += \
     PlatanUI/mainwindow.h \
     PlatanUI/importdialog.h \
     PlatanUI/qpiechart.h \
     PlatanUI/pieslice.h \
-    PlatanUI/analogouscolorpalette.h \
     PlatanUI/colorpalette.h \
-    PlatanUI/multicolorpalette.h \
     PlatanUI/qlegenditem.h \
     PlatanUI/qlegend.h \
     PlatanUI/coloredsquare.h \
