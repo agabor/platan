@@ -38,7 +38,7 @@ public:
 class SQLiteDB
 {
 public:
-    static SQLiteDB &getInstance();
+    SQLiteDB(DataBaseSchema schema);
     void setPath(QString data_base_path);
     bool open();
     void close();
@@ -51,7 +51,7 @@ public:
     void prepare(SQLiteStatement &statement, SQLSelect &select);
     bool isOpen() const;
 private:
-    SQLiteDB();
+
     void execute(QString query_str);
     void connect();
     QSqlDatabase db;
@@ -59,8 +59,6 @@ private:
     bool is_open;
     bool isDatabaseValid() const;
     DataBaseSchema schema;
-    void initSchema();
-    static SQLiteDB instance;
 };
 
 #endif // SQLITEDB_H

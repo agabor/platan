@@ -14,24 +14,21 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef RULE_H
-#define RULE_H
+#ifndef STATEMENTMAPPER_H
+#define STATEMENTMAPPER_H
 
-#include <QString>
+#include <sqlitedb.h>
+#include <statement.h>
 
-template <typename T>
-class QVector;
-
-class Rule
+class StatementMapper
 {
 public:
-    Rule(int _column, QString _value, int _category);
-    Rule();
-
-    int column;
-    QString value;
-    int category;
+    StatementMapper(SQLiteDB &db);
+    void update(Statement &s) const;
+    void insert(Statement &s) const;
+    QVector<Statement> getAll(const SQLCondition &cond);
+private:
+    SQLiteDB &data_base;
 };
 
-
-#endif // RULE_H
+#endif // STATEMENTMAPPER_H

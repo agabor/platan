@@ -28,37 +28,4 @@ Rule::Rule()
 {
 }
 
-void Rule::insert() const
-{
-    SQLInsert insert("rules");
-    insert.set("Column", column);
-    insert.set("Value", value);
-    insert.set("Class", category);
 
-    SQLiteDB::getInstance().execute(insert);
-}
-
-QVector<Rule> Rule::getAll(int column)
-{
-    SQLSelect select{"rules"};
-    select.field("Column");
-    select.field("Value");
-    select.field("Class");
-    if (column != -1)
-        select.where(QString("Column = %1").arg(column));
-
-    SQLiteStatement statement;
-
-    auto data_base = SQLiteDB::getInstance();
-
-    data_base.prepare(statement, select);
-
-    QVector<Rule> result;
-
-    while (data_base.step(statement))
-    {
-        result.push_back(Rule(statement.GetInt(0), statement.GetText(1), statement.GetInt(2)));
-    }
-
-    return result;
-}

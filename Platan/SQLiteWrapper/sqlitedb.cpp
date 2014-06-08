@@ -27,7 +27,6 @@
 
 using namespace std;
 
-SQLiteDB SQLiteDB::instance;
 
 void SQLiteDB::prepare(SQLiteStatement &statement, SQLSelect &select)
 {
@@ -60,41 +59,16 @@ bool SQLiteDB::isDatabaseValid() const
     return schema.isConform(db);
 }
 
-void SQLiteDB::initSchema()
-{
-    TableStructure rules{"rules"};
-    rules.addField("Column", SQLType::Integer());
-    rules.addField("Value", SQLType::Text());
-    rules.addField("Class", SQLType::Integer());
-    schema.addTable(rules);
-
-    TableStructure statements{"statements"};
-    statements.addField("ID", SQLType::Integer().PK());
-    statements.addField("Date", SQLType::Integer());
-    statements.addField("Type", SQLType::Text());
-    statements.addField("Description", SQLType::Text());
-    statements.addField("Payee", SQLType::Text());
-    statements.addField("PayeeAccount", SQLType::Text());
-    statements.addField("Amount", SQLType::Real());
-    statements.addField("Class", SQLType::Integer());
-    schema.addTable(statements);
-}
-
 bool SQLiteDB::step(SQLiteStatement &statement)
 {
     return statement.statement.next();
 }
 
-SQLiteDB::SQLiteDB()
+SQLiteDB::SQLiteDB(DataBaseSchema schema)
   : db(QSqlDatabase::addDatabase("QSQLITE")),
-    is_open(false)
+    is_open(false),
+    schema(schema)
 {
-    initSchema();
-}
-
-SQLiteDB &SQLiteDB::getInstance()
-{
-    return instance;
 }
 
 void SQLiteDB::setPath(QString data_base_path)
