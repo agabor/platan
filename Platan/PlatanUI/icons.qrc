@@ -268,5 +268,7 @@
         <file>icons/za.png</file>
         <file>icons/zm.png</file>
         <file>icons/zw.png</file>
+        <file>icons/ac.png</file>
+        <file>icons/ic.png</file>
     </qresource>
 </RCC>

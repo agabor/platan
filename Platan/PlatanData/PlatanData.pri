@@ -8,7 +8,8 @@ SOURCES += \
     ../Platan/PlatanData/tabletransformer.cpp \
     ../Platan/PlatanData/csvanalyser.cpp \
     ../Platan/PlatanData/rule.cpp \
-    ../Platan/PlatanData/statement.cpp
+    ../Platan/PlatanData/statement.cpp \
+    PlatanData/country.cpp
 
 HEADERS += \
     ../Platan/PlatanData/csvtablemodel.h \
@@ -23,7 +24,8 @@ HEADERS += \
     ../Platan/PlatanData/tabletransformer.h \
     ../Platan/PlatanData/csvanalyser.h \
     ../Platan/PlatanData/rule.h \
-    ../Platan/PlatanData/statement.h
+    ../Platan/PlatanData/statement.h \
+    PlatanData/country.h
 
 unix:!symbian {
     maemo5 {
