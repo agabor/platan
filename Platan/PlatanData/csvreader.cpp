@@ -73,10 +73,13 @@ CSVTableModel *CSVReader::read(QTextStream &input)
                 continue;
             }
         }
-        if (col_num == string_list.length())
+        if (col_num < string_list.length())
         {
-            result->addRow(string_list);
+            col_num = string_list.length();
+            result->increaseColumnCountTo(col_num);
+
         }
+        result->addRow(string_list);
     }
     return result;
 }

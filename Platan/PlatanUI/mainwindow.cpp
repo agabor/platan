@@ -73,6 +73,8 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
     unclassifiedTable->addAction(ui->actionAdd_rule);
     unclassifiedTable->addAction(ui->actionSet_category);
+
+    setWindowTitle("Platan - " + statements.getOpenProjectPath());
 }
 
 

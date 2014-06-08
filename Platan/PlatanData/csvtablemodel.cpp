@@ -20,6 +20,7 @@
 CSVTableModel::CSVTableModel() :
     QAbstractTableModel()
 {
+    _columnCount = 0;
 }
 
 int CSVTableModel::rowCount(const QModelIndex& parent) const
@@ -29,9 +30,7 @@ int CSVTableModel::rowCount(const QModelIndex& parent) const
 
 int CSVTableModel::columnCount(const QModelIndex& parent) const
 {
-    if (Rows.size() == 0)
-        return 0;
-    return Rows[0].size();
+    return _columnCount;
 }
 
 QVariant CSVTableModel::data(const QModelIndex& index, int role) const
@@ -68,10 +67,27 @@ QVariant CSVTableModel::headerData(int section, Qt::Orientation orientation, int
 
 void CSVTableModel::addRow(QStringList row)
 {
+    pad(row, _columnCount);
     Rows.push_back(row);
+}
+
+void CSVTableModel::pad(QStringList &stringList, int columnCount)
+{
+    _columnCount = columnCount;
+    const int addc = _columnCount - stringList.length();
+    for (int i = 0; i < addc; ++i)
+        stringList.append(QString());
+}
+
+void CSVTableModel::increaseColumnCountTo(int columnCount)
+{
+    pad(headers, columnCount);
+    for(QStringList &r : Rows)
+        pad(r, columnCount);
 }
 
 void CSVTableModel::setHeaders(QStringList headers)
 {
     this->headers = headers;
+    _columnCount = headers.length();
 }

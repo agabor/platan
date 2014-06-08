@@ -126,6 +126,11 @@ void Statements::save()
     emit modification();
 }
 
+QString Statements::getOpenProjectPath() const
+{
+    return openProjectPath;
+}
+
 void Statements::categorizeUndefinedStatements()
 {
     QVector<Rule> rules = Rule::getAll();
@@ -205,6 +210,7 @@ QMap<int, float> Statements::getCategories()
 
 bool Statements::open(QString data_base_path)
 {
+    openProjectPath = data_base_path;
     auto data_base = SQLiteDB::getInstance();
     if(data_base.isOpen())
         data_base.close();

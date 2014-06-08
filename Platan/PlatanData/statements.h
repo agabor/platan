@@ -95,6 +95,7 @@ public:
     void setCategory(int id, int category);
     bool changed() const;
     void save();
+    QString getOpenProjectPath() const;
 signals:
     void dataChanged();
     void modification();
@@ -109,6 +110,7 @@ private:
     QSet<std::shared_ptr<Statement>> changes;
     QSet<std::shared_ptr<Statement>> newStatements;
     QVector<std::shared_ptr<Statement>> statementsInDateRange();
+    QString openProjectPath;
 };
 
 #endif // STATEMENTS_H

@@ -32,10 +32,13 @@ public:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     void setHeaders(QStringList headers);
     void addRow(QStringList row);
-
+    void increaseColumnCountTo(int columnCount);
+    void pad(int columnCount, QStringList &stringList);
+    void pad(QStringList &stringList, int columnCount);
 protected:
     std::vector<QStringList> Rows;
     QStringList headers;
+    int _columnCount;
 };
 
 #endif // CSVTABLEMODEL_H
