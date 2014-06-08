@@ -171,55 +171,55 @@ bool Statements::apply(shared_ptr<Statement> statement, Rule rule)
 
 QVector<shared_ptr<Statement>> Statements::statementsInDateRange()
 {
-                               QVector<shared_ptr<Statement>> result;
-                               for(shared_ptr<Statement> row : *this)
+    QVector<shared_ptr<Statement>> result;
+    for(shared_ptr<Statement> row : *this)
+    {
+        if (timeIntervalSet && (row->date < startDate || row->date > endDate))
+            continue;
+        result.append(row);
+    }
+    return result;
+}
+
+DataBaseSchema Statements::getSchema()
 {
-                               if (timeIntervalSet && (row->date < startDate || row->date > endDate))
-                               continue;
-                               result.append(row);
-                               }
-                               return result;
-                               }
+    DataBaseSchema schema;
+    TableStructure rules{"rules"};
+    rules.addField("Column", SQLType::Integer());
+    rules.addField("Value", SQLType::Text());
+    rules.addField("Class", SQLType::Integer());
+    schema.addTable(rules);
 
-                               DataBaseSchema Statements::getSchema()
+    TableStructure statements{"statements"};
+    statements.addField("ID", SQLType::Integer().PK());
+    statements.addField("Date", SQLType::Integer());
+    statements.addField("Type", SQLType::Text());
+    statements.addField("Description", SQLType::Text());
+    statements.addField("Payee", SQLType::Text());
+    statements.addField("PayeeAccount", SQLType::Text());
+    statements.addField("Amount", SQLType::Real());
+    statements.addField("Class", SQLType::Integer());
+    schema.addTable(statements);
+    return schema;
+}
+
+void Statements::SetTimeInterval(QDate start_date, QDate end_date)
 {
-                               DataBaseSchema schema;
-                               TableStructure rules{"rules"};
-                               rules.addField("Column", SQLType::Integer());
-                               rules.addField("Value", SQLType::Text());
-                               rules.addField("Class", SQLType::Integer());
-                               schema.addTable(rules);
+    timeIntervalSet = true;
+    startDate = start_date;
+    endDate = end_date;
+    refreshTableModels();
+    }
 
-                               TableStructure statements{"statements"};
-                               statements.addField("ID", SQLType::Integer().PK());
-                               statements.addField("Date", SQLType::Integer());
-                               statements.addField("Type", SQLType::Text());
-                               statements.addField("Description", SQLType::Text());
-                               statements.addField("Payee", SQLType::Text());
-                               statements.addField("PayeeAccount", SQLType::Text());
-                               statements.addField("Amount", SQLType::Real());
-                               statements.addField("Class", SQLType::Integer());
-                               schema.addTable(statements);
-                               return schema;
-                               }
 
-                               void Statements::SetTimeInterval(QDate start_date, QDate end_date)
+void Statements::UnsetTimeInterval()
 {
-                               timeIntervalSet = true;
-                               startDate = start_date;
-                               endDate = end_date;
-                               refreshTableModels();
-                               }
+    timeIntervalSet = false;
+    refreshTableModels();
+}
 
 
-                               void Statements::UnsetTimeInterval()
-{
-                               timeIntervalSet = false;
-                               refreshTableModels();
-                               }
-
-
-                               QMap<int, float> Statements::getCategories()
+QMap<int, float> Statements::getCategories()
 {
     QMap<int, float> result;
     for(auto row : statementsInDateRange())
