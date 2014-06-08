@@ -10,7 +10,8 @@ SOURCES += \
     PlatanWidgets/csvimportwidget.cpp \
     PlatanWidgets/columnpropertieswidget.cpp \
     PlatanWidgets/rulewidget.cpp \
-    PlatanWidgets/colorpalette.cpp
+    PlatanWidgets/colorpalette.cpp \
+    PlatanWidgets/widgethelpers.cpp
 
 HEADERS  += \
     PlatanWidgets/qpiechart.h \

@@ -32,7 +32,6 @@ public:
     explicit CSVConfigWidget(QWidget *parent);
     void setReader(QString filename, CSVReader *r);
     CSVTableModel *getTableModel() const;
-
 private slots:
     void readCSV();
 private:

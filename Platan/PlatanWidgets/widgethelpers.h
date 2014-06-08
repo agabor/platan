@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QHBoxLayout>
 #include <utility>
+#include <QTableView>
 
 template<class T>
 std::pair<T*, QLabel*> AddLabeledWidget(QBoxLayout* mainLayout, QString name)
@@ -25,5 +26,7 @@ T *AddNamedWidget(QBoxLayout* mainLayout, QString name)
 {
     return AddLabeledWidget<T>(mainLayout, name).first;
 }
+
+void resizeToContents(QTableView *tableView);
 
 #endif // WIDGETHELPERS_H

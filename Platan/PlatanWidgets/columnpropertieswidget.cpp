@@ -40,8 +40,8 @@ ColumnPropertiesWidget::ColumnPropertiesWidget(QWidget *parent) :
     format->addItem(tr("Year - Month - Day"), (int)YMD);
     format->addItem(tr("Month - Day - Year"), (int)MDY);
     format->addItem(tr("Day - Month - Year"), (int)DMY);
-    format->setVisible(false);
-    formatLabel->setVisible(false);
+    format->setEnabled(false);
+    formatLabel->setEnabled(false);
     connect(format, SIGNAL(currentIndexChanged(int)), this, SLOT(setDateOrder(int)));
 
     data = AddLabeledWidget<QComboBox>(mainLayout, tr("Separator"));
@@ -50,8 +50,8 @@ ColumnPropertiesWidget::ColumnPropertiesWidget(QWidget *parent) :
     separator->addItem(tr("."), QChar('.'));
     separator->addItem(tr(","), QChar(','));
     separator->addItem(tr("None"), QChar('\0'));
-    separator->setVisible(false);
-    separatorLabel->setVisible(false);
+    separator->setEnabled(false);
+    separatorLabel->setEnabled(false);
     connect(separator, SIGNAL(currentIndexChanged(int)), this, SLOT(setSeparator(int)));
 }
 
@@ -98,10 +98,10 @@ void ColumnPropertiesWidget::setDateOrder(DateOrder o)
 
 void ColumnPropertiesWidget::setType(int idx)
 {
-    format->setVisible(idx == 3);
-    formatLabel->setVisible(format->isVisible());
-    separator->setVisible(idx == 1 || idx == 3);
-    separatorLabel->setVisible(separator->isVisible());
+    format->setEnabled(idx == 3);
+    formatLabel->setEnabled(format->isVisible());
+    separator->setEnabled(idx == 1 || idx == 3);
+    separatorLabel->setEnabled(separator->isVisible());
     emit typeChanged(type());
 }
 

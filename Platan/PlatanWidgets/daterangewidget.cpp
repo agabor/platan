@@ -27,10 +27,6 @@
 #include <QHBoxLayout>
 #include <QDate>
 
-std::vector<QDate> MonthesBetween(QDate min_date, QDate max_date);
-QString MonthToString(QDate month);
-
-
 static QSize myGetQTableWidgetSize(QTableWidget *t) {
    int w = 0;
    for (int i = 0; i < t->columnCount(); i++)
@@ -149,6 +145,7 @@ void DateRangeWidget::increaseYear()
     ++year;
     setYearLabelText();
     enableDateNavigation();
+    onMonthChanged();
 }
 
 void DateRangeWidget::decreaseYear()
@@ -156,6 +153,7 @@ void DateRangeWidget::decreaseYear()
     --year;
     setYearLabelText();
     enableDateNavigation();
+    onMonthChanged();
 }
 
 
@@ -167,29 +165,5 @@ inline QDate monthStart(QDate month)
 inline QDate monthEnd(QDate month)
 {
     return QDate(month.year(), month.month(), month.daysInMonth());
-}
-
-std::vector<QDate> MonthesBetween(QDate min_date, QDate max_date)
-{
-    std::vector<QDate> result;
-
-    if (!min_date.isValid() || !max_date.isValid())
-        return result;
-
-    QDate i(min_date.year(), min_date.month(), 1);
-
-    while (i <= max_date)
-    {
-        result.push_back(i);
-        i = i.addMonths(1);
-    }
-
-    return result;
-}
-
-QString MonthToString(QDate month)
-{
-    QString month_name(QDate::longMonthName(month.month()));
-    return QString("%1 %2").arg(month.year()).arg(month_name);
 }
 

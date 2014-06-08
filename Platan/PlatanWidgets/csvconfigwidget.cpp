@@ -22,6 +22,7 @@
 #include <csvpropertieswidget.h>
 #include <QVBoxLayout>
 #include <csvanalyser.h>
+#include <widgethelpers.h>
 
 CSVConfigWidget::CSVConfigWidget(QWidget *parent) :
     QWidget(parent)
@@ -36,6 +37,7 @@ CSVConfigWidget::CSVConfigWidget(QWidget *parent) :
     tableView = new QTableView(this);
     tableView->setSelectionMode(QAbstractItemView::SingleSelection);
     tableView->setSelectionBehavior(QAbstractItemView::SelectColumns);
+    tableView->setWordWrap(true);
     mainLayout->addWidget(tableView);
 }
 
@@ -58,11 +60,15 @@ void CSVConfigWidget::setReader(QString filename, CSVReader *r)
     readCSV();
 }
 
+
+
 void CSVConfigWidget::readCSV()
 {
     QTextStream input_stream(&input);
     tableModel = reader->read(input_stream);
     tableView->setModel(tableModel);
+
+    resizeToContents(tableView);
 }
 
 CSVTableModel *CSVConfigWidget::getTableModel() const

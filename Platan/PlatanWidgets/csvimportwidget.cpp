@@ -18,6 +18,7 @@
 #include <QTableView>
 #include <QVBoxLayout>
 #include <columnpropertieswidget.h>
+#include <widgethelpers.h>
 
 CSVImportWidget::CSVImportWidget(QWidget *parent) :
     QWidget(parent)
@@ -29,6 +30,7 @@ CSVImportWidget::CSVImportWidget(QWidget *parent) :
     mainLayount->addWidget(tableView);
     tableView->setSelectionMode(QAbstractItemView::SingleSelection);
     tableView->setSelectionBehavior(QAbstractItemView::SelectColumns);
+    tableView->setWordWrap(true);
     connect(columnPropertiesWidget, SIGNAL(typeChanged(ColumnType)), this, SLOT(typeChanged(ColumnType)));
     connect(columnPropertiesWidget, SIGNAL(separatorChanged(char)), this, SLOT(separatorChanged(char)));
     connect(columnPropertiesWidget, SIGNAL(formatChanged(DateOrder)), this, SLOT(dateOrderChanged(DateOrder)));
@@ -39,6 +41,7 @@ void CSVImportWidget::setTableModel(QAbstractTableModel *model)
 {
     tableModel = model;
     tableView->setModel(model);
+    resizeToContents(tableView);
 }
 
 QVector<Statement> CSVImportWidget::getImportedStatements() const

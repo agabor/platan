@@ -3,6 +3,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include "mainapplication.h"
+#include <newprojectdialog.h>
 
 ProjectsWindow::ProjectsWindow(MainApplication *application, Statements &statements, QWidget *parent) :
     QMainWindow(parent),
@@ -46,6 +47,8 @@ bool ProjectsWindow::openProject(QString fileName)
 
 void ProjectsWindow::on_actionNew_Project_triggered()
 {
+    NewProjectDialog d;
+    d.exec();
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Create new project"), "",
                                                     tr("Platan files (*.plat)"));

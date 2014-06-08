@@ -10,6 +10,7 @@ SOURCES += \
     PlatanUI/helpwindow.cpp \
     PlatanUI/projectswindow.cpp \
     PlatanUI/setcategorydialog.cpp \
+    PlatanUI/newprojectdialog.cpp
 
 HEADERS  += \
     PlatanUI/mainwindow.h \
@@ -20,7 +21,8 @@ HEADERS  += \
     PlatanUI/pythonide.h \
     PlatanUI/helpwindow.h \
     PlatanUI/projectswindow.h \
-    PlatanUI/setcategorydialog.h
+    PlatanUI/setcategorydialog.h \
+    PlatanUI/newprojectdialog.h
 
 FORMS    += \
     PlatanUI/mainwindow.ui \
@@ -30,7 +32,8 @@ FORMS    += \
     PlatanUI/pythonide.ui \
     PlatanUI/helpwindow.ui \
     PlatanUI/projectswindow.ui \
-    PlatanUI/setcategorydialog.ui
+    PlatanUI/setcategorydialog.ui \
+    PlatanUI/newprojectdialog.ui
 
 RESOURCES += \
     PlatanUI/icons.qrc
