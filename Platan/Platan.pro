@@ -14,6 +14,7 @@ LIBS += $$system(python3.2-config --ldflags)
 INCLUDEPATH += SQLiteWrapper \
                PlatanData \
                PlatanUI \
+               PlatanWidgets \
                PlatanApp \
                PythonAPI \
                /usr/include/python3.2
@@ -21,5 +22,6 @@ INCLUDEPATH += SQLiteWrapper \
 include(SQLiteWrapper/SQLiteWrapper.pri)
 include(PlatanData/PlatanData.pri)
 include(PlatanUI/PlatanUI.pri)
+include(PlatanWidgets/PlatanWidgets.pri)
 include(PlatanApp/PlatanApp.pri)
 include(PythonAPI/PythonAPI.pri)
