@@ -19,65 +19,143 @@
 #include <QPushButton>
 #include <QToolButton>
 #include <QLayout>
+#include <QLabel>
+#include <QTableWidget>
+#include <QHeaderView>
+
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QDate>
 
 std::vector<QDate> MonthesBetween(QDate min_date, QDate max_date);
 QString MonthToString(QDate month);
+
+
+static QSize myGetQTableWidgetSize(QTableWidget *t) {
+   int w = 0;
+   for (int i = 0; i < t->columnCount(); i++)
+      w += t->columnWidth(i) + 1;
+   int h = 0;
+   for (int i = 0; i < t->rowCount(); i++)
+      h += t->rowHeight(i) + 1;
+   return QSize(w, h);
+}
 
 DateRangeWidget::DateRangeWidget(QWidget * parent) : QWidget(parent)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     QHBoxLayout *h_layout = new QHBoxLayout();
 
-    addDateChooser(start_date, h_layout);
-    addDateChooser(end_date, h_layout);
-
-    QPushButton *refresh = new QPushButton("Refresh", this);
-    registerDateSetWidget(refresh);
-    connect(refresh, SIGNAL(clicked()), this, SLOT(onDateRangeChanged()));
-    h_layout->addWidget(refresh);
 
     layout->addLayout(h_layout);
 
-    QHBoxLayout *h_layout2 = new QHBoxLayout();
+    previousYear = new QToolButton(this);
+    previousYear->setIcon(QIcon(":/icons/icons/go-previous.png"));
+    h_layout->addWidget(previousYear);
+    connect(previousYear, SIGNAL(clicked()), this, SLOT(decreaseYear()));
 
-    monthes_cbx = new QComboBox(this);
-    registerDateSetWidget(monthes_cbx);
-    h_layout2->addWidget(monthes_cbx);
-    connect(monthes_cbx, SIGNAL(currentIndexChanged(int)), this, SLOT(monthChanged(int)));
+    yearLabel = new QLabel(this);
+    yearLabel->setAlignment(Qt::AlignCenter);
+    h_layout->addWidget(yearLabel);
 
-    all_range = new QCheckBox(this);
-    all_range->setText("all");
-    h_layout2->addWidget(all_range);
-    connect(all_range, SIGNAL(stateChanged(int)), this, SLOT(onAllCheckChanged(int)));
+    nextYear = new QToolButton(this);
+    nextYear->setIcon(QIcon(":/icons/icons/go-next.png"));
+    h_layout->addWidget(nextYear);
+    connect(nextYear, SIGNAL(clicked()), this, SLOT(increaseYear()));
 
-    layout->addLayout(h_layout2);
+    monthTable = new QTableWidget(this);
+    monthTable->setRowCount(3);
+    monthTable->setColumnCount(4);
+    monthTable->verticalHeader()->hide();
+    monthTable->horizontalHeader()->hide();
+    for (int c = 0 ; c < 4; ++c)
+      for (int r = 0 ; r < 3; ++r)
+      {
+          QTableWidgetItem *item = new QTableWidgetItem(QDate::longMonthName(r * 4 + c + 1));
+          item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+          monthTable->setItem(r,c,item);
+      }
+    monthTable->setShowGrid(false);
+    monthTable->setMaximumSize(myGetQTableWidgetSize(monthTable));
+    monthTable->setMinimumSize(monthTable->maximumSize());
+    monthTable->setSelectionMode(QAbstractItemView::SingleSelection);
+    layout->addWidget(monthTable);
+
+    connect(monthTable, SIGNAL(currentCellChanged(int,int,int,int)), this, SLOT(onMonthChanged()));
+
+
+    setMaximumWidth(monthTable->maximumWidth()+10);
+    setMinimumWidth(maximumWidth());
 }
 
 
+void DateRangeWidget::setYearLabelText()
+{
+    yearLabel->setText(QString::number(year));
+}
+
 void DateRangeWidget::setInterval(QDate start, QDate end)
 {
-    start_date->setDate(start);
-    end_date->setDate(end);
-    monthes = MonthesBetween(start, end);
-    monthes_cbx->clear();
-    for(const QDate& month : monthes)
-    {
-        monthes_cbx->addItem(MonthToString(month), month);
-    }
+    year = start.year();
+    setYearLabelText();
+    startDate = start;
+    endDate = end;
+    enableDateNavigation();
 }
 
 void DateRangeWidget::setRange(QDate start, QDate end)
 {
-    start_date->setDate(start);
-    end_date->setDate(end);
     onDateRangeChanged();
+}
+
+int DateRangeWidget::selectedMonth() const
+{
+    int r = monthTable->currentRow();
+    int c = monthTable->currentColumn();
+    return r * 4 + c + 1;
 }
 
 void DateRangeWidget::onDateRangeChanged()
 {
-    emit dateRangeChanged(start_date->date(), end_date->date());
+    emit dateRangeChanged(QDate(), QDate());
+}
+
+void DateRangeWidget::onMonthChanged()
+{
+    QDate monthStart(year, selectedMonth(), 1);
+    emit dateRangeChanged(monthStart, QDate(year, monthStart.month(), monthStart.daysInMonth()));
+}
+
+void DateRangeWidget::enableDateNavigation()
+{
+    previousYear->setEnabled(year > startDate.year());
+    nextYear->setEnabled(year < endDate.year());
+    for (int r = 0 ; r < 3; ++r)
+        for (int c = 0 ; c < 4; ++c)
+        {
+            int month = r * 4 + c + 1;
+            QTableWidgetItem *item = monthTable->item(r, c);
+            QDate monthStart(year, month, 1);
+            QDate monthEnd(year, month, monthStart.daysInMonth());
+            if (monthEnd >= startDate && monthStart <= endDate)
+                item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsSelectable);
+            else
+                item->setFlags(Qt::NoItemFlags);
+        }
+}
+
+void DateRangeWidget::increaseYear()
+{
+    ++year;
+    setYearLabelText();
+    enableDateNavigation();
+}
+
+void DateRangeWidget::decreaseYear()
+{
+    --year;
+    setYearLabelText();
+    enableDateNavigation();
 }
 
 
@@ -90,28 +168,6 @@ inline QDate monthEnd(QDate month)
 {
     return QDate(month.year(), month.month(), month.daysInMonth());
 }
-
-void DateRangeWidget::monthChanged(int index)
-{
-    QDate month = monthes_cbx->itemData(index).toDate();
-    start_date->setDate(monthStart(month));
-    end_date->setDate(monthEnd(month));
-    onDateRangeChanged();
-}
-
-void DateRangeWidget::onAllCheckChanged(int state)
-{
-    Qt::CheckState check_state = (Qt::CheckState)state;
-    if (check_state == Qt::Checked)
-    {
-        enableDateSet(false);
-        emit unsetDateRange();
-        return;
-    }
-    enableDateSet(true);
-    onDateRangeChanged();
-}
-
 
 std::vector<QDate> MonthesBetween(QDate min_date, QDate max_date)
 {
@@ -137,24 +193,3 @@ QString MonthToString(QDate month)
     return QString("%1 %2").arg(month.year()).arg(month_name);
 }
 
-void DateRangeWidget::addDateChooser(QDateChooser *&date_chooser, QLayout *layout)
-{
-    date_chooser = new QDateChooser(this);
-    registerDateSetWidget(date_chooser);
-    QToolButton *choose_date_btn = new QToolButton(this);
-    choose_date_btn->setText("...");
-    connect(choose_date_btn, SIGNAL(clicked()), date_chooser, SLOT(chooseDate()));
-    layout->addWidget(date_chooser);
-    layout->addWidget(choose_date_btn);
-}
-
-void DateRangeWidget::enableDateSet(bool value)
-{
-    for(auto widget : date_set_widgets)
-        widget->setEnabled(value);
-}
-
-void DateRangeWidget::registerDateSetWidget(QWidget *widget)
-{
-    date_set_widgets.push_back(widget);
-}

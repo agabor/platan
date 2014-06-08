@@ -18,11 +18,14 @@
 #define DATERANGEWIDGET_H
 
 #include <QWidget>
-#include "qdatechooser.h"
 #include <QComboBox>
 #include <QDate>
 #include <vector>
 #include <QCheckBox>
+
+class QLabel;
+class QTableWidget;
+class QToolButton;
 
 class DateRangeWidget : public QWidget
 {
@@ -31,24 +34,25 @@ public:
     explicit DateRangeWidget(QWidget * parent=0);
     void setInterval(QDate start, QDate end);
     void setRange(QDate start, QDate end);
+    void setYearLabelText();
+    void enableDateNavigation();
 signals:
     void dateRangeChanged(QDate start, QDate end);
     void unsetDateRange();
 private:
-    void addDateChooser(QDateChooser *&date_chooser, QLayout *layout);
-    void enableDateSet(bool value);
-    void registerDateSetWidget(QWidget *widget);
-    QDateChooser *start_date;
-    QDateChooser *end_date;
-    QComboBox *monthes_cbx;
-    std::vector<QDate> monthes;
-    QCheckBox *all_range;
-    std::vector<QWidget*> date_set_widgets;
+    QLabel *yearLabel;
+    QTableWidget *monthTable;
+    int year;
+    int selectedMonth() const;
+    QDate startDate;
+    QDate endDate;
+    QToolButton *previousYear;
+    QToolButton *nextYear;
 private slots:
     void onDateRangeChanged();
-    void monthChanged(int index);
-    void onAllCheckChanged(int state);
-
+    void onMonthChanged();
+    void increaseYear();
+    void decreaseYear();
 };
 
 #endif // DATERANGEWIDGET_H

@@ -9,7 +9,6 @@ SOURCES += \
     PlatanUI/qlegend.cpp \
     PlatanUI/addruledialog.cpp \
     PlatanUI/choosedatedialog.cpp \
-    PlatanUI/qdatechooser.cpp \
     PlatanUI/qstatemenview.cpp \
     PlatanUI/daterangewidget.cpp \
     PlatanUI/maintabwidget.cpp \
@@ -35,7 +34,6 @@ HEADERS  += \
     PlatanUI/coloredsquare.h \
     PlatanUI/addruledialog.h \
     PlatanUI/choosedatedialog.h \
-    PlatanUI/qdatechooser.h \
     PlatanUI/qstatemenview.h \
     PlatanUI/daterangewidget.h \
     PlatanUI/maintabwidget.h \
