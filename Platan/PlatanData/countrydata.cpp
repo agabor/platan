@@ -1,7 +1,7 @@
-#include "country.h"
+#include "countrydata.h"
 #include "countrycodes.h"
 
-QVector<QLocale::Country> getAllCountries()
+QVector<QLocale::Country> CountryData::getAllCountries()
 {
     QVector<QLocale::Country> result;
     for (int i = 1; i <= QLocale::LastCountry; ++i)

@@ -3,7 +3,7 @@
 #include <QVector>
 #include <QLocale>
 #include <QDebug>
-#include "country.h"
+#include "countrydata.h"
 
 
 
@@ -13,7 +13,7 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     QVector<CountryData> countryDatas;
-    for (auto country : getAllCountries())
+    for (auto country : CountryData::getAllCountries())
         countryDatas.append(CountryData(country));
     qSort(countryDatas);
     for (CountryData data : countryDatas)

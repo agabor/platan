@@ -20,8 +20,7 @@ public:
     bool operator>(const CountryData &other) const;
     bool operator<=(const CountryData &other) const;
     bool operator>=(const CountryData &other) const;
+    static QVector<QLocale::Country> getAllCountries();
 };
-
-QVector<QLocale::Country> getAllCountries();
 
 #endif // COUNTRY_H
