@@ -2,6 +2,15 @@
 
 QString getCountryCode(QLocale::Country c)
 {
+//    This would be a nice solution, too bad that it does not work for 29 countries.
+//
+//    QList<QLocale> locales = QLocale::matchingLocales(QLocale::AnyLanguage,
+//                                                      QLocale::AnyScript,
+//                                                      c);
+//    if (locales.empty())
+//        return "ZZ";
+//    return locales.first().name().split('_').at(1).toUpper();
+
     switch (c)
     {
     case QLocale::AnyCountry:

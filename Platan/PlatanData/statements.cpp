@@ -22,7 +22,7 @@ const CategoryList Statements::categoryList;
 const ColumnList Statements::columnList;
 
 
-Statements::Statements() : db(getSchema()), ruleMapper(db), statementMapper(db)
+Statements::Statements() : db(getSchema(), "statements"), ruleMapper(db), statementMapper(db)
 {
     for(int i = 1; i < categoryList.count(); ++i)
         classStatements[i].reset(new StatementTableModel);
@@ -184,11 +184,7 @@ QVector<shared_ptr<Statement>> Statements::statementsInDateRange()
 DataBaseSchema Statements::getSchema()
 {
     DataBaseSchema schema;
-    TableStructure rules{"rules"};
-    rules.addField("Column", SQLType::Integer());
-    rules.addField("Value", SQLType::Text());
-    rules.addField("Class", SQLType::Integer());
-    schema.addTable(rules);
+    schema.addTable(RuleMapper::getStructure());
 
     TableStructure statements{"statements"};
     statements.addField("ID", SQLType::Integer().PK());

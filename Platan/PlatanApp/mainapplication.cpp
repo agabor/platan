@@ -17,6 +17,7 @@
 #include "mainapplication.h"
 #include "PythonAPI/pythonapi.h"
 #include <QMessageBox>
+#include <sqlitedb.h>
 
 using namespace std;
 
@@ -78,6 +79,20 @@ void MainApplication::SaveProjectPaths(QVector<QString> path_list)
         settings.setValue(projectpathkey.arg(i++), path);
     }
 
+}
+
+DataBaseSchema MainApplication::getSchema()
+{
+    DataBaseSchema schema;
+    TableStructure rules = RuleMapper::getStructure();
+    rules.addField("Country", SQLType::Integer());
+    schema.addTable(rules);
+
+    TableStructure countries{"countries"};
+    countries.addField("ID", SQLType::Integer().PK());
+    countries.addField("Code", SQLType::Text());
+    schema.addTable(countries);
+    return schema;
 }
 
 void MainApplication::setDateRange(QDate start, QDate end)

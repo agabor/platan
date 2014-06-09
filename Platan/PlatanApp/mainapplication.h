@@ -29,6 +29,8 @@
 #include "projectswindow.h"
 #include <QSettings>
 
+class DataBaseSchema;
+
 class MainApplication : public QApplication
 {
     Q_OBJECT
@@ -44,6 +46,7 @@ public:
     QVector<QString> RecentProjects();
     void SaveProjectPaths(QVector<QString> path_list);
 private:
+    DataBaseSchema getSchema();
     std::unique_ptr<MainWindow> main_window;
     std::unique_ptr<PythonIDE> python_console;
     std::unique_ptr<ProjectsWindow> projects_window;

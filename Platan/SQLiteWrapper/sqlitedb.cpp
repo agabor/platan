@@ -30,7 +30,7 @@ using namespace std;
 
 void SQLiteDB::prepare(SQLiteStatement &statement, SQLSelect &select)
 {
-    statement.SetStatement(select.toString());
+    statement.SetStatement(select.toString(), db);
 }
 
 bool SQLiteDB::isOpen() const
@@ -64,8 +64,8 @@ bool SQLiteDB::step(SQLiteStatement &statement)
     return statement.statement.next();
 }
 
-SQLiteDB::SQLiteDB(DataBaseSchema schema)
-  : db(QSqlDatabase::addDatabase("QSQLITE")),
+SQLiteDB::SQLiteDB(DataBaseSchema schema, const QString & connectionName)
+  : db(QSqlDatabase::addDatabase("QSQLITE", connectionName)),
     is_open(false),
     schema(schema)
 {
@@ -112,7 +112,7 @@ void SQLiteDB::connect()
 
 void SQLiteDB::execute(QString query_str)
 {
-    QSqlQuery qry;
+    QSqlQuery qry(db);
 
     if( !qry.exec(query_str) )
     {

@@ -17,6 +17,7 @@
 #include "rulemapper.h"
 #include <sqlupdate.h>
 #include <sqlinsert.h>
+#include <tablestructure.h>
 
 RuleMapper::RuleMapper(SQLiteDB &db) : data_base(db)
 {
@@ -53,4 +54,13 @@ QVector<Rule> RuleMapper::getAll(int column)
     }
 
     return result;
+}
+
+TableStructure RuleMapper::getStructure()
+{
+    TableStructure rules{"rules"};
+    rules.addField("Column", SQLType::Integer());
+    rules.addField("Value", SQLType::Text());
+    rules.addField("Class", SQLType::Integer());
+    return rules;
 }

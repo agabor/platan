@@ -38,7 +38,7 @@ public:
 class SQLiteDB
 {
 public:
-    SQLiteDB(DataBaseSchema schema);
+    SQLiteDB(DataBaseSchema schema, const QString &connectionName);
     void setPath(QString data_base_path);
     bool open();
     void close();
