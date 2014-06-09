@@ -28,6 +28,8 @@
 #include "pythonide.h"
 #include "projectswindow.h"
 #include <QSettings>
+#include <sqlitedb.h>
+#include <countrymapper.h>
 
 class DataBaseSchema;
 
@@ -45,13 +47,19 @@ public:
     bool OpenProject(QString project_path);
     QVector<QString> RecentProjects();
     void SaveProjectPaths(QVector<QString> path_list);
+    bool countryExists(QString code) const;
+    static MainApplication *getInstance();
 private:
     DataBaseSchema getSchema();
     std::unique_ptr<MainWindow> main_window;
     std::unique_ptr<PythonIDE> python_console;
     std::unique_ptr<ProjectsWindow> projects_window;
+    QMap<int, QString> countryCodes;
     Statements statements;
     QSettings settings;
+    SQLiteDB db;
+    CountryMapper countryMapper;
+    static MainApplication *instance;
 };
 
 #endif // MAINAPPLICATION_H

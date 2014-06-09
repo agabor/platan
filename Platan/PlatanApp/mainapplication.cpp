@@ -18,17 +18,28 @@
 #include "PythonAPI/pythonapi.h"
 #include <QMessageBox>
 #include <sqlitedb.h>
-
+#include <assert.h>
+#include <country.h>
 using namespace std;
 
+MainApplication *MainApplication::instance(nullptr);
 
 MainApplication::MainApplication(int &argc, char *argv[]) :
     QApplication(argc, argv),
-    settings("configs/platan.ini", QSettings::IniFormat)
+    settings("configs/platan.ini", QSettings::IniFormat),
+    db(getSchema(), "app"),
+    countryMapper(db)
 {
+    assert(instance == nullptr);
+    instance = this;
     PythonAPI::init(this);
     projects_window.reset(new ProjectsWindow(this, statements));
     projects_window->show();
+
+    db.setPath("platandata");
+    db.open();
+    for(Country c : countryMapper.getAll())
+        countryCodes.insert(c.id, c.code);
 }
 
 
@@ -79,6 +90,16 @@ void MainApplication::SaveProjectPaths(QVector<QString> path_list)
         settings.setValue(projectpathkey.arg(i++), path);
     }
 
+}
+
+bool MainApplication::countryExists(QString code) const
+{
+    return countryCodes.values().contains(code);
+}
+
+MainApplication *MainApplication::getInstance()
+{
+    return instance;
 }
 
 DataBaseSchema MainApplication::getSchema()

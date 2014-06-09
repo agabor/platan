@@ -12,7 +12,8 @@ SOURCES += \
     PlatanData/countrycodes.cpp \
     PlatanData/rulemapper.cpp \
     PlatanData/statementmapper.cpp \
-    PlatanData/countrydata.cpp
+    PlatanData/countrydata.cpp \
+    PlatanData/countrymapper.cpp
 
 HEADERS += \
     ../Platan/PlatanData/csvtablemodel.h \
@@ -31,7 +32,9 @@ HEADERS += \
     PlatanData/countrycodes.h \
     PlatanData/rulemapper.h \
     PlatanData/statementmapper.h \
-    PlatanData/countrydata.h
+    PlatanData/countrydata.h \
+    PlatanData/country.h \
+    PlatanData/countrymapper.h
 
 unix:!symbian {
     maemo5 {

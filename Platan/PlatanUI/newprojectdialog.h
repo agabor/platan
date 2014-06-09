@@ -15,6 +15,9 @@ public:
     explicit NewProjectDialog(QWidget *parent = 0);
     ~NewProjectDialog();
 
+private slots:
+    void on_comboBox_currentIndexChanged(int index);
+
 private:
     Ui::NewProjectDialog *ui;
 };
