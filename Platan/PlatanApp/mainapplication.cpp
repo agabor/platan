@@ -20,6 +20,7 @@
 #include <sqlitedb.h>
 #include <assert.h>
 #include <country.h>
+
 using namespace std;
 
 MainApplication *MainApplication::instance(nullptr);

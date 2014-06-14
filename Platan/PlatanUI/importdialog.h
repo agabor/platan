@@ -39,9 +39,6 @@ public:
     ~ImportDialog();
     QVector<Statement> getImportedStatements() const;
 
-protected:
-    void resizeEvent(QResizeEvent *e);
-
 private slots:
     void on_cancel_clicked();
 

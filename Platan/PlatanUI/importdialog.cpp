@@ -43,12 +43,6 @@ QVector<Statement> ImportDialog::getImportedStatements() const
     return importedStatements;
 }
 
-void ImportDialog::resizeEvent(QResizeEvent *e)
-{
-    qDebug() << width() << " " << height();
-}
-
-
 void ImportDialog::on_cancel_clicked()
 {
     reject();
