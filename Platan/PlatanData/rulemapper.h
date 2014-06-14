@@ -11,8 +11,9 @@ class RuleMapper
 public:
     RuleMapper(SQLiteDB &db);
     void insert(Rule &r) const;
-    QVector<Rule> getAll(int column = -1);
+    QVector<Rule> getAll(int country = -1) const;
     static TableStructure getStructure();
+    static TableStructure getStructureWithCountry();
 private:
     SQLiteDB &data_base;
 };

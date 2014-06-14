@@ -48,13 +48,14 @@ bool ProjectsWindow::openProject(QString fileName)
 void ProjectsWindow::on_actionNew_Project_triggered()
 {
     NewProjectDialog d;
-    d.exec();
-    QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Create new project"), "",
-                                                    tr("Platan files (*.plat)"));
+
+    if (d.exec() != QDialog::Accepted)
+        return;
+
+    QString fileName = d.fileName();
     if (!fileName.isEmpty())
     {
-        statements.create(fileName);
+        statements.create(fileName, d.countryCode());
         if(!openProject(fileName))
                 return;
         addProjetPath(fileName);

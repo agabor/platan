@@ -37,7 +37,6 @@ signals:
     void typeChanged(ColumnType type);
     void separatorChanged(char c);
     void formatChanged(DateOrder o);
-
 private slots:
     void setType(int idx);
     void setSeparator(int idx);
@@ -45,10 +44,12 @@ private slots:
 
 private:
     QComboBox *useAs;
+    QLabel *useAsLabel;
     QComboBox *separator;
     QLabel *separatorLabel;
     QComboBox *format;
     QLabel *formatLabel;
+    QLabel *explanation;
 };
 
 #endif // IMPORTCOLUMNPROPERTIES_H

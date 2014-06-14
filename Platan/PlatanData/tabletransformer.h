@@ -5,7 +5,6 @@
 #include <datetransformation.h>
 
 #include <QVector>
-
 #include <memory>
 #include <statementtablemodel.h>
 

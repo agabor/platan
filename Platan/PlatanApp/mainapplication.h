@@ -30,8 +30,10 @@
 #include <QSettings>
 #include <sqlitedb.h>
 #include <countrymapper.h>
+#include <rulemapper.h>
 
 class DataBaseSchema;
+class Rule;
 
 class MainApplication : public QApplication
 {
@@ -48,17 +50,19 @@ public:
     QVector<QString> RecentProjects();
     void SaveProjectPaths(QVector<QString> path_list);
     bool countryExists(QString code) const;
+    QVector<Rule> getRulesForCountry(QString code) const;
     static MainApplication *getInstance();
 private:
     DataBaseSchema getSchema();
     std::unique_ptr<MainWindow> main_window;
     std::unique_ptr<PythonIDE> python_console;
     std::unique_ptr<ProjectsWindow> projects_window;
-    QMap<int, QString> countryCodes;
+    QMap<QString, int> countryCodes;
     Statements statements;
     QSettings settings;
     SQLiteDB db;
     CountryMapper countryMapper;
+    RuleMapper ruleMapper;
     static MainApplication *instance;
 };
 

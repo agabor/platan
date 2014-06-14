@@ -10,7 +10,8 @@ SOURCES += \
     PlatanUI/helpwindow.cpp \
     PlatanUI/projectswindow.cpp \
     PlatanUI/setcategorydialog.cpp \
-    PlatanUI/newprojectdialog.cpp
+    PlatanUI/newprojectdialog.cpp \
+    PlatanUI/welcomewidget.cpp
 
 HEADERS  += \
     PlatanUI/mainwindow.h \
@@ -22,7 +23,8 @@ HEADERS  += \
     PlatanUI/helpwindow.h \
     PlatanUI/projectswindow.h \
     PlatanUI/setcategorydialog.h \
-    PlatanUI/newprojectdialog.h
+    PlatanUI/newprojectdialog.h \
+    PlatanUI/welcomewidget.h
 
 FORMS    += \
     PlatanUI/mainwindow.ui \

@@ -88,7 +88,7 @@ public:
     void UnsetTimeInterval();
     QMap<int, float> getCategories();
     bool open(QString data_base_path);
-    void create(QString data_base_path);
+    void create(QString data_base_path, QString countryCode);
     void GetClasses(QString lan, QMap<int, QString> &classes);
     void insertData(QVector<Statement> statements);
     void insertRule(Rule rule);

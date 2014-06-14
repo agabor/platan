@@ -3,11 +3,11 @@
 
 #include <QLabel>
 #include <QHBoxLayout>
-#include <utility>
+#include <QPair>
 #include <QTableView>
 
 template<class T>
-std::pair<T*, QLabel*> AddLabeledWidget(QBoxLayout* mainLayout, QString name)
+QPair<T*, QLabel*> AddLabeledWidget(QBoxLayout* mainLayout, QString name)
 {
     QHBoxLayout* subLayout = new QHBoxLayout();
     QLabel *label = new QLabel(name, mainLayout->parentWidget());
@@ -17,7 +17,7 @@ std::pair<T*, QLabel*> AddLabeledWidget(QBoxLayout* mainLayout, QString name)
 
     mainLayout->addLayout(subLayout);
 
-    return std::make_pair(comboBox, label);
+    return 	qMakePair(comboBox, label);
 }
 
 

@@ -31,6 +31,7 @@ class MainWindow;
 }
 
 class MainApplication;
+class WelcomeWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -101,6 +102,7 @@ private:
     std::unique_ptr<QStatemenView> unclassifiedTable;
     MainApplication const * application;
     std::shared_ptr<StatementTableModel> uncategorisedTableModel;
+    WelcomeWidget *welcomeWidget;
 };
 
 #endif // MAINWINDOW_H

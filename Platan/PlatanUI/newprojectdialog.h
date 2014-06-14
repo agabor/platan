@@ -14,9 +14,16 @@ class NewProjectDialog : public QDialog
 public:
     explicit NewProjectDialog(QWidget *parent = 0);
     ~NewProjectDialog();
-
+    QString fileName() const;
+    QString countryCode() const;
 private slots:
     void on_comboBox_currentIndexChanged(int index);
+
+    void on_pushButton_clicked();
+
+    void on_okBtn_clicked();
+
+    void on_cancelBtn_clicked();
 
 private:
     Ui::NewProjectDialog *ui;

@@ -33,13 +33,15 @@
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <setcategorydialog.h>
+#include <welcomewidget.h>
 
 MainWindow::MainWindow(MainApplication * const application, Statements &statements, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     statements(statements),
     unclassifiedTable(new QStatemenView(this)),
-    application(application)
+    application(application),
+    welcomeWidget(nullptr)
 {
     ui->setupUi(this);
     ui->tabWidget->removeCloseButtons();
@@ -59,6 +61,7 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     }
 
     connect(&statements,SIGNAL(dataChanged()), this, SLOT(refreshStatements()));
+    connect(&statements,SIGNAL(dataChanged()), this, SLOT(onModification()));
     connect(&statements,SIGNAL(modification()), this, SLOT(onModification()));
 
     QGroupBox *groupBox = new QGroupBox(ui->scrollArea);
@@ -75,6 +78,14 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     unclassifiedTable->addAction(ui->actionSet_category);
 
     setWindowTitle("Platan - " + statements.getOpenProjectPath());
+
+    if (statements.isEmpty())
+    {
+        ui->tabWidget->setHidden(true);
+        welcomeWidget = new WelcomeWidget(this);
+        connect(welcomeWidget, SIGNAL(clicked()), this, SLOT(on_actionImport_Bank_Statements_triggered()));
+        this->centralWidget()->layout()->addWidget(welcomeWidget);
+    }
 }
 
 
@@ -208,6 +219,12 @@ void MainWindow::refreshStatements()
 {
     refreshChart();
     setDateInterval();
+
+    if (welcomeWidget && !statements.isEmpty())
+    {
+        welcomeWidget->setHidden(true);
+        ui->tabWidget->setHidden(false);
+    }
 }
 
 void MainWindow::refreshChart()

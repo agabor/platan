@@ -33,14 +33,14 @@ void RuleMapper::insert(Rule &r) const
     data_base.execute(insert);
 }
 
-QVector<Rule> RuleMapper::getAll(int column)
+QVector<Rule> RuleMapper::getAll(int country) const
 {
     SQLSelect select{"rules"};
     select.field("Column");
     select.field("Value");
     select.field("Class");
-    if (column != -1)
-        select.where(QString("Column = %1").arg(column));
+    if (country != -1)
+        select.where(QString("Country = %1").arg(country));
 
     SQLiteStatement statement;
 
@@ -62,5 +62,12 @@ TableStructure RuleMapper::getStructure()
     rules.addField("Column", SQLType::Integer());
     rules.addField("Value", SQLType::Text());
     rules.addField("Class", SQLType::Integer());
+    return rules;
+}
+
+TableStructure RuleMapper::getStructureWithCountry()
+{
+    TableStructure rules = getStructure();
+    rules.addField("Country", SQLType::Integer());
     return rules;
 }

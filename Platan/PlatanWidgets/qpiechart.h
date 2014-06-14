@@ -37,7 +37,7 @@ protected:
     void mouseReleaseEvent ( QMouseEvent * event );
     void mousePressEvent ( QMouseEvent * event );
     void paintEvent(QPaintEvent *event);
-    void resizeEvent(QResizeEvent *event);
+    void resizeEvent(QResizeEvent *);
     int pie_num;
     QPainter painter;
     QVector<PieSlice> slices;

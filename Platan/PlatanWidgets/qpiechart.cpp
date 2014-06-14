@@ -65,7 +65,7 @@ void QPieChart::paintEvent(QPaintEvent *event)
     painter.end();
 }
 
-void QPieChart::resizeEvent(QResizeEvent *event)
+void QPieChart::resizeEvent(QResizeEvent *)
 {
     int side = width() < height() ? width() : height();
     bounding_rect.setLeft((width() - side) / 2);

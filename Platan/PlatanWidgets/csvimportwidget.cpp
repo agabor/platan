@@ -25,6 +25,8 @@ CSVImportWidget::CSVImportWidget(QWidget *parent) :
 {
     QVBoxLayout *mainLayount = new QVBoxLayout(this);
     columnPropertiesWidget = new ColumnPropertiesWidget(this);
+    columnPropertiesWidget->setMaximumHeight(200);
+    columnPropertiesWidget->setMinimumHeight(200);
     mainLayount->addWidget(columnPropertiesWidget);
     tableView = new QTableView(this);
     mainLayount->addWidget(tableView);

@@ -28,7 +28,8 @@ MainApplication::MainApplication(int &argc, char *argv[]) :
     QApplication(argc, argv),
     settings("configs/platan.ini", QSettings::IniFormat),
     db(getSchema(), "app"),
-    countryMapper(db)
+    countryMapper(db),
+    ruleMapper(db)
 {
     assert(instance == nullptr);
     instance = this;
@@ -39,7 +40,7 @@ MainApplication::MainApplication(int &argc, char *argv[]) :
     db.setPath("platandata");
     db.open();
     for(Country c : countryMapper.getAll())
-        countryCodes.insert(c.id, c.code);
+        countryCodes.insert(c.code, c.id);
 }
 
 
@@ -94,7 +95,15 @@ void MainApplication::SaveProjectPaths(QVector<QString> path_list)
 
 bool MainApplication::countryExists(QString code) const
 {
-    return countryCodes.values().contains(code);
+    return countryCodes.keys().contains(code);
+}
+
+QVector<Rule> MainApplication::getRulesForCountry(QString code) const
+{
+    auto it = countryCodes.find(code);
+    if (it == countryCodes.end())
+        return QVector<Rule>();
+    return ruleMapper.getAll(*it);
 }
 
 MainApplication *MainApplication::getInstance()
@@ -105,9 +114,7 @@ MainApplication *MainApplication::getInstance()
 DataBaseSchema MainApplication::getSchema()
 {
     DataBaseSchema schema;
-    TableStructure rules = RuleMapper::getStructure();
-    rules.addField("Country", SQLType::Integer());
-    schema.addTable(rules);
+    schema.addTable(RuleMapper::getStructureWithCountry());
 
     TableStructure countries{"countries"};
     countries.addField("ID", SQLType::Integer().PK());

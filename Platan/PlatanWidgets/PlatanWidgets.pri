@@ -11,7 +11,8 @@ SOURCES += \
     PlatanWidgets/columnpropertieswidget.cpp \
     PlatanWidgets/rulewidget.cpp \
     PlatanWidgets/colorpalette.cpp \
-    PlatanWidgets/widgethelpers.cpp
+    PlatanWidgets/widgethelpers.cpp \
+    PlatanWidgets/qlabeledcombobox.cpp
 
 HEADERS  += \
     PlatanWidgets/qpiechart.h \
@@ -29,4 +30,5 @@ HEADERS  += \
     PlatanWidgets/csvimportwidget.h \
     PlatanWidgets/columnpropertieswidget.h \
     PlatanWidgets/rulewidget.h \
+    PlatanWidgets/qlabeledcombobox.h
 

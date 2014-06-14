@@ -15,6 +15,7 @@
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "statements.h"
+#include "mainapplication.h"
 
 using namespace std;
 
@@ -245,11 +246,15 @@ bool Statements::open(QString data_base_path)
     return true;
 }
 
-void Statements::create(QString data_base_path)
+void Statements::create(QString data_base_path, QString countryCode)
 {
     db.setPath(data_base_path);
     db.create();
-    db.executeScript("../rules.sql");
+    db.beginTransaction();
+    auto rules = MainApplication::getInstance()->getRulesForCountry(countryCode);
+    for (Rule r : rules)
+        ruleMapper.insert(r);
+    db.endTransaction();
 }
 
 
