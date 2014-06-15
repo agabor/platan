@@ -81,8 +81,7 @@ DateRangeWidget::DateRangeWidget(QWidget * parent) : QWidget(parent)
     connect(monthTable, SIGNAL(currentCellChanged(int,int,int,int)), this, SLOT(onMonthChanged()));
 
 
-    setMaximumWidth(monthTable->maximumWidth()+10);
-    setMinimumWidth(maximumWidth());
+    setFixedWidth(monthTable->maximumWidth()+10);
 
     QCheckBox *showAll = new QCheckBox(tr("Show all"), this);
     layout->addWidget(showAll);

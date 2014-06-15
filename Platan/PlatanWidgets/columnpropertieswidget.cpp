@@ -79,6 +79,7 @@ ColumnPropertiesWidget::ColumnPropertiesWidget(QWidget *parent) :
     explanation->setWordWrap(true);
     mainLayout->addWidget(explanation);
     useAs->setCurrentIndex(0);
+    setType(0);
 }
 
 ColumnType ColumnPropertiesWidget::type()

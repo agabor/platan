@@ -28,6 +28,7 @@ CSVImportWidget::CSVImportWidget(QWidget *parent) :
     columnPropertiesWidget = new ColumnPropertiesWidget(this);
     columnPropertiesWidget->setFixedHeight(200);
     mainLayount->addWidget(columnPropertiesWidget);
+    columnPropertiesWidget->setEnabled(false);
     tableView = new QTableView(this);
     mainLayount->addWidget(tableView);
     tableView->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -91,8 +92,9 @@ void CSVImportWidget::dateOrderChanged(DateOrder o)
     transformer.Date.setOrder(o);
 }
 
-void CSVImportWidget::currentCellChanged(QModelIndex idx)
+void CSVImportWidget::currentCellChanged(QModelIndex)
 {
+   columnPropertiesWidget->setEnabled(true);
    ColumnType type = transformer.getColumnType(currentColumn());
    columnPropertiesWidget->setType(type);
    if (type == ColumnType::Amount)
