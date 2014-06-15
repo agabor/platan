@@ -25,7 +25,9 @@ MainApplication::MainApplication(int &argc, char *argv[]) :
     QApplication(argc, argv),
     settings("configs/platan.ini", QSettings::IniFormat)
 {
+#ifdef PYTHON_API
     PythonAPI::init(this);
+#endif
     projects_window.reset(new ProjectsWindow(this, statements));
     projects_window->show();
 }
@@ -87,5 +89,7 @@ void MainApplication::setDateRange(QDate start, QDate end)
 
 MainApplication::~MainApplication()
 {
+#ifdef PYTHON_API
     PythonAPI::finalize();
+#endif
 }

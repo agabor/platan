@@ -29,10 +29,12 @@ PythonIDE::PythonIDE(QMainWindow *mainWindow) :
 
     connect(ui->code, SIGNAL(textChanged()), this, SLOT(textChanged()));
     SetWindowTitle();
+#ifdef PYTHON_API
     for(pair<QString, QString> doc : PythonAPI::GetFunctionDocs())
     {
         helpwindow->AddFunctionDoc(doc.first, doc.second);
     }
+#endif
 }
 
 QTextCursor PythonIDE::GetOutputEndCursor()
@@ -60,7 +62,9 @@ PythonIDE::~PythonIDE()
 
 void PythonIDE::run()
 {
+#ifdef PYTHON_API
     PythonAPI::run(ui->code->text().toStdString());
+#endif
 }
 
 void PythonIDE::textChanged()
