@@ -38,6 +38,8 @@ public:
     void pad(int columnCount, QStringList &stringList);
     void pad(QStringList &stringList, int columnCount);
     void setShowUsageHeaders(bool value);
+    QVariant columnHeaderData(int role, int section) const;
+    QVariant rowHeaderData(int role, int section) const;
 private:
     std::vector<QStringList> Rows;
     QStringList headers;

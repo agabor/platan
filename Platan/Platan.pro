@@ -5,7 +5,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG  += ordered c++11 qscintilla2
 
-QMAKE_CXXFLAGS += -O0 -g -Werror=return-type -Wold-style-cast -Woverloaded-virtual -Wshadow
+QMAKE_CXXFLAGS += -O0 -g -Werror=return-type -Wold-style-cast -Woverloaded-virtual
 QMAKE_CXXFLAGS += $$system(python3.2-config --cflags)
 QMAKE_CXXFLAGS -= -Wstrict-prototype
 QMAKE_CXXFLAGS -= -O2

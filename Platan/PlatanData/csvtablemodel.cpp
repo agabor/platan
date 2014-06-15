@@ -70,16 +70,15 @@ QVariant CSVTableModel::data(const QModelIndex& index, int role) const
     }
 }
 
-QString CSVTableModel::columnHeaderData(int role, int section) const
+QVariant CSVTableModel::columnHeaderData(int role, int section) const
 {
-    QString headerData;
     if(role == Qt::DisplayRole)
     {
         if (headers.length() > section)
-        headerData = headers.at(section);
+        return headers.at(section);
     }
 
-    return headerData;
+    return QVariant::Invalid;
 }
 
 QVariant CSVTableModel::rowHeaderData(int role, int section) const
