@@ -26,6 +26,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QDate>
+#include <QCheckBox>
 
 static QSize myGetQTableWidgetSize(QTableWidget *t) {
    int w = 0;
@@ -82,6 +83,10 @@ DateRangeWidget::DateRangeWidget(QWidget * parent) : QWidget(parent)
 
     setMaximumWidth(monthTable->maximumWidth()+10);
     setMinimumWidth(maximumWidth());
+
+    QCheckBox *showAll = new QCheckBox(tr("Show all"), this);
+    layout->addWidget(showAll);
+    connect(showAll, SIGNAL(toggled(bool)), this, SLOT(showAll(bool)));
 }
 
 
@@ -154,6 +159,17 @@ void DateRangeWidget::decreaseYear()
     setYearLabelText();
     enableDateNavigation();
     onMonthChanged();
+}
+
+void DateRangeWidget::showAll(bool value)
+{
+    previousYear->setEnabled(!value);
+    nextYear->setEnabled(!value);
+    monthTable->setEnabled(!value);
+    if (value)
+        emit unsetDateRange();
+    else
+        onMonthChanged();
 }
 
 

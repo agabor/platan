@@ -53,6 +53,7 @@ private slots:
     void onMonthChanged();
     void increaseYear();
     void decreaseYear();
+    void showAll(bool value);
 };
 
 #endif // DATERANGEWIDGET_H

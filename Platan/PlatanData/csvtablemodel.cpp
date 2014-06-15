@@ -26,6 +26,8 @@ CSVTableModel::CSVTableModel() :
 
 int CSVTableModel::rowCount(const QModelIndex&) const
 {
+    if (showUsageHeaders)
+        return Rows.size() + 1;
     return Rows.size();
 }
 
@@ -121,6 +123,8 @@ QVariant CSVTableModel::headerData(int section, Qt::Orientation orientation, int
 
 void CSVTableModel::addRow(QStringList row)
 {
+    pad(headers, row.length());
+    _columnCount = headers.length();
     pad(row, _columnCount);
     Rows.push_back(row);
 }
