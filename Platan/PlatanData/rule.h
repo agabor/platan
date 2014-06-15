@@ -31,9 +31,6 @@ public:
     int column;
     QString value;
     int category;
-
-    void insert() const;
-    static QVector<Rule> getAll(int column = -1);
 };
 
 

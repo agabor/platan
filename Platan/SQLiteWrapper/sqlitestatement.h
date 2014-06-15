@@ -21,6 +21,8 @@
 #include <QDate>
 #include <QSqlQuery>
 
+class SQLiteDB;
+
 class SQLiteStatement
 {
 public:
@@ -29,7 +31,7 @@ public:
     double GetDouble(int idx);
     QString GetText(int idx);
     QDate GetDate(int idx);
-    void SetStatement(QString query);
+    void SetStatement(QString query, QSqlDatabase &db);
 protected:
     QString _query;
     QSqlQuery statement;

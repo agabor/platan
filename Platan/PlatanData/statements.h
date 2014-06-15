@@ -29,7 +29,9 @@
 #include <QSet>
 #include <statementtablemodel.h>
 #include <rule.h>
-
+#include <sqlitedb.h>
+#include <rulemapper.h>
+#include <statementmapper.h>
 
 inline uint qHash(std::shared_ptr<Statement> key, uint seed = 0) Q_DECL_NOTHROW { return ulong(key.get()) ^ seed; }
 
@@ -86,7 +88,7 @@ public:
     void UnsetTimeInterval();
     QMap<int, float> getCategories();
     bool open(QString data_base_path);
-    void create(QString data_base_path);
+    void create(QString data_base_path, QString countryCode);
     void GetClasses(QString lan, QMap<int, QString> &classes);
     void insertData(QVector<Statement> statements);
     void insertRule(Rule rule);
@@ -95,6 +97,8 @@ public:
     void setCategory(int id, int category);
     bool changed() const;
     void save();
+    QString getOpenProjectPath() const;
+    QVector<Rule> getRules();
 signals:
     void dataChanged();
     void modification();
@@ -109,6 +113,11 @@ private:
     QSet<std::shared_ptr<Statement>> changes;
     QSet<std::shared_ptr<Statement>> newStatements;
     QVector<std::shared_ptr<Statement>> statementsInDateRange();
+    QString openProjectPath;
+    SQLiteDB db;
+    static DataBaseSchema getSchema();
+    RuleMapper ruleMapper;
+    StatementMapper statementMapper;
 };
 
 #endif // STATEMENTS_H

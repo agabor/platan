@@ -6,7 +6,7 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG  += ordered c++11
 unix:CONFIG  += qscintilla2
 
-QMAKE_CXXFLAGS += -O0 -g -Werror=return-type -Wold-style-cast -Woverloaded-virtual -Wshadow
+QMAKE_CXXFLAGS += -O0 -g -Werror=return-type -Wold-style-cast -Woverloaded-virtual
 unix {
   QMAKE_CXXFLAGS += $$system(python3.2-config --cflags)
   QMAKE_CXXFLAGS -= -Wstrict-prototype
@@ -19,12 +19,14 @@ unix {
 INCLUDEPATH += SQLiteWrapper \
                PlatanData \
                PlatanUI \
+               PlatanWidgets \
                PlatanApp \
                PythonAPI
 
 include(SQLiteWrapper/SQLiteWrapper.pri)
 include(PlatanData/PlatanData.pri)
 include(PlatanUI/PlatanUI.pri)
+include(PlatanWidgets/PlatanWidgets.pri)
 include(PlatanApp/PlatanApp.pri)
 unix:include(PythonAPI/PythonAPI.pri)
 

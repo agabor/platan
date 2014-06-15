@@ -28,14 +28,24 @@ public:
     CSVTableModel();
     int rowCount(const QModelIndex& parent = QModelIndex()) const;
     int columnCount(const QModelIndex& parent) const;
+    int columnCount() const;
     QVariant data(const QModelIndex& index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     void setHeaders(QStringList headers);
+    void setUsageHeaders(QStringList headers);
     void addRow(QStringList row);
-
-protected:
+    void increaseColumnCountTo(int columnCount);
+    void pad(int columnCount, QStringList &stringList);
+    void pad(QStringList &stringList, int columnCount);
+    void setShowUsageHeaders(bool value);
+    QVariant columnHeaderData(int role, int section) const;
+    QVariant rowHeaderData(int role, int section) const;
+private:
     std::vector<QStringList> Rows;
     QStringList headers;
+    QStringList usageHeaders;
+    bool showUsageHeaders;
+    int _columnCount;
 };
 
 #endif // CSVTABLEMODEL_H

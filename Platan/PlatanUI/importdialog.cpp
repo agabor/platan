@@ -20,6 +20,7 @@
 #include <datetransformation.h>
 
 #include <QMessageBox>
+#include <QDebug>
 
 ImportDialog::ImportDialog(QWidget *parent, QString filename) :
     QDialog(parent),
@@ -41,7 +42,6 @@ QVector<Statement> ImportDialog::getImportedStatements() const
 {
     return importedStatements;
 }
-
 
 void ImportDialog::on_cancel_clicked()
 {

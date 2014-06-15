@@ -17,19 +17,33 @@
 #include "mainapplication.h"
 #include "PythonAPI/pythonapi.h"
 #include <QMessageBox>
+#include <sqlitedb.h>
+#include <assert.h>
+#include <country.h>
 
 using namespace std;
 
+MainApplication *MainApplication::instance(nullptr);
 
 MainApplication::MainApplication(int &argc, char *argv[]) :
     QApplication(argc, argv),
-    settings("configs/platan.ini", QSettings::IniFormat)
+    settings("configs/platan.ini", QSettings::IniFormat),
+    db(getSchema(), "app"),
+    countryMapper(db),
+    ruleMapper(db)
 {
+    assert(instance == nullptr);
+    instance = this;
 #ifdef PYTHON_API
     PythonAPI::init(this);
 #endif
     projects_window.reset(new ProjectsWindow(this, statements));
     projects_window->show();
+
+    db.setPath("platandata");
+    db.open();
+    for(Country c : countryMapper.getAll())
+        countryCodes.insert(c.code, c.id);
 }
 
 
@@ -80,6 +94,36 @@ void MainApplication::SaveProjectPaths(QVector<QString> path_list)
         settings.setValue(projectpathkey.arg(i++), path);
     }
 
+}
+
+bool MainApplication::countryExists(QString code) const
+{
+    return countryCodes.keys().contains(code);
+}
+
+QVector<Rule> MainApplication::getRulesForCountry(QString code) const
+{
+    auto it = countryCodes.find(code);
+    if (it == countryCodes.end())
+        return QVector<Rule>();
+    return ruleMapper.getAll(*it);
+}
+
+MainApplication *MainApplication::getInstance()
+{
+    return instance;
+}
+
+DataBaseSchema MainApplication::getSchema()
+{
+    DataBaseSchema schema;
+    schema.addTable(RuleMapper::getStructureWithCountry());
+
+    TableStructure countries{"countries"};
+    countries.addField("ID", SQLType::Integer().PK());
+    countries.addField("Code", SQLType::Text());
+    schema.addTable(countries);
+    return schema;
 }
 
 void MainApplication::setDateRange(QDate start, QDate end)

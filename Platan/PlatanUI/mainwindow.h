@@ -24,7 +24,6 @@
 #include <QTabWidget>
 #include "qpiechart.h"
 #include "statements.h"
-#include "multicolorpalette.h"
 #include "qstatemenview.h"
 
 namespace Ui{
@@ -32,6 +31,7 @@ class MainWindow;
 }
 
 class MainApplication;
+class WelcomeWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -98,10 +98,11 @@ private:
     Statements &statements;
     QMap<int, float> classes;
     QMap<int, QString> classNames;
-    MultiColorPalette palette;
+    ColorPalette palette;
     std::unique_ptr<QStatemenView> unclassifiedTable;
     MainApplication const * application;
     std::shared_ptr<StatementTableModel> uncategorisedTableModel;
+    WelcomeWidget *welcomeWidget;
 };
 
 #endif // MAINWINDOW_H

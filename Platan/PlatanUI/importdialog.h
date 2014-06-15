@@ -38,6 +38,7 @@ public:
     explicit ImportDialog(QWidget *parent, QString filename);
     ~ImportDialog();
     QVector<Statement> getImportedStatements() const;
+
 private slots:
     void on_cancel_clicked();
 

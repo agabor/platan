@@ -19,6 +19,7 @@
 #include <sstream>
 #include "sqlitedate.h"
 #include <QVariant>
+#include <sqlitedb.h>
 
 using namespace std;
 
@@ -46,8 +47,8 @@ QDate SQLiteStatement::GetDate(int idx)
    return SQLiteDate(GetInt(idx));
 }
 
-void SQLiteStatement::SetStatement(QString query)
+void SQLiteStatement::SetStatement(QString query, QSqlDatabase &db)
 {
     _query = query;
-    statement = QSqlQuery(_query);
+    statement = QSqlQuery(_query, db);
 }

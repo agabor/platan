@@ -48,7 +48,7 @@ bool DataBaseSchema::isConform(const QSqlDatabase &db) const
         SQLSelect s{"sqlite_master"};
         s.field("sql");
         s.where(QString("name = \"%1\"").arg(table_name));
-        QSqlQuery q(s.toString());
+        QSqlQuery q(s.toString(), db);
         while(q.next())
         {
             TableStructure ts = TableStructure::fromSchema(q.value(0).toString());

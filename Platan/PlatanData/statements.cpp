@@ -15,7 +15,7 @@
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "statements.h"
-#include <sqlitedb.h>
+#include "mainapplication.h"
 
 using namespace std;
 
@@ -23,7 +23,7 @@ const CategoryList Statements::categoryList;
 const ColumnList Statements::columnList;
 
 
-Statements::Statements()
+Statements::Statements() : db(getSchema(), "statements"), ruleMapper(db), statementMapper(db)
 {
     for(int i = 1; i < categoryList.count(); ++i)
         classStatements[i].reset(new StatementTableModel);
@@ -110,25 +110,35 @@ bool Statements::changed() const
 
 void Statements::save()
 {
-    SQLiteDB::getInstance().beginTransaction();
+    db.beginTransaction();
     for (auto s : changes)
     {
-        s->update();
+        statementMapper.update(*s);
     }
     changes.clear();
 
     for (auto s : newStatements)
     {
-        s->insert();
+        statementMapper.insert(*s);
     }
     newStatements.clear();
-    SQLiteDB::getInstance().endTransaction();
+    db.endTransaction();
     emit modification();
+}
+
+QString Statements::getOpenProjectPath() const
+{
+    return openProjectPath;
+}
+
+QVector<Rule> Statements::getRules()
+{
+    return ruleMapper.getAll();
 }
 
 void Statements::categorizeUndefinedStatements()
 {
-    QVector<Rule> rules = Rule::getAll();
+    QVector<Rule> rules = ruleMapper.getAll();
     bool changed = false;
     for (auto s : *this)
     {
@@ -172,13 +182,31 @@ QVector<shared_ptr<Statement>> Statements::statementsInDateRange()
     return result;
 }
 
+DataBaseSchema Statements::getSchema()
+{
+    DataBaseSchema schema;
+    schema.addTable(RuleMapper::getStructure());
+
+    TableStructure statements{"statements"};
+    statements.addField("ID", SQLType::Integer().PK());
+    statements.addField("Date", SQLType::Integer());
+    statements.addField("Type", SQLType::Text());
+    statements.addField("Description", SQLType::Text());
+    statements.addField("Payee", SQLType::Text());
+    statements.addField("PayeeAccount", SQLType::Text());
+    statements.addField("Amount", SQLType::Real());
+    statements.addField("Class", SQLType::Integer());
+    schema.addTable(statements);
+    return schema;
+}
+
 void Statements::SetTimeInterval(QDate start_date, QDate end_date)
 {
     timeIntervalSet = true;
     startDate = start_date;
     endDate = end_date;
     refreshTableModels();
-}
+    }
 
 
 void Statements::UnsetTimeInterval()
@@ -205,25 +233,28 @@ QMap<int, float> Statements::getCategories()
 
 bool Statements::open(QString data_base_path)
 {
-    auto data_base = SQLiteDB::getInstance();
-    if(data_base.isOpen())
-        data_base.close();
-    data_base.setPath(data_base_path);
-    if(!data_base.open())
+    openProjectPath = data_base_path;
+    if(db.isOpen())
+        db.close();
+    db.setPath(data_base_path);
+    if(!db.open())
         return false;
     clear();
-    for(Statement &s : Statement::getAll(SQLCondition::Empty))
+    for(Statement &s : statementMapper.getAll(SQLCondition::Empty))
         append(shared_ptr<Statement>(new Statement(s)));
     refreshTableModels();
     return true;
 }
 
-void Statements::create(QString data_base_path)
+void Statements::create(QString data_base_path, QString countryCode)
 {
-    auto data_base = SQLiteDB::getInstance();
-    data_base.setPath(data_base_path);
-    data_base.create();
-    data_base.executeScript("../rules.sql");
+    db.setPath(data_base_path);
+    db.create();
+    db.beginTransaction();
+    auto rules = MainApplication::getInstance()->getRulesForCountry(countryCode);
+    for (Rule r : rules)
+        ruleMapper.insert(r);
+    db.endTransaction();
 }
 
 
@@ -242,7 +273,7 @@ void Statements::insertData(QVector<Statement> statements)
 
 void Statements::insertRule(Rule rule)
 {
-    rule.insert();
+    ruleMapper.insert(rule);
     categorizeUndefinedStatements();
     refreshTableModels();
     emit dataChanged();

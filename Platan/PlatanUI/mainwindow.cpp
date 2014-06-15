@@ -20,8 +20,6 @@
 #include "importdialog.h"
 #include <sstream>
 #include "qpiechart.h"
-#include "analogouscolorpalette.h"
-#include "multicolorpalette.h"
 #include <QDebug>
 #include "qlegend.h"
 #include <QLayout>
@@ -35,23 +33,20 @@
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <setcategorydialog.h>
+#include <welcomewidget.h>
 
 MainWindow::MainWindow(MainApplication * const application, Statements &statements, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     statements(statements),
     unclassifiedTable(new QStatemenView(this)),
-    application(application)
+    application(application),
+    welcomeWidget(nullptr)
 {
     ui->setupUi(this);
     ui->tabWidget->removeCloseButtons();
 
     classes = statements.getCategories();
-
-    palette.push_back(AnalogousColorPalette(0xE67F90, 55));
-    palette.push_back(AnalogousColorPalette(0x89E67E, 55));
-    palette.push_back(AnalogousColorPalette(0x7FBCE6, 55));
-    palette.init(classes.size());
 
     setDateInterval();
 
@@ -66,12 +61,13 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     }
 
     connect(&statements,SIGNAL(dataChanged()), this, SLOT(refreshStatements()));
+    connect(&statements,SIGNAL(dataChanged()), this, SLOT(onModification()));
     connect(&statements,SIGNAL(modification()), this, SLOT(onModification()));
 
     QGroupBox *groupBox = new QGroupBox(ui->scrollArea);
     ui->scrollArea->setWidget(groupBox);
     auto layout = new QVBoxLayout(groupBox);
-    for(Rule rule : Rule::getAll())
+    for(Rule rule : statements.getRules())
     {
         layout->addWidget(new RuleWidget(rule,ui->scrollArea));
     }
@@ -80,6 +76,16 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
     unclassifiedTable->addAction(ui->actionAdd_rule);
     unclassifiedTable->addAction(ui->actionSet_category);
+
+    setWindowTitle("Platan - " + statements.getOpenProjectPath());
+
+    if (statements.isEmpty())
+    {
+        ui->tabWidget->setHidden(true);
+        welcomeWidget = new WelcomeWidget(this);
+        connect(welcomeWidget, SIGNAL(clicked()), this, SLOT(on_actionImport_Bank_Statements_triggered()));
+        this->centralWidget()->layout()->addWidget(welcomeWidget);
+    }
 }
 
 
@@ -213,12 +219,17 @@ void MainWindow::refreshStatements()
 {
     refreshChart();
     setDateInterval();
+
+    if (welcomeWidget && !statements.isEmpty())
+    {
+        welcomeWidget->setHidden(true);
+        ui->tabWidget->setHidden(false);
+    }
 }
 
 void MainWindow::refreshChart()
 {
     classes = statements.getCategories();
-    palette.init(classes.size());
     InitChart();
     InitLegend();
 }
