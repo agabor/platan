@@ -56,7 +56,7 @@ void TableTransformer::removeColumnType(int column)
     }
 }
 
-ColumnType TableTransformer::getColumnType(int column)
+ColumnType TableTransformer::getColumnType(int column) const
 {
     int idx = 0;
     for (TransformationBase *tr : transformations)
@@ -123,4 +123,28 @@ void TableTransformer::setColumnType(int column, ColumnType type)
     removeColumnType(column);
     if (type != ColumnType::None)
         transformations[(int)type]->setColumn(column);
+}
+
+
+QString toString(ColumnType type)
+{
+    switch (type)
+    {
+     case ColumnType::None:
+        return QObject::tr("None");
+     case ColumnType::Amount:
+        return QObject::tr("Amount");
+     case ColumnType::Type:
+        return QObject::tr("Type");
+     case ColumnType::Date:
+        return QObject::tr("Date");
+     case ColumnType::Payee:
+        return QObject::tr("Payee");
+     case ColumnType::PayeeAccount:
+        return QObject::tr("Payee account");
+     case ColumnType::Description:
+        return QObject::tr("Description");
+    default:
+        return QString();
+    }
 }

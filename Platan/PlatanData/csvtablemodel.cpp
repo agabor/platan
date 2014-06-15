@@ -15,51 +15,106 @@
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "csvtablemodel.h"
-#include <sstream>
+#include <QColor>
 
 CSVTableModel::CSVTableModel() :
-    QAbstractTableModel()
+    QAbstractTableModel(),
+    showUsageHeaders(false)
 {
     _columnCount = 0;
 }
 
-int CSVTableModel::rowCount(const QModelIndex& parent) const
+int CSVTableModel::rowCount(const QModelIndex&) const
 {
     return Rows.size();
 }
 
-int CSVTableModel::columnCount(const QModelIndex& parent) const
+int CSVTableModel::columnCount(const QModelIndex&) const
+{
+    return _columnCount;
+}
+
+int CSVTableModel::columnCount() const
 {
     return _columnCount;
 }
 
 QVariant CSVTableModel::data(const QModelIndex& index, int role) const
 {
+    int row = index.row();
+    int column = index.column();
+
+    switch(role)
+    {
+    case Qt::DisplayRole:
+        if (showUsageHeaders)
+        {
+            if (row == 0)
+            {
+                if (usageHeaders.length() > column)
+                    return usageHeaders[column];
+                else
+                    return QString();
+            }
+            return Rows[row-1].at(column);
+        } else
+            return Rows[row].at(column);
+    case Qt::UserRole:
+        return Rows[row].at(column);
+    case Qt::ForegroundRole:
+        if (showUsageHeaders && row == 0)
+            return QColor(Qt::blue);
+        return QVariant::Invalid;
+    default:
+        return QVariant::Invalid;
+    }
+}
+
+QString CSVTableModel::columnHeaderData(int role, int section) const
+{
+    QString headerData;
     if(role == Qt::DisplayRole)
     {
-        return Rows[index.row()].at(index.column());
+        if (headers.length() > section)
+        headerData = headers.at(section);
     }
-    return QVariant::Invalid;
+
+    return headerData;
+}
+
+QVariant CSVTableModel::rowHeaderData(int role, int section) const
+{
+    switch(role)
+    {
+    case Qt::DisplayRole:
+        if (showUsageHeaders)
+        {
+            if (section == 0)
+                return QString(tr("Usage"));
+            return QString::number(section-1);
+        }
+        return QString::number(section);
+
+    case Qt::ForegroundRole:
+        if (showUsageHeaders && section == 0)
+            return QColor(Qt::blue);
+        return QVariant::Invalid;
+    case Qt::UserRole:
+        return QString::number(section);
+    default:
+        return QVariant::Invalid;
+    }
 }
 
 QVariant CSVTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if(role == Qt::DisplayRole)
+    if(orientation == Qt::Horizontal)
     {
-        std::stringstream ss;
-        if(orientation == Qt::Horizontal)
-        {
-            if (headers.length() <= section)
-            {
-                return QString{};
-            }
-            return headers.at(section);
-        }
-        else if(orientation == Qt::Vertical)
-        {
-            ss << section;
-            return QString(ss.str().c_str());
-        }
+        return columnHeaderData(role, section);
+    }
+    else if(orientation == Qt::Vertical)
+    {
+        return rowHeaderData(role, section);
     }
 
     return QVariant::Invalid;
@@ -79,6 +134,11 @@ void CSVTableModel::pad(QStringList &stringList, int columnCount)
         stringList.append(QString());
 }
 
+void CSVTableModel::setShowUsageHeaders(bool value)
+{
+    showUsageHeaders = value;
+}
+
 void CSVTableModel::increaseColumnCountTo(int columnCount)
 {
     pad(headers, columnCount);
@@ -90,4 +150,10 @@ void CSVTableModel::setHeaders(QStringList headers)
 {
     this->headers = headers;
     _columnCount = headers.length();
+}
+
+void CSVTableModel::setUsageHeaders(QStringList headers)
+{
+    usageHeaders = headers;
+    emit layoutChanged ();
 }

@@ -25,16 +25,18 @@
 class QAbstractTableModel;
 class QTableView;
 class ColumnPropertiesWidget;
+class CSVTableModel;
 
 class CSVImportWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit CSVImportWidget(QWidget *parent = 0);
-    void setTableModel (QAbstractTableModel *model);
+    void setTableModel (CSVTableModel *model);
     QVector<Statement> getImportedStatements() const;
     const TableTransformer &getTransformer() const;
 
+    QStringList usageHeaders();
 private slots:
     void typeChanged(ColumnType type);
     void separatorChanged(char c);
@@ -43,7 +45,7 @@ private slots:
 
 private:
     QTableView *tableView;
-    QAbstractTableModel *tableModel;
+    CSVTableModel *tableModel;
     ColumnPropertiesWidget *columnPropertiesWidget;
     int currentColumn() const;
     TableTransformer transformer;

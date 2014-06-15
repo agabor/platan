@@ -21,6 +21,8 @@ enum class ColumnType
     None
 };
 
+QString toString(ColumnType type);
+
 class TableTransformer
 {
 public:
@@ -34,7 +36,7 @@ public:
     QVector<Statement> transform(QAbstractTableModel *model) const;
     void setColumnType(int column, ColumnType type);
     void removeColumnType(int column);
-    ColumnType getColumnType(int column);
+    ColumnType getColumnType(int column) const;
     QVector<ColumnType> unsetMandatoryFields() const;
     QVector<ColumnType> unsetNotMandatoryFields() const;
     bool errorInImport() const;

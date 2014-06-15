@@ -19,14 +19,14 @@
 #include <QVBoxLayout>
 #include <columnpropertieswidget.h>
 #include <widgethelpers.h>
+#include <csvtablemodel.h>
 
 CSVImportWidget::CSVImportWidget(QWidget *parent) :
     QWidget(parent)
 {
     QVBoxLayout *mainLayount = new QVBoxLayout(this);
     columnPropertiesWidget = new ColumnPropertiesWidget(this);
-    columnPropertiesWidget->setMaximumHeight(200);
-    columnPropertiesWidget->setMinimumHeight(200);
+    columnPropertiesWidget->setFixedHeight(200);
     mainLayount->addWidget(columnPropertiesWidget);
     tableView = new QTableView(this);
     mainLayount->addWidget(tableView);
@@ -39,10 +39,12 @@ CSVImportWidget::CSVImportWidget(QWidget *parent) :
     connect(tableView, SIGNAL(clicked(QModelIndex)), this, SLOT(currentCellChanged(QModelIndex)));
 }
 
-void CSVImportWidget::setTableModel(QAbstractTableModel *model)
+void CSVImportWidget::setTableModel(CSVTableModel *model)
 {
     tableModel = model;
     tableView->setModel(model);
+    tableModel->setShowUsageHeaders(true);
+    tableModel->setUsageHeaders(usageHeaders());
     resizeToContents(tableView);
 }
 
@@ -56,9 +58,24 @@ const TableTransformer &CSVImportWidget::getTransformer() const
     return transformer;
 }
 
+QStringList CSVImportWidget::usageHeaders()
+{
+    int column_count = tableModel->columnCount();
+    QStringList result;
+    for (int i = 0; i < column_count; ++i)
+        result.append(toString(transformer.getColumnType(i)));
+
+    return result;
+}
+
 void CSVImportWidget::typeChanged(ColumnType type)
 {
-    transformer.setColumnType(currentColumn(), type);
+    int column = currentColumn();
+    if (column != -1)
+    {
+        transformer.setColumnType(column, type);
+        tableModel->setUsageHeaders(usageHeaders());
+    }
 }
 
 void CSVImportWidget::separatorChanged(char c)
