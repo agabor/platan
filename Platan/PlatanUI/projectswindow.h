@@ -2,13 +2,14 @@
 #define PROJECTSWINDOW_H
 
 #include <QMainWindow>
-#include <QStandardItemModel>
-#include <QString>
-#include <QVector>
-#include "statements.h"
 
 class MainApplication;
 class QItemSelectionModel;
+class Statements;
+class QStandardItemModel;
+template <typename T>
+class QVector;
+class QString;
 
 namespace Ui {
 class ProjectsWindow;

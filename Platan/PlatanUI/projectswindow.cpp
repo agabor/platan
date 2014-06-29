@@ -1,9 +1,14 @@
-#include "projectswindow.h"
-#include "ui_projectswindow.h"
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QStandardItemModel>
+#include <QString>
+#include <QVector>
+
+#include "projectswindow.h"
+#include "ui_projectswindow.h"
 #include "mainapplication.h"
 #include <newprojectdialog.h>
+#include <statements.h>
 
 ProjectsWindow::ProjectsWindow(MainApplication *application, Statements &statements, QWidget *parent) :
     QMainWindow(parent),

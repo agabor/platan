@@ -2,16 +2,18 @@
 #define PYTHONIDE_H
 
 #include <QMainWindow>
-#include <memory>
-#include <QFile>
 #include <QString>
-#include <QTextCursor>
-#include <QByteArray>
-#include "helpwindow.h"
+
+#include <memory>
+
 
 namespace Ui{
 class PythonIDE;
 }
+class HelpWindow;
+class QByteArray;
+class QFile;
+class QTextCursor;
 
 class PythonIDE : public QMainWindow
 {

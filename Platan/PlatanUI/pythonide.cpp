@@ -1,13 +1,18 @@
+#include <QFileDialog>
+#include <QMessageBox>
+#include <QTextStream>
+#include <QByteArray>
+#include <QDesktopWidget>
+#include <QFile>
+#include <QTextCursor>
+
+#include <utility>
+
 #include "pythonide.h"
 #include <Qsci/qscilexerpython.h>
 #include "pythonapi.h"
 #include "ui_pythonide.h"
-#include <QFileDialog>
-#include <QMessageBox>
-#include <QTextStream>
-#include <memory>
-#include <utility>
-#include <QDesktopWidget>
+#include "helpwindow.h"
 
 using namespace std;
 

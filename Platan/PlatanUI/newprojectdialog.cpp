@@ -1,7 +1,6 @@
 #include "newprojectdialog.h"
 #include "ui_newprojectdialog.h"
 #include <QVector>
-#include <QLocale>
 #include <QDebug>
 #include "countrydata.h"
 #include <mainapplication.h>
