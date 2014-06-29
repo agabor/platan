@@ -18,7 +18,6 @@
 #define COLOREDSQUARE_H
 
 #include <QWidget>
-#include <QPainter>
 #include <QColor>
 
 
@@ -26,17 +25,8 @@ class ColoredSquare : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ColoredSquare(QWidget *parent, QColor color, int size) : QWidget(parent), color(color), size(size)
-    {
-        this->setFixedSize(size,size);
-    }
-    void paintEvent(QPaintEvent *event)
-    {
-        QPainter painter(this);
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(color);
-        painter.drawRect(0,0,size, size);
-    }
+    explicit ColoredSquare(QWidget *parent, QColor color, int size);
+    void paintEvent(QPaintEvent *);
 private:
     QColor color;
     int size;

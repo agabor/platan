@@ -12,7 +12,8 @@ SOURCES += \
     PlatanWidgets/rulewidget.cpp \
     PlatanWidgets/colorpalette.cpp \
     PlatanWidgets/widgethelpers.cpp \
-    PlatanWidgets/qlabeledcombobox.cpp
+    PlatanWidgets/qlabeledcombobox.cpp \
+    PlatanWidgets/coloredsquare.cpp
 
 HEADERS  += \
     PlatanWidgets/qpiechart.h \

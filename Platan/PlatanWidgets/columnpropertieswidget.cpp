@@ -14,14 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "columnpropertieswidget.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QComboBox>
-#include <widgethelpers.h>
 #include <QMetaType>
-#include <qlabeledcombobox.h>
 #include <QDebug>
+
+#include "columnpropertieswidget.h"
+#include <widgethelpers.h>
+#include <qlabeledcombobox.h>
+#include <datetransformation.h>
+#include <tabletransformer.h>
 
 Q_DECLARE_METATYPE(ColumnType)
 

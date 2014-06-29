@@ -19,9 +19,9 @@
 
 #include <QWidget>
 #include <datetransformation.h>
-#include <tabletransformer.h>
 class QComboBox;
 class QLabel;
+enum class ColumnType;
 
 class ColumnPropertiesWidget : public QWidget
 {
