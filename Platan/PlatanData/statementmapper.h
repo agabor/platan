@@ -17,8 +17,12 @@
 #ifndef STATEMENTMAPPER_H
 #define STATEMENTMAPPER_H
 
-#include <sqlitedb.h>
-#include <statement.h>
+
+template <typename T>
+class QVector;
+class Statement;
+class SQLiteDB;
+class SQLCondition;
 
 class StatementMapper
 {

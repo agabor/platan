@@ -14,9 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "statementmapper.h"
+#include <statementmapper.h>
+#include <sqlcondition.h>
 #include <sqlupdate.h>
 #include <sqlinsert.h>
+#include <sqlitedb.h>
+#include <statement.h>
 
 StatementMapper::StatementMapper(SQLiteDB &db) : data_base(db)
 {

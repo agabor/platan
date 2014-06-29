@@ -17,23 +17,25 @@
 #ifndef STATEMENTS_H
 #define STATEMENTS_H
 
-#include "statement.h"
 
-#include <map>
-#include <vector>
-#include <memory>
-#include <utility>
+#include <QStringList>
 #include <QObject>
-#include <QString>
 #include <QMap>
 #include <QSet>
-#include <statementtablemodel.h>
+
+#include <memory>
+
 #include <rule.h>
 #include <sqlitedb.h>
 #include <rulemapper.h>
 #include <statementmapper.h>
+#include <sqlitedate.h>
 
-inline uint qHash(std::shared_ptr<Statement> key, uint seed = 0) Q_DECL_NOTHROW { return ulong(key.get()) ^ seed; }
+class StatementTableModel;
+class QString;
+class Statement;
+
+uint qHash(std::shared_ptr<Statement> key, uint seed = 0) Q_DECL_NOTHROW;
 
 class CategoryList : public QStringList
 {

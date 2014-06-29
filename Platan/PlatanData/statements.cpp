@@ -14,13 +14,22 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "statements.h"
-#include "mainapplication.h"
+#include <QString>
+
+#include <statements.h>
+#include <mainapplication.h>
+#include <statementtablemodel.h>
+#include <statement.h>
 
 using namespace std;
 
 const CategoryList Statements::categoryList;
 const ColumnList Statements::columnList;
+
+uint qHash(std::shared_ptr<Statement> key, uint seed) Q_DECL_NOTHROW
+{
+    return ulong(key.get()) ^ seed;
+}
 
 
 Statements::Statements() : db(getSchema(), "statements"), ruleMapper(db), statementMapper(db)

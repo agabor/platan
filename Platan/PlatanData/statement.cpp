@@ -14,11 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "statement.h"
-#include <sqlupdate.h>
-#include <sqlinsert.h>
-#include <sqlitedb.h>
-#include <QVector>
+#include <QVariant>
+
+#include <statement.h>
 
 QVariant Statement::at(int idx) const
 {

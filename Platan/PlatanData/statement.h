@@ -17,14 +17,10 @@
 #ifndef STATEMENTROW_H
 #define STATEMENTROW_H
 
-#include <QDateTime>
-#include <string>
-#include <QVariant>
+#include <QString>
 #include <sqlitedate.h>
-#include <sqlcondition.h>
 
-template <typename T>
-class QVector;
+class QVariant;
 
 class Statement
 {
