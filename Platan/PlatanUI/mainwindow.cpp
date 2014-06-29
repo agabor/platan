@@ -165,7 +165,7 @@ void MainWindow::InitChart()
 void MainWindow::setClassNames(QMap<int, QString> &class_names)
 {
     int i = 0;
-    for(QString category : Statements::categoryList)
+    for(QString category : Statements::categoryList())
         class_names.insert(i++, category);
 }
 
@@ -283,7 +283,7 @@ void MainWindow::on_actionAdd_rule_triggered()
 
 void MainWindow::onTabChanged(int idx)
 {
-    int uc_idx = ui->tabWidget->getIndex(Statements::categoryList.at(0));
+    int uc_idx = ui->tabWidget->getIndex(Statements::categoryList().at(0));
     if (uc_idx == -1)
     {
         ui->actionAdd_rule->setEnabled(false);

@@ -31,7 +31,7 @@ void RuleWidget::setRow(Statement _row)
     row = _row;
     column->clear();
     int idx = 0;
-    for(QString columnName : Statements::columnList)
+    for(QString columnName : Statements::columnList())
     {
         QString value = row.at(idx++).toString();
         if (value.length() > 20)
@@ -65,7 +65,7 @@ void RuleWidget::columnChanged(int idx)
 void RuleWidget::setCategories()
 {
     category = new QComboBox(this);
-    category->addItems(Statements::categoryList);
+    category->addItems(Statements::categoryList());
     category->setCurrentIndex(rule.category);
     layout()->addWidget(category);
     connect(category, SIGNAL(currentIndexChanged(int)), this, SLOT(categoryChanged(int)));
@@ -73,7 +73,7 @@ void RuleWidget::setCategories()
 
 QString RuleWidget::condition(Rule rule)
 {
-    return Statements::columnList.at(rule.column) + tr(" is ") + rule.value;
+    return Statements::columnList().at(rule.column) + tr(" is ") + rule.value;
 }
 
 const QString RuleWidget::ifStr() const

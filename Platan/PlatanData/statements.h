@@ -37,52 +37,13 @@ class Statement;
 
 uint qHash(std::shared_ptr<Statement> key, uint seed = 0) Q_DECL_NOTHROW;
 
-class CategoryList : public QStringList
-{
-public:
-    CategoryList()
-    {
-        push_back(QObject::tr("Undefined"));
-        push_back(QObject::tr("Food"));
-        push_back(QObject::tr("Clothes"));
-        push_back(QObject::tr("Housing"));
-        push_back(QObject::tr("Public transportation"));
-        push_back(QObject::tr("House costs"));
-        push_back(QObject::tr("Electronics"));
-        push_back(QObject::tr("Cash"));
-        push_back(QObject::tr("Furniture"));
-        push_back(QObject::tr("Restaurant"));
-        push_back(QObject::tr("Sport"));
-        push_back(QObject::tr("Insurance"));
-        push_back(QObject::tr("Bank"));
-        push_back(QObject::tr("Drogstore"));
-        push_back(QObject::tr("Mobil"));
-    }
-};
-
-
-class ColumnList : public QStringList
-{
-public:
-    ColumnList()
-    {
-        push_back(QObject::tr("Date"));
-        push_back(QObject::tr("Type"));
-        push_back(QObject::tr("Description"));
-        push_back(QObject::tr("Payee"));
-        push_back(QObject::tr("Payee account"));
-        push_back(QObject::tr("Amount"));
-    }
-};
-
-
 class Statements : public QObject, public QVector<std::shared_ptr<Statement>>
 {
     Q_OBJECT
 public:
     Statements();
-    static const CategoryList categoryList;
-    static const ColumnList columnList;
+    static QStringList categoryList();
+    static QStringList columnList();
     std::shared_ptr<StatementTableModel> getUncategorisedStatements();
     std::shared_ptr<StatementTableModel> getAllStatements();
     std::shared_ptr<StatementTableModel> getStatementsForClass(int classIdx);

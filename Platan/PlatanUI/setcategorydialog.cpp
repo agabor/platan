@@ -7,7 +7,7 @@ SetCategoryDialog::SetCategoryDialog(QWidget *parent) :
     ui(new Ui::SetCategoryDialog)
 {
     ui->setupUi(this);
-    ui->categories->addItems(Statements::categoryList);
+    ui->categories->addItems(Statements::categoryList());
 }
 
 SetCategoryDialog::~SetCategoryDialog()

@@ -23,8 +23,6 @@
 
 using namespace std;
 
-const CategoryList Statements::categoryList;
-const ColumnList Statements::columnList;
 
 uint qHash(std::shared_ptr<Statement> key, uint seed) Q_DECL_NOTHROW
 {
@@ -34,11 +32,45 @@ uint qHash(std::shared_ptr<Statement> key, uint seed) Q_DECL_NOTHROW
 
 Statements::Statements() : db(getSchema(), "statements"), ruleMapper(db), statementMapper(db)
 {
-    for(int i = 1; i < categoryList.count(); ++i)
+    auto cl = categoryList();
+    for(int i = 1; i < cl.count(); ++i)
         classStatements[i].reset(new StatementTableModel);
     uncategorisedStatements.reset(new StatementTableModel);
     allStatements.reset(new StatementTableModel);
     timeIntervalSet = false;
+}
+
+QStringList Statements::categoryList()
+{
+    QStringList result;
+    result.push_back(QObject::tr("Undefined"));
+    result.push_back(QObject::tr("Food"));
+    result.push_back(QObject::tr("Clothes"));
+    result.push_back(QObject::tr("Housing"));
+    result.push_back(QObject::tr("Public transportation"));
+    result.push_back(QObject::tr("House costs"));
+    result.push_back(QObject::tr("Electronics"));
+    result.push_back(QObject::tr("Cash"));
+    result.push_back(QObject::tr("Furniture"));
+    result.push_back(QObject::tr("Restaurant"));
+    result.push_back(QObject::tr("Sport"));
+    result.push_back(QObject::tr("Insurance"));
+    result.push_back(QObject::tr("Bank"));
+    result.push_back(QObject::tr("Drogstore"));
+    result.push_back(QObject::tr("Mobil"));
+    return result;
+}
+
+QStringList Statements::columnList()
+{
+    QStringList result;
+    result.push_back(QObject::tr("Date"));
+    result.push_back(QObject::tr("Type"));
+    result.push_back(QObject::tr("Description"));
+    result.push_back(QObject::tr("Payee"));
+    result.push_back(QObject::tr("Payee account"));
+    result.push_back(QObject::tr("Amount"));
+    return result;
 }
 
 shared_ptr<StatementTableModel> Statements::getUncategorisedStatements()
