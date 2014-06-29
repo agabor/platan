@@ -5,10 +5,8 @@
 #include <datetransformation.h>
 
 #include <QVector>
-#include <memory>
-#include <statementtablemodel.h>
 
-class CSVTableModel;
+class Statement;
 
 enum class ColumnType
 {
@@ -27,12 +25,6 @@ class TableTransformer
 {
 public:
     TableTransformer();
-    FloatTransformation Amount;
-    IdentityTransFormation Type;
-    DateTransformation Date;
-    IdentityTransFormation Payee;
-    IdentityTransFormation PayeeAccount;
-    IdentityTransFormation Description;
     QVector<Statement> transform(QAbstractTableModel *model) const;
     void setColumnType(int column, ColumnType type);
     void removeColumnType(int column);
@@ -41,6 +33,13 @@ public:
     QVector<ColumnType> unsetNotMandatoryFields() const;
     bool errorInImport() const;
     QString getErrorMessage() const;
+
+    FloatTransformation Amount;
+    IdentityTransFormation Type;
+    DateTransformation Date;
+    IdentityTransFormation Payee;
+    IdentityTransFormation PayeeAccount;
+    IdentityTransFormation Description;
 private:
     QVector<TransformationBase*> transformations;
 };

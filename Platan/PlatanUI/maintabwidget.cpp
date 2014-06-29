@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <QTableView>
+
 #include "maintabwidget.h"
 
 MainTabWidget::MainTabWidget(QWidget *parent) :

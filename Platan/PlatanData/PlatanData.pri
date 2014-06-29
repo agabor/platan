@@ -14,7 +14,8 @@ SOURCES += \
     PlatanData/statementmapper.cpp \
     PlatanData/countrydata.cpp \
     PlatanData/countrymapper.cpp \
-    PlatanData/simpletransformations.cpp
+    PlatanData/simpletransformations.cpp \
+    PlatanData/transformation.cpp
 
 HEADERS += \
     ../Platan/PlatanData/csvtablemodel.h \

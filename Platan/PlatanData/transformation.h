@@ -23,72 +23,35 @@
 class TransformationBase
 {
 public:
-    TransformationBase() : column(-1)
-    {
+    TransformationBase();
 
-    }
-
-    int getColumn() const
-    {
-        return column;
-    }
+    int getColumn() const;
     
-    void setColumn(int value)
-    {
-        column = value;
-    }
+    void setColumn(int value);
     
-    bool configured() const
-    {
-        return column != -1;
-    }
+    bool configured() const;
 
-    QVector<QString> getErrorList() const
-    {
-        return errorList;
-    }
+    QVector<QString> getErrorList() const;
 
-
-    void clearErrorList() const
-    {
-        errorList.clear();
-    }
+    void clearErrorList() const;
 
     virtual QString getErrorMessage() const = 0;
 
+    QString getData(int row, QAbstractTableModel *table) const;
     
 protected:
     int column;
     mutable QVector<QString> errorList;
-    QString errorListString() const
-    {
-        QString values;
-        for (QString val : errorList)
-        {
-            if (!values.isEmpty())
-                values += ", ";
-            values += val;
-        }
-
-        return values;
-    }
+    QString errorListString() const;
 };
 
 template <class Result>
 class Transformation : public TransformationBase
 {
 public:
-    Transformation()
-    {
-
-    }
-
     Result apply(QAbstractTableModel *table, int row) const
     {
-        QVariant Data = table->data(table->index(row, column));
-        QString data_string = Data.toString();
-
-        return convert(data_string);
+        return convert(getData(row, table));
     }
 
 protected:

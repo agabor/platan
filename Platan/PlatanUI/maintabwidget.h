@@ -18,8 +18,7 @@
 #define MAINTABWIDGET_H
 
 #include <QTabWidget>
-#include <QTableView>
-#include <QMap>
+class QTableView;
 
 class MainTabWidget : public QTabWidget
 {

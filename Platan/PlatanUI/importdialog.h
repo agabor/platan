@@ -18,13 +18,11 @@
 #define IMPORTDIALOG_H
 
 #include <QDialog>
-#include <QFile>
-#include <QAbstractTableModel>
-#include <statementtablemodel.h>
-#include <memory>
 #include <csvreader.h>
+#include <QString>
 
 enum class ColumnType;
+class Statement;
 
 namespace Ui {
 class ImportDialog;

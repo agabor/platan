@@ -18,13 +18,14 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <set>
 #include <QMap>
-#include "colorpalette.h"
+#include <QVector>
 #include <QTabWidget>
-#include "qpiechart.h"
-#include "statements.h"
-#include "qstatemenview.h"
+#include <QDate>
+
+#include <memory>
+
+#include "colorpalette.h"
 
 namespace Ui{
 class MainWindow;
@@ -32,6 +33,10 @@ class MainWindow;
 
 class MainApplication;
 class WelcomeWidget;
+class Statements;
+class QStatemenView;
+class QPieChart;
+class StatementTableModel;
 
 class MainWindow : public QMainWindow
 {

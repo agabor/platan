@@ -18,13 +18,13 @@
 #define ADDRULEDIALOG_H
 
 #include <QDialog>
-#include <QMap>
-#include <statement.h>
-#include <rule.h>
 
 namespace Ui {
 class AddRuleDialog;
 }
+
+class Rule;
+class Statement;
 
 class AddRuleDialog : public QDialog
 {

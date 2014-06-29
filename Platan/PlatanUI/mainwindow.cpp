@@ -14,26 +14,25 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "mainwindow.h"
 #include <QFileDialog>
-#include <csvreader.h>
-#include "importdialog.h"
-#include <sstream>
-#include "qpiechart.h"
-#include <QDebug>
-#include "qlegend.h"
-#include <QLayout>
 #include <QTableView>
-#include "addruledialog.h"
-#include "PythonAPI/pythonapi.h"
-#include "ui_mainwindow.h"
-#include "mainapplication.h"
-#include "pythonide.h"
-#include <rulewidget.h>
+#include <QDebug>
 #include <QVBoxLayout>
 #include <QGroupBox>
+#include <QDate>
+
+#include <mainwindow.h>
+#include <importdialog.h>
+#include <qpiechart.h>
+#include <addruledialog.h>
+#include <ui_mainwindow.h>
+#include <mainapplication.h>
+#include <pythonide.h>
+#include <rulewidget.h>
 #include <setcategorydialog.h>
 #include <welcomewidget.h>
+#include <qstatemenview.h>
+#include <statementtablemodel.h>
 
 MainWindow::MainWindow(MainApplication * const application, Statements &statements, QWidget *parent) :
     QMainWindow(parent),

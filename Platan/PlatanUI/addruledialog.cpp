@@ -16,6 +16,8 @@
 
 #include "addruledialog.h"
 #include "ui_addruledialog.h"
+#include <statement.h>
+#include <rule.h>
 
 AddRuleDialog::AddRuleDialog(QWidget *parent) :
     QDialog(parent),
