@@ -18,12 +18,16 @@
 #define STATEMENTTABLEMODEL_H
 
 #include <QAbstractTableModel>
-#include "statement.h"
-#include <QPair>
+#include <QVector>
+
 #include <memory>
-#include <QStringList>
-#include "transformation.h"
-#include <utility>
+
+#include <transformation.h>
+#include <statement.h>
+
+template <class T1, class T2>
+class QPair;
+class QDate;
 
 class StatementTableModel : public QAbstractTableModel
 {

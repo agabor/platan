@@ -1,9 +1,9 @@
-#include "tabletransformer.h"
+#include <QVector>
+
+#include <tabletransformer.h>
 #include <statementtablemodel.h>
 #include <csvtablemodel.h>
-#include <vector>
-#include <utility>
-#include <QVector>
+#include <statement.h>
 
 using namespace std;
 

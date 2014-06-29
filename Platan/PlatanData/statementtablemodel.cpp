@@ -14,8 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "statementtablemodel.h"
-#include <sstream>
+#include <QDate>
+
+#include <memory>
+
+#include <statementtablemodel.h>
+#include <statement.h>
 
 
 StatementTableModel::StatementTableModel(QObject *parent) :
