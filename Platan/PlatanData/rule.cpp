@@ -15,9 +15,6 @@
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "rule.h"
-#include <sqlinsert.h>
-#include <sqlitedb.h>
-#include <QVector>
 
 Rule::Rule(int _column, QString _value, int _category)
     :column(_column), value(_value), category(_category)

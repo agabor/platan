@@ -18,8 +18,7 @@
 #define DATETRANSFORMATION_H
 
 #include "transformation.h"
-#include <QDate>
-
+class QDate;
 
 enum DatePart
 {

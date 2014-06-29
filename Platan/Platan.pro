@@ -3,7 +3,7 @@ TEMPLATE = app
 QT       += core gui sql
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG  += ordered c++11
+CONFIG  += ordered c++11 static
 unix:CONFIG  += qscintilla2
 
 QMAKE_CXXFLAGS += -O0 -g -Werror=return-type -Wold-style-cast -Woverloaded-virtual

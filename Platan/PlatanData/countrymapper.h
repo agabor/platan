@@ -1,10 +1,10 @@
 #ifndef COUNTRYMAPPER_H
 #define COUNTRYMAPPER_H
 
-#include <sqlitedb.h>
-#include <QVector>
-
 class Country;
+template <typename T>
+class QVector;
+class SQLiteDB;
 
 class CountryMapper
 {

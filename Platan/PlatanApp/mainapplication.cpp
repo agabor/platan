@@ -14,12 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "mainapplication.h"
-#include "PythonAPI/pythonapi.h"
 #include <QMessageBox>
-#include <sqlitedb.h>
+
 #include <assert.h>
+
+#include <mainapplication.h>
+#include <PythonAPI/pythonapi.h>
 #include <country.h>
+#include <pythonide.h>
+#include <mainwindow.h>
+#include <projectswindow.h>
 
 using namespace std;
 

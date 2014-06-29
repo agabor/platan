@@ -18,9 +18,8 @@
 #define CSVTABLEMODEL_H
 
 #include <QAbstractTableModel>
-#include <QString>
 #include <QStringList>
-#include <vector>
+#include <QVector>
 
 class CSVTableModel : public QAbstractTableModel
 {
@@ -41,7 +40,7 @@ public:
     QVariant columnHeaderData(int role, int section) const;
     QVariant rowHeaderData(int role, int section) const;
 private:
-    std::vector<QStringList> Rows;
+    QVector<QStringList> Rows;
     QStringList headers;
     QStringList usageHeaders;
     bool showUsageHeaders;

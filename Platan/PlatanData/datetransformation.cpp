@@ -14,9 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "datetransformation.h"
-#include <assert.h>
 #include <QStringList>
+#include <QDate>
+
+#include <assert.h>
+
+#include "datetransformation.h"
 
 QDate DateTransformation::convert(QString Data) const
 {

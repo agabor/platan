@@ -14,14 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "csvconfigwidget.h"
 #include <QFile>
 #include <QTextStream>
-#include <csvreader.h>
 #include <QTableView>
-#include <csvpropertieswidget.h>
 #include <QVBoxLayout>
+
 #include <csvanalyser.h>
+#include <csvconfigwidget.h>
+#include <csvpropertieswidget.h>
+#include <csvreader.h>
+#include <csvtablemodel.h>
 #include <widgethelpers.h>
 
 CSVConfigWidget::CSVConfigWidget(QWidget *parent) :

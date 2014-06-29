@@ -1,5 +1,8 @@
-#include "countrymapper.h"
-#include "country.h"
+#include <QVector>
+
+#include <sqlitedb.h>
+#include <countrymapper.h>
+#include <country.h>
 
 QVector<Country> CountryMapper::getAll()
 {

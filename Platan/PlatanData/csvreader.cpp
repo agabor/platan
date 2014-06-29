@@ -14,11 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "csvreader.h"
-#include <string>
-#include <QStringList>
-#include <QFile>
+
+#include <QString>
 #include <QTextStream>
+#include <QStringList>
+
+#include "csvtablemodel.h"
+#include "csvreader.h"
 
 using namespace std;
 

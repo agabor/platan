@@ -18,22 +18,22 @@
 #define MAINAPPLICATION_H
 
 #include <QApplication>
-#include "mainwindow.h"
 #include <QMap>
 #include <QVector>
-#include <QTableView>
-#include "statementtablemodel.h"
-#include <memory>
-#include "statements.h"
-#include "pythonide.h"
-#include "projectswindow.h"
 #include <QSettings>
+
+#include <memory>
+
+#include <statements.h>
 #include <sqlitedb.h>
 #include <countrymapper.h>
 #include <rulemapper.h>
 
 class DataBaseSchema;
 class Rule;
+class PythonIDE;
+class MainWindow;
+class ProjectsWindow;
 
 class MainApplication : public QApplication
 {

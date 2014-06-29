@@ -1,5 +1,7 @@
-#include "countrydata.h"
-#include "countrycodes.h"
+#include <QVector>
+
+#include <countrydata.h>
+#include <countrycodes.h>
 
 QVector<QLocale::Country> CountryData::getAllCountries()
 {

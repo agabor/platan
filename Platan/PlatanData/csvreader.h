@@ -16,9 +16,11 @@
 
 #ifndef CSVREADER_H
 #define CSVREADER_H
-#include <QString>
-#include <QTextStream>
-#include "csvtablemodel.h"
+
+class QString;
+class QStringList;
+class CSVTableModel;
+class QTextStream;
 
 class CSVReader
 {

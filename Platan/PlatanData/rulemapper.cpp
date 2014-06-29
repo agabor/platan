@@ -14,10 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "rulemapper.h"
+#include <QVector>
+#include <QString>
+
+#include <rulemapper.h>
 #include <sqlupdate.h>
 #include <sqlinsert.h>
 #include <tablestructure.h>
+#include <sqlitedb.h>
+#include <rule.h>
 
 RuleMapper::RuleMapper(SQLiteDB &db) : data_base(db)
 {

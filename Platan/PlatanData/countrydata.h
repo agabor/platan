@@ -3,7 +3,9 @@
 
 #include <QString>
 #include <QLocale>
-#include <QVector>
+
+template <typename T>
+class QVector;
 
 class CountryData
 {
