@@ -18,14 +18,15 @@
 #define CSVIMPORTWIDGET_H
 
 #include <QWidget>
-#include <tabletransformer.h>
-#include <statementtablemodel.h>
+
 #include <memory>
 
-class QAbstractTableModel;
+#include <tabletransformer.h>
+
 class QTableView;
 class ColumnPropertiesWidget;
 class CSVTableModel;
+class Statement;
 
 class CSVImportWidget : public QWidget
 {

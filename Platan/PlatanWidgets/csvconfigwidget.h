@@ -18,12 +18,12 @@
 #define CSVCONFIGWIDGET_H
 
 #include <QWidget>
-#include <QString>
 
 class CSVReader;
 class CSVTableModel;
 class CSVPropertiesWidget;
 class QTableView;
+class QString;
 
 class CSVConfigWidget : public QWidget
 {

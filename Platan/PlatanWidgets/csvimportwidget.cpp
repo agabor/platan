@@ -14,12 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "csvimportwidget.h"
 #include <QTableView>
 #include <QVBoxLayout>
+
+#include "csvimportwidget.h"
 #include <columnpropertieswidget.h>
 #include <widgethelpers.h>
 #include <csvtablemodel.h>
+#include <statement.h>
 
 CSVImportWidget::CSVImportWidget(QWidget *parent) :
     QWidget(parent)

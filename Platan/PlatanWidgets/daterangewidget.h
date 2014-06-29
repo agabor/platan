@@ -18,10 +18,7 @@
 #define DATERANGEWIDGET_H
 
 #include <QWidget>
-#include <QComboBox>
 #include <QDate>
-#include <vector>
-#include <QCheckBox>
 
 class QLabel;
 class QTableWidget;

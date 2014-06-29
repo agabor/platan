@@ -15,7 +15,7 @@
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "pieslice.h"
-#include <iostream>
+#include <QPainter>
 
 PieSlice::PieSlice(QColor color, QRect *pie_bounding_rect, int start_angle, int span_angle)
     : base_color(color), pie_bounding_rect(pie_bounding_rect), start_angle(start_angle), span_angle(span_angle)

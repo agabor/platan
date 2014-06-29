@@ -19,6 +19,7 @@
 
 #include <QWidget>
 #include <datetransformation.h>
+
 class QComboBox;
 class QLabel;
 enum class ColumnType;

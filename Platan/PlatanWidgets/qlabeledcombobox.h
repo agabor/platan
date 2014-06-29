@@ -1,7 +1,6 @@
 #ifndef QLABELEDCOMBOBOX_H
 #define QLABELEDCOMBOBOX_H
 
-#include <QWidget>
 #include <QComboBox>
 
 class QLabel;

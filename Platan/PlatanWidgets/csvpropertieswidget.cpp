@@ -20,6 +20,7 @@
 #include <QHBoxLayout>
 #include <QCheckBox>
 #include <widgethelpers.h>
+#include <csvreader.h>
 
 CSVPropertiesWidget::CSVPropertiesWidget(QWidget *parent) :
     QWidget(parent)

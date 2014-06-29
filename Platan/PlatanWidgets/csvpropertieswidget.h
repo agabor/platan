@@ -2,11 +2,10 @@
 #define CSVIMPORTWIDGET_H
 
 #include <QWidget>
-#include <csvreader.h>
-#include <memory>
 
 class QComboBox;
 class QCheckBox;
+class CSVReader;
 
 class CSVPropertiesWidget : public QWidget
 {

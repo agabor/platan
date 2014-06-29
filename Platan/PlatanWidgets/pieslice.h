@@ -16,8 +16,10 @@
 
 #ifndef PIESLICE_H
 #define PIESLICE_H
-#include <QPainter>
+
 #include <QColor>
+
+class QPainter;
 
 enum PieSliceState
 {
@@ -52,6 +54,7 @@ protected:
     int start_angle;
     int span_angle;
     PieSliceState state;
+
 private:
     PieSlice(){}
 friend class QVector<PieSlice>;
