@@ -19,6 +19,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QCheckBox>
+
 #include <widgethelpers.h>
 #include <csvreader.h>
 

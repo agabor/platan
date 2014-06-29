@@ -71,6 +71,11 @@ int TableStructure::fieldCount() const
     return name_type_pairs.size();
 }
 
+TableStructure::TableStructure()
+{
+
+}
+
 
 QString TableStructure::sqlCommand() const
 {

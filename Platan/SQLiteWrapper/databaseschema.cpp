@@ -14,12 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "databaseschema.h"
-#include <set>
 #include <QStringList>
-#include "sqlselect.h"
 #include <QSqlQuery>
 #include <QVariant>
+#include <QString>
+#include <QSqlDatabase>
+
+#include <set>
+
+#include "databaseschema.h"
+#include "sqlselect.h"
 
 using namespace std;
 

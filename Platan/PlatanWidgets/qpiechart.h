@@ -18,11 +18,13 @@
 #define QPIECHART_H
 
 #include <QWidget>
-#include <QMouseEvent>
 #include <QPainter>
 #include <QVector>
+
 #include "pieslice.h"
-#include "colorpalette.h"
+
+class QMouseEvent;
+class ColorPalette;
 
 class QPieChart : public QWidget
 {

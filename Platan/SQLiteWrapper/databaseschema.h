@@ -17,10 +17,12 @@
 #ifndef DATABASESCHEMA_H
 #define DATABASESCHEMA_H
 
+#include <QVector>
+
 #include "tablestructure.h"
-#include <vector>
-#include <QString>
-#include <QSqlDatabase>
+
+class QSqlDatabase;
+class QString;
 
 class DataBaseSchema
 {
@@ -31,7 +33,7 @@ public:
     const TableStructure &getTable(QString name) const;
     void createTables(const QSqlDatabase &db) const;
 private:
-    std::vector<TableStructure> tables;
+    QVector<TableStructure> tables;
 };
 
 #endif // DATABASESCHEMA_H

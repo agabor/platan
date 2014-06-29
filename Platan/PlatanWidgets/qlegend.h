@@ -19,7 +19,10 @@
 
 #include <QWidget>
 #include <QVector>
-#include "qlegenditem.h"
+
+class QLegendItem;
+class QString;
+class QColor;
 
 class QLegend : public QWidget
 {

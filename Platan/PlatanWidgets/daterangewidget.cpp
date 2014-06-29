@@ -22,7 +22,6 @@
 #include <QLabel>
 #include <QTableWidget>
 #include <QHeaderView>
-
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QDate>

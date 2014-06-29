@@ -40,6 +40,8 @@ private:
     int fieldCount() const;
     bool is_valid;
     QString name;
+    TableStructure();
+    friend class QVector<TableStructure>;
 };
 
 //Inline functions

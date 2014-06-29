@@ -6,6 +6,8 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG  += ordered c++11 static
 unix:CONFIG  += qscintilla2
 
+PRECOMPILED_HEADER = stable.h
+
 QMAKE_CXXFLAGS += -O0 -g -Werror=return-type -Wold-style-cast -Woverloaded-virtual
 unix {
   QMAKE_CXXFLAGS += $$system(python3.2-config --cflags)
@@ -37,3 +39,6 @@ win32
   DEPENDPATH += C:/Qt/5.3/mingw482_32/include
   PRE_TARGETDEPS += C:/Qt/5.3/mingw482_32/lib/libqscintilla2.a
 }
+
+HEADERS += \
+    stable.h

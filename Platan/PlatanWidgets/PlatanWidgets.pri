@@ -22,7 +22,6 @@ HEADERS  += \
     PlatanWidgets/qlegenditem.h \
     PlatanWidgets/qlegend.h \
     PlatanWidgets/coloredsquare.h \
-    PlatanWidgets/addruledialog.h \
     PlatanWidgets/qstatemenview.h \
     PlatanWidgets/daterangewidget.h \
     PlatanWidgets/widgethelpers.h \

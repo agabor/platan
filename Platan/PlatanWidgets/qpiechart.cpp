@@ -14,10 +14,14 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "qpiechart.h"
 #include <QPainter>
+#include <QMouseEvent>
+
 #include <math.h>
-#include <iostream>
+
+#include "qpiechart.h"
+#include "colorpalette.h"
+
 #define M_PI 3.14159265358979323846
 
 

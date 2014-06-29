@@ -2,6 +2,7 @@
 #define RULEWIDGET_H
 
 #include <QWidget>
+
 #include <rule.h>
 #include <statement.h>
 

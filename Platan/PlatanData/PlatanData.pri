@@ -9,17 +9,16 @@ SOURCES += \
     ../Platan/PlatanData/csvanalyser.cpp \
     ../Platan/PlatanData/rule.cpp \
     ../Platan/PlatanData/statement.cpp \
-    PlatanData/countrycodes.cpp \
-    PlatanData/rulemapper.cpp \
-    PlatanData/statementmapper.cpp \
-    PlatanData/countrydata.cpp \
-    PlatanData/countrymapper.cpp \
-    PlatanData/simpletransformations.cpp \
-    PlatanData/transformation.cpp
+    ../Platan/PlatanData/countrycodes.cpp \
+    ../Platan/PlatanData/rulemapper.cpp \
+    ../Platan/PlatanData/statementmapper.cpp \
+    ../Platan/PlatanData/countrydata.cpp \
+    ../Platan/PlatanData/countrymapper.cpp \
+    ../Platan/PlatanData/simpletransformations.cpp \
+    ../Platan/PlatanData/transformation.cpp
 
 HEADERS += \
     ../Platan/PlatanData/csvtablemodel.h \
-    ../Platan/PlatanData/statementrow.h \
     ../Platan/PlatanData/statementtablemodel.h \
     ../Platan/PlatanData/simpletransformations.h \
     ../Platan/PlatanData/datetransformation.h \
@@ -31,12 +30,12 @@ HEADERS += \
     ../Platan/PlatanData/csvanalyser.h \
     ../Platan/PlatanData/rule.h \
     ../Platan/PlatanData/statement.h \
-    PlatanData/countrycodes.h \
-    PlatanData/rulemapper.h \
-    PlatanData/statementmapper.h \
-    PlatanData/countrydata.h \
-    PlatanData/country.h \
-    PlatanData/countrymapper.h
+    ../Platan/PlatanData/countrycodes.h \
+    ../Platan/PlatanData/rulemapper.h \
+    ../Platan/PlatanData/statementmapper.h \
+    ../Platan/PlatanData/countrydata.h \
+    ../Platan/PlatanData/country.h \
+    ../Platan/PlatanData/countrymapper.h
 
 unix:!symbian {
     maemo5 {
