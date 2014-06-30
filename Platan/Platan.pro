@@ -32,8 +32,7 @@ include(PlatanWidgets/PlatanWidgets.pri)
 include(PlatanApp/PlatanApp.pri)
 unix:include(PythonAPI/PythonAPI.pri)
 
-win32
-{
+win32 {
   LIBS += -LC:/Qt/5.3/mingw482_32/lib/ -lqscintilla2
   INCLUDEPATH += C:/Qt/5.3/mingw482_32/include
   DEPENDPATH += C:/Qt/5.3/mingw482_32/include

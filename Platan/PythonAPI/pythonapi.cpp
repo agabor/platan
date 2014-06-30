@@ -23,6 +23,7 @@
 #include "mainapplication.h"
 #include "pythonstdout.h"
 #include <memory>
+#include <pythonide.h>
 
 #define MODUL_NAME "Platan"
 
