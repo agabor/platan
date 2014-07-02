@@ -15,11 +15,12 @@
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QString>
+#include <QVector>
 
 #include <statements.h>
 #include <mainapplication.h>
-#include <statementtablemodel.h>
 #include <statement.h>
+#include <rule.h>
 
 using namespace std;
 
@@ -30,13 +31,8 @@ uint qHash(std::shared_ptr<Statement> key, uint seed) Q_DECL_NOTHROW
 }
 
 
-Statements::Statements() : db(getSchema(), "statements"), ruleMapper(db), statementMapper(db)
+Statements::Statements(SQLiteDB &db) : db(db), statementMapper(db)
 {
-    auto cl = categoryList();
-    for(int i = 1; i < cl.count(); ++i)
-        classStatements[i].reset(new StatementTableModel);
-    uncategorisedStatements.reset(new StatementTableModel);
-    allStatements.reset(new StatementTableModel);
     timeIntervalSet = false;
 }
 
@@ -73,49 +69,6 @@ QStringList Statements::columnList()
     return result;
 }
 
-shared_ptr<StatementTableModel> Statements::getUncategorisedStatements()
-{
-    return uncategorisedStatements;
-}
-
-shared_ptr<StatementTableModel> Statements::getAllStatements()
-{
-    return allStatements;
-}
-
-void Statements::initStatementCategories()
-{
-    QVector<shared_ptr<Statement>> uncategorised;
-    QMap<int, QVector<shared_ptr<Statement>>> categories;
-    for(int i : classStatements.keys())
-        categories.insert(i, QVector<shared_ptr<Statement>>());
-
-    for(auto row : statementsInDateRange())
-    {
-        const int category = row->category;
-        if (category == 0)
-            uncategorised.push_back(row);
-        else
-            if (categories.keys().contains(category))
-                categories[category].push_back(row);
-    }
-
-    for (int k : categories.keys())
-        classStatements[k]->setData(categories[k]);
-    uncategorisedStatements->setData(uncategorised);
-}
-
-shared_ptr<StatementTableModel> Statements::getStatementsForClass(int classIdx)
-{
-    return classStatements[classIdx];
-}
-
-void Statements::refreshTableModels()
-{
-    allStatements->setData(*this);
-    categorizeUndefinedStatements();
-    initStatementCategories();
-}
 
 void Statements::setCategory(int id, int category)
 {
@@ -141,7 +94,6 @@ void Statements::setCategory(int id, int category)
         changes.insert(row);
         emit modification();
     }
-    refreshTableModels();
 }
 
 bool Statements::changed() const
@@ -172,43 +124,23 @@ QString Statements::getOpenProjectPath() const
     return openProjectPath;
 }
 
-QVector<Rule> Statements::getRules()
+void Statements::categorizeUndefinedStatements(QVector<shared_ptr<Rule>> rules)
 {
-    return ruleMapper.getAll();
-}
-
-void Statements::categorizeUndefinedStatements()
-{
-    QVector<Rule> rules = ruleMapper.getAll();
     bool changed = false;
-    for (auto s : *this)
+    for (auto s : getUncategorisedStatements())
     {
-        if (s->category == 0)
+        for(auto r : rules)
         {
-            for(Rule r : rules)
+            if (r->apply(*s.get()))
             {
-                if (apply(s, r))
-                {
-                    changes.insert(s);
-                    changed = true;
-                    break;
-                }
+                changes.insert(s);
+                changed = true;
+                break;
             }
         }
     }
     if (changed)
         emit modification();
-}
-
-bool Statements::apply(shared_ptr<Statement> statement, Rule rule)
-{
-
-    if (statement->at(rule.column) == rule.value)
-    {
-        statement->category = rule.category;
-        return true;
-    }
-    return false;
 }
 
 QVector<shared_ptr<Statement>> Statements::statementsInDateRange()
@@ -219,6 +151,19 @@ QVector<shared_ptr<Statement>> Statements::statementsInDateRange()
         if (timeIntervalSet && (row->date < startDate || row->date > endDate))
             continue;
         result.append(row);
+    }
+    return result;
+}
+
+QVector<std::shared_ptr<Statement> > Statements::getUncategorisedStatements()
+{
+    QVector<std::shared_ptr<Statement> > result;
+    for (auto s : *this)
+    {
+        if (s->category == 0)
+        {
+            result.push_back(s);
+        }
     }
     return result;
 }
@@ -246,14 +191,12 @@ void Statements::SetTimeInterval(QDate start_date, QDate end_date)
     timeIntervalSet = true;
     startDate = start_date;
     endDate = end_date;
-    refreshTableModels();
     }
 
 
 void Statements::UnsetTimeInterval()
 {
     timeIntervalSet = false;
-    refreshTableModels();
 }
 
 
@@ -283,19 +226,7 @@ bool Statements::open(QString data_base_path)
     clear();
     for(Statement &s : statementMapper.getAll(SQLCondition::Empty))
         append(shared_ptr<Statement>(new Statement(s)));
-    refreshTableModels();
     return true;
-}
-
-void Statements::create(QString data_base_path, QString countryCode)
-{
-    db.setPath(data_base_path);
-    db.create();
-    db.beginTransaction();
-    auto rules = MainApplication::getInstance()->getRulesForCountry(countryCode);
-    for (Rule r : rules)
-        ruleMapper.insert(r);
-    db.endTransaction();
 }
 
 
@@ -308,15 +239,6 @@ void Statements::insertData(QVector<Statement> statements)
         if (p->amount < 0)
             append(p);
     }
-    refreshTableModels();
-    emit dataChanged();
-}
-
-void Statements::insertRule(Rule rule)
-{
-    ruleMapper.insert(rule);
-    categorizeUndefinedStatements();
-    refreshTableModels();
     emit dataChanged();
 }
 

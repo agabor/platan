@@ -21,13 +21,14 @@
 
 template <typename T>
 class QVector;
+class Statement;
 
 class Rule
 {
 public:
     Rule(int _column, QString _value, int _category);
     Rule();
-
+    bool apply(Statement &statement);
     int column;
     QString value;
     int category;

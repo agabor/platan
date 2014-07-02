@@ -34,16 +34,18 @@ class MainWindow;
 class MainApplication;
 class WelcomeWidget;
 class Statements;
+class Rules;
 class QStatemenView;
 class QPieChart;
 class StatementTableModel;
+class ViewModel;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(MainApplication * const application, Statements &statements, QWidget *parent = 0);
+    explicit MainWindow(MainApplication * const application, Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent = 0);
 
     ~MainWindow();
 
@@ -101,6 +103,8 @@ private:
     Ui::MainWindow *ui;
     QVector<QDate> months;
     Statements &statements;
+    Rules &rules;
+    ViewModel &viewModel;
     QMap<int, float> classes;
     QMap<int, QString> classNames;
     ColorPalette palette;

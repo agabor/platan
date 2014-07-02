@@ -60,7 +60,7 @@ void ProjectsWindow::on_actionNew_Project_triggered()
     QString fileName = d.fileName();
     if (!fileName.isEmpty())
     {
-        statements.create(fileName, d.countryCode());
+        application->create(fileName, d.countryCode());
         if(!openProject(fileName))
                 return;
         addProjetPath(fileName);

@@ -52,6 +52,7 @@ public:
     bool countryExists(QString code) const;
     QVector<Rule> getRulesForCountry(QString code) const;
     static MainApplication *getInstance();
+    void create(QString data_base_path, QString countryCode);
 private:
     DataBaseSchema getSchema();
     std::unique_ptr<MainWindow> main_window;

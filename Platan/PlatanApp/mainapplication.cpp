@@ -34,7 +34,8 @@ MainApplication::MainApplication(int &argc, char *argv[]) :
     settings("configs/platan.ini", QSettings::IniFormat),
     db(getSchema(), "app"),
     countryMapper(db),
-    ruleMapper(db)
+    ruleMapper(db),
+    statements(db)
 {
     assert(instance == nullptr);
     instance = this;
@@ -58,7 +59,7 @@ bool MainApplication::OpenProject(QString project_path)
         return false;
     }
 
-    main_window.reset(new MainWindow(this, statements));
+    main_window.reset(new MainWindow(this, statements, rules));
 
     main_window->InitChart();
     main_window->InitLegend();
@@ -117,6 +118,18 @@ MainApplication *MainApplication::getInstance()
 {
     return instance;
 }
+
+void MainApplication::create(QString data_base_path, QString countryCode)
+{
+    db.setPath(data_base_path);
+    db.create();
+    db.beginTransaction();
+    auto rules = getRulesForCountry(countryCode);
+    for (Rule r : rules)
+        ruleMapper.insert(r);
+    db.endTransaction();
+}
+
 
 DataBaseSchema MainApplication::getSchema()
 {

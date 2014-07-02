@@ -15,7 +15,9 @@ SOURCES += \
     ../Platan/PlatanData/countrydata.cpp \
     ../Platan/PlatanData/countrymapper.cpp \
     ../Platan/PlatanData/simpletransformations.cpp \
-    ../Platan/PlatanData/transformation.cpp
+    ../Platan/PlatanData/transformation.cpp \
+    PlatanData/rules.cpp \
+    PlatanData/viewmodel.cpp
 
 HEADERS += \
     ../Platan/PlatanData/csvtablemodel.h \
@@ -35,7 +37,9 @@ HEADERS += \
     ../Platan/PlatanData/statementmapper.h \
     ../Platan/PlatanData/countrydata.h \
     ../Platan/PlatanData/country.h \
-    ../Platan/PlatanData/countrymapper.h
+    ../Platan/PlatanData/countrymapper.h \
+    PlatanData/rules.h \
+    PlatanData/viewmodel.h
 
 unix:!symbian {
     maemo5 {

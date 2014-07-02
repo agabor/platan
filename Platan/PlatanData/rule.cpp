@@ -14,7 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "rule.h"
+#include <rule.h>
+#include <statement.h>
+#include <QVariant>
 
 Rule::Rule(int _column, QString _value, int _category)
     :column(_column), value(_value), category(_category)
@@ -25,4 +27,14 @@ Rule::Rule()
 {
 }
 
+bool Rule::apply(Statement &statement)
+{
+
+    if (statement.at(column) == value)
+    {
+        statement.category = category;
+        return true;
+    }
+    return false;
+}
 

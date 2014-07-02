@@ -33,11 +33,15 @@
 #include <welcomewidget.h>
 #include <qstatemenview.h>
 #include <statementtablemodel.h>
+#include <rules.h>
+#include <viewmodel.h>
 
-MainWindow::MainWindow(MainApplication * const application, Statements &statements, QWidget *parent) :
+MainWindow::MainWindow(MainApplication * const application, Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     statements(statements),
+    rules(rules),
+    viewModel(viewModel),
     unclassifiedTable(new QStatemenView(this)),
     application(application),
     welcomeWidget(nullptr)
@@ -66,7 +70,7 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
     QGroupBox *groupBox = new QGroupBox(ui->scrollArea);
     ui->scrollArea->setWidget(groupBox);
     auto layout = new QVBoxLayout(groupBox);
-    for(Rule rule : statements.getRules())
+    for(Rule rule : rules.getRules())
     {
         layout->addWidget(new RuleWidget(rule,ui->scrollArea));
     }
@@ -90,7 +94,7 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
 
 void MainWindow::setDateInterval()
 {
-    auto model = statements.getAllStatements();
+    auto model = viewModel.getAllStatements();
 
     ui->statements_table->setModel(model.get());
 
@@ -200,13 +204,13 @@ void MainWindow::sliceClicked(int idx)
         QTableView *class_table;
         if (class_idx == 0)
         {
-            uncategorisedTableModel = statements.getUncategorisedStatements();
+            uncategorisedTableModel = viewModel.getUncategorisedStatementsModel();
             unclassifiedTable->setModel(uncategorisedTableModel.get());
             class_table = unclassifiedTable.get();
         } else
         {
             class_table = new QTableView();
-            class_table->setModel(statements.getStatementsForClass(class_idx).get());
+            class_table->setModel(viewModel.getStatementsForClass(class_idx).get());
         }
 
         ui->tabWidget->addTableViewTab(class_table, class_name);
@@ -277,7 +281,7 @@ void MainWindow::on_actionAdd_rule_triggered()
     if (QDialog::Accepted != ard.exec())
         return;
 
-    statements.insertRule(ard.getRule());
+    rules.insertRule(ard.getRule());
 }
 
 void MainWindow::onTabChanged(int idx)

@@ -25,61 +25,49 @@
 
 #include <memory>
 
-#include <rule.h>
 #include <sqlitedb.h>
-#include <rulemapper.h>
 #include <statementmapper.h>
 #include <sqlitedate.h>
 
-class StatementTableModel;
+template <typename T>
+class QVector;
 class QString;
-class Statement;
 
-uint qHash(std::shared_ptr<Statement> key, uint seed = 0) Q_DECL_NOTHROW;
+class Statement;
+class Rule;
 
 class Statements : public QObject, public QVector<std::shared_ptr<Statement>>
 {
     Q_OBJECT
 public:
-    Statements();
+    Statements(SQLiteDB &db);
     static QStringList categoryList();
     static QStringList columnList();
-    std::shared_ptr<StatementTableModel> getUncategorisedStatements();
-    std::shared_ptr<StatementTableModel> getAllStatements();
-    std::shared_ptr<StatementTableModel> getStatementsForClass(int classIdx);
     void SetTimeInterval(QDate start_date, QDate end_date);
     void UnsetTimeInterval();
     QMap<int, float> getCategories();
     bool open(QString data_base_path);
-    void create(QString data_base_path, QString countryCode);
     void GetClasses(QString lan, QMap<int, QString> &classes);
     void insertData(QVector<Statement> statements);
-    void insertRule(Rule rule);
     void initStatementCategories();
-    void refreshTableModels();
     void setCategory(int id, int category);
     bool changed() const;
     void save();
     QString getOpenProjectPath() const;
-    QVector<Rule> getRules();
+    QVector<std::shared_ptr<Statement>> statementsInDateRange();
 signals:
     void dataChanged();
     void modification();
 private:
-    void categorizeUndefinedStatements();
-    bool apply(std::shared_ptr<Statement> statement, Rule rule);
-    QMap<int, std::shared_ptr<StatementTableModel>> classStatements;
-    std::shared_ptr<StatementTableModel> uncategorisedStatements;
-    std::shared_ptr<StatementTableModel> allStatements;
+    void categorizeUndefinedStatements(QVector<std::shared_ptr<Rule> > rules);
     SQLiteDate startDate, endDate;
     bool timeIntervalSet;
     QSet<std::shared_ptr<Statement>> changes;
     QSet<std::shared_ptr<Statement>> newStatements;
-    QVector<std::shared_ptr<Statement>> statementsInDateRange();
+    QVector<std::shared_ptr<Statement>> getUncategorisedStatements();
     QString openProjectPath;
-    SQLiteDB db;
+    SQLiteDB &db;
     static DataBaseSchema getSchema();
-    RuleMapper ruleMapper;
     StatementMapper statementMapper;
 };
 
