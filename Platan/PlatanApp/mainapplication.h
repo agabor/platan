@@ -28,6 +28,8 @@
 #include <sqlitedb.h>
 #include <countrymapper.h>
 #include <rulemapper.h>
+#include <rules.h>
+#include <viewmodel.h>
 
 class DataBaseSchema;
 class Rule;
@@ -60,6 +62,8 @@ private:
     std::unique_ptr<ProjectsWindow> projects_window;
     QMap<QString, int> countryCodes;
     Statements statements;
+    Rules rules;
+    ViewModel viewModel;
     QSettings settings;
     SQLiteDB db;
     CountryMapper countryMapper;

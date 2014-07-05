@@ -24,6 +24,7 @@
 #include <pythonide.h>
 #include <mainwindow.h>
 #include <projectswindow.h>
+#include <rule.h>
 
 using namespace std;
 
@@ -35,7 +36,9 @@ MainApplication::MainApplication(int &argc, char *argv[]) :
     db(getSchema(), "app"),
     countryMapper(db),
     ruleMapper(db),
-    statements(db)
+    statements(db),
+    rules(db),
+    viewModel(statements)
 {
     assert(instance == nullptr);
     instance = this;
@@ -59,7 +62,7 @@ bool MainApplication::OpenProject(QString project_path)
         return false;
     }
 
-    main_window.reset(new MainWindow(this, statements, rules));
+    main_window.reset(new MainWindow(this, statements, rules, viewModel));
 
     main_window->InitChart();
     main_window->InitLegend();
