@@ -16,6 +16,7 @@ public:
     Rules(SQLiteDB &db);
     void insertRule(Rule rule);
     QVector<Rule> getRules();
+    void init();
 private:
     RuleMapper ruleMapper;
 };

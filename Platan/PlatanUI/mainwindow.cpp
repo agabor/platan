@@ -88,7 +88,8 @@ MainWindow::MainWindow(MainApplication * const application, Statements &statemen
         welcomeWidget = new WelcomeWidget(this);
         connect(welcomeWidget, SIGNAL(clicked()), this, SLOT(on_actionImport_Bank_Statements_triggered()));
         this->centralWidget()->layout()->addWidget(welcomeWidget);
-    }
+    } else
+        refreshStatements();
 }
 
 
@@ -220,6 +221,8 @@ void MainWindow::sliceClicked(int idx)
 
 void MainWindow::refreshStatements()
 {
+    statements.categorizeUndefinedStatements(rules);
+    viewModel.initStatementModels();
     refreshChart();
     setDateInterval();
 
@@ -240,6 +243,7 @@ void MainWindow::refreshChart()
 void MainWindow::onDateRangeChanged(QDate start, QDate end)
 {
     statements.SetTimeInterval(start, end);
+    viewModel.initStatementModels();
     refreshChart();
 }
 

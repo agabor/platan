@@ -174,7 +174,7 @@ void Statements::SetTimeInterval(QDate start_date, QDate end_date)
     timeIntervalSet = true;
     startDate = start_date;
     endDate = end_date;
-    }
+}
 
 
 void Statements::UnsetTimeInterval()
@@ -198,18 +198,11 @@ QMap<int, float> Statements::getCategories()
 }
 
 
-bool Statements::open(QString data_base_path)
+void Statements::init()
 {
-    openProjectPath = data_base_path;
-    if(db.isOpen())
-        db.close();
-    db.setPath(data_base_path);
-    if(!db.open())
-        return false;
     clear();
     for(Statement &s : statementMapper.getAll(SQLCondition::Empty))
-        append(shared_ptr<Statement>(new Statement(s)));
-    return true;
+        push_back(shared_ptr<Statement>(new Statement(s)));
 }
 
 

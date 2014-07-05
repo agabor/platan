@@ -46,7 +46,7 @@ public:
     void SetTimeInterval(QDate start_date, QDate end_date);
     void UnsetTimeInterval();
     QMap<int, float> getCategories();
-    bool open(QString data_base_path);
+    void init();
     void GetClasses(QString lan, QMap<int, QString> &classes);
     void insertData(QVector<Statement> statements);
     void initStatementCategories();
@@ -55,11 +55,11 @@ public:
     void save();
     QString getOpenProjectPath() const;
     QVector<std::shared_ptr<Statement>> statementsInDateRange();
+    void categorizeUndefinedStatements(QVector<std::shared_ptr<Rule> > rules);
 signals:
     void dataChanged();
     void modification();
 private:
-    void categorizeUndefinedStatements(QVector<std::shared_ptr<Rule> > rules);
     SQLiteDate startDate, endDate;
     bool timeIntervalSet;
     QSet<std::shared_ptr<Statement>> changes;

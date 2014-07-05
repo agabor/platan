@@ -58,10 +58,14 @@ MainApplication::MainApplication(int &argc, char *argv[]) :
 
 bool MainApplication::OpenProject(QString project_path)
 {
-    if(!statements.open(project_path))
-    {
+    if(project_db.isOpen())
+        project_db.close();
+    project_db.setPath(project_path);
+    if(!project_db.open())
         return false;
-    }
+
+    statements.init();
+    rules.init();
 
     main_window.reset(new MainWindow(this, statements, rules, viewModel));
 
