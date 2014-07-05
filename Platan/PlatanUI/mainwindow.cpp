@@ -51,8 +51,6 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
 
     classes = statements.getCategories();
 
-    setDateInterval();
-
     connect(ui->date_range, SIGNAL(dateRangeChanged(QDate,QDate)), this, SLOT(onDateRangeChanged(QDate,QDate)));
     connect(ui->date_range, SIGNAL(unsetDateRange()), this, SLOT(onUnsetDateRange()));
 
@@ -79,17 +77,6 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
     unclassifiedTable->addAction(ui->actionAdd_rule);
     unclassifiedTable->addAction(ui->actionSet_category);
-
-    setWindowTitle("Platan - " + statements.getOpenProjectPath());
-
-    if (statements.isEmpty())
-    {
-        ui->tabWidget->setHidden(true);
-        welcomeWidget = new WelcomeWidget(this);
-        connect(welcomeWidget, SIGNAL(clicked()), this, SLOT(on_actionImport_Bank_Statements_triggered()));
-        this->centralWidget()->layout()->addWidget(welcomeWidget);
-    } else
-        refreshStatements();
 }
 
 
@@ -107,6 +94,18 @@ void MainWindow::init()
 {
     statements.init();
     rules.init();
+    viewModel.init();
+    setDateInterval();
+    setWindowTitle("Platan - " + statements.getOpenProjectPath());
+
+    if (statements.isEmpty())
+    {
+        ui->tabWidget->setHidden(true);
+        welcomeWidget = new WelcomeWidget(this);
+        connect(welcomeWidget, SIGNAL(clicked()), this, SLOT(on_actionImport_Bank_Statements_triggered()));
+        this->centralWidget()->layout()->addWidget(welcomeWidget);
+    } else
+        refreshStatements();
 }
 
 void MainWindow::setPythonIDE(std::shared_ptr<PythonIDE> pythonIDE)

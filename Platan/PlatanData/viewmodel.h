@@ -17,6 +17,7 @@ public:
     std::shared_ptr<StatementTableModel> getAllStatements();
     std::shared_ptr<StatementTableModel> getStatementsForClass(int classIdx);
     void initStatementModels();
+    void init();
 private:
     QMap<int, std::shared_ptr<StatementTableModel>> classStatements;
     std::shared_ptr<StatementTableModel> uncategorisedStatements;

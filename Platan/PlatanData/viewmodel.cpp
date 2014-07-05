@@ -8,13 +8,16 @@ using namespace std;
 
 ViewModel::ViewModel(Statements &statements) : statements(statements)
 {
+}
+
+void ViewModel::init()
+{
     auto cl = statements.categoryList();
     for(int i = 1; i < cl.count(); ++i)
         classStatements[i].reset(new StatementTableModel);
     uncategorisedStatements.reset(new StatementTableModel);
     allStatements.reset(new StatementTableModel);
 }
-
 
 shared_ptr<StatementTableModel> ViewModel::getUncategorisedStatementsModel()
 {
