@@ -33,9 +33,9 @@ MainApplication *MainApplication::instance(nullptr);
 MainApplication::MainApplication(int &argc, char *argv[]) :
     QApplication(argc, argv),
     settings("configs/platan.ini", QSettings::IniFormat),
-    application_db(getProjectDBSchema(), "app"),
+    application_db(getApplicationDBSchema(), "app"),
     project_db(getProjectDBSchema(), "pro"),
-    countryMapper(project_db),
+    countryMapper(application_db),
     ruleMapper(project_db),
     statements(project_db),
     rules(project_db),
@@ -49,8 +49,8 @@ MainApplication::MainApplication(int &argc, char *argv[]) :
     projects_window.reset(new ProjectsWindow(this, statements));
     projects_window->show();
 
-    project_db.setPath("platandata");
-    project_db.open();
+    application_db.setPath("platandata");
+    application_db.open();
     for(Country c : countryMapper.getAll())
         countryCodes.insert(c.code, c.id);
 }
