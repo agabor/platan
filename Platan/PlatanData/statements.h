@@ -67,7 +67,6 @@ private:
     QVector<std::shared_ptr<Statement>> getUncategorisedStatements();
     QString openProjectPath;
     SQLiteDB &db;
-    static DataBaseSchema getSchema();
     StatementMapper statementMapper;
 };
 

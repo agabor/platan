@@ -23,6 +23,7 @@ class QVector;
 class Statement;
 class SQLiteDB;
 class SQLCondition;
+class TableStructure;
 
 class StatementMapper
 {
@@ -31,6 +32,7 @@ public:
     void update(Statement &s) const;
     void insert(Statement &s) const;
     QVector<Statement> getAll(const SQLCondition &cond);
+    static TableStructure getStructure();
 private:
     SQLiteDB &data_base;
 };

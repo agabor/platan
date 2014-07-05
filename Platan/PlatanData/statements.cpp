@@ -168,23 +168,6 @@ QVector<std::shared_ptr<Statement> > Statements::getUncategorisedStatements()
     return result;
 }
 
-DataBaseSchema Statements::getSchema()
-{
-    DataBaseSchema schema;
-    schema.addTable(RuleMapper::getStructure());
-
-    TableStructure statements{"statements"};
-    statements.addField("ID", SQLType::Integer().PK());
-    statements.addField("Date", SQLType::Integer());
-    statements.addField("Type", SQLType::Text());
-    statements.addField("Description", SQLType::Text());
-    statements.addField("Payee", SQLType::Text());
-    statements.addField("PayeeAccount", SQLType::Text());
-    statements.addField("Amount", SQLType::Real());
-    statements.addField("Class", SQLType::Integer());
-    schema.addTable(statements);
-    return schema;
-}
 
 void Statements::SetTimeInterval(QDate start_date, QDate end_date)
 {

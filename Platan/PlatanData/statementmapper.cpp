@@ -20,6 +20,7 @@
 #include <sqlinsert.h>
 #include <sqlitedb.h>
 #include <statement.h>
+#include <tablestructure.h>
 
 StatementMapper::StatementMapper(SQLiteDB &db) : data_base(db)
 {
@@ -88,4 +89,18 @@ QVector<Statement> StatementMapper::getAll(const SQLCondition &cond)
         result.push_back(row);
     }
     return result;
+}
+
+TableStructure StatementMapper::getStructure()
+{
+    TableStructure statements{"statements"};
+    statements.addField("ID", SQLType::Integer().PK());
+    statements.addField("Date", SQLType::Integer());
+    statements.addField("Type", SQLType::Text());
+    statements.addField("Description", SQLType::Text());
+    statements.addField("Payee", SQLType::Text());
+    statements.addField("PayeeAccount", SQLType::Text());
+    statements.addField("Amount", SQLType::Real());
+    statements.addField("Class", SQLType::Integer());
+    return statements;
 }

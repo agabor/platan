@@ -56,7 +56,8 @@ public:
     static MainApplication *getInstance();
     void create(QString data_base_path, QString countryCode);
 private:
-    DataBaseSchema getSchema();
+    DataBaseSchema getProjectDBSchema();
+    DataBaseSchema getApplicationDBSchema();
     std::unique_ptr<MainWindow> main_window;
     std::unique_ptr<PythonIDE> python_console;
     std::unique_ptr<ProjectsWindow> projects_window;
@@ -65,7 +66,8 @@ private:
     Rules rules;
     ViewModel viewModel;
     QSettings settings;
-    SQLiteDB db;
+    SQLiteDB application_db;
+    SQLiteDB project_db;
     CountryMapper countryMapper;
     RuleMapper ruleMapper;
     static MainApplication *instance;

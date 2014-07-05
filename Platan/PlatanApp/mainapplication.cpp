@@ -33,11 +33,12 @@ MainApplication *MainApplication::instance(nullptr);
 MainApplication::MainApplication(int &argc, char *argv[]) :
     QApplication(argc, argv),
     settings("configs/platan.ini", QSettings::IniFormat),
-    db(getSchema(), "app"),
-    countryMapper(db),
-    ruleMapper(db),
-    statements(db),
-    rules(db),
+    application_db(getProjectDBSchema(), "app"),
+    project_db(getProjectDBSchema(), "pro"),
+    countryMapper(project_db),
+    ruleMapper(project_db),
+    statements(project_db),
+    rules(project_db),
     viewModel(statements)
 {
     assert(instance == nullptr);
@@ -48,8 +49,8 @@ MainApplication::MainApplication(int &argc, char *argv[]) :
     projects_window.reset(new ProjectsWindow(this, statements));
     projects_window->show();
 
-    db.setPath("platandata");
-    db.open();
+    project_db.setPath("platandata");
+    project_db.open();
     for(Country c : countryMapper.getAll())
         countryCodes.insert(c.code, c.id);
 }
@@ -124,17 +125,26 @@ MainApplication *MainApplication::getInstance()
 
 void MainApplication::create(QString data_base_path, QString countryCode)
 {
-    db.setPath(data_base_path);
-    db.create();
-    db.beginTransaction();
+    project_db.setPath(data_base_path);
+    project_db.create();
+    project_db.beginTransaction();
     auto rules = getRulesForCountry(countryCode);
     for (Rule r : rules)
         ruleMapper.insert(r);
-    db.endTransaction();
+    project_db.endTransaction();
 }
 
 
-DataBaseSchema MainApplication::getSchema()
+DataBaseSchema MainApplication::getProjectDBSchema()
+{
+    DataBaseSchema schema;
+    schema.addTable(RuleMapper::getStructure());
+    schema.addTable(StatementMapper::getStructure());
+
+    return schema;
+}
+
+DataBaseSchema MainApplication::getApplicationDBSchema()
 {
     DataBaseSchema schema;
     schema.addTable(RuleMapper::getStructureWithCountry());
