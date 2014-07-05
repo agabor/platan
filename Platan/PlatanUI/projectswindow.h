@@ -20,7 +20,7 @@ class ProjectsWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ProjectsWindow(MainApplication* application, Statements &statements, QWidget *parent = 0);
+    explicit ProjectsWindow(MainApplication* application, QWidget *parent = 0);
     ~ProjectsWindow();
 
     QString GetSelectedProjectPath();
@@ -41,7 +41,6 @@ private slots:
 
 private:
     Ui::ProjectsWindow *ui;
-    Statements &statements;
     QStandardItemModel* ListModel;
     MainApplication* application;
     QVector<QString> ProjectPaths() const;

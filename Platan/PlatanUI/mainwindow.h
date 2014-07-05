@@ -39,13 +39,14 @@ class QStatemenView;
 class QPieChart;
 class StatementTableModel;
 class ViewModel;
+class PythonIDE;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(MainApplication * const application, Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent = 0);
+    explicit MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent = 0);
 
     ~MainWindow();
 
@@ -65,6 +66,11 @@ public:
     void setClassNames(QMap<int, QString> &classNames);
 
     void setDateInterval();
+
+    void init();
+
+    void setPythonIDE(std::shared_ptr<PythonIDE> pythonIDE);
+
 public slots:
     void onDateRangeChanged(QDate start, QDate end);
 
@@ -105,11 +111,11 @@ private:
     Statements &statements;
     Rules &rules;
     ViewModel &viewModel;
+    std::shared_ptr<PythonIDE> pythonIDE;
     QMap<int, float> classes;
     QMap<int, QString> classNames;
     ColorPalette palette;
     std::unique_ptr<QStatemenView> unclassifiedTable;
-    MainApplication const * application;
     std::shared_ptr<StatementTableModel> uncategorisedTableModel;
     WelcomeWidget *welcomeWidget;
 };

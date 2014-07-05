@@ -23,6 +23,7 @@
 #include <QString>
 
 class MainApplication;
+class PythonIDE;
 
 class PythonAPI
 {
@@ -32,8 +33,10 @@ public:
     static void finalize();
     static void showConsole();
     static void run(std::string script);
-    static MainApplication *main_application;
     static std::vector<std::pair<QString, QString>> GetFunctionDocs();
+    static void setPythonIDE(PythonIDE *pythonIDE);
+    static MainApplication *main_application;
+    static PythonIDE *pythonIDE;
 };
 
 #endif // PYTHONAPI_H

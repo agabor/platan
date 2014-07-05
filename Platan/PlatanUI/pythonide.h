@@ -20,11 +20,12 @@ class PythonIDE : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit PythonIDE(QMainWindow *mainWindow);
+    explicit PythonIDE();
     void PushOutput(QString output);
     void PushError(QString output);
     ~PythonIDE();
     QTextCursor GetOutputEndCursor();
+    void setMainWindow(QMainWindow *mainWindow);
 private slots:
     void run();
 

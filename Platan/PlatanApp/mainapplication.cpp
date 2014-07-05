@@ -19,38 +19,32 @@
 #include <assert.h>
 
 #include <mainapplication.h>
-#include <PythonAPI/pythonapi.h>
 #include <country.h>
 #include <pythonide.h>
 #include <mainwindow.h>
 #include <projectswindow.h>
 #include <rule.h>
+#include <pythonapi.h>
 
 using namespace std;
 
 MainApplication *MainApplication::instance(nullptr);
 
-MainApplication::MainApplication(int &argc, char *argv[]) :
+MainApplication::MainApplication(int &argc, char *argv[], CountryMapper &countryMapper, SQLiteDB &project_db) :
     QApplication(argc, argv),
     settings("configs/platan.ini", QSettings::IniFormat),
-    application_db(getApplicationDBSchema(), "app"),
-    project_db(getProjectDBSchema(), "pro"),
-    countryMapper(application_db),
-    ruleMapper(project_db),
-    statements(project_db),
-    rules(project_db),
-    viewModel(statements)
+    project_db(project_db),
+    countryMapper(countryMapper),
+    ruleMapper(project_db)
 {
     assert(instance == nullptr);
     instance = this;
 #ifdef PYTHON_API
     PythonAPI::init(this);
 #endif
-    projects_window.reset(new ProjectsWindow(this, statements));
+    projects_window.reset(new ProjectsWindow(this));
     projects_window->show();
 
-    application_db.setPath("platandata");
-    application_db.open();
     for(Country c : countryMapper.getAll())
         countryCodes.insert(c.code, c.id);
 }
@@ -64,17 +58,12 @@ bool MainApplication::OpenProject(QString project_path)
     if(!project_db.open())
         return false;
 
-    statements.init();
-    rules.init();
+    mainWindow->init();
 
-    main_window.reset(new MainWindow(this, statements, rules, viewModel));
+    mainWindow->InitChart();
+    mainWindow->InitLegend();
 
-    main_window->InitChart();
-    main_window->InitLegend();
-
-    main_window->show();
-
-    python_console.reset(new PythonIDE(main_window.get()));
+    mainWindow->show();
 
     return true;
 }
@@ -106,7 +95,6 @@ void MainApplication::SaveProjectPaths(QVector<QString> path_list)
     {
         settings.setValue(projectpathkey.arg(i++), path);
     }
-
 }
 
 bool MainApplication::countryExists(QString code) const
@@ -138,31 +126,15 @@ void MainApplication::create(QString data_base_path, QString countryCode)
     project_db.endTransaction();
 }
 
-
-DataBaseSchema MainApplication::getProjectDBSchema()
+void MainApplication::setMainWindow(std::shared_ptr<MainWindow> mainWindow)
 {
-    DataBaseSchema schema;
-    schema.addTable(RuleMapper::getStructure());
-    schema.addTable(StatementMapper::getStructure());
-
-    return schema;
+    this->mainWindow = mainWindow;
 }
 
-DataBaseSchema MainApplication::getApplicationDBSchema()
-{
-    DataBaseSchema schema;
-    schema.addTable(RuleMapper::getStructureWithCountry());
-
-    TableStructure countries{"countries"};
-    countries.addField("ID", SQLType::Integer().PK());
-    countries.addField("Code", SQLType::Text());
-    schema.addTable(countries);
-    return schema;
-}
 
 void MainApplication::setDateRange(QDate start, QDate end)
 {
-    main_window->setDateRange(start, end);
+    mainWindow->setDateRange(start, end);
 }
 
 MainApplication::~MainApplication()

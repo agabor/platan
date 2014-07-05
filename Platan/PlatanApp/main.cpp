@@ -14,12 +14,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "mainapplication.h"
-
+#include <applicationfactory.h>
+#include <mainapplication.h>
 
 int main(int argc, char *argv[])
 {
-    MainApplication a(argc, argv);
+    ApplicationFactory appFactory;
+    appFactory.construct(argc, argv);
 
-    return a.exec();
+    return appFactory.application().exec();
 }

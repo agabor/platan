@@ -16,11 +16,10 @@
 
 using namespace std;
 
-PythonIDE::PythonIDE(QMainWindow *mainWindow) :
+PythonIDE::PythonIDE() :
     QMainWindow(nullptr),
     ui(new Ui::PythonIDE),
     helpwindow{new HelpWindow},
-    mainWindow{mainWindow},
     geometry{nullptr}
 {
     ui->setupUi(this);
@@ -48,6 +47,11 @@ QTextCursor PythonIDE::GetOutputEndCursor()
     cursor.movePosition(QTextCursor::End);
 
     return cursor;
+}
+
+void PythonIDE::setMainWindow(QMainWindow *mainWindow)
+{
+    this->mainWindow = mainWindow;
 }
 
 void PythonIDE::PushOutput(QString output)

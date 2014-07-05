@@ -4,16 +4,14 @@
 #include <QString>
 #include <QVector>
 
-#include "projectswindow.h"
-#include "ui_projectswindow.h"
-#include "mainapplication.h"
+#include <projectswindow.h>
+#include <ui_projectswindow.h>
+#include <mainapplication.h>
 #include <newprojectdialog.h>
-#include <statements.h>
 
-ProjectsWindow::ProjectsWindow(MainApplication *application, Statements &statements, QWidget *parent) :
+ProjectsWindow::ProjectsWindow(MainApplication *application, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::ProjectsWindow),
-    statements(statements),
     application(application)
 {
     ui->setupUi(this);

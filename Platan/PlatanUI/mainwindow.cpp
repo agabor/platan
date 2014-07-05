@@ -26,7 +26,6 @@
 #include <qpiechart.h>
 #include <addruledialog.h>
 #include <ui_mainwindow.h>
-#include <mainapplication.h>
 #include <pythonide.h>
 #include <rulewidget.h>
 #include <setcategorydialog.h>
@@ -35,15 +34,16 @@
 #include <statementtablemodel.h>
 #include <rules.h>
 #include <viewmodel.h>
+#include <PythonAPI/pythonapi.h>
+#include <statements.h>
 
-MainWindow::MainWindow(MainApplication * const application, Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent) :
+MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     statements(statements),
     rules(rules),
     viewModel(viewModel),
     unclassifiedTable(new QStatemenView(this)),
-    application(application),
     welcomeWidget(nullptr)
 {
     ui->setupUi(this);
@@ -101,6 +101,17 @@ void MainWindow::setDateInterval()
 
     auto range = model->DateRange();
     ui->date_range->setInterval(range.first, range.second);
+}
+
+void MainWindow::init()
+{
+    statements.init();
+    rules.init();
+}
+
+void MainWindow::setPythonIDE(std::shared_ptr<PythonIDE> pythonIDE)
+{
+    this->pythonIDE = pythonIDE;
 }
 
 void MainWindow::initChart(QVector<float> values, ColorPalette *palette)
@@ -256,7 +267,7 @@ void MainWindow::onUnsetDateRange()
 
 void MainWindow::on_actionPythonConsole_triggered()
 {
-    application->getPythonConsole()->show();
+    pythonIDE->show();
 }
 
 

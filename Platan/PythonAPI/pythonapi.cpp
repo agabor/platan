@@ -48,6 +48,7 @@ string get_file_contents(const char *filename)
 static PyObject* PyInit_Platan();
 
 MainApplication *PythonAPI::main_application;
+PythonIDE *PythonAPI::pythonIDE;
 
 PythonAPI::PythonAPI()
 {
@@ -70,10 +71,9 @@ void PythonAPI::finalize()
 
 void PythonAPI::run(string script)
 {
-    auto console = main_application->getPythonConsole();
-    stdout_write_type write_output = [&console] (string s) { console->PushOutput(QString(s.c_str())); };
+    stdout_write_type write_output = [&pythonIDE] (string s) { pythonIDE->PushOutput(QString(s.c_str())); };
     emb::set_stdout(write_output);
-    stdout_write_type write_error = [&console] (string s) { console->PushError(QString(s.c_str())); };
+    stdout_write_type write_error = [&pythonIDE] (string s) { pythonIDE->PushError(QString(s.c_str())); };
     emb::set_stderr(write_error);
     PyRun_SimpleString(script.c_str());
     emb::reset_stdout();
@@ -129,6 +129,11 @@ vector<pair<QString, QString> > PythonAPI::GetFunctionDocs()
         result.push_back(pair<QString, QString>(def.ml_name, def.ml_doc));
     }
     return result;
+}
+
+void PythonAPI::setPythonIDE(PythonIDE *pythonIDE)
+{
+    PythonAPI::pythonIDE = pythonIDE;
 }
 
 static PyObject* PyInit_Platan()

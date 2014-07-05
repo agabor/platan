@@ -33,7 +33,6 @@
 
 class DataBaseSchema;
 class Rule;
-class PythonIDE;
 class MainWindow;
 class ProjectsWindow;
 
@@ -41,13 +40,10 @@ class MainApplication : public QApplication
 {
     Q_OBJECT
 public:
-    explicit MainApplication(int &argc, char *argv[]);
+    explicit MainApplication(int &argc, char *argv[], CountryMapper &countryMapper, SQLiteDB &project_db);
     void setDateRange(QDate start, QDate end);
     ~MainApplication();
-    PythonIDE *getPythonConsole() const
-    {
-        return python_console.get();
-    }
+
     bool OpenProject(QString project_path);
     QVector<QString> RecentProjects();
     void SaveProjectPaths(QVector<QString> path_list);
@@ -55,21 +51,15 @@ public:
     QVector<Rule> getRulesForCountry(QString code) const;
     static MainApplication *getInstance();
     void create(QString data_base_path, QString countryCode);
+    void setMainWindow(std::shared_ptr<MainWindow> mainWindow);
 private:
-    DataBaseSchema getProjectDBSchema();
-    DataBaseSchema getApplicationDBSchema();
-    std::unique_ptr<MainWindow> main_window;
-    std::unique_ptr<PythonIDE> python_console;
     std::unique_ptr<ProjectsWindow> projects_window;
     QMap<QString, int> countryCodes;
-    Statements statements;
-    Rules rules;
-    ViewModel viewModel;
     QSettings settings;
-    SQLiteDB application_db;
-    SQLiteDB project_db;
-    CountryMapper countryMapper;
+    SQLiteDB &project_db;
+    CountryMapper &countryMapper;
     RuleMapper ruleMapper;
+    std::shared_ptr<MainWindow> mainWindow;
     static MainApplication *instance;
 };
 
