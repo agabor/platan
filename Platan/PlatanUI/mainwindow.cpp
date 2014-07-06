@@ -73,11 +73,7 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
 
 void MainWindow::setDateInterval()
 {
-    auto model = viewModel.getAllStatements();
-
-    ui->statements_table->setModel(model.get());
-
-    auto range = model->DateRange();
+    auto range = viewModel.getAllStatements()->DateRange();
     ui->date_range->setInterval(range.first, range.second);
 }
 
@@ -87,10 +83,9 @@ void MainWindow::init()
     rules.init();
     viewModel.init();
     setDateInterval();
-    setWindowTitle("Platan - " + statements.getOpenProjectPath());
 
     ui->rulesView->setModel(viewModel.getRuleTable().get());
-
+    ui->statements_table->setModel(viewModel.getAllStatements().get());
 
     if (statements.isEmpty())
     {
@@ -256,6 +251,7 @@ void MainWindow::onDateRangeChanged(QDate start, QDate end)
 void MainWindow::onUnsetDateRange()
 {
     statements.UnsetTimeInterval();
+    viewModel.initTableModels();
     refreshChart();
 }
 

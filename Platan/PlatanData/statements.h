@@ -53,7 +53,6 @@ public:
     void setCategory(int id, int category);
     bool changed() const;
     void save();
-    QString getOpenProjectPath() const;
     QVector<std::shared_ptr<Statement>> statementsInDateRange();
     void categorizeUndefinedStatements(QVector<std::shared_ptr<Rule> > rules);
     void categorizeUndefinedStatements(Rule rule);
@@ -65,7 +64,6 @@ private:
     QSet<std::shared_ptr<Statement>> changes;
     QSet<std::shared_ptr<Statement>> newStatements;
     QVector<std::shared_ptr<Statement>> getUncategorisedStatements();
-    QString openProjectPath;
     SQLiteDB &db;
     StatementMapper statementMapper;
 };

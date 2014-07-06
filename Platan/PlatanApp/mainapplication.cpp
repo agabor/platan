@@ -61,6 +61,7 @@ bool MainApplication::OpenProject(QString project_path)
     if(!projectDB.open(project_path))
         return false;
 
+    mainWindow->setWindowTitle("Platan - " + project_path);
     mainWindow->init();
 
     mainWindow->InitChart();

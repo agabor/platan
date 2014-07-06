@@ -17,8 +17,10 @@ int RuleTableModel::columnCount(const QModelIndex &) const
     return 3;
 }
 
-QVariant RuleTableModel::data(const QModelIndex &index, int) const
+QVariant RuleTableModel::data(const QModelIndex &index, int role) const
 {
+    if(role != Qt::DisplayRole)
+        return QVariant::Invalid;
     Rule r = *Rows[index.row()];
     switch (index.column()) {
     case 0:

@@ -119,11 +119,6 @@ void Statements::save()
     emit dataChanged();
 }
 
-QString Statements::getOpenProjectPath() const
-{
-    return openProjectPath;
-}
-
 void Statements::categorizeUndefinedStatements(QVector<shared_ptr<Rule>> rules)
 {
     bool changed = false;

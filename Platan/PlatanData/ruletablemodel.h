@@ -16,7 +16,7 @@ public:
     // QAbstractItemModel interface
     int rowCount(const QModelIndex &) const;
     int columnCount(const QModelIndex &) const;
-    QVariant data(const QModelIndex &index, int) const;
+    QVariant data(const QModelIndex &index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     void setData(QVector<std::shared_ptr<Rule> > rows);
 protected:
