@@ -17,6 +17,7 @@ public:
     void insertRule(Rule rule);
     QVector<Rule> getRules();
     void init();
+    void insertRules(QVector<Rule> rules);
 private:
     RuleMapper ruleMapper;
 };

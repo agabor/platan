@@ -25,7 +25,6 @@
 #include <memory>
 
 #include <statements.h>
-#include <sqlitedb.h>
 #include <rulemapper.h>
 #include <rules.h>
 #include <viewmodel.h>
@@ -35,12 +34,13 @@ class Rule;
 class MainWindow;
 class ProjectsWindow;
 class ApplicationDB;
+class ProjectDB;
 
 class MainApplication : public QApplication
 {
     Q_OBJECT
 public:
-    explicit MainApplication(int &argc, char *argv[], ApplicationDB &applicationDB, SQLiteDB &project_db);
+    explicit MainApplication(int &argc, char *argv[], ApplicationDB &applicationDB, ProjectDB &projectDB);
     void setDateRange(QDate start, QDate end);
     ~MainApplication();
 
@@ -57,9 +57,8 @@ private:
     std::unique_ptr<ProjectsWindow> projects_window;
     QMap<QString, int> countryCodes;
     QSettings settings;
-    SQLiteDB &project_db;
+    ProjectDB &projectDB;
     ApplicationDB &applicationDB;
-    RuleMapper ruleMapper;
     std::shared_ptr<MainWindow> mainWindow;
     static MainApplication *instance;
 };

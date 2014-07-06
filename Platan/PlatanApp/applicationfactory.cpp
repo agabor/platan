@@ -9,6 +9,7 @@
 #include <pythonapi.h>
 #include <sqlitedb.h>
 #include <applicationdb.h>
+#include <projectdb.h>
 
 void ApplicationFactory::construct(int &argc, char *argv[])
 {
@@ -17,8 +18,9 @@ void ApplicationFactory::construct(int &argc, char *argv[])
     statements.reset(new Statements(*project_db));
     rules.reset(new Rules(*project_db));
     viewModel.reset(new ViewModel(*statements));
+    projectDB.reset(new ProjectDB(*rules, *project_db));
 
-    mainApplication.reset(new MainApplication(argc, argv, *applicationDB, *project_db));
+    mainApplication.reset(new MainApplication(argc, argv, *applicationDB, *projectDB));
 
     mainWindow.reset(new MainWindow(*statements, *rules, *viewModel));
     mainApplication->setMainWindow(mainWindow);

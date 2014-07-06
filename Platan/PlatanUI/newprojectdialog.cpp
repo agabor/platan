@@ -17,7 +17,7 @@ NewProjectDialog::NewProjectDialog(QWidget *parent) :
     qSort(countryDatas);
     for (CountryData data : countryDatas)
     {
-        QString res(":/icons/icons/%1.png");
+        QString res(":/icons/icons/flags/%1.png");
         res = res.arg(data.code);
         ui->comboBox->addItem(QIcon(res), data.name, data.code);
     }

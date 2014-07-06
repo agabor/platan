@@ -7,6 +7,7 @@
 #include <pythonide.h>
 #include <rules.h>
 #include <applicationdb.h>
+#include <projectdb.h>
 
 class MainApplication;
 class SQLiteDB;
@@ -26,6 +27,7 @@ private:
     std::unique_ptr<SQLiteDB> project_db;
     std::unique_ptr<Statements> statements;
     std::unique_ptr<Rules> rules;
+    std::unique_ptr<ProjectDB> projectDB;
     std::unique_ptr<ViewModel> viewModel;
     std::unique_ptr<ApplicationDB> applicationDB;
     std::shared_ptr<MainWindow> mainWindow;

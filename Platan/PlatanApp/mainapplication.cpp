@@ -26,18 +26,18 @@
 #include <rule.h>
 #include <pythonapi.h>
 #include <applicationdb.h>
+#include <projectdb.h>
 
 using namespace std;
 
 MainApplication *MainApplication::instance(nullptr);
 
 
-MainApplication::MainApplication(int &argc, char *argv[], ApplicationDB &applicationDB, SQLiteDB &project_db) :
+MainApplication::MainApplication(int &argc, char *argv[], ApplicationDB &applicationDB, ProjectDB &projectDB) :
     QApplication(argc, argv),
     settings("configs/platan.ini", QSettings::IniFormat),
-    project_db(project_db),
-    applicationDB(applicationDB),
-    ruleMapper(project_db)
+    projectDB(projectDB),
+    applicationDB(applicationDB)
 {
     assert(instance == nullptr);
     instance = this;
@@ -58,10 +58,7 @@ void MainApplication::showProjectWindow()
 
 bool MainApplication::OpenProject(QString project_path)
 {
-    if(project_db.isOpen())
-        project_db.close();
-    project_db.setPath(project_path);
-    if(!project_db.open())
+    if(!projectDB.open(project_path))
         return false;
 
     mainWindow->init();
@@ -123,13 +120,8 @@ MainApplication *MainApplication::getInstance()
 
 void MainApplication::create(QString data_base_path, QString countryCode)
 {
-    project_db.setPath(data_base_path);
-    project_db.create();
-    project_db.beginTransaction();
-    auto rules = getRulesForCountry(countryCode);
-    for (Rule r : rules)
-        ruleMapper.insert(r);
-    project_db.endTransaction();
+    projectDB.create(data_base_path);
+    projectDB.insertRules(getRulesForCountry(countryCode));
 }
 
 void MainApplication::setMainWindow(std::shared_ptr<MainWindow> mainWindow)

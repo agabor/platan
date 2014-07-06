@@ -24,3 +24,9 @@ void Rules::init()
     for (Rule &r : ruleMapper.getAll())
         push_back(shared_ptr<Rule>(new Rule(r)));
 }
+
+void Rules::insertRules(QVector<Rule> rules)
+{
+    for (Rule r : rules)
+        ruleMapper.insert(r);
+}
