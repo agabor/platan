@@ -1,7 +1,8 @@
 #ifndef COUNTRYMAPPER_H
 #define COUNTRYMAPPER_H
 
-class Country;
+#include <country.h>
+
 template <typename T>
 class QVector;
 class SQLiteDB;

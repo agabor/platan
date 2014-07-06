@@ -25,17 +25,18 @@
 #include <projectswindow.h>
 #include <rule.h>
 #include <pythonapi.h>
+#include <applicationdb.h>
 
 using namespace std;
 
 MainApplication *MainApplication::instance(nullptr);
 
 
-MainApplication::MainApplication(int &argc, char *argv[], CountryMapper &countryMapper, SQLiteDB &project_db) :
+MainApplication::MainApplication(int &argc, char *argv[], ApplicationDB &applicationDB, SQLiteDB &project_db) :
     QApplication(argc, argv),
     settings("configs/platan.ini", QSettings::IniFormat),
     project_db(project_db),
-    countryMapper(countryMapper),
+    applicationDB(applicationDB),
     ruleMapper(project_db)
 {
     assert(instance == nullptr);
@@ -48,7 +49,7 @@ MainApplication::MainApplication(int &argc, char *argv[], CountryMapper &country
 
 void MainApplication::showProjectWindow()
 {
-    for(Country c : countryMapper.getAll())
+    for(Country c : applicationDB.getCountries())
         countryCodes.insert(c.code, c.id);
 
     projects_window.reset(new ProjectsWindow(this));
@@ -112,7 +113,7 @@ QVector<Rule> MainApplication::getRulesForCountry(QString code) const
     auto it = countryCodes.find(code);
     if (it == countryCodes.end())
         return QVector<Rule>();
-    return ruleMapper.getAll(*it);
+    return applicationDB.getRulesForCountry(*it);
 }
 
 MainApplication *MainApplication::getInstance()

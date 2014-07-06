@@ -1,10 +1,11 @@
 #ifndef RULEMAPPER_H
 #define RULEMAPPER_H
 
+#include <rule.h>
+
 template <typename T>
 class QVector;
 class SQLiteDB;
-class Rule;
 class TableStructure;
 
 class RuleMapper
