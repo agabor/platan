@@ -73,21 +73,7 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QScrollArea" name="scrollArea">
-          <property name="widgetResizable">
-           <bool>true</bool>
-          </property>
-          <widget class="QWidget" name="scrollAreaWidgetContents">
-           <property name="geometry">
-            <rect>
-             <x>0</x>
-             <y>0</y>
-             <width>98</width>
-             <height>28</height>
-            </rect>
-           </property>
-          </widget>
-         </widget>
+         <widget class="QStatemenView" name="rulesView"/>
         </item>
        </layout>
       </widget>
@@ -111,7 +97,7 @@
      <x>0</x>
      <y>0</y>
      <width>788</width>
-     <height>19</height>
+     <height>29</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuAccounting">
@@ -270,6 +256,11 @@
    <extends>QTabWidget</extends>
    <header>maintabwidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QStatemenView</class>
+   <extends>QTableView</extends>
+   <header>qstatemenview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

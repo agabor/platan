@@ -92,7 +92,7 @@ void Statements::setCategory(int id, int category)
     if (!changes.contains(row))
     {
         changes.insert(row);
-        emit modification();
+        emit dataChanged();
     }
 }
 
@@ -116,7 +116,7 @@ void Statements::save()
     }
     newStatements.clear();
     db.endTransaction();
-    emit modification();
+    emit dataChanged();
 }
 
 QString Statements::getOpenProjectPath() const
@@ -140,7 +140,23 @@ void Statements::categorizeUndefinedStatements(QVector<shared_ptr<Rule>> rules)
         }
     }
     if (changed)
-        emit modification();
+        emit dataChanged();
+}
+
+void Statements::categorizeUndefinedStatements(Rule rule)
+{
+    bool changed = false;
+    for (auto s : getUncategorisedStatements())
+    {
+        if (rule.apply(*s.get()))
+        {
+            changes.insert(s);
+            changed = true;
+            break;
+        }
+    }
+    if (changed)
+        emit dataChanged();
 }
 
 QVector<shared_ptr<Statement>> Statements::statementsInDateRange()

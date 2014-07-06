@@ -56,9 +56,9 @@ public:
     QString getOpenProjectPath() const;
     QVector<std::shared_ptr<Statement>> statementsInDateRange();
     void categorizeUndefinedStatements(QVector<std::shared_ptr<Rule> > rules);
+    void categorizeUndefinedStatements(Rule rule);
 signals:
     void dataChanged();
-    void modification();
 private:
     SQLiteDate startDate, endDate;
     bool timeIntervalSet;

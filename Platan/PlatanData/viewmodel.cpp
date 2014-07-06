@@ -3,10 +3,14 @@
 #include <viewmodel.h>
 #include <statementtablemodel.h>
 #include <statements.h>
+#include <rules.h>
+#include <ruletablemodel.h>
 
 using namespace std;
 
-ViewModel::ViewModel(Statements &statements) : statements(statements)
+ViewModel::ViewModel(Statements &statements, Rules &rules)
+    : statements(statements),
+      rules(rules)
 {
 }
 
@@ -17,6 +21,7 @@ void ViewModel::init()
         classStatements[i].reset(new StatementTableModel);
     uncategorisedStatements.reset(new StatementTableModel);
     allStatements.reset(new StatementTableModel);
+    ruleTable.reset(new RuleTableModel);
 }
 
 shared_ptr<StatementTableModel> ViewModel::getUncategorisedStatementsModel()
@@ -34,9 +39,15 @@ shared_ptr<StatementTableModel> ViewModel::getStatementsForClass(int classIdx)
     return classStatements[classIdx];
 }
 
-
-void ViewModel::initStatementModels()
+std::shared_ptr<RuleTableModel> ViewModel::getRuleTable()
 {
+    return ruleTable;
+}
+
+
+void ViewModel::initTableModels()
+{
+    ruleTable->setData(rules);
     allStatements->setData(statements);
     QVector<shared_ptr<Statement>> uncategorised;
     QMap<int, QVector<shared_ptr<Statement>>> categories;

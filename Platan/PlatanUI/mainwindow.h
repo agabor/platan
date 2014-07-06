@@ -101,7 +101,6 @@ private slots:
 
     void on_actionSet_category_triggered();
 
-    void onModification();
     void on_actionSave_triggered();
 
 private:

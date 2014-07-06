@@ -270,5 +270,6 @@
         <file>icons/flags/zw.png</file>
         <file>icons/flags/ac.png</file>
         <file>icons/flags/ic.png</file>
+        <file>icons/preferences-system.png</file>
     </qresource>
 </RCC>

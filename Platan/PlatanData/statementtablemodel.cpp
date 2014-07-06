@@ -51,44 +51,39 @@ int StatementTableModel::columnCount() const
 
 QVariant StatementTableModel::data(const QModelIndex& index, int role) const
 {
-    if(role == Qt::DisplayRole)
-    {
-        return Rows[index.row()]->at(index.column());
-    }
-    return QVariant::Invalid;
+    if(role != Qt::DisplayRole)
+        return QVariant::Invalid;
+    return Rows[index.row()]->at(index.column());
 }
 
 QVariant StatementTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
-    if(role == Qt::DisplayRole)
+    if(role != Qt::DisplayRole)
+        return QVariant::Invalid;
+
+    if(orientation == Qt::Horizontal)
     {
-        if(orientation == Qt::Horizontal)
+        switch(section)
         {
-            switch(section)
-            {
-            case 0:
-                return QString("Date");
-            case 1:
-                return QString("Type");
-            case 2:
-                return QString("Description");
-            case 3:
-                return QString("Payee");
-            case 4:
-                return QString("PayeeAccount");
-            case 5:
-                return QString("Amount");
-            default:
-                return QString("");
-            }
-        }
-        else if(orientation == Qt::Vertical)
-        {
-            return QString::number(section);
+        case 0:
+            return QString("Date");
+        case 1:
+            return QString("Type");
+        case 2:
+            return QString("Description");
+        case 3:
+            return QString("Payee");
+        case 4:
+            return QString("PayeeAccount");
+        case 5:
+            return QString("Amount");
+        default:
+            return QString("");
         }
     }
 
-    return QVariant::Invalid;
+    return QString::number(section);
+
 }
 
 

@@ -19,7 +19,8 @@ SOURCES += \
     PlatanData/rules.cpp \
     PlatanData/viewmodel.cpp \
     PlatanData/applicationdb.cpp \
-    PlatanData/projectdb.cpp
+    PlatanData/projectdb.cpp \
+    PlatanData/ruletablemodel.cpp
 
 HEADERS += \
     ../Platan/PlatanData/csvtablemodel.h \
@@ -43,7 +44,8 @@ HEADERS += \
     PlatanData/rules.h \
     PlatanData/viewmodel.h \
     PlatanData/applicationdb.h \
-    PlatanData/projectdb.h
+    PlatanData/projectdb.h \
+    PlatanData/ruletablemodel.h
 
 unix:!symbian {
     maemo5 {

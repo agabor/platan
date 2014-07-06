@@ -32,6 +32,7 @@
 #include <welcomewidget.h>
 #include <qstatemenview.h>
 #include <statementtablemodel.h>
+#include <ruletablemodel.h>
 #include <rules.h>
 #include <viewmodel.h>
 #include <PythonAPI/pythonapi.h>
@@ -62,8 +63,6 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
     }
 
     connect(&statements,SIGNAL(dataChanged()), this, SLOT(refreshStatements()));
-    connect(&statements,SIGNAL(dataChanged()), this, SLOT(onModification()));
-    connect(&statements,SIGNAL(modification()), this, SLOT(onModification()));
 
     uncategorisedTableModel = nullptr;
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
@@ -90,13 +89,8 @@ void MainWindow::init()
     setDateInterval();
     setWindowTitle("Platan - " + statements.getOpenProjectPath());
 
-    QGroupBox *groupBox = new QGroupBox(ui->scrollArea);
-    ui->scrollArea->setWidget(groupBox);
-    auto layout = new QVBoxLayout(groupBox);
-    for(Rule rule : rules.getRules())
-    {
-        layout->addWidget(new RuleWidget(rule,ui->scrollArea));
-    }
+    ui->rulesView->setModel(viewModel.getRuleTable().get());
+
 
     if (statements.isEmpty())
     {
@@ -232,7 +226,7 @@ void MainWindow::sliceClicked(int idx)
 void MainWindow::refreshStatements()
 {
     statements.categorizeUndefinedStatements(rules);
-    viewModel.initStatementModels();
+    viewModel.initTableModels();
     refreshChart();
     setDateInterval();
 
@@ -241,6 +235,8 @@ void MainWindow::refreshStatements()
         welcomeWidget->setHidden(true);
         ui->tabWidget->setHidden(false);
     }
+
+    ui->actionSave->setEnabled(statements.changed());
 }
 
 void MainWindow::refreshChart()
@@ -253,7 +249,7 @@ void MainWindow::refreshChart()
 void MainWindow::onDateRangeChanged(QDate start, QDate end)
 {
     statements.SetTimeInterval(start, end);
-    viewModel.initStatementModels();
+    viewModel.initTableModels();
     refreshChart();
 }
 
@@ -295,7 +291,9 @@ void MainWindow::on_actionAdd_rule_triggered()
     if (QDialog::Accepted != ard.exec())
         return;
 
-    rules.insertRule(ard.getRule());
+    Rule rule = ard.getRule();
+    rules.insertRule(rule);
+    statements.categorizeUndefinedStatements(rule);
 }
 
 void MainWindow::onTabChanged(int idx)
@@ -322,11 +320,6 @@ void MainWindow::on_actionSet_category_triggered()
         return;
 
     statements.setCategory(uncategorisedTableModel->row(index.row()).id, d.category());
-}
-
-void MainWindow::onModification()
-{
-    ui->actionSave->setEnabled(statements.changed());
 }
 
 void MainWindow::on_actionSave_triggered()

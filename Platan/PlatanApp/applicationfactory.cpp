@@ -17,7 +17,7 @@ void ApplicationFactory::construct(int &argc, char *argv[])
     project_db.reset(new SQLiteDB(getProjectDBSchema(), "pro"));
     statements.reset(new Statements(*project_db));
     rules.reset(new Rules(*project_db));
-    viewModel.reset(new ViewModel(*statements));
+    viewModel.reset(new ViewModel(*statements, *rules));
     projectDB.reset(new ProjectDB(*rules, *project_db));
 
     mainApplication.reset(new MainApplication(argc, argv, *applicationDB, *projectDB));
