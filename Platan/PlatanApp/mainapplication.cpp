@@ -30,6 +30,7 @@ using namespace std;
 
 MainApplication *MainApplication::instance(nullptr);
 
+
 MainApplication::MainApplication(int &argc, char *argv[], CountryMapper &countryMapper, SQLiteDB &project_db) :
     QApplication(argc, argv),
     settings("configs/platan.ini", QSettings::IniFormat),
@@ -42,13 +43,17 @@ MainApplication::MainApplication(int &argc, char *argv[], CountryMapper &country
 #ifdef PYTHON_API
     PythonAPI::init(this);
 #endif
-    projects_window.reset(new ProjectsWindow(this));
-    projects_window->show();
-
-    for(Country c : countryMapper.getAll())
-        countryCodes.insert(c.code, c.id);
 }
 
+
+void MainApplication::showProjectWindow()
+{
+    for(Country c : countryMapper.getAll())
+        countryCodes.insert(c.code, c.id);
+
+    projects_window.reset(new ProjectsWindow(this));
+    projects_window->show();
+}
 
 bool MainApplication::OpenProject(QString project_path)
 {

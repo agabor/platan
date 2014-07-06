@@ -21,6 +21,6 @@ int main(int argc, char *argv[])
 {
     ApplicationFactory appFactory;
     appFactory.construct(argc, argv);
-
+    appFactory.application().showProjectWindow();
     return appFactory.application().exec();
 }

@@ -12,10 +12,10 @@ void ApplicationFactory::construct(int &argc, char *argv[])
 {
     application_db.reset(new SQLiteDB(getApplicationDBSchema(), "app"));
     project_db.reset(new SQLiteDB(getProjectDBSchema(), "pro"));
-    countryMapper.reset(new CountryMapper(*application_db.get()));
-    statements.reset(new Statements(*project_db.get()));
-    rules.reset(new Rules(*project_db.get()));
-    viewModel.reset(new ViewModel(*statements.get()));
+    countryMapper.reset(new CountryMapper(*application_db));
+    statements.reset(new Statements(*project_db));
+    rules.reset(new Rules(*project_db));
+    viewModel.reset(new ViewModel(*statements));
 
     mainApplication.reset(new MainApplication(argc, argv, *countryMapper, *project_db));
 
@@ -25,7 +25,6 @@ void ApplicationFactory::construct(int &argc, char *argv[])
     pythonConsole.reset(new PythonIDE());
     pythonConsole->setMainWindow(mainWindow.get());
     PythonAPI::setPythonIDE(pythonConsole.get());
-
 }
 
 void ApplicationFactory::init()

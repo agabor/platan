@@ -65,14 +65,6 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
     connect(&statements,SIGNAL(dataChanged()), this, SLOT(onModification()));
     connect(&statements,SIGNAL(modification()), this, SLOT(onModification()));
 
-    QGroupBox *groupBox = new QGroupBox(ui->scrollArea);
-    ui->scrollArea->setWidget(groupBox);
-    auto layout = new QVBoxLayout(groupBox);
-    for(Rule rule : rules.getRules())
-    {
-        layout->addWidget(new RuleWidget(rule,ui->scrollArea));
-    }
-
     uncategorisedTableModel = nullptr;
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
     unclassifiedTable->addAction(ui->actionAdd_rule);
@@ -97,6 +89,14 @@ void MainWindow::init()
     viewModel.init();
     setDateInterval();
     setWindowTitle("Platan - " + statements.getOpenProjectPath());
+
+    QGroupBox *groupBox = new QGroupBox(ui->scrollArea);
+    ui->scrollArea->setWidget(groupBox);
+    auto layout = new QVBoxLayout(groupBox);
+    for(Rule rule : rules.getRules())
+    {
+        layout->addWidget(new RuleWidget(rule,ui->scrollArea));
+    }
 
     if (statements.isEmpty())
     {

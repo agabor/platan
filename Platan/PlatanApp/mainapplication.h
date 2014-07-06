@@ -52,6 +52,7 @@ public:
     static MainApplication *getInstance();
     void create(QString data_base_path, QString countryCode);
     void setMainWindow(std::shared_ptr<MainWindow> mainWindow);
+    void showProjectWindow();
 private:
     std::unique_ptr<ProjectsWindow> projects_window;
     QMap<QString, int> countryCodes;
