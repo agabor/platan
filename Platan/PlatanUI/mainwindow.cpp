@@ -85,6 +85,9 @@ void MainWindow::init()
     setDateInterval();
 
     ui->rulesView->setModel(viewModel.getRuleTable().get());
+    ui->rulesView->addAction(ui->actionChangeRule);
+    ui->rulesView->addAction(ui->actionDeleteRule);
+
     ui->statements_table->setModel(viewModel.getAllStatements().get());
 
     if (statements.isEmpty())
@@ -222,6 +225,7 @@ void MainWindow::refreshStatements()
 {
     statements.categorizeUndefinedStatements(rules);
     viewModel.initTableModels();
+    ui->rulesView->resizeColumnsToContents();
     refreshChart();
     setDateInterval();
 
@@ -294,6 +298,9 @@ void MainWindow::on_actionAdd_rule_triggered()
 
 void MainWindow::onTabChanged(int idx)
 {
+    ui->actionChangeRule->setEnabled(1 == idx);
+    ui->actionDeleteRule->setEnabled(1 == idx);
+
     int uc_idx = ui->tabWidget->getIndex(Statements::categoryList().at(0));
     if (uc_idx == -1)
     {
@@ -321,4 +328,12 @@ void MainWindow::on_actionSet_category_triggered()
 void MainWindow::on_actionSave_triggered()
 {
     statements.save();
+}
+
+void MainWindow::on_actionDeleteRule_triggered()
+{
+    QModelIndex index = ui->rulesView->currentIndex();
+    if (!index.isValid())
+        return;
+    rules.removeRuleAt(index.row());
 }

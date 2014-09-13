@@ -14,35 +14,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef SQLSELECT_H
-#define SQLSELECT_H
+#include "sqldelete.h"
 
-#include <QString>
-
-#include <vector>
-#include <initializer_list>
-
-#include "sqlquery.h"
-#include "sqlquerycomponents.h"
-
-class SQLSelect : public SQLQuery, public SQLWhere, public SQLFields
+SQLDelete::SQLDelete(QString table)
+    : table(table)
 {
-public:
-    SQLSelect(std::initializer_list<QString> tables);
-    inline void groupBy(QString field);
-    // SQLQuery interface
-    QString toString() const;
-private:
-    std::vector<QString> tables;
-    QString groupByClause() const;
-
-    QString group_by_field;
-};
-
-void SQLSelect::groupBy(QString field)
-{
-    group_by_field = field;
 }
 
-
-#endif // SQLSELECT_H
+QString SQLDelete::toString() const
+{
+    QString result("DELETE FROM %1 %2");
+    result = result.arg(table)
+            .arg(whereClause());
+    return result;
+}

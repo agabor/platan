@@ -16,11 +16,11 @@ SOURCES += \
     ../Platan/PlatanData/countrymapper.cpp \
     ../Platan/PlatanData/simpletransformations.cpp \
     ../Platan/PlatanData/transformation.cpp \
-    PlatanData/rules.cpp \
-    PlatanData/viewmodel.cpp \
-    PlatanData/applicationdb.cpp \
-    PlatanData/projectdb.cpp \
-    PlatanData/ruletablemodel.cpp
+    ../Platan/PlatanData/rules.cpp \
+    ../Platan/PlatanData/viewmodel.cpp \
+    ../Platan/PlatanData/applicationdb.cpp \
+    ../Platan/PlatanData/projectdb.cpp \
+    ../Platan/PlatanData/ruletablemodel.cpp
 
 HEADERS += \
     ../Platan/PlatanData/csvtablemodel.h \
@@ -41,11 +41,11 @@ HEADERS += \
     ../Platan/PlatanData/countrydata.h \
     ../Platan/PlatanData/country.h \
     ../Platan/PlatanData/countrymapper.h \
-    PlatanData/rules.h \
-    PlatanData/viewmodel.h \
-    PlatanData/applicationdb.h \
-    PlatanData/projectdb.h \
-    PlatanData/ruletablemodel.h
+    ../Platan/PlatanData/rules.h \
+    ../Platan/PlatanData/viewmodel.h \
+    ../Platan/PlatanData/applicationdb.h \
+    ../Platan/PlatanData/projectdb.h \
+    ../Platan/PlatanData/ruletablemodel.h
 
 unix:!symbian {
     maemo5 {

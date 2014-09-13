@@ -130,6 +130,8 @@
    <addaction name="actionPythonConsole"/>
    <addaction name="actionAdd_rule"/>
    <addaction name="actionSet_category"/>
+   <addaction name="actionChangeRule"/>
+   <addaction name="actionDeleteRule"/>
   </widget>
   <action name="actionHome">
    <property name="icon">
@@ -228,6 +230,30 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionChangeRule">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/preferences-system.png</normaloff>:/icons/icons/preferences-system.png</iconset>
+   </property>
+   <property name="text">
+    <string>Change rule</string>
+   </property>
+  </action>
+  <action name="actionDeleteRule">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/edit-delete.png</normaloff>:/icons/icons/edit-delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>Delete rule</string>
    </property>
   </action>
  </widget>

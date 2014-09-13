@@ -17,7 +17,7 @@ TableTransformer::TableTransformer()
     transformations.push_back(&Description);
 }
 
-QVector<Statement> TableTransformer::transform(QAbstractTableModel *model) const
+QVector<Statement> TableTransformer::transform(CSVTableModel *model) const
 {
     for (TransformationBase *tr : transformations)
         tr->clearErrorList();

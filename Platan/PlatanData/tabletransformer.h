@@ -7,6 +7,7 @@
 #include <QVector>
 
 class Statement;
+class CSVTableModel;
 
 enum class ColumnType
 {
@@ -25,7 +26,7 @@ class TableTransformer
 {
 public:
     TableTransformer();
-    QVector<Statement> transform(QAbstractTableModel *model) const;
+    QVector<Statement> transform(CSVTableModel *model) const;
     void setColumnType(int column, ColumnType type);
     void removeColumnType(int column);
     ColumnType getColumnType(int column) const;

@@ -18,7 +18,6 @@
 #include <QVector>
 
 #include <statements.h>
-#include <mainapplication.h>
 #include <statement.h>
 #include <rule.h>
 

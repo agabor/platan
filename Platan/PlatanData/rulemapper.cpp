@@ -20,6 +20,8 @@
 #include <rulemapper.h>
 #include <sqlupdate.h>
 #include <sqlinsert.h>
+#include <sqldelete.h>
+
 #include <tablestructure.h>
 #include <sqlitedb.h>
 #include <rule.h>
@@ -64,6 +66,7 @@ QVector<Rule> RuleMapper::getAll(int country) const
 TableStructure RuleMapper::getStructure()
 {
     TableStructure rules{"rules"};
+    rules.addField("Id", SQLType::DefaultPK());
     rules.addField("Column", SQLType::Integer());
     rules.addField("Value", SQLType::Text());
     rules.addField("Class", SQLType::Integer());
@@ -75,4 +78,10 @@ TableStructure RuleMapper::getStructureWithCountry()
     TableStructure rules = getStructure();
     rules.addField("Country", SQLType::Integer());
     return rules;
+}
+
+void RuleMapper::deleteRule(Rule rule)
+{
+    SQLDelete del("rules");
+    del.where("");
 }

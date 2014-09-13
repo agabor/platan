@@ -20,6 +20,8 @@
 #include <QAbstractTableModel>
 #include <QVector>
 
+#include <csvtablemodel.h>
+
 class TransformationBase
 {
 public:
@@ -37,7 +39,7 @@ public:
 
     virtual QString getErrorMessage() const = 0;
 
-    QString getData(int row, QAbstractTableModel *table) const;
+    QString getData(int row, CSVTableModel *table) const;
     
 protected:
     int column;
@@ -49,7 +51,7 @@ template <class Result>
 class Transformation : public TransformationBase
 {
 public:
-    Result apply(QAbstractTableModel *table, int row) const
+    Result apply(CSVTableModel *table, int row) const
     {
         return convert(getData(row, table));
     }

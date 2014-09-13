@@ -16,6 +16,7 @@ public:
     QVector<Rule> getAll(int country = -1) const;
     static TableStructure getStructure();
     static TableStructure getStructureWithCountry();
+    void deleteRule(Rule rule);
 private:
     SQLiteDB &data_base;
 };

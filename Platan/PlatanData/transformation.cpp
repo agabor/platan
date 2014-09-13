@@ -33,7 +33,7 @@ void TransformationBase::clearErrorList() const
     errorList.clear();
 }
 
-QString TransformationBase::getData(int row, QAbstractTableModel *table) const
+QString TransformationBase::getData(int row, CSVTableModel *table) const
 {
     QVariant Data = table->data(table->index(row, column), Qt::UserRole);
     QString data_string = Data.toString();

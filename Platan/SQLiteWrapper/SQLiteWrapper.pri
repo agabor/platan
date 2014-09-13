@@ -10,7 +10,8 @@ HEADERS += \
     ../Platan/SQLiteWrapper/tablestructure.h \
     ../Platan/SQLiteWrapper/databaseschema.h \
     ../Platan/SQLiteWrapper/sqltype.h \
-    SQLiteWrapper/sqlcondition.h
+    ../Platan/SQLiteWrapper/sqlcondition.h \
+    ../Platan/SQLiteWrapper/sqldelete.h
 
 SOURCES += \
     ../Platan/SQLiteWrapper/sqlitestatement.cpp \
@@ -23,5 +24,6 @@ SOURCES += \
     ../Platan/SQLiteWrapper/tablestructure_fromschema.cpp \
     ../Platan/SQLiteWrapper/databaseschema.cpp \
     ../Platan/SQLiteWrapper/sqltype.cpp \
-    SQLiteWrapper/sqlitedate.cpp \
-    SQLiteWrapper/sqlcondition.cpp
+    ../Platan/SQLiteWrapper/sqlitedate.cpp \
+    ../Platan/SQLiteWrapper/sqlcondition.cpp \
+    ../Platan/SQLiteWrapper/sqldelete.cpp

@@ -9,6 +9,7 @@
 #include <string>
 #include <csvreader.h>
 #include <QFile>
+#include <csvtablemodel.h>
 
 using namespace std;
 
@@ -124,13 +125,13 @@ void SQLiteTest::createSQLSelect3()
 void SQLiteTest::tableStructureEquality()
 {
     TableStructure ts1("table1");
-    ts1.addField("name1", SQLType::Integer);
-    ts1.addField("name2", SQLType::Numeric);
+    ts1.addField("name1", SQLType::Integer());
+    ts1.addField("name2", SQLType::Numeric());
     TableStructure ts2("table1");
-    ts2.addField("name1", SQLType::Integer);
-    ts2.addField("name2", SQLType::Numeric);
+    ts2.addField("name1", SQLType::Integer());
+    ts2.addField("name2", SQLType::Numeric());
     QCOMPARE(ts1, ts2);
-    ts2.addField("name3", SQLType::Numeric);
+    ts2.addField("name3", SQLType::Numeric());
     QVERIFY(ts1 != ts2);
 }
 
@@ -140,11 +141,11 @@ void SQLiteTest::parseSchema()
     TableStructure ts1 = TableStructure::fromSchema(schema);
     QVERIFY(ts1.isValid());
     TableStructure ts2("rules");
-    ts2.addField("Payee", SQLType::Integer);
-    ts2.addField("Type", SQLType::Integer);
-    ts2.addField("Column", SQLType::Integer);
-    ts2.addField("Value", SQLType::Text);
-    ts2.addField("Class", SQLType::Integer);
+    ts2.addField("Payee", SQLType::Integer());
+    ts2.addField("Type", SQLType::Integer());
+    ts2.addField("Column", SQLType::Integer());
+    ts2.addField("Value", SQLType::Text());
+    ts2.addField("Class", SQLType::Integer());
     QCOMPARE(ts1, ts2);
     QCOMPARE(schema, ts2.sqlCommand());
 }
@@ -155,9 +156,9 @@ void SQLiteTest::parseSchema2()
     TableStructure ts1 = TableStructure::fromSchema(schema);
     QVERIFY(ts1.isValid());
     TableStructure ts2("classes");
-    ts2.addField("En", SQLType::Text);
-    ts2.addField("De", SQLType::Text);
-    ts2.addField("Hu", SQLType::Text);
+    ts2.addField("En", SQLType::Text());
+    ts2.addField("De", SQLType::Text());
+    ts2.addField("Hu", SQLType::Text());
     ts2.addField("ID", SQLType::DefaultPK());
     QCOMPARE(ts1, ts2);
     QString sql1 = schema.replace(QRegularExpression("\\s+"), "");
