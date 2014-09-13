@@ -1,4 +1,6 @@
-#include <widgethelpers.h>
+#include <tablehelpers.h>
+
+#include <QTableView>
 
 void resizeToContents(QTableView *tableView)
 {

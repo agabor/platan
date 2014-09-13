@@ -24,7 +24,7 @@
 #include <csvpropertieswidget.h>
 #include <csvreader.h>
 #include <csvtablemodel.h>
-#include <widgethelpers.h>
+#include <tablehelpers.h>
 #include <QString>
 
 CSVConfigWidget::CSVConfigWidget(QWidget *parent) :

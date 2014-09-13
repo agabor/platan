@@ -18,7 +18,6 @@
 #include <QAction>
 #include <QMenu>
 #include <QMouseEvent>
-#include "addruledialog.h"
 
 QStatemenView::QStatemenView(QWidget *parent) :
     QTableView(parent)

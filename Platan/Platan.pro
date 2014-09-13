@@ -23,12 +23,14 @@ INCLUDEPATH += SQLiteWrapper \
                PlatanUI \
                PlatanWidgets \
                PlatanApp \
-               PythonAPI
+               PythonAPI \
+               PlatanCSV
 
 include(SQLiteWrapper/SQLiteWrapper.pri)
 include(PlatanData/PlatanData.pri)
 include(PlatanUI/PlatanUI.pri)
 include(PlatanWidgets/PlatanWidgets.pri)
+include(PlatanCSV/PlatanCSV.pri)
 include(PlatanApp/PlatanApp.pri)
 unix:include(PythonAPI/PythonAPI.pri)
 

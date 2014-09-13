@@ -6,7 +6,8 @@
 
 #include <QVector>
 
-class Statement;
+#include <statement.h>
+
 class CSVTableModel;
 
 enum class ColumnType

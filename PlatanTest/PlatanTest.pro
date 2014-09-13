@@ -7,12 +7,12 @@
 QT       += core testlib sql
 
 TARGET = tst_sqlite
-CONFIG   += console
+CONFIG   += console c++11
 CONFIG   -= app_bundle
 
 TEMPLATE = app
 
-QMAKE_CXXFLAGS += -std=c++11 -Werror=return-type -g -fprofile-arcs -ftest-coverage -O0
+QMAKE_CXXFLAGS += -Werror=return-type -g -fprofile-arcs -ftest-coverage -O0
 QMAKE_LFLAGS += -g -Wall -fprofile-arcs -ftest-coverage -O0
 
 LIBS += -lgcov

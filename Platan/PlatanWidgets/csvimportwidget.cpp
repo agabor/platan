@@ -19,9 +19,8 @@
 
 #include "csvimportwidget.h"
 #include <columnpropertieswidget.h>
-#include <widgethelpers.h>
+#include <tablehelpers.h>
 #include <csvtablemodel.h>
-#include <statement.h>
 
 CSVImportWidget::CSVImportWidget(QWidget *parent) :
     QWidget(parent)

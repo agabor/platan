@@ -1,34 +1,29 @@
 SOURCES += \
-    PlatanWidgets/qpiechart.cpp \
-    PlatanWidgets/pieslice.cpp \
-    PlatanWidgets/qlegenditem.cpp \
-    PlatanWidgets/qlegend.cpp \
-    PlatanWidgets/qstatemenview.cpp \
-    PlatanWidgets/daterangewidget.cpp \
-    PlatanWidgets/csvconfigwidget.cpp \
-    PlatanWidgets/csvpropertieswidget.cpp \
-    PlatanWidgets/csvimportwidget.cpp \
-    PlatanWidgets/columnpropertieswidget.cpp \
-    PlatanWidgets/rulewidget.cpp \
-    PlatanWidgets/colorpalette.cpp \
-    PlatanWidgets/widgethelpers.cpp \
-    PlatanWidgets/qlabeledcombobox.cpp \
-    PlatanWidgets/coloredsquare.cpp
+    ../Platan/PlatanWidgets/qpiechart.cpp \
+    ../Platan/PlatanWidgets/pieslice.cpp \
+    ../Platan/PlatanWidgets/qlegenditem.cpp \
+    ../Platan/PlatanWidgets/qlegend.cpp \
+    ../Platan/PlatanWidgets/qstatemenview.cpp \
+    ../Platan/PlatanWidgets/daterangewidget.cpp \
+    ../Platan/PlatanWidgets/csvimportwidget.cpp \
+    ../Platan/PlatanWidgets/columnpropertieswidget.cpp \
+    ../Platan/PlatanWidgets/rulewidget.cpp \
+    ../Platan/PlatanWidgets/colorpalette.cpp \
+    ../Platan/PlatanWidgets/qlabeledcombobox.cpp \
+    ../Platan/PlatanWidgets/coloredsquare.cpp
 
 HEADERS  += \
-    PlatanWidgets/qpiechart.h \
-    PlatanWidgets/pieslice.h \
-    PlatanWidgets/colorpalette.h \
-    PlatanWidgets/qlegenditem.h \
-    PlatanWidgets/qlegend.h \
-    PlatanWidgets/coloredsquare.h \
-    PlatanWidgets/qstatemenview.h \
-    PlatanWidgets/daterangewidget.h \
-    PlatanWidgets/widgethelpers.h \
-    PlatanWidgets/csvconfigwidget.h \
-    PlatanWidgets/csvpropertieswidget.h \
-    PlatanWidgets/csvimportwidget.h \
-    PlatanWidgets/columnpropertieswidget.h \
-    PlatanWidgets/rulewidget.h \
-    PlatanWidgets/qlabeledcombobox.h
+    ../Platan/PlatanWidgets/qpiechart.h \
+    ../Platan/PlatanWidgets/pieslice.h \
+    ../Platan/PlatanWidgets/colorpalette.h \
+    ../Platan/PlatanWidgets/qlegenditem.h \
+    ../Platan/PlatanWidgets/qlegend.h \
+    ../Platan/PlatanWidgets/coloredsquare.h \
+    ../Platan/PlatanWidgets/qstatemenview.h \
+    ../Platan/PlatanWidgets/daterangewidget.h \
+    ../Platan/PlatanWidgets/widgethelpers.h \
+    ../Platan/PlatanWidgets/csvimportwidget.h \
+    ../Platan/PlatanWidgets/columnpropertieswidget.h \
+    ../Platan/PlatanWidgets/rulewidget.h \
+    ../Platan/PlatanWidgets/qlabeledcombobox.h
 
