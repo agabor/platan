@@ -14,9 +14,11 @@ TEMPLATE = app
 CONFIG  += c++11
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    validation.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    validation.h
 
 FORMS    += mainwindow.ui
 
