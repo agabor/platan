@@ -29,7 +29,6 @@ public:
     int columnCount(const QModelIndex& parent) const;
     int columnCount() const;
     QVariant data(const QModelIndex& index, int role) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role);
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     void setHeaders(QStringList headers);
     void setUsageHeaders(QStringList headers);

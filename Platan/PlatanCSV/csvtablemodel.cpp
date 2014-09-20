@@ -72,12 +72,6 @@ QVariant CSVTableModel::data(const QModelIndex& index, int role) const
     }
 }
 
-bool CSVTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
-{
-    int row = index.row();
-    int column = index.column();
-    Rows[row][column] = value.toString();
-}
 
 QVariant CSVTableModel::columnHeaderData(int role, int section) const
 {

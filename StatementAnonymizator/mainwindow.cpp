@@ -24,7 +24,9 @@
 #include <QDebug>
 #include <tablehelpers.h>
 #include <QVector>
+#include <QSet>
 #include "validation.h"
+#include "substitutetablemodel.h"
 
 MainWindow::MainWindow(QString fileName) :
     QMainWindow(nullptr),
@@ -33,7 +35,7 @@ MainWindow::MainWindow(QString fileName) :
     ui->setupUi(this);
     ui->csvConfig->setReader(fileName, new CSVReader());
     ui->tableView->setVisible(false);
-    ui->tableView->setModel(ui->csvConfig->getTableModel());
+    ui->tableView->setModel(new SubstituteTableModel(ui->csvConfig->getTableModel()));
     ui->tableView->setWordWrap(true);
 }
 
@@ -48,17 +50,56 @@ void MainWindow::on_stepButton_clicked()
     ui->csvConfig->setVisible(false);
     ui->tableView->setVisible(true);
     auto model = ui->tableView->model();
+    AmountEreaser commaAmmount(',');
+    AmountEreaser dotAmmount('.');
+    NumberEreaser numberEreaser;
     QVector<Ereaser*> ereasers{new IBANEreaser, new BICEreaser,
                 new DateEreaser("YY","MM","DD",'.'),
                 new DateEreaser("YY","DD","MM",'.'),
                 new DateEreaser("DD","MM","YY",'.'),
                 new DateEreaser("MM","DD","YY",'.'),
+                &numberEreaser,
+                &commaAmmount,
+                &dotAmmount,
                               };
+    QSet<int> matchedColumns;
+    for (int c= 0; c < model->columnCount(); ++c)
+    {
+        for (auto ereaser : ereasers)
+        {
+            bool works = true;
+            for (int r= 0; r < model->rowCount(); ++r)
+            {
+                QString data = model->data(model->index(r,c)).toString();
+                if (!data.isEmpty() && !ereaser->exactMatch(data))
+                {
+                    works = false;
+                    break;
+                }
+            }
+            if (works)
+            {
+                for (int r= 0; r < model->rowCount(); ++r)
+                {
+                    QString data = model->data(model->index(r,c)).toString();
+                    model->setData(model->index(r,c), ereaser->getTag(data) +"!!");
+                }
+                matchedColumns.insert(c);
+                break;
+            }
+        }
+    }
+
+    ereasers.removeLast();
+    ereasers.removeLast();
+    ereasers.removeLast();
 
     for (int r= 0; r < model->rowCount(); ++r)
     {
         for (int c= 0; c < model->columnCount(); ++c)
         {
+            if (matchedColumns.contains(c))
+                continue;
             QString data = model->data(model->index(r,c)).toString();
             for (auto ereaser : ereasers)
                 ereaser->ReplaceAll(data);

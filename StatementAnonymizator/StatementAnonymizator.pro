@@ -15,10 +15,12 @@ CONFIG  += c++11
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    validation.cpp
+    validation.cpp \
+    substitutetablemodel.cpp
 
 HEADERS  += mainwindow.h \
-    validation.h
+    validation.h \
+    substitutetablemodel.h
 
 FORMS    += mainwindow.ui
 

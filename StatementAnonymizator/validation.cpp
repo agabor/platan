@@ -5,6 +5,8 @@
 #include <QString>
 #include <QStringList>
 #include <QRegExp>
+#include <QPair>
+#include <QVector>
 
 #include "validation.h"
 
@@ -40,29 +42,69 @@ Ereaser::Ereaser(QString tagName, QString regexp)
 
 void Ereaser::ReplaceAll(QString &data)
 {
-    int pos = 0;
     QStringList ibanlist;
-    while ((pos = regexp.indexIn(data, pos)) != -1)
+    for (auto match : getMatches(data))
     {
-        QString s = regexp.cap(0);
-        if (isValid(s))
-        {
-            ibanlist << s;
-            if(!codes.contains(s))
-                codes.insert(s, codes.count() + 1);
-        }
-        pos += regexp.matchedLength();
+        QString s = match.second;
+        ibanlist << s;
+        if(!codes.contains(s))
+            codes.insert(s, codes.count() + 1);
     }
     for (auto s : ibanlist)
     {
-        QString tag{"<%1 %2>"};
-        tag = tag.arg(tagName).arg(codes[s]);
-        data.replace(s, tag);
+        data.replace(s, getTag(s));
     }
 }
 
+bool Ereaser::exactMatch(const QString &str)
+{
+    if (regexp.exactMatch(str))
+    {
+        if(!codes.contains(str))
+            codes.insert(str, codes.count() + 1);
+        return true;
+    }
+    return false;
+}
+
+QString Ereaser::getTag(const QString &str) const
+{
+    QString tag{"<%1 %2>"};
+    return tag.arg(tagName).arg(codes[str]);
+}
+
+QPair<int, QString> Ereaser::nextValidMatch(const QString &data, int p) const
+{
+    int result = p;
+    QString s;
+    do
+    {
+        result= regexp.indexIn(data, result);
+        if (result == -1)
+            return QPair<int, QString>(-1, QString{});
+        s = regexp.cap(0);
+        if (isValid(s))
+            break;
+        result += regexp.matchedLength();
+    } while (result != -1);
+    return QPair<int, QString>(result, s);
+}
+
+QVector<QPair<int, QString> > Ereaser::getMatches(const QString &data) const
+{
+    QVector<QPair<int, QString> > result;
+    QPair<int, QString> match;
+    int pos = 0;
+    while ((match = nextValidMatch(data, pos)).first != -1)
+    {
+        result.push_back(match);
+        pos = match.first + match.second.length();
+    }
+    return result;
+}
+
 //from http://rosettacode.org/wiki/IBAN
-bool IBANEreaser::isValid(const QString &input)
+bool IBANEreaser::isValid(const QString &input) const
 {
     QString teststring( input ) ;
     //erase_all( teststring , " " ) ; //defined in boost/algorithm/string.hpp
@@ -104,7 +146,7 @@ bool IBANEreaser::isValid(const QString &input)
 }
 
 
-bool BICEreaser::isValid(const QString &input)
+bool BICEreaser::isValid(const QString &input) const
 {
     if (input.length() != 8 && input.length() != 11)
         return false;
@@ -126,7 +168,7 @@ const QString DateEreaser::YYYY{"((19|20)\\d{2})"};
 QString DateEreaser::getDateRegexp(QString tag1, QString tag2, QString tag3, QChar sep)
 {
     QString regexp;
-    QString sepStr = sep == '.' ? QString{"\\."} : QString{sep};
+    QString sepStr = QRegExp::escape(sep);
     for (auto s : {tag1, tag2, tag3})
     {
         if (!regexp.isEmpty())
@@ -152,4 +194,31 @@ DateEreaser::DateEreaser(QString tag1, QString tag2, QString tag3, QChar sep)
     : Ereaser(QString{"%1%4%2%4%3"}.arg(tag1).arg(tag2).arg(tag3).arg(sep),
               getDateRegexp(tag1, tag2, tag3, sep))
 {
+}
+
+
+AmountEreaser::AmountEreaser(QChar sep)
+    : Ereaser("Amount", QString{"\\-?(([1-9][0-9]+)|[0-9])(%1[0-9]+)?"}.arg(QRegExp::escape(sep))),
+      sep(sep)
+{
+
+}
+
+QString AmountEreaser::getTag(const QString &) const
+{
+    QString tag{"<%1 %2>"};
+    return tag.arg(tagName).arg(sep);
+}
+
+
+NumberEreaser::NumberEreaser()
+    : Ereaser("Number", "[0-9]{4,}")
+{
+
+}
+
+QString NumberEreaser::getTag(const QString &str) const
+{
+    QString tag{"<%1 %2 digits %3>"};
+    return tag.arg(tagName).arg(str.length()).arg(codes[str]);
 }
