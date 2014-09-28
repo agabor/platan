@@ -14,17 +14,20 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include <csvreader.h>
-#include <csvtablemodel.h>
 #include <QString>
 #include <QStringList>
 #include <QRegExp>
 #include <QDebug>
-#include <tablehelpers.h>
 #include <QVector>
 #include <QSet>
+#include <QVBoxLayout>
+
+#include <csvreader.h>
+#include <csvtablemodel.h>
+#include <tablehelpers.h>
+
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 #include "validation.h"
 #include "substitutetablemodel.h"
 
@@ -35,8 +38,11 @@ MainWindow::MainWindow(QString fileName) :
     ui->setupUi(this);
     ui->csvConfig->setReader(fileName, new CSVReader());
     ui->tableView->setVisible(false);
-    ui->tableView->setModel(new SubstituteTableModel(ui->csvConfig->getTableModel()));
     ui->tableView->setWordWrap(true);
+    ui->lbLines->setVisible(false);
+    ui->sbLines->setVisible(false);
+    //ui->spTools->setVisible(false);
+    ui->btDelete->setVisible(false);
 }
 
 MainWindow::~MainWindow()
@@ -47,9 +53,16 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_stepButton_clicked()
 {
+    ui->lbLines->setVisible(true);
+    ui->sbLines->setVisible(true);
+    //ui->spTools->setVisible(true);
+    ui->btDelete->setVisible(true);
+    model = new SubstituteTableModel(ui->csvConfig->getTableModel());
+    model->setHeaders(ui->csvConfig->getTableModel()->getHeaders());
+    ui->tableView->setModel(model);
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->csvConfig->setVisible(false);
     ui->tableView->setVisible(true);
-    auto model = ui->tableView->model();
     AmountEreaser commaAmmount(',');
     AmountEreaser dotAmmount('.');
     NumberEreaser numberEreaser;
@@ -82,7 +95,7 @@ void MainWindow::on_stepButton_clicked()
                 for (int r= 0; r < model->rowCount(); ++r)
                 {
                     QString data = model->data(model->index(r,c)).toString();
-                    model->setData(model->index(r,c), ereaser->getTag(data) +"!!");
+                    model->setData(model->index(r,c), ereaser->getTag(data));
                 }
                 matchedColumns.insert(c);
                 break;
@@ -93,6 +106,7 @@ void MainWindow::on_stepButton_clicked()
     ereasers.removeLast();
     ereasers.removeLast();
     ereasers.removeLast();
+    ereasers.push_back(new NumberEreaser);
 
     for (int r= 0; r < model->rowCount(); ++r)
     {
@@ -100,10 +114,9 @@ void MainWindow::on_stepButton_clicked()
         {
             if (matchedColumns.contains(c))
                 continue;
-            QString data = model->data(model->index(r,c)).toString();
+
             for (auto ereaser : ereasers)
-                ereaser->ReplaceAll(data);
-            model->setData(model->index(r,c), data);
+                model->ReplaceAll(*ereaser, r, c);
         }
     }
     model->layoutChanged();
@@ -111,4 +124,18 @@ void MainWindow::on_stepButton_clicked()
     for (auto ereaser : ereasers)
         delete ereaser;
 
+}
+void MainWindow::on_sbLines_valueChanged(int arg1)
+{
+    model->setStartSection(ui->sbLines->value());
+}
+
+void MainWindow::on_sbLines_editingFinished()
+{
+
+}
+
+void MainWindow::on_btDelete_clicked()
+{
+    model->deleteRow(ui->tableView->selectionModel()->currentIndex().row());
 }

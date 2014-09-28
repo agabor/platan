@@ -15,6 +15,7 @@
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <QVariant>
+#include <QColor>
 
 #include "substitutetablemodel.h"
 
@@ -26,44 +27,127 @@ SubstituteTableModel::SubstituteTableModel(QAbstractTableModel *source) :
         QStringList l;
         for (int c = 0; c < source->columnCount(); ++c)
             l.append(source->data(source->index(r,c)).toString());
-        QPair<QStringList,QVector<QPair<int, QString>>> data;
-        data.first = l;
-        Rows.append(data);
+        QVector<CellValue> data;
+        for (auto str : l)
+        {
+            QVector<PlaceHolder> empty;
+            data.push_back(CellValue{str, empty});
+        }
+        rows.append(data);
     }
+    startSection = 20;
 }
 
 int SubstituteTableModel::rowCount(const QModelIndex &) const
 {
-    return Rows.count();
+    return rows.count();
 }
 
 int SubstituteTableModel::columnCount(const QModelIndex &) const
 {
-    if (Rows.isEmpty())
+    if (rows.isEmpty())
         return 0;
-    return Rows[0].first.count();
+    return rows[0].count();
 }
+
+bool SubstituteTableModel::overlapsWithPrevious(PlaceHolder ph, const QVector<PlaceHolder> &data, int i) const
+{
+    for (int j = 0; j < i; ++j)
+    {
+        auto jph = data[j];
+        if (!(jph.end < ph.start
+            || ph.end < jph.start))
+            return true;
+    }
+    return false;
+}
+QStringList SubstituteTableModel::getHeaders() const
+{
+    return headers;
+}
+
+void SubstituteTableModel::setHeaders(const QStringList &value)
+{
+    headers = value;
+}
+int SubstituteTableModel::getStartSection() const
+{
+    return startSection;
+}
+
+void SubstituteTableModel::setStartSection(int value)
+{
+    startSection = value;
+    emit layoutChanged ();
+}
+
+void SubstituteTableModel::deleteRow(int idx)
+{
+    rows.remove(idx);
+    emit layoutChanged ();
+}
+
+
+
 
 QVariant SubstituteTableModel::data(const QModelIndex &index, int role) const
 {
-    if (role != Qt::DisplayRole)
-        return QVariant::Invalid;
-    return Rows[index.row()].first[index.column()];
+    if(role == Qt::DisplayRole)
+    {
+        auto &data = rows[index.row()][index.column()];
+        QString val{data.first};
+        int shift = 0;
+        for (int i = 0; i < data.second.size(); ++i)
+        {
+            PlaceHolder ph = data.second[i];
+            if(overlapsWithPrevious(ph, data.second, i))
+                continue;
+            int length = ph.end - ph.start + 1;
+            val.replace(ph.start + shift, length, ph.value);
+            shift += ph.value.length() - length;
+        }
+        return val;
+    } else if (role == Qt::BackgroundColorRole)
+    {
+        if (index.row() < startSection)
+            return QColor(230,255,230);
+    }
+    return QVariant::Invalid;
+}
+
+QVariant SubstituteTableModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if(role == Qt::DisplayRole)
+    {
+        if(orientation == Qt::Horizontal)
+        {
+            if (headers.length() > section)
+                return headers.at(section);
+        } else if(orientation == Qt::Vertical)
+        {
+            return section;
+        }
+    }
+    return QVariant::Invalid;
 }
 
 bool SubstituteTableModel::setData(const QModelIndex &index, const QVariant &value, int )
 {
     int row = index.row();
     int column = index.column();
-    Rows[row].first[column] = value.toString();
+    rows[row][column].first = value.toString();
     return true;
 }
 
 void SubstituteTableModel::ReplaceAll(Ereaser &ereaser, int row, int column)
 {
-    auto &val = Rows[row].first[column];
+    auto &val = rows[row][column].first;
     for(auto match : ereaser.getMatches(val))
     {
-        Rows[row].second.push_back(match);
+        PlaceHolder ph;
+        ph.start = match.first;
+        ph.end = match.first + match.second.length() - 1;
+        ph.value = ereaser.getTag(match.second);
+        rows[row][column].second.push_back(ph);
     }
 }

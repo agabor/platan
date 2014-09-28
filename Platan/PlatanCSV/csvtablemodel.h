@@ -31,6 +31,7 @@ public:
     QVariant data(const QModelIndex& index, int role) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     void setHeaders(QStringList headers);
+    QStringList getHeaders() const;
     void setUsageHeaders(QStringList headers);
     void addRow(QStringList row);
     void increaseColumnCountTo(int columnCount);

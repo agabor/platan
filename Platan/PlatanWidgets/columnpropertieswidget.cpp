@@ -19,6 +19,7 @@
 #include <QComboBox>
 #include <QMetaType>
 #include <QDebug>
+#include <QLabel>
 
 #include "columnpropertieswidget.h"
 #include <widgethelpers.h>

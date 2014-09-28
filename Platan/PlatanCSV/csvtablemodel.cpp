@@ -156,6 +156,11 @@ void CSVTableModel::setHeaders(QStringList headers)
     _columnCount = headers.length();
 }
 
+QStringList CSVTableModel::getHeaders() const
+{
+    return headers;
+}
+
 void CSVTableModel::setUsageHeaders(QStringList headers)
 {
     usageHeaders = headers;

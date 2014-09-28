@@ -16,16 +16,16 @@ class Ereaser
 {
 public:
     Ereaser(QString tagName, QString regexp);
-    void ReplaceAll(QString &data);
     bool exactMatch ( const QString & str );
-    virtual QString getTag ( const QString & str ) const;
-    QVector<QPair<int, QString>> getMatches(const QString &data) const;
+    virtual QString getTag ( const QString & str );
+    QVector<QPair<int, QString>> getMatches(const QString &data);
 protected:
     QPair<int, QString> nextValidMatch(const QString &data, int p) const;
     virtual bool isValid (const QString & ) const {return true;}
     const QRegExp regexp;
     const QString tagName;
     QMap<QString, int> codes;
+    int getCode(QString str);
 };
 
 class IBANEreaser : public Ereaser
@@ -61,7 +61,7 @@ class AmountEreaser :public Ereaser
 {
 public:
     AmountEreaser(QChar sep);
-    QString getTag ( const QString & ) const;
+    QString getTag ( const QString & );
 private:
     QChar sep;
 };
@@ -70,7 +70,7 @@ class NumberEreaser : public Ereaser
 {
 public:
     NumberEreaser();
-    QString getTag (const QString & str) const;
+    QString getTag (const QString & str);
 };
 
 #endif // VALIDATION_H

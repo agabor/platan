@@ -40,37 +40,17 @@ Ereaser::Ereaser(QString tagName, QString regexp)
 
 }
 
-void Ereaser::ReplaceAll(QString &data)
-{
-    QStringList ibanlist;
-    for (auto match : getMatches(data))
-    {
-        QString s = match.second;
-        ibanlist << s;
-        if(!codes.contains(s))
-            codes.insert(s, codes.count() + 1);
-    }
-    for (auto s : ibanlist)
-    {
-        data.replace(s, getTag(s));
-    }
-}
+
 
 bool Ereaser::exactMatch(const QString &str)
 {
-    if (regexp.exactMatch(str))
-    {
-        if(!codes.contains(str))
-            codes.insert(str, codes.count() + 1);
-        return true;
-    }
-    return false;
+    return regexp.exactMatch(str);
 }
 
-QString Ereaser::getTag(const QString &str) const
+QString Ereaser::getTag(const QString &str)
 {
     QString tag{"<%1 %2>"};
-    return tag.arg(tagName).arg(codes[str]);
+    return tag.arg(tagName).arg(getCode(str));
 }
 
 QPair<int, QString> Ereaser::nextValidMatch(const QString &data, int p) const
@@ -90,7 +70,14 @@ QPair<int, QString> Ereaser::nextValidMatch(const QString &data, int p) const
     return QPair<int, QString>(result, s);
 }
 
-QVector<QPair<int, QString> > Ereaser::getMatches(const QString &data) const
+int Ereaser::getCode(QString str)
+{
+    if(!codes.contains(str))
+        codes.insert(str, codes.count() + 1);
+    return codes[str];
+}
+
+QVector<QPair<int, QString> > Ereaser::getMatches(const QString &data)
 {
     QVector<QPair<int, QString> > result;
     QPair<int, QString> match;
@@ -204,7 +191,7 @@ AmountEreaser::AmountEreaser(QChar sep)
 
 }
 
-QString AmountEreaser::getTag(const QString &) const
+QString AmountEreaser::getTag(const QString &)
 {
     QString tag{"<%1 %2>"};
     return tag.arg(tagName).arg(sep);
@@ -217,8 +204,8 @@ NumberEreaser::NumberEreaser()
 
 }
 
-QString NumberEreaser::getTag(const QString &str) const
+QString NumberEreaser::getTag(const QString &str)
 {
     QString tag{"<%1 %2 digits %3>"};
-    return tag.arg(tagName).arg(str.length()).arg(codes[str]);
+    return tag.arg(tagName).arg(str.length()).arg(getCode(str));
 }

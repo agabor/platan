@@ -24,22 +24,44 @@
 #include <QPair>
 #include <validation.h>
 
+struct PlaceHolder
+{
+    int start;
+    int end;
+    QString value;
+};
+
 class SubstituteTableModel : public QAbstractTableModel
 {
     Q_OBJECT
+    template<typename T>
+    using Table = QVector<QVector<T>>;
+    using CellValue = QPair<QString,QVector<PlaceHolder>>;
 public:
     explicit SubstituteTableModel(QAbstractTableModel *source);
 
     // QAbstractItemModel interface
-    int rowCount(const QModelIndex &) const;
-    int columnCount(const QModelIndex &) const;
+    int rowCount(const QModelIndex &idx = QModelIndex()) const;
+    int columnCount(const QModelIndex &idx = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int);
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::DisplayRole);
 
     void ReplaceAll(Ereaser &ereaser, int row, int column);
 
+    bool overlapsWithPrevious(PlaceHolder ph, const QVector<PlaceHolder> &data, int i) const;
+    QStringList getHeaders() const;
+    void setHeaders(const QStringList &value);
+
+    int getStartSection() const;
+    void setStartSection(int value);
+    void deleteRow(int idx);
+
 private:
-    QVector<QPair<QStringList,QVector<QPair<int, QString>>>> Rows;
+    Table<CellValue> rows;
+    QStringList headers;
+    int startSection;
 };
 
 #endif // SUBSTITUTETABLEMODEL_H

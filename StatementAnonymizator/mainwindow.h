@@ -23,6 +23,8 @@ namespace Ui {
 class MainWindow;
 }
 
+class SubstituteTableModel;
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -34,8 +36,15 @@ public:
 private slots:
     void on_stepButton_clicked();
 
+    void on_sbLines_editingFinished();
+
+    void on_sbLines_valueChanged(int arg1);
+
+    void on_btDelete_clicked();
+
 private:
     Ui::MainWindow *ui;
+    SubstituteTableModel *model;
 };
 
 #endif // MAINWINDOW_H
