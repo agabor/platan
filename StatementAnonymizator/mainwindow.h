@@ -17,7 +17,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <memory>
+
 #include <QMainWindow>
+
+#include <csvreader.h>
 
 namespace Ui {
 class MainWindow;
@@ -33,6 +37,9 @@ public:
     explicit MainWindow(QString fileName);
     ~MainWindow();
 
+protected:
+    void keyPressEvent(QKeyEvent* event);
+
 private slots:
     void on_stepButton_clicked();
 
@@ -43,8 +50,16 @@ private slots:
     void on_btDelete_clicked();
 
 private:
+    void applyEreasers();
+    void showAnonymizedTable();
+    void printHeaders(QTextStream &out);
+    void printData(QTextStream &out);
+    bool saveOutput();
+
     Ui::MainWindow *ui;
     SubstituteTableModel *model;
+    int step;
+    std::shared_ptr<CSVReader> reader;
 };
 
 #endif // MAINWINDOW_H

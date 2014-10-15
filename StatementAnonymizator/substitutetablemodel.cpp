@@ -72,7 +72,10 @@ void SubstituteTableModel::setHeaders(const QStringList &value)
 }
 int SubstituteTableModel::getStartSection() const
 {
-    return startSection;
+    int rc = rowCount();
+    if (startSection < rc)
+        return startSection;
+    return rc-1;
 }
 
 void SubstituteTableModel::setStartSection(int value)
@@ -125,7 +128,7 @@ QVariant SubstituteTableModel::headerData(int section, Qt::Orientation orientati
                 return headers.at(section);
         } else if(orientation == Qt::Vertical)
         {
-            return section;
+            return section + 1;
         }
     }
     return QVariant::Invalid;

@@ -24,6 +24,9 @@ int main(int argc, char *argv[])
     QString fileName = QFileDialog::getOpenFileName(nullptr, QObject::tr("Open File"),
                                                     "",
                                                     QObject::tr("CSV (*.csv);;Text files (*.txt)"));
+    if (fileName.isEmpty())
+        return 0;
+
     MainWindow w(fileName);
     w.show();
 

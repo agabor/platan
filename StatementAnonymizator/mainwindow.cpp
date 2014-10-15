@@ -21,8 +21,9 @@
 #include <QVector>
 #include <QSet>
 #include <QVBoxLayout>
+#include <QKeyEvent>
+#include <QFileDialog>
 
-#include <csvreader.h>
 #include <csvtablemodel.h>
 #include <tablehelpers.h>
 
@@ -33,16 +34,17 @@
 
 MainWindow::MainWindow(QString fileName) :
     QMainWindow(nullptr),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    reader{new CSVReader}
 {
     ui->setupUi(this);
-    ui->csvConfig->setReader(fileName, new CSVReader());
+    ui->csvConfig->setReader(fileName, reader.get());
     ui->tableView->setVisible(false);
     ui->tableView->setWordWrap(true);
     ui->lbLines->setVisible(false);
     ui->sbLines->setVisible(false);
-    //ui->spTools->setVisible(false);
     ui->btDelete->setVisible(false);
+    step = 0;
 }
 
 MainWindow::~MainWindow()
@@ -50,19 +52,15 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-void MainWindow::on_stepButton_clicked()
+void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    ui->lbLines->setVisible(true);
-    ui->sbLines->setVisible(true);
-    //ui->spTools->setVisible(true);
-    ui->btDelete->setVisible(true);
-    model = new SubstituteTableModel(ui->csvConfig->getTableModel());
-    model->setHeaders(ui->csvConfig->getTableModel()->getHeaders());
-    ui->tableView->setModel(model);
-    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-    ui->csvConfig->setVisible(false);
-    ui->tableView->setVisible(true);
+    if (event->key() == Qt::Key_Delete)
+        on_btDelete_clicked();
+}
+
+
+void MainWindow::applyEreasers()
+{
     AmountEreaser commaAmmount(',');
     AmountEreaser dotAmmount('.');
     NumberEreaser numberEreaser;
@@ -95,7 +93,8 @@ void MainWindow::on_stepButton_clicked()
                 for (int r= 0; r < model->rowCount(); ++r)
                 {
                     QString data = model->data(model->index(r,c)).toString();
-                    model->setData(model->index(r,c), ereaser->getTag(data));
+                    if (!data.isEmpty())
+                        model->setData(model->index(r,c), ereaser->getTag(data));
                 }
                 matchedColumns.insert(c);
                 break;
@@ -123,8 +122,107 @@ void MainWindow::on_stepButton_clicked()
     resizeToContents(ui->tableView);
     for (auto ereaser : ereasers)
         delete ereaser;
+}
+
+void MainWindow::showAnonymizedTable()
+{
+    ui->lbLines->setVisible(true);
+    ui->sbLines->setVisible(true);
+    ui->btDelete->setVisible(true);
+    model = new SubstituteTableModel(ui->csvConfig->getTableModel());
+    model->setHeaders(ui->csvConfig->getTableModel()->getHeaders());
+    ui->tableView->setModel(model);
+    ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->csvConfig->setVisible(false);
+    ui->tableView->setVisible(true);
+    applyEreasers();
+}
+
+void MainWindow::printHeaders(QTextStream &out)
+{
+    QStringList headers = model->getHeaders();
+    char q = reader->quote();
+    if (!headers.isEmpty())
+    {
+        for(int i=0; i<headers.size()-1;++i)
+        {
+            if (q != 0)
+                out << q;
+            out << headers[i];
+            if (q != 0)
+                out << q;
+            out << reader->separator();
+        }
+        if (q != 0)
+            out << q;
+        out << headers[headers.size()-1];
+        if (q != 0)
+            out << q;
+        out << endl;
+    }
+}
+
+void MainWindow::printData(QTextStream &out)
+{
+    char q = reader->quote();
+    for (int r = 0; r < model->getStartSection(); ++r)
+    {
+        for (int c = 0; c < model->columnCount()-1; ++c)
+        {
+            if (q != 0)
+                out << q;
+            QString data = model->data(model->index(r,c)).toString();
+            out << data;
+            if (q != 0)
+                out << q;
+            out << reader->separator();
+        }
+        if (q != 0)
+            out << q;
+        QString data = model->data(model->index(r,model->columnCount()-1)).toString();
+        out << data;
+        if (q != 0)
+            out << q;
+        out << endl;
+    }
+}
+
+bool MainWindow::saveOutput()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Set output file"));
+    if (fileName.isEmpty())
+        return false;
+
+    QFile file(fileName);
+    if (!file.open(QFile::WriteOnly | QFile::Text))
+        return false;
+
+    QTextStream out(&file);
+    printHeaders(out);
+    printData(out);
+    file.close();
+
+    return true;
+}
+
+void MainWindow::on_stepButton_clicked()
+{
+    switch (step) {
+    case 0:
+        showAnonymizedTable();
+        break;
+    case 1:
+        if (saveOutput())
+            close();
+        else
+            return;
+
+        break;
+    }
+    ++step;
 
 }
+
 void MainWindow::on_sbLines_valueChanged(int arg1)
 {
     model->setStartSection(ui->sbLines->value());
@@ -137,5 +235,7 @@ void MainWindow::on_sbLines_editingFinished()
 
 void MainWindow::on_btDelete_clicked()
 {
-    model->deleteRow(ui->tableView->selectionModel()->currentIndex().row());
+    QModelIndex idx = ui->tableView->selectionModel()->currentIndex();
+    if (idx.isValid())
+        model->deleteRow(idx.row());
 }
