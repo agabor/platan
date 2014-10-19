@@ -21,14 +21,10 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QString fileName = QFileDialog::getOpenFileName(nullptr, QObject::tr("Select file for anonyimization"),
-                                                    "",
-                                                    QObject::tr("CSV (*.csv *.txt)"));
-    if (fileName.isEmpty())
-        return 0;
 
-    MainWindow w(fileName);
+    MainWindow w;
     w.show();
+
 
     return a.exec();
 }

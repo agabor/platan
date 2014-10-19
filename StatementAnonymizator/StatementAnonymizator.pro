@@ -27,3 +27,6 @@ FORMS    += mainwindow.ui
 INCLUDEPATH += ../Platan/PlatanCSV
 
 include(../Platan/PlatanCSV/PlatanCSV.pri)
+
+RESOURCES += \
+    icons.qrc

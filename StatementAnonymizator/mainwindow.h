@@ -35,10 +35,11 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QString fileName);
+    explicit MainWindow();
     ~MainWindow();
 protected:
     void keyPressEvent(QKeyEvent* event);
+    void showEvent(QShowEvent*);
 
 private slots:
     void on_stepButton_clicked();

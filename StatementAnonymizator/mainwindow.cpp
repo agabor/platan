@@ -36,14 +36,13 @@
 
 using namespace std;
 
-MainWindow::MainWindow(QString fileName) :
+MainWindow::MainWindow() :
     QMainWindow(nullptr),
     ui(new Ui::MainWindow),
     reader{new CSVReader}
 {
     reader->setMaxium(100);
     ui->setupUi(this);
-    ui->csvConfig->setReader(fileName, reader.get());
     ui->tableView->setVisible(false);
     ui->tableView->setWordWrap(true);
     ui->lbLines->setVisible(false);
@@ -64,6 +63,17 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Delete)
         on_btDelete_clicked();
+}
+
+void MainWindow::showEvent(QShowEvent *)
+{
+    QString fileName = QFileDialog::getOpenFileName(this, QObject::tr("Select file for anonyimization"),
+                                                    "",
+                                                    QObject::tr("CSV (*.csv *.txt)"));
+    if (fileName.isEmpty())
+        close();
+
+    ui->csvConfig->setReader(fileName, reader.get());
 }
 
 bool MainWindow::checkColumn(int c, Ereaser *ereaser)
@@ -231,9 +241,13 @@ void MainWindow::printData(QTextStream &out)
 
 bool MainWindow::saveOutput()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Set output file"));
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Set output file"),"",
+                                                    QObject::tr("CSV (*.csv *.txt)"));
     if (fileName.isEmpty())
         return false;
+
+    if (!fileName.toLower().endsWith(".csv") && !fileName.toLower().endsWith(".txt"))
+        fileName += ".csv";
 
     QFile file(fileName);
     if (!file.open(QFile::WriteOnly | QFile::Text))

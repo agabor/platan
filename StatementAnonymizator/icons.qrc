@@ -1,1 +1,6 @@
-<RCC/>
+<RCC>
+    <qresource prefix="/">
+        <file>icons/edit-delete.png</file>
+        <file>icons/anonym.png</file>
+    </qresource>
+</RCC>
