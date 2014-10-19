@@ -36,10 +36,18 @@ public:
     inline bool headersInFirstRow() const;
     QStringList removeQuotes(QStringList string_list);
     QString removeQuotes(QString str);
+    void setMaxium(int max)
+    {
+        maximum = max;
+        maximumIsSet = true;
+    }
+
 private:
     char _separator;
     char _quote;
     bool _headersInFirstRow;
+    bool maximumIsSet = false;
+    int maximum;
 };
 
 char CSVReader::separator() const

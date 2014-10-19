@@ -20,8 +20,9 @@ public:
     virtual QString getTag ( const QString & str );
     QVector<QPair<int, QString>> getMatches(const QString &data);
 protected:
-    QPair<int, QString> nextValidMatch(const QString &data, int p) const;
+    QPair<int, QString> nextValidMatch(const QString &data, int position) const;
     virtual bool isValid (const QString & ) const {return true;}
+    virtual bool isValid (const QString &s, int position, int length) const;
     const QRegExp regexp;
     const QString tagName;
     QMap<QString, int> codes;
@@ -43,6 +44,7 @@ public:
     BICEreaser();
 protected:
     bool isValid (const QString &input ) const;
+    bool isValid (const QString &s, int position, int length) const;
 };
 
 class DateEreaser : public Ereaser

@@ -14,6 +14,9 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <tuple>
+#include <algorithm>
+
 #include <QVariant>
 #include <QColor>
 
@@ -50,11 +53,10 @@ int SubstituteTableModel::columnCount(const QModelIndex &) const
     return rows[0].count();
 }
 
-bool SubstituteTableModel::overlapsWithPrevious(PlaceHolder ph, const QVector<PlaceHolder> &data, int i) const
+bool SubstituteTableModel::overlaps(PlaceHolder ph, const QVector<PlaceHolder> &data) const
 {
-    for (int j = 0; j < i; ++j)
+    for (auto jph : data)
     {
-        auto jph = data[j];
         if (!(jph.end < ph.start
             || ph.end < jph.start))
             return true;
@@ -91,25 +93,32 @@ void SubstituteTableModel::deleteRow(int idx)
 }
 
 
-
+bool less(const PlaceHolder &p1, const PlaceHolder &p2)
+{
+    return p1.start < p2.start;
+}
 
 QVariant SubstituteTableModel::data(const QModelIndex &index, int role) const
 {
     if(role == Qt::DisplayRole)
     {
-        auto &data = rows[index.row()][index.column()];
-        QString val{data.first};
-        int shift = 0;
-        for (int i = 0; i < data.second.size(); ++i)
+        QString val;
+        QVector<PlaceHolder> placeholders;
+        std::tie(val, placeholders) = rows[index.row()][index.column()];
+        if (placeholders.isEmpty())
+            return val;
+
+        QString list;
+
+        int lastEnd = 0;
+        for (auto ph : placeholders)
         {
-            PlaceHolder ph = data.second[i];
-            if(overlapsWithPrevious(ph, data.second, i))
-                continue;
-            int length = ph.end - ph.start + 1;
-            val.replace(ph.start + shift, length, ph.value);
-            shift += ph.value.length() - length;
+            list += val.mid(lastEnd, ph.start-lastEnd);
+            list += ph.value;
+            lastEnd = ph.end + 1;
         }
-        return val;
+        list += val.mid(lastEnd);
+        return list;
     } else if (role == Qt::BackgroundColorRole)
     {
         if (index.row() < startSection)
@@ -138,19 +147,23 @@ bool SubstituteTableModel::setData(const QModelIndex &index, const QVariant &val
 {
     int row = index.row();
     int column = index.column();
-    rows[row][column].first = value.toString();
+    std::get<0>(rows[row][column]) = value.toString();
     return true;
 }
 
 void SubstituteTableModel::ReplaceAll(Ereaser &ereaser, int row, int column)
 {
-    auto &val = rows[row][column].first;
+    auto &val = std::get<0>(rows[row][column]);
+    auto &phs = std::get<1>(rows[row][column]);
     for(auto match : ereaser.getMatches(val))
     {
         PlaceHolder ph;
         ph.start = match.first;
         ph.end = match.first + match.second.length() - 1;
         ph.value = ereaser.getTag(match.second);
-        rows[row][column].second.push_back(ph);
+        if (!overlaps(ph, phs))
+            phs.push_back(ph);
+
     }
+    std::sort(phs.begin(), phs.end(), less);
 }

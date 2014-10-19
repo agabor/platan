@@ -58,7 +58,8 @@ CSVTableModel *CSVReader::read(QTextStream &input)
     QString line;
     int col_num = -1;
     input.reset();
-    while (!input.atEnd())
+    int i = 0;
+    while (!input.atEnd() && (!maximumIsSet || i < maximum))
     {
         line = input.readLine();
         QStringList string_list = line.split(_separator);
@@ -82,6 +83,7 @@ CSVTableModel *CSVReader::read(QTextStream &input)
 
         }
         result->addRow(string_list);
+        ++i;
     }
     return result;
 }

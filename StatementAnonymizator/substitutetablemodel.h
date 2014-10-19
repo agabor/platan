@@ -17,6 +17,8 @@
 #ifndef SUBSTITUTETABLEMODEL_H
 #define SUBSTITUTETABLEMODEL_H
 
+#include <tuple>
+
 #include <QAbstractTableModel>
 #include <QVector>
 #include <QStringList>
@@ -36,7 +38,7 @@ class SubstituteTableModel : public QAbstractTableModel
     Q_OBJECT
     template<typename T>
     using Table = QVector<QVector<T>>;
-    using CellValue = QPair<QString,QVector<PlaceHolder>>;
+    using CellValue = std::tuple<QString,QVector<PlaceHolder>>;
 public:
     explicit SubstituteTableModel(QAbstractTableModel *source);
 
@@ -50,7 +52,7 @@ public:
 
     void ReplaceAll(Ereaser &ereaser, int row, int column);
 
-    bool overlapsWithPrevious(PlaceHolder ph, const QVector<PlaceHolder> &data, int i) const;
+    bool overlaps(PlaceHolder ph, const QVector<PlaceHolder> &data) const;
     QStringList getHeaders() const;
     void setHeaders(const QStringList &value);
 

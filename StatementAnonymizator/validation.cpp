@@ -44,7 +44,7 @@ Ereaser::Ereaser(QString tagName, QString regexp)
 
 bool Ereaser::exactMatch(const QString &str)
 {
-    return regexp.exactMatch(str);
+    return regexp.exactMatch(str) && isValid(str);
 }
 
 QString Ereaser::getTag(const QString &str)
@@ -53,21 +53,25 @@ QString Ereaser::getTag(const QString &str)
     return tag.arg(tagName).arg(getCode(str));
 }
 
-QPair<int, QString> Ereaser::nextValidMatch(const QString &data, int p) const
+QPair<int, QString> Ereaser::nextValidMatch(const QString &data, int position) const
 {
-    int result = p;
     QString s;
     do
     {
-        result= regexp.indexIn(data, result);
-        if (result == -1)
+        position= regexp.indexIn(data, position);
+        if (position == -1)
             return QPair<int, QString>(-1, QString{});
         s = regexp.cap(0);
-        if (isValid(s))
+        if (isValid(data, position, s.length()))
             break;
-        result += regexp.matchedLength();
-    } while (result != -1);
-    return QPair<int, QString>(result, s);
+        position += regexp.matchedLength();
+    } while (position != -1);
+    return QPair<int, QString>(position, s);
+}
+
+bool Ereaser::isValid(const QString &s, int position, int length) const
+{
+    return isValid(s.mid(position, length));
 }
 
 int Ereaser::getCode(QString str)
@@ -140,6 +144,15 @@ bool BICEreaser::isValid(const QString &input) const
     return countrycodes.keys().contains(input.mid(4, 2));
 }
 
+bool BICEreaser::isValid(const QString &s, int position, int length) const
+{
+    if (position != 0 && s.at(position-1).isLetterOrNumber())
+        return false;
+    if (position + length != s.length() && s.at(position + length).isLetterOrNumber())
+        return false;
+    return isValid(s.mid(position, length));
+}
+
 
 BICEreaser::BICEreaser()
     : Ereaser("BIC",
@@ -185,7 +198,7 @@ DateEreaser::DateEreaser(QString tag1, QString tag2, QString tag3, QChar sep)
 
 
 AmountEreaser::AmountEreaser(QChar sep)
-    : Ereaser("Amount", QString{"\\-?(([1-9][0-9]+)|[0-9])(%1[0-9]+)?"}.arg(QRegExp::escape(sep))),
+    : Ereaser("Amount", QString{"\\-?(([1-9][0-9\\s]+)|[0-9])(%1[0-9\\s]+)"}.arg(QRegExp::escape(sep))),
       sep(sep)
 {
 

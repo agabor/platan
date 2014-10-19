@@ -28,6 +28,7 @@ class MainWindow;
 }
 
 class SubstituteTableModel;
+class Ereaser;
 
 class MainWindow : public QMainWindow
 {
@@ -36,7 +37,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QString fileName);
     ~MainWindow();
-
 protected:
     void keyPressEvent(QKeyEvent* event);
 
@@ -55,6 +55,9 @@ private:
     void printHeaders(QTextStream &out);
     void printData(QTextStream &out);
     bool saveOutput();
+    bool checkColumn(int c, Ereaser* ereaser);
+    bool ereaseColumn(int c, Ereaser* ereaser);
+    bool tryToMatchColumn(int c, QVector<std::shared_ptr<Ereaser>> ereasers);
 
     Ui::MainWindow *ui;
     SubstituteTableModel *model;

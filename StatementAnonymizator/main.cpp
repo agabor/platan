@@ -21,9 +21,9 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    QString fileName = QFileDialog::getOpenFileName(nullptr, QObject::tr("Open File"),
+    QString fileName = QFileDialog::getOpenFileName(nullptr, QObject::tr("Select file for anonyimization"),
                                                     "",
-                                                    QObject::tr("CSV (*.csv);;Text files (*.txt)"));
+                                                    QObject::tr("CSV (*.csv *.txt)"));
     if (fileName.isEmpty())
         return 0;
 

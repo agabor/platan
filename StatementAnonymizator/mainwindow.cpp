@@ -14,6 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
+#include <memory>
+
 #include <QString>
 #include <QStringList>
 #include <QRegExp>
@@ -32,11 +34,14 @@
 #include "validation.h"
 #include "substitutetablemodel.h"
 
+using namespace std;
+
 MainWindow::MainWindow(QString fileName) :
     QMainWindow(nullptr),
     ui(new Ui::MainWindow),
     reader{new CSVReader}
 {
+    reader->setMaxium(100);
     ui->setupUi(this);
     ui->csvConfig->setReader(fileName, reader.get());
     ui->tableView->setVisible(false);
@@ -44,6 +49,7 @@ MainWindow::MainWindow(QString fileName) :
     ui->lbLines->setVisible(false);
     ui->sbLines->setVisible(false);
     ui->btDelete->setVisible(false);
+    ui->progressBar->setVisible(false);
     step = 0;
 }
 
@@ -52,90 +58,126 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+
+
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Delete)
         on_btDelete_clicked();
 }
 
+bool MainWindow::checkColumn(int c, Ereaser *ereaser)
+{
+    for (int r= 0; r < model->rowCount(); ++r)
+    {
+        QString data = model->data(model->index(r,c)).toString();
+        if (!data.isEmpty() && !ereaser->exactMatch(data))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool MainWindow::ereaseColumn(int c, Ereaser *ereaser)
+{
+    for (int r= 0; r < model->rowCount(); ++r)
+    {
+        QString data = model->data(model->index(r,c)).toString();
+        if (!data.isEmpty())
+            model->setData(model->index(r,c), ereaser->getTag(data));
+    }
+}
+
+bool MainWindow::tryToMatchColumn(int c, QVector<shared_ptr<Ereaser>> ereasers)
+{
+    for (auto ereaser : ereasers)
+    {
+        if (checkColumn(c, ereaser.get()))
+        {
+            ereaseColumn(c, ereaser.get());
+            return true;
+        }
+    }
+    return false;
+}
+
+QVector<shared_ptr<Ereaser>> getEreasers()
+{
+    QVector<shared_ptr<Ereaser>> ereasers {
+        make_shared<IBANEreaser>(),
+        make_shared<BICEreaser>()};
+    for(QString year : {"YYYY", "YY"})
+    {
+        for (QChar sep : {'.', '-'})
+        {
+            ereasers.push_back(make_shared<DateEreaser>(year, "MM", "DD", sep));
+            ereasers.push_back(make_shared<DateEreaser>(year, "DD", "MM", sep));
+            ereasers.push_back(make_shared<DateEreaser>("MM", "DD", year, sep));
+            ereasers.push_back(make_shared<DateEreaser>("DD", "MM", year, sep));
+        }
+    }
+    ereasers.push_back(make_shared<NumberEreaser>());
+    ereasers.push_back(make_shared<AmountEreaser>(','));
+    ereasers.push_back(make_shared<AmountEreaser>('.'));
+
+    return ereasers;
+}
 
 void MainWindow::applyEreasers()
 {
-    AmountEreaser commaAmmount(',');
-    AmountEreaser dotAmmount('.');
-    NumberEreaser numberEreaser;
-    QVector<Ereaser*> ereasers{new IBANEreaser, new BICEreaser,
-                new DateEreaser("YY","MM","DD",'.'),
-                new DateEreaser("YY","DD","MM",'.'),
-                new DateEreaser("DD","MM","YY",'.'),
-                new DateEreaser("MM","DD","YY",'.'),
-                &numberEreaser,
-                &commaAmmount,
-                &dotAmmount,
-                              };
+    ui->progressBar->setVisible(true);
+    auto ereasers = getEreasers();
+
     QSet<int> matchedColumns;
-    for (int c= 0; c < model->columnCount(); ++c)
+    int columnCount = model->columnCount();
+    int rowCount = model->rowCount();
+    for (int c = 0; c < columnCount; ++c)
     {
-        for (auto ereaser : ereasers)
-        {
-            bool works = true;
-            for (int r= 0; r < model->rowCount(); ++r)
-            {
-                QString data = model->data(model->index(r,c)).toString();
-                if (!data.isEmpty() && !ereaser->exactMatch(data))
-                {
-                    works = false;
-                    break;
-                }
-            }
-            if (works)
-            {
-                for (int r= 0; r < model->rowCount(); ++r)
-                {
-                    QString data = model->data(model->index(r,c)).toString();
-                    if (!data.isEmpty())
-                        model->setData(model->index(r,c), ereaser->getTag(data));
-                }
-                matchedColumns.insert(c);
-                break;
-            }
-        }
+        if (tryToMatchColumn(c, ereasers))
+            matchedColumns.insert(c);
+        int p = ((c+1.0f)/(columnCount * 2.0f)) * 100;
+        qDebug() << p;
+        ui->progressBar->setValue(p);
+        QCoreApplication::processEvents();
     }
 
-    ereasers.removeLast();
-    ereasers.removeLast();
-    ereasers.removeLast();
-    ereasers.push_back(new NumberEreaser);
+    for (int i = 0; i < 2; ++i)
+        ereasers.removeLast();
 
-    for (int r= 0; r < model->rowCount(); ++r)
+    for (int c= 0; c < columnCount; ++c)
     {
-        for (int c= 0; c < model->columnCount(); ++c)
+        if (!matchedColumns.contains(c))
         {
-            if (matchedColumns.contains(c))
-                continue;
+            for (int r= 0; r < rowCount; ++r)
+            {
 
-            for (auto ereaser : ereasers)
-                model->ReplaceAll(*ereaser, r, c);
+                for (auto ereaser : ereasers)
+                    model->ReplaceAll(*ereaser, r, c);
+            }
         }
+        int p = 50 + (((c+1.0f))/(columnCount)) * 50;
+        qDebug() << p;
+        ui->progressBar->setValue(p);
+        QCoreApplication::processEvents();
     }
+    ui->progressBar->setVisible(false);
     model->layoutChanged();
     resizeToContents(ui->tableView);
-    for (auto ereaser : ereasers)
-        delete ereaser;
 }
 
 void MainWindow::showAnonymizedTable()
 {
-    ui->lbLines->setVisible(true);
-    ui->sbLines->setVisible(true);
-    ui->btDelete->setVisible(true);
     model = new SubstituteTableModel(ui->csvConfig->getTableModel());
     model->setHeaders(ui->csvConfig->getTableModel()->getHeaders());
     ui->tableView->setModel(model);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+    applyEreasers();
+    ui->lbLines->setVisible(true);
+    ui->sbLines->setVisible(true);
+    ui->btDelete->setVisible(true);
     ui->csvConfig->setVisible(false);
     ui->tableView->setVisible(true);
-    applyEreasers();
 }
 
 void MainWindow::printHeaders(QTextStream &out)
