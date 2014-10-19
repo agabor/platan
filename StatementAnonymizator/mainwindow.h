@@ -37,9 +37,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow();
     ~MainWindow();
+    void openFile();
 protected:
     void keyPressEvent(QKeyEvent* event);
-    void showEvent(QShowEvent*);
 
 private slots:
     void on_stepButton_clicked();

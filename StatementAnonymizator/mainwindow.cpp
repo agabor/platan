@@ -65,13 +65,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         on_btDelete_clicked();
 }
 
-void MainWindow::showEvent(QShowEvent *)
+void MainWindow::openFile()
 {
     QString fileName = QFileDialog::getOpenFileName(this, QObject::tr("Select file for anonyimization"),
                                                     "",
                                                     QObject::tr("CSV (*.csv *.txt)"));
     if (fileName.isEmpty())
+    {
         close();
+        return;
+    }
 
     ui->csvConfig->setReader(fileName, reader.get());
 }
