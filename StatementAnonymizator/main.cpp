@@ -24,8 +24,8 @@ int main(int argc, char *argv[])
 
     MainWindow w;
     w.show();
-    w.openFile();
 
+    a.setQuitOnLastWindowClosed(true);
 
     return a.exec();
 }

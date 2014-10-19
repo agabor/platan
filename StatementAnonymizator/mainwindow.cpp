@@ -25,6 +25,8 @@
 #include <QVBoxLayout>
 #include <QKeyEvent>
 #include <QFileDialog>
+#include <QApplication>
+#include <QMessageBox>
 
 #include <csvtablemodel.h>
 #include <tablehelpers.h>
@@ -36,6 +38,18 @@
 
 using namespace std;
 
+void MainWindow::showWelcomeScreen()
+{
+    ui->welcomeWidget->setVisible(true);
+    ui->stepButton->setVisible(false);
+    ui->btBack->setVisible(false);
+    ui->csvConfig->setVisible(false);
+    ui->exportWidget->setVisible(false);
+    ui->tableView->setWordWrap(true);
+    ui->progressBar->setVisible(false);
+    step = 0;
+}
+
 MainWindow::MainWindow() :
     QMainWindow(nullptr),
     ui(new Ui::MainWindow),
@@ -43,13 +57,7 @@ MainWindow::MainWindow() :
 {
     reader->setMaxium(100);
     ui->setupUi(this);
-    ui->tableView->setVisible(false);
-    ui->tableView->setWordWrap(true);
-    ui->lbLines->setVisible(false);
-    ui->sbLines->setVisible(false);
-    ui->btDelete->setVisible(false);
-    ui->progressBar->setVisible(false);
-    step = 0;
+    showWelcomeScreen();
 }
 
 MainWindow::~MainWindow()
@@ -65,18 +73,17 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         on_btDelete_clicked();
 }
 
-void MainWindow::openFile()
+bool MainWindow::openFile()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, QObject::tr("Select file for anonyimization"),
+    fileName = QFileDialog::getOpenFileName(this, QObject::tr("Select file for anonyimization"),
                                                     "",
                                                     QObject::tr("CSV (*.csv *.txt)"));
     if (fileName.isEmpty())
     {
-        close();
-        return;
+        return false;
     }
 
-    ui->csvConfig->setReader(fileName, reader.get());
+    return true;
 }
 
 bool MainWindow::checkColumn(int c, Ereaser *ereaser)
@@ -186,11 +193,10 @@ void MainWindow::showAnonymizedTable()
     ui->tableView->setModel(model);
     ui->tableView->setSelectionBehavior(QAbstractItemView::SelectRows);
     applyEreasers();
-    ui->lbLines->setVisible(true);
-    ui->sbLines->setVisible(true);
-    ui->btDelete->setVisible(true);
+    ui->exportWidget->setVisible(true);
     ui->csvConfig->setVisible(false);
-    ui->tableView->setVisible(true);
+    ui->btBack->setVisible(true);
+
 }
 
 void MainWindow::printHeaders(QTextStream &out)
@@ -267,12 +273,21 @@ bool MainWindow::saveOutput()
 void MainWindow::on_stepButton_clicked()
 {
     switch (step) {
-    case 0:
+    case 1:
         showAnonymizedTable();
         break;
-    case 1:
+    case 2:
         if (saveOutput())
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Thank you!");
+            msgBox.setText("<b>Thank you for using the Platan Statement Anonymizer!</b> <br> Your sample has been saved. "
+                           "Please upload the file you created at <br>"
+                           "<a href=\"http://platan.community/upload_sample/\">http://platan.community/upload_sample/</a>");
+            msgBox.exec();
             close();
+            return;
+        }
         else
             return;
 
@@ -297,4 +312,36 @@ void MainWindow::on_btDelete_clicked()
     QModelIndex idx = ui->tableView->selectionModel()->currentIndex();
     if (idx.isValid())
         model->deleteRow(idx.row());
+}
+
+void MainWindow::showCsvConfig()
+{
+    step = 1;
+    ui->csvConfig->setReader(fileName, reader.get());
+    ui->welcomeWidget->setVisible(false);
+    ui->exportWidget->setVisible(false);
+    ui->btBack->setVisible(true);
+    ui->csvConfig->setVisible(true);
+    ui->stepButton->setVisible(true);
+}
+
+void MainWindow::on_btnLoadFile_clicked()
+{
+    if(openFile())
+    {
+        showCsvConfig();
+    }
+}
+
+void MainWindow::on_btBack_clicked()
+{
+    switch(step)
+    {
+    case 1:
+        showWelcomeScreen();
+        break;
+    case 2:
+        showCsvConfig();
+        break;
+    }
 }

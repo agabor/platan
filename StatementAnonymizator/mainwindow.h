@@ -37,7 +37,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow();
     ~MainWindow();
-    void openFile();
+    void showCsvConfig();
+    void showWelcomeScreen();
 protected:
     void keyPressEvent(QKeyEvent* event);
 
@@ -50,6 +51,10 @@ private slots:
 
     void on_btDelete_clicked();
 
+    void on_btnLoadFile_clicked();
+
+    void on_btBack_clicked();
+
 private:
     void applyEreasers();
     void showAnonymizedTable();
@@ -60,10 +65,13 @@ private:
     bool ereaseColumn(int c, Ereaser* ereaser);
     bool tryToMatchColumn(int c, QVector<std::shared_ptr<Ereaser>> ereasers);
 
+    bool openFile();
+
     Ui::MainWindow *ui;
     SubstituteTableModel *model;
     int step;
     std::shared_ptr<CSVReader> reader;
+    QString fileName;
 };
 
 #endif // MAINWINDOW_H

@@ -30,3 +30,5 @@ include(../Platan/PlatanCSV/PlatanCSV.pri)
 
 RESOURCES += \
     icons.qrc
+
+RC_FILE = myapp.rc
