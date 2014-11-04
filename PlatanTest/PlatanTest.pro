@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core testlib sql
+QT       += core testlib sql gui
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = tst_sqlite
 CONFIG   += console c++11
@@ -22,9 +23,11 @@ SOURCES += \
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 INCLUDEPATH += ../Platan/SQLiteWrapper \
-               ../Platan/PlatanData
+               ../Platan/PlatanData \
+               ../Platan/PlatanCSV
 
 include(../Platan/SQLiteWrapper/SQLiteWrapper.pri)
 include(../Platan/PlatanData/PlatanData.pri)
+include(../Platan/PlatanCSV/PlatanCSV.pri)
 
 HEADERS +=

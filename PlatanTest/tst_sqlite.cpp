@@ -210,6 +210,7 @@ void SQLiteTest::testCSV(char separator, QVector<QVector<QString>> data, char qu
         }
         ++row;
     }
+    input.close();
     QVERIFY(file.remove());
 }
 
