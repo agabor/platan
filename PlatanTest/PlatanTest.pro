@@ -19,7 +19,9 @@ QMAKE_LFLAGS += -g -Wall -fprofile-arcs -ftest-coverage -O0
 LIBS += -lgcov
 
 SOURCES += \
-    tst_sqlite.cpp
+    tst_sqlite.cpp \
+    main.cpp \
+    csvtest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 INCLUDEPATH += ../Platan/SQLiteWrapper \
@@ -30,4 +32,6 @@ include(../Platan/SQLiteWrapper/SQLiteWrapper.pri)
 include(../Platan/PlatanData/PlatanData.pri)
 include(../Platan/PlatanCSV/PlatanCSV.pri)
 
-HEADERS +=
+HEADERS += \
+    tst_sqlite.h \
+    csvtest.h
