@@ -162,9 +162,6 @@ void MainWindow::applyEreasers()
         QCoreApplication::processEvents();
     }
 
-    for (int i = 0; i < 2; ++i)
-        ereasers.removeLast();
-
     for (int c= 0; c < columnCount; ++c)
     {
         if (!matchedColumns.contains(c))
@@ -283,7 +280,7 @@ void MainWindow::on_stepButton_clicked()
             msgBox.setWindowTitle("Thank you!");
             msgBox.setText("<b>Thank you for using the Platan Statement Anonymizer!</b> <br> Your sample has been saved. "
                            "Please upload the file you created at <br>"
-                           "<a href=\"http://platan.community/upload_sample/\">http://platan.community/upload_sample/</a>");
+                           "<a href=\"http://survey.platan.community/\">http://survey.platan.community/</a>");
             msgBox.exec();
             close();
             return;
