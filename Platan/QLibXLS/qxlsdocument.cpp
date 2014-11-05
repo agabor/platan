@@ -2,29 +2,32 @@
 
 #include <QDate>
 
+const int p30 = 1 << 30;
+//const int p25 = 1 << 25;
+const int p29 = 1 << 29;
+
 double asNumber189(const XLSCell* cell)
 {
-    int p30 = 1 << 30;
-    int p23 = 1 << 23;
-    int p29 = 1 << 29;
-    bool hundred_hack = false;
     auto d = cell->d;
-    if (d <= p29 && d > p23)
-    {
-        d *= 100;
-        hundred_hack = true;
-    }
     if (d > p29)
         d -= p30;
-    if (hundred_hack)
-        d /= 100;
     return d;
+//    bool hundred_hack = false;
+//    auto d = cell->d;
+//    if (d <= p29 && d > p25)
+//    {
+//        d *= 100;
+//        hundred_hack = true;
+//    }
+//    if (d > p29)
+//        d -= p30;
+//    if (hundred_hack)
+//        d /= 100;
+//    return d;
 }
 
 double asNumber515(const XLSCell* cell)
 {
-    int p30 = 1 << 30;
-    int p29 = 1 << 29;
     auto d = cell->d;
     if (d > p29)
         d -= p30;
@@ -73,7 +76,9 @@ QXLSDocument::QXLSDocument(QString fileName)
                 auto cell = r->getCell(c);
                 row.append(getData(cell));
             }
+            qs.addRow(row);
         }
+        sheets.append(qs);
     }
 }
 

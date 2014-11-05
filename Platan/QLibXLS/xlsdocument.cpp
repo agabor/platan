@@ -21,8 +21,8 @@ XLSDocument::XLSDocument(const char *file_name)
         xls_parseWorkSheet(pWS);
         auto rows = pWS->rows;
         char * name = pWB->sheets.sheet[i].name;
-        auto sheet = new (&sheets[i])XLSSheet(name, rows.lastrow, rows.lastcol);
-        for (int r = 0; r < rows.lastrow; ++r)
+        auto sheet = new (&sheets[i])XLSSheet(name, rows.lastrow+1, rows.lastcol);
+        for (int r = 0; r <= rows.lastrow; ++r)
         {
             auto row = sheet->getRow(r);
             for (int c = 0; c < rows.lastcol; ++c)

@@ -1,7 +1,7 @@
 #ifndef QXLSDOCUMENTTEST_H
 #define QXLSDOCUMENTTEST_H
 
-#include <QObject>
+#include <QtTest>
 
 class QXLSDocumentTest : public QObject
 {

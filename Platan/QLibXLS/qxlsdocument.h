@@ -20,6 +20,8 @@ private:
     QVector<QVector<QVariant>> data;
     int columnCount;
     QString name;
+    QXLSSheet(){}
+    friend class QVector<QXLSSheet>;
 };
 
 class QXLSDocument
@@ -27,9 +29,9 @@ class QXLSDocument
 public:
     QXLSDocument(QString fileName);
     const QVector<QXLSSheet> getSheets() const;
+    XLSDocument doc;
 private:
     QVector<QXLSSheet> sheets;
-    XLSDocument doc;
 };
 
 #endif // QXLSDOCUMENT_H
