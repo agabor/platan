@@ -13,7 +13,7 @@ class XLSRow
 {
 public:
     XLSRow(int cellCount);
-    const XLSCell *getCell(int idx) const;
+    XLSCell *getCell(int idx) const;
     int getCellCount() const;
     void setCell(int idx, int id, char* str, double d, long l);
 private:

@@ -103,7 +103,7 @@ XLSRow::XLSRow(int cellCount)
     cells = new XLSCell[cellCount];
 }
 
-const XLSCell *XLSRow::getCell(int idx) const
+XLSCell *XLSRow::getCell(int idx) const
 {
     if (idx < 0 || idx >= cellCount)
         return nullptr;

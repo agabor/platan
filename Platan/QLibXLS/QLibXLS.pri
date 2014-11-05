@@ -1,9 +1,11 @@
 
 SOURCES += \
-    ../Platan/QLibXLS/xlsdocument.cpp
+    ../Platan/QLibXLS/xlsdocument.cpp \
+    ../Platan/QLibXLS/qxlsdocument.cpp
 	
 HEADERS += \
-    ../Platan/PlatanCSV/xlsdocument.h
+    ../Platan/QLibXLS/xlsdocument.h \
+    ../Platan/QLibXLS/qxlsdocument.h
 	
 
 unix:!symbian {

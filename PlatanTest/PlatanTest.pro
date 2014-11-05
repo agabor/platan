@@ -21,17 +21,31 @@ LIBS += -lgcov
 SOURCES += \
     tst_sqlite.cpp \
     main.cpp \
-    csvtest.cpp
+    csvtest.cpp \
+    qxlsdocumenttest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 INCLUDEPATH += ../Platan/SQLiteWrapper \
                ../Platan/PlatanData \
-               ../Platan/PlatanCSV
+               ../Platan/PlatanCSV \
+               ../Platan/QLibXLS
 
 include(../Platan/SQLiteWrapper/SQLiteWrapper.pri)
 include(../Platan/PlatanData/PlatanData.pri)
 include(../Platan/PlatanCSV/PlatanCSV.pri)
+include(../Platan/QLibXLS/QLibXLS.pri)
 
 HEADERS += \
     tst_sqlite.h \
-    csvtest.h
+    csvtest.h \
+    qxlsdocumenttest.h
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../lib/ -lxlsreader
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../lib/ -lxlsreader
+else:unix: LIBS += -L$$PWD/../lib/ -lxlsreader
+
+INCLUDEPATH += $$PWD/../include
+DEPENDPATH += $$PWD/../include
+
+OTHER_FILES += \
+    ../sample/numbers.xls
