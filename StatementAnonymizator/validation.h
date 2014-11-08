@@ -59,17 +59,17 @@ public:
     ECTransactionIDEreaser2();
 };
 
+class ELVIDEreaser : public Ereaser
+{
+public:
+    ELVIDEreaser();
+};
+
+
 class LastschriftIDEreaser : public Ereaser
 {
 public:
     LastschriftIDEreaser();
-};
-
-
-class LongLastschriftIDEreaser : public Ereaser
-{
-public:
-    LongLastschriftIDEreaser();
 };
 
 class TimeStampEreaser : public Ereaser
@@ -93,10 +93,7 @@ private:
 class AmountEreaser :public Ereaser
 {
 public:
-    AmountEreaser(QChar sep);
-    QString getTag ( const QString & );
-private:
-    QChar sep;
+    AmountEreaser();
 };
 
 class NumberEreaser : public Ereaser

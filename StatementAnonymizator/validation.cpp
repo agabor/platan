@@ -197,17 +197,10 @@ DateEreaser::DateEreaser(QString tag1, QString tag2, QString tag3, QChar sep)
 }
 
 
-AmountEreaser::AmountEreaser(QChar sep)
-    : Ereaser("Amount", QString{"\\-?(([1-9][0-9\\s]+)|[0-9])(%1[0-9\\s]+)"}.arg(QRegExp::escape(sep))),
-      sep(sep)
+AmountEreaser::AmountEreaser()
+    : Ereaser("Amount", "\\-?(([1-9][0-9\\s\\.,]+)|[0-9])((\\.|,)[0-9\\s]+)")
 {
 
-}
-
-QString AmountEreaser::getTag(const QString &)
-{
-    QString tag{"<%1 %2>"};
-    return tag.arg(tagName).arg(sep);
 }
 
 

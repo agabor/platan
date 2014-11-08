@@ -129,8 +129,8 @@ QVector<shared_ptr<Ereaser>> getEreasers()
         make_shared<BICEreaser>(),
         make_shared<ECTransactionIDEreaser1>(),
         make_shared<ECTransactionIDEreaser2>(),
+        make_shared<ELVIDEreaser>(),
         make_shared<LastschriftIDEreaser>(),
-        make_shared<LongLastschriftIDEreaser>(),
         make_shared<TimeStampEreaser>(),
     };
     for(QString year : {"YYYY", "YY"})
@@ -144,8 +144,7 @@ QVector<shared_ptr<Ereaser>> getEreasers()
         }
     }
     ereasers.push_back(make_shared<NumberEreaser>());
-    ereasers.push_back(make_shared<AmountEreaser>(','));
-    ereasers.push_back(make_shared<AmountEreaser>('.'));
+    ereasers.push_back(make_shared<AmountEreaser>());
 
     return ereasers;
 }
