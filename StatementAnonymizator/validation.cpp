@@ -238,16 +238,16 @@ ECTransactionIDEreaser2::ECTransactionIDEreaser2()
 }
 
 
-LastschriftIDEreaser::LastschriftIDEreaser()
-    : Ereaser("Lastschrift ID", "([0-9]{27}\\s)?ELV[0-9]{8}\\s[0-9]{2}.[0-9]{2}\\s[0-9]{2}.[0-9]{2}\\sME[0-9]")
+ELVIDEreaser::ELVIDEreaser()
+    : Ereaser("ELV ID", "([0-9]{27}\\s)?ELV[0-9]{8}\\s[0-9]{2}.[0-9]{2}\\s[0-9]{2}.[0-9]{2}\\sME[0-9]")
 {
 
 }
 
 
 
-LongLastschriftIDEreaser::LongLastschriftIDEreaser()
-    : Ereaser("LongLastschrift ID", "EREF\\+.{10,40}(KREF\\+.{10,40})?MREF\\+.{5,40}CRED\\+.{15,20}SVWZ\\+(VK\\s[0-9]{12})?")
+LastschriftIDEreaser::LastschriftIDEreaser()
+    : Ereaser("Lastschrift ID", "EREF\\+.{10,40}(KREF\\+.{10,40})?MREF\\+.{5,40}CRED\\+.{15,20}SVWZ\\+(VK\\s[0-9]{12})?")
 {
 
 }
