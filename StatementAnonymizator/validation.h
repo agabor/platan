@@ -47,6 +47,37 @@ protected:
     bool isValid (const QString &s, int position, int length) const;
 };
 
+class ECTransactionIDEreaser1 : public Ereaser
+{
+public:
+    ECTransactionIDEreaser1();
+};
+
+class ECTransactionIDEreaser2 : public Ereaser
+{
+public:
+    ECTransactionIDEreaser2();
+};
+
+class LastschriftIDEreaser : public Ereaser
+{
+public:
+    LastschriftIDEreaser();
+};
+
+
+class LongLastschriftIDEreaser : public Ereaser
+{
+public:
+    LongLastschriftIDEreaser();
+};
+
+class TimeStampEreaser : public Ereaser
+{
+public:
+    TimeStampEreaser();
+};
+
 class DateEreaser : public Ereaser
 {
 public:

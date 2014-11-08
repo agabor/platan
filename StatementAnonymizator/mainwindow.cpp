@@ -126,7 +126,13 @@ QVector<shared_ptr<Ereaser>> getEreasers()
 {
     QVector<shared_ptr<Ereaser>> ereasers {
         make_shared<IBANEreaser>(),
-        make_shared<BICEreaser>()};
+        make_shared<BICEreaser>(),
+        make_shared<ECTransactionIDEreaser1>(),
+        make_shared<ECTransactionIDEreaser2>(),
+        make_shared<LastschriftIDEreaser>(),
+        make_shared<LongLastschriftIDEreaser>(),
+        make_shared<TimeStampEreaser>(),
+    };
     for(QString year : {"YYYY", "YY"})
     {
         for (QChar sep : {'.', '-'})

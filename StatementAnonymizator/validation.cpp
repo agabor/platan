@@ -212,7 +212,7 @@ QString AmountEreaser::getTag(const QString &)
 
 
 NumberEreaser::NumberEreaser()
-    : Ereaser("Number", "[0-9]{4,}")
+    : Ereaser("Number", "[0-9]{1,}")
 {
 
 }
@@ -222,3 +222,41 @@ QString NumberEreaser::getTag(const QString &str)
     QString tag{"<%1 %2 digits %3>"};
     return tag.arg(tagName).arg(str.length()).arg(getCode(str));
 }
+
+
+ECTransactionIDEreaser1::ECTransactionIDEreaser1()
+    : Ereaser("EC1 Trans. ID", "EC\\s[0-9]{8}\\s[0-9]{12}IC[0-9]\\s[0-9A-Z]{26}")
+{
+
+}
+
+
+ECTransactionIDEreaser2::ECTransactionIDEreaser2()
+    : Ereaser("EC2 Trans. ID", "EC\\s[0-9]{8}\\s[0-9]{12}OC[0-9]")
+{
+
+}
+
+
+LastschriftIDEreaser::LastschriftIDEreaser()
+    : Ereaser("Lastschrift ID", "([0-9]{27}\\s)?ELV[0-9]{8}\\s[0-9]{2}.[0-9]{2}\\s[0-9]{2}.[0-9]{2}\\sME[0-9]")
+{
+
+}
+
+
+
+LongLastschriftIDEreaser::LongLastschriftIDEreaser()
+    : Ereaser("LongLastschrift ID", "EREF\\+.{10,40}(KREF\\+.{10,40})?MREF\\+.{5,40}CRED\\+.{15,20}SVWZ\\+(VK\\s[0-9]{12})?")
+{
+
+}
+
+
+TimeStampEreaser::TimeStampEreaser()
+    : Ereaser("Timestamp", "[0-9]{2}\\.[0-9]{2}/[0-9]{2}\\.[0-9]{2}UHR")
+{
+
+}
+
+
