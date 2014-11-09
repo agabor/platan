@@ -27,7 +27,7 @@ void ApplicationFactory::construct(int &argc, char *argv[])
     pythonConsole.reset(new PythonIDE());
     pythonConsole->setMainWindow(mainWindow.get());
     mainWindow->setPythonIDE(pythonConsole);
-    PythonAPI::setPythonIDE(pythonConsole.get());
+    //PythonAPI::setPythonIDE(pythonConsole.get());
 }
 
 void ApplicationFactory::init()
