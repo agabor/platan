@@ -1,5 +1,6 @@
 #include "tst_sqlite.h"
 #include "csvtest.h"
+#include "csvanalyzertest.h"
 
 int main(int argc, char *argv[])
 {
@@ -8,6 +9,8 @@ int main(int argc, char *argv[])
     status |= QTest::qExec(&t1, argc, argv);
     CSVTest t2;
     status |= QTest::qExec(&t2, argc, argv);
+    CSVAnalyzerTest t3;
+    status |= QTest::qExec(&t3, argc, argv);
     return status;
 }
 

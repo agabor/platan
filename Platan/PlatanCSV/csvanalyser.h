@@ -25,6 +25,7 @@ public:
     CSVAnalyser(QTextStream &_input);
     char getSeparator() const;
     char getQuote() const;
+    int getLinesToSkip() const;
     bool areHeadersInFirstLine() const;
 private:
     void analyse();
@@ -32,6 +33,7 @@ private:
     char separator;
     char quote;
     bool headers;
+    int linesToSkip;
 };
 
 #endif // CSVANALYSER_H

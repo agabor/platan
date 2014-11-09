@@ -21,7 +21,8 @@ LIBS += -lgcov
 SOURCES += \
     tst_sqlite.cpp \
     main.cpp \
-    csvtest.cpp
+    csvtest.cpp \
+    csvanalyzertest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 INCLUDEPATH += ../Platan/SQLiteWrapper \
@@ -34,4 +35,5 @@ include(../Platan/PlatanCSV/PlatanCSV.pri)
 
 HEADERS += \
     tst_sqlite.h \
-    csvtest.h
+    csvtest.h \
+    csvanalyzertest.h

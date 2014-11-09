@@ -53,6 +53,7 @@ CSVAnalyser::CSVAnalyser(QTextStream &_input) : input(_input)
     separator = '\0';
     quote = '\0';
     headers = false;
+    linesToSkip = 0;
     analyse();
 }
 
@@ -133,16 +134,18 @@ SyntaxType getSyntaxType(QString text)
     return SyntaxType(text.length(), chars);
 }
 
-bool detectHeadersInFirstLine(QVector<QString> lines, char separator)
+bool detectHeadersInFirstLine(QVector<QString> lines, char separator, int linesToSkip)
 {
-    QStringList firstLine = lines[1].split(separator);
+    if (lines.size() < linesToSkip + 2)
+        return false;
+    QStringList firstLine = lines[linesToSkip+1].split(separator);
     QVector<QPair<SyntaxType, bool>> syntaxList;
     for (QString field : firstLine)
     {
         syntaxList.push_back(QPair<SyntaxType, bool>(getSyntaxType(field), true));
     }
 
-    for (int i = 2; i < lines.count(); ++i)
+    for (int i = linesToSkip + 2; i < lines.count(); ++i)
     {
         int idx = 0;
         for (QString field : lines[i].split(separator))
@@ -170,10 +173,32 @@ bool detectHeadersInFirstLine(QVector<QString> lines, char separator)
 }
 
 
+int detectLinesToSkip(QVector<QString> lines, char separator)
+{
+    int max = -1;
+    int toSkip = 0;
+    for (int i = lines.size()-1; i >= 0; --i)
+    {
+        auto line = lines[i].split(separator);
+        int count = line.size();
+        while (count != 0 && line[count-1].isEmpty())
+            --count;
+        if (count > max)
+        {
+            max = count;
+            continue;
+        }
+        if (count == max)
+            toSkip = i;
+    }
+
+    return toSkip;
+}
+
 void CSVAnalyser::analyse()
 {
     QVector<QString> lines;
-    for (int i= 0; i < 10 && !input.atEnd(); ++i)
+    for (int i= 0; i < 50 && !input.atEnd(); ++i)
         lines.push_back(input.readLine());
 
     separator = detectSeparator(lines);
@@ -182,7 +207,9 @@ void CSVAnalyser::analyse()
 
     quote = detectQuote(lines, separator);
 
-    headers = detectHeadersInFirstLine(lines, separator);
+    linesToSkip = detectLinesToSkip(lines, separator);
+
+    headers = detectHeadersInFirstLine(lines, separator, linesToSkip);
 }
 
 char CSVAnalyser::getSeparator() const
@@ -193,6 +220,11 @@ char CSVAnalyser::getSeparator() const
 char CSVAnalyser::getQuote() const
 {
     return quote;
+}
+
+int CSVAnalyser::getLinesToSkip() const
+{
+    return linesToSkip;
 }
 
 bool CSVAnalyser::areHeadersInFirstLine() const
