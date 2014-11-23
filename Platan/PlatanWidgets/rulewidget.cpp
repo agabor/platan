@@ -33,7 +33,7 @@ RuleWidget::RuleWidget(QWidget *parent) :
     setCategories(secondline);
     connect(column, SIGNAL(currentIndexChanged(int)), this, SLOT(columnChanged(int)));
     connect(type, SIGNAL(currentIndexChanged(int)), this, SLOT(typeChanged(int)));
-    connect(value, SIGNAL(textChanged(QString)), this, SLOT(valueChanged(QString));
+    connect(value, SIGNAL(textChanged(QString)), this, SLOT(valueChanged(QString)));
 }
 
 void RuleWidget::setRow(Statement _row)
