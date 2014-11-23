@@ -1,5 +1,8 @@
+#include <QStringList>
+
 #include <rules.h>
 #include <rule.h>
+
 
 using namespace std;
 
@@ -41,4 +44,12 @@ void Rules::save()
 {
     for(auto r : deletedRules)
         ruleMapper.deleteRule(*r);
+}
+
+QStringList Rules::typeList()
+{
+    QStringList result;
+    result.push_back(QObject::tr("is"));
+    result.push_back(QObject::tr("contains"));
+    return result;
 }

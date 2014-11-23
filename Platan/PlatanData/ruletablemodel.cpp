@@ -14,7 +14,7 @@ int RuleTableModel::rowCount(const QModelIndex &) const
 
 int RuleTableModel::columnCount(const QModelIndex &) const
 {
-    return 3;
+    return 4;
 }
 
 QVariant RuleTableModel::data(const QModelIndex &index, int role) const
@@ -31,8 +31,18 @@ QVariant RuleTableModel::data(const QModelIndex &index, int role) const
         return columnList.at(r.column);
     }
     case 1:
-        return r.value;
+        switch(r.type)
+        {
+        case Rule::Type::Is:
+            return QString{"is"};
+        case Rule::Type::Contains:
+            return QString{"contains"};
+        }
+        return QVariant::Invalid;
+
     case 2:
+        return r.value;
+    case 3:
     {
         QStringList categoryList = Statements::categoryList();
         if (r.category < 0 || r.category >= categoryList.length())
@@ -56,8 +66,10 @@ QVariant RuleTableModel::headerData(int section, Qt::Orientation orientation, in
         case 0:
             return QString("Column");
         case 1:
-            return QString("Value");
+            return QString("Type");
         case 2:
+            return QString("Value");
+        case 3:
             return QString("Category");
         default:
             return QString("");

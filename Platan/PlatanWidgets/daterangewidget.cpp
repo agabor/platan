@@ -30,10 +30,10 @@
 static QSize myGetQTableWidgetSize(QTableWidget *t) {
    int w = 0;
    for (int i = 0; i < t->columnCount(); i++)
-      w += t->columnWidth(i) + 1;
+      w += t->columnWidth(i) + 3;
    int h = 0;
    for (int i = 0; i < t->rowCount(); i++)
-      h += t->rowHeight(i) + 1;
+      h += t->rowHeight(i) + 3;
    return QSize(w, h);
 }
 

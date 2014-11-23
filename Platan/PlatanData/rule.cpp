@@ -18,8 +18,8 @@
 #include <statement.h>
 #include <QVariant>
 
-Rule::Rule(int _column, QString _value, int _category)
-    :column(_column), value(_value), category(_category)
+Rule::Rule(int _column, QString _value, int _category, Type _type)
+    :column(_column), value(_value), category(_category), type(_type)
 {
 }
 
@@ -30,10 +30,22 @@ Rule::Rule()
 bool Rule::apply(Statement &statement)
 {
 
-    if (statement.at(column) == value)
+    switch (type)
     {
-        statement.category = category;
-        return true;
+    case Type::Is:
+        if (statement.at(column) == value)
+        {
+            statement.category = category;
+            return true;
+        }
+        break;
+    case Type::Contains:
+        if (statement.at(column).toString().contains(value))
+        {
+            statement.category = category;
+            return true;
+        }
+        break;
     }
     return false;
 }

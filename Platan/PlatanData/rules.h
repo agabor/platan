@@ -10,6 +10,7 @@
 
 
 class Rule;
+class QStringList;
 
 class Rules : public QObject, public QVector<std::shared_ptr<Rule> >
 {
@@ -22,6 +23,7 @@ public:
     void insertRules(QVector<Rule> rules);
     void removeRuleAt(int index);
     void save();
+    static QStringList typeList();
 signals:
     void dataChanged();
 private:

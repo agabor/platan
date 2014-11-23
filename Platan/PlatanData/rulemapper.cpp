@@ -36,6 +36,7 @@ void RuleMapper::insert(Rule &r) const
     insert.set("Column", r.column);
     insert.set("Value", r.value);
     insert.set("Class", r.category);
+    insert.set("Type", static_cast<int>(r.type));
 
     data_base.execute(insert);
 }
@@ -46,6 +47,7 @@ QVector<Rule> RuleMapper::getAll(int country) const
     select.field("Column");
     select.field("Value");
     select.field("Class");
+    select.field("Type");
     if (country != -1)
         select.where(QString("Country = %1").arg(country));
 
@@ -57,7 +59,11 @@ QVector<Rule> RuleMapper::getAll(int country) const
 
     while (data_base.step(statement))
     {
-        result.push_back(Rule(statement.GetInt(0), statement.GetText(1), statement.GetInt(2)));
+        int column = statement.GetInt(0);
+        QString value = statement.GetText(1);
+        int category = statement.GetInt(2);
+        Rule::Type type = static_cast<Rule::Type>(statement.GetInt(3));
+        result.push_back(Rule(column, value, category, type));
     }
 
     return result;
@@ -70,6 +76,7 @@ TableStructure RuleMapper::getStructure()
     rules.addField("Column", SQLType::Integer());
     rules.addField("Value", SQLType::Text());
     rules.addField("Class", SQLType::Integer());
+    rules.addField("Type", SQLType::Integer());
     return rules;
 }
 

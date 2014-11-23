@@ -97,7 +97,10 @@ void MainWindow::init()
         connect(welcomeWidget, SIGNAL(clicked()), this, SLOT(on_actionImport_Bank_Statements_triggered()));
         this->centralWidget()->layout()->addWidget(welcomeWidget);
     } else
+    {
+        statements.categorizeUndefinedStatements(rules);
         refreshStatements();
+    }
 }
 
 void MainWindow::setPythonIDE(std::shared_ptr<PythonIDE> pythonIDE)
@@ -223,7 +226,6 @@ void MainWindow::sliceClicked(int idx)
 
 void MainWindow::refreshStatements()
 {
-    statements.categorizeUndefinedStatements(rules);
     viewModel.initTableModels();
     ui->rulesView->resizeColumnsToContents();
     refreshChart();
