@@ -18,8 +18,9 @@
 #define TABLESTRUCTURE_H
 
 #include <QString>
-#include <vector>
-#include <utility>
+#include <QVector>
+#include <QPair>
+
 #include "sqltype.h"
 
 class TableStructure
@@ -36,7 +37,7 @@ public:
     inline QString getName() const;
     QString sqlCommand() const;
 private:
-    std::vector<std::pair<QString, SQLType>> name_type_pairs;
+    QVector<QPair<QString, SQLType>> name_type_pairs;
     int fieldCount() const;
     bool is_valid;
     QString name;

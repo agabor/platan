@@ -26,30 +26,42 @@
 #include <sqlitedb.h>
 #include <rule.h>
 
+namespace columns
+{
+QString rules = "Rules";
+QString column = "Column";
+QString id = "Id";
+QString value = "Value";
+QString category = "Category";
+QString type = "Type";
+QString country = "Country";
+}
+
 RuleMapper::RuleMapper(SQLiteDB &db) : data_base(db)
 {
 }
 
 void RuleMapper::insert(Rule &r) const
 {
-    SQLInsert insert("rules");
-    insert.set("Column", r.column);
-    insert.set("Value", r.value);
-    insert.set("Class", r.category);
-    insert.set("Type", static_cast<int>(r.type));
+    SQLInsert insert(columns::rules);
+    insert.set(columns::column, r.column);
+    insert.set(columns::value, r.value);
+    insert.set(columns::category, r.category);
+    insert.set(columns::type, static_cast<int>(r.type));
 
     data_base.execute(insert);
 }
 
-QVector<Rule> RuleMapper::getAll(int country) const
+QVector<Rule> RuleMapper::getAll(int _country) const
 {
-    SQLSelect select{"rules"};
-    select.field("Column");
-    select.field("Value");
-    select.field("Class");
-    select.field("Type");
-    if (country != -1)
-        select.where(QString("Country = %1").arg(country));
+    SQLSelect select{columns::rules};
+    select.field(columns::id);
+    select.field(columns::column);
+    select.field(columns::value);
+    select.field(columns::category);
+    select.field(columns::type);
+    if (_country != -1)
+        select.where(QString("%1 = %2").arg(columns::country).arg(_country));
 
     SQLiteStatement statement;
 
@@ -59,11 +71,12 @@ QVector<Rule> RuleMapper::getAll(int country) const
 
     while (data_base.step(statement))
     {
-        int column = statement.GetInt(0);
-        QString value = statement.GetText(1);
-        int category = statement.GetInt(2);
+        int id = statement.GetInt(0);
+        int column = statement.GetInt(1);
+        QString value = statement.GetText(2);
+        int category = statement.GetInt(3);
         Rule::Type type = static_cast<Rule::Type>(statement.GetInt(3));
-        result.push_back(Rule(column, value, category, type));
+        result.push_back(Rule(id, column, value, category, type));
     }
 
     return result;
@@ -71,24 +84,34 @@ QVector<Rule> RuleMapper::getAll(int country) const
 
 TableStructure RuleMapper::getStructure()
 {
-    TableStructure rules{"rules"};
-    rules.addField("Id", SQLType::DefaultPK());
-    rules.addField("Column", SQLType::Integer());
-    rules.addField("Value", SQLType::Text());
-    rules.addField("Class", SQLType::Integer());
-    rules.addField("Type", SQLType::Integer());
+    TableStructure rules{columns::rules};
+    rules.addField(columns::id, SQLType::DefaultPK());
+    rules.addField(columns::column, SQLType::Integer());
+    rules.addField(columns::value, SQLType::Text());
+    rules.addField(columns::category, SQLType::Integer());
+    rules.addField(columns::type, SQLType::Integer());
     return rules;
 }
 
 TableStructure RuleMapper::getStructureWithCountry()
 {
     TableStructure rules = getStructure();
-    rules.addField("Country", SQLType::Integer());
+    rules.addField(columns::country, SQLType::Integer());
     return rules;
 }
 
-void RuleMapper::deleteRule(Rule rule)
+void RuleMapper::remove(Rule &r)
 {
-    SQLDelete del("rules");
-    del.where("");
+    SQLDelete del{columns::rules};
+    del.where(QString("%1 = %2").arg(columns::id).arg(r.id));
+}
+
+void RuleMapper::update(Rule &r)
+{
+    SQLUpdate update{columns::rules};
+    update.set(columns::column, r.column);
+    update.set(columns::value, r.value);
+    update.set(columns::category, r.category);
+    update.set(columns::type, static_cast<int>(r.type));
+    update.where(QString("%1 = %2").arg(columns::id).arg(r.id));
 }

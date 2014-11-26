@@ -18,8 +18,8 @@
 #include <statement.h>
 #include <QVariant>
 
-Rule::Rule(int _column, QString _value, int _category, Type _type)
-    :column(_column), value(_value), category(_category), type(_type)
+Rule::Rule(int _id, int _column, QString _value, int _category, Type _type)
+    :id(_id), column(_column), value(_value), category(_category), type(_type)
 {
 }
 

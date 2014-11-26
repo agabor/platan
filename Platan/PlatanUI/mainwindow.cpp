@@ -62,8 +62,6 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
         action->setStatusTip(action->toolTip());
     }
 
-    connect(&statements,SIGNAL(dataChanged()), this, SLOT(refreshStatements()));
-
     uncategorisedTableModel = nullptr;
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
     unclassifiedTable->addAction(ui->actionAdd_rule);
@@ -278,7 +276,10 @@ void MainWindow::on_actionImport_Bank_Statements_triggered()
         return;
     ImportDialog id(this, fileName);
     if (id.exec() == QDialog::Accepted)
+    {
         statements.insertData(id.getImportedStatements());
+        refreshStatements();
+    }
 }
 
 void MainWindow::on_actionAdd_rule_triggered()

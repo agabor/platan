@@ -29,6 +29,8 @@ signals:
 private:
     RuleMapper ruleMapper;
     QVector<std::shared_ptr<Rule> > deletedRules;
+    QVector<std::shared_ptr<Rule> > changedRules;
+    QVector<std::shared_ptr<Rule> > newRules;
 };
 
 #endif // RULES_H

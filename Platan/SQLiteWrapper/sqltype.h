@@ -32,6 +32,8 @@ public:
         return Integer().PK().AutoIncrement().NotNull();
     }
 
+
+    SQLType(){}
     SQLType PK() const;
     SQLType AutoIncrement() const;
     SQLType NotNull() const;
@@ -40,6 +42,7 @@ public:
     QString toString() const;
     static SQLType parse(QString sqlstring);
 private:
+
     SQLType(char val);
     SQLType(const SQLType &other, bool isPK, bool isAutoIncrement, bool isNotNull);
     char val;

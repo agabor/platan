@@ -29,7 +29,7 @@ StatementMapper::StatementMapper(SQLiteDB &db) : data_base(db)
 
 void StatementMapper::update(Statement &s) const
 {
-    SQLUpdate update("statements");
+    SQLUpdate update{"Statements"};
     update.set("Date", s.date.toInt());
     update.set("Type", s.type);
     update.set("Description", s.description);

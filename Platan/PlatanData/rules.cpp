@@ -2,7 +2,7 @@
 
 #include <rules.h>
 #include <rule.h>
-
+#include <memory>
 
 using namespace std;
 
@@ -12,7 +12,10 @@ Rules::Rules(SQLiteDB &db) : ruleMapper(db)
 
 void Rules::insertRule(Rule rule)
 {
-    ruleMapper.insert(rule);
+    auto p = make_shared<Rule>(rule);
+    newRules.push_back(p);
+    append(p);
+    emit dataChanged();
 }
 
 QVector<Rule> Rules::getRules()
@@ -23,14 +26,19 @@ QVector<Rule> Rules::getRules()
 void Rules::init()
 {
     clear();
-    for (Rule &r : ruleMapper.getAll())
+    for (Rule &r : getRules())
         push_back(shared_ptr<Rule>(new Rule(r)));
 }
 
 void Rules::insertRules(QVector<Rule> rules)
 {
     for (Rule r : rules)
-        ruleMapper.insert(r);
+    {
+        auto p = make_shared<Rule>(r);
+        newRules.push_back(p);
+        append(p);
+    }
+    emit dataChanged();
 }
 
 void Rules::removeRuleAt(int index)
@@ -43,7 +51,16 @@ void Rules::removeRuleAt(int index)
 void Rules::save()
 {
     for(auto r : deletedRules)
-        ruleMapper.deleteRule(*r);
+        ruleMapper.remove(*r);
+    deletedRules.clear();
+
+    for(auto r : changedRules)
+        ruleMapper.update(*r);
+    changedRules.clear();
+
+    for(auto r : newRules)
+        ruleMapper.insert(*r);
+    newRules.clear();
 }
 
 QStringList Rules::typeList()

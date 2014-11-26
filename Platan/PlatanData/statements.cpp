@@ -146,7 +146,6 @@ void Statements::categorizeUndefinedStatements(Rule rule)
         {
             changes.insert(s);
             changed = true;
-            break;
         }
     }
     if (changed)

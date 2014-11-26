@@ -13,10 +13,11 @@ class RuleMapper
 public:
     RuleMapper(SQLiteDB &db);
     void insert(Rule &r) const;
-    QVector<Rule> getAll(int country = -1) const;
+    void remove(Rule &r);
+    void update(Rule &r);
+    QVector<Rule> getAll(int _country = -1) const;
     static TableStructure getStructure();
     static TableStructure getStructureWithCountry();
-    void deleteRule(Rule rule);
 private:
     SQLiteDB &data_base;
 };
