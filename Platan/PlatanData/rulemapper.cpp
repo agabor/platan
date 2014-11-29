@@ -86,10 +86,10 @@ TableStructure RuleMapper::getStructure()
 {
     TableStructure rules{columns::rules};
     rules.addField(columns::id, SQLType::DefaultPK());
-    rules.addField(columns::column, SQLType::Integer());
-    rules.addField(columns::value, SQLType::Text());
-    rules.addField(columns::category, SQLType::Integer());
-    rules.addField(columns::type, SQLType::Integer());
+    rules.addField(columns::column, SQLType::Integer().NotNull());
+    rules.addField(columns::value, SQLType::Text().NotNull());
+    rules.addField(columns::category, SQLType::Integer().NotNull());
+    rules.addField(columns::type, SQLType::Integer().NotNull());
     return rules;
 }
 

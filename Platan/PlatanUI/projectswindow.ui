@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string>Projects</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/icons/icons/tree_icon.png</normaloff>:/icons/icons/tree_icon.png</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
@@ -50,7 +54,7 @@
      <x>0</x>
      <y>0</y>
      <width>309</width>
-     <height>29</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>

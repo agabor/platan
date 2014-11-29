@@ -24,6 +24,7 @@ public:
     void removeRuleAt(int index);
     void save();
     static QStringList typeList();
+    bool changed() const;
 signals:
     void dataChanged();
 private:

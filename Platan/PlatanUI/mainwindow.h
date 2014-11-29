@@ -71,10 +71,14 @@ public:
 
     void setPythonIDE(std::shared_ptr<PythonIDE> pythonIDE);
 
+    void setSaveButtonEnabled();
+
 public slots:
     void onDateRangeChanged(QDate start, QDate end);
 
 private slots:
+
+    void onDataChanged();
 
     void on_actionClose_triggered();
 

@@ -70,3 +70,8 @@ QStringList Rules::typeList()
     result.push_back(QObject::tr("contains"));
     return result;
 }
+
+bool Rules::changed() const
+{
+    return !deletedRules.isEmpty() ||!changedRules.isEmpty() ||!newRules.isEmpty();
+}

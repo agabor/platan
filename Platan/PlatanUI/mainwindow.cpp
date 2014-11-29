@@ -66,6 +66,10 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
     unclassifiedTable->addAction(ui->actionAdd_rule);
     unclassifiedTable->addAction(ui->actionSet_category);
+    ui->actionPythonConsole->setEnabled(false);
+
+    connect(&rules, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
+    connect(&statements, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
 }
 
 
@@ -114,9 +118,9 @@ void MainWindow::initChart(QVector<float> values, ColorPalette *palette)
 void MainWindow::InitLegend(ColorPalette *palette, QMap<int, QString> class_names)
 {
     ui->legend->clear();
-    for (int i = 0; i < class_names.size(); ++ i)
+    for (auto i : class_names.keys())
     {
-        ui->legend->addItem(palette->getColor(i), class_names.values().at(i));
+        ui->legend->addItem(palette->getColor(i), class_names[i]);
     }
 }
 
@@ -222,6 +226,11 @@ void MainWindow::sliceClicked(int idx)
     ui->tabWidget->openLastTab();
 }
 
+void MainWindow::setSaveButtonEnabled()
+{
+    ui->actionSave->setEnabled(statements.changed() || rules.changed());
+}
+
 void MainWindow::refreshStatements()
 {
     viewModel.initTableModels();
@@ -235,7 +244,7 @@ void MainWindow::refreshStatements()
         ui->tabWidget->setHidden(false);
     }
 
-    ui->actionSave->setEnabled(statements.changed());
+    setSaveButtonEnabled();
 }
 
 void MainWindow::refreshChart()
@@ -249,6 +258,12 @@ void MainWindow::onDateRangeChanged(QDate start, QDate end)
 {
     statements.SetTimeInterval(start, end);
     viewModel.initTableModels();
+    refreshChart();
+}
+
+void MainWindow::onDataChanged()
+{
+    setSaveButtonEnabled();
     refreshChart();
 }
 
@@ -330,7 +345,9 @@ void MainWindow::on_actionSet_category_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
+    rules.save();
     statements.save();
+    setSaveButtonEnabled();
 }
 
 void MainWindow::on_actionDeleteRule_triggered()

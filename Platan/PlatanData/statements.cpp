@@ -115,7 +115,6 @@ void Statements::save()
     }
     newStatements.clear();
     db.endTransaction();
-    emit dataChanged();
 }
 
 void Statements::categorizeUndefinedStatements(QVector<shared_ptr<Rule>> rules)

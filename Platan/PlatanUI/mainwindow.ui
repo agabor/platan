@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string notr="true">MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="icons.qrc">
+    <normaloff>:/icons/icons/tree_icon.png</normaloff>:/icons/icons/tree_icon.png</iconset>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout_4">
     <item>
@@ -90,25 +94,6 @@
      </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>788</width>
-     <height>29</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuAccounting">
-    <property name="title">
-     <string>File</string>
-    </property>
-    <addaction name="actionImport_Bank_Statements"/>
-    <addaction name="actionPythonConsole"/>
-    <addaction name="actionClose"/>
-   </widget>
-   <addaction name="menuAccounting"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
