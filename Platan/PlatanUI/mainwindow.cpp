@@ -356,5 +356,7 @@ void MainWindow::on_actionDeleteRule_triggered()
     QModelIndex index = ui->rulesView->currentIndex();
     if (!index.isValid())
         return;
-    rules.removeRuleAt(index.row());
+    int r = index.row();
+    statements.rollBack(*rules.at(r));
+    rules.removeRuleAt(r);
 }

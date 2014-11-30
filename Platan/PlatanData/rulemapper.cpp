@@ -104,6 +104,7 @@ void RuleMapper::remove(Rule &r)
 {
     SQLDelete del{db_rule::rules};
     del.where(QString("%1 = %2").arg(db_rule::id).arg(r.id));
+    data_base.execute(del);
 }
 
 void RuleMapper::update(Rule &r)
@@ -114,4 +115,5 @@ void RuleMapper::update(Rule &r)
     update.set(db_rule::category, r.category);
     update.set(db_rule::type, static_cast<int>(r.type));
     update.where(QString("%1 = %2").arg(db_rule::id).arg(r.id));
+    data_base.execute(update);
 }

@@ -16,6 +16,7 @@ public:
     void create(QString data_base_path);
     void insertRules(QVector<Rule> rules);
     bool open(QString project_path);
+    void close();
 private:
     Rules &rules;
     SQLiteDB &db;

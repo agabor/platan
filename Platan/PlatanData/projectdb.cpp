@@ -34,3 +34,8 @@ bool ProjectDB::open(QString project_path)
         return false;
     return true;
 }
+
+void ProjectDB::close()
+{
+    db.close();
+}

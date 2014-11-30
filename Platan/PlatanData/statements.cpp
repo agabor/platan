@@ -151,6 +151,22 @@ void Statements::categorizeUndefinedStatements(Rule rule)
         emit dataChanged();
 }
 
+void Statements::rollBack(Rule rule)
+{
+    bool changed = false;
+    for(auto s : *this)
+    {
+        if (s->ruleId == rule.id)
+        {
+            s->ruleId == -1;
+            s->category = 0;
+            changes.insert(s);
+        }
+    }
+    if (changed)
+        emit dataChanged();
+}
+
 QVector<shared_ptr<Statement>> Statements::statementsInDateRange()
 {
     QVector<shared_ptr<Statement>> result;

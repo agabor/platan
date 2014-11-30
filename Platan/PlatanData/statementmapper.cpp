@@ -51,6 +51,7 @@ void StatementMapper::update(Statement &s) const
     update.set(db_statement::payeeAccount, s.payeeAccount);
     update.set(db_statement::amount, s.amount);
     update.set(db_statement::category, s.category);
+    update.set(db_statement::ruleId, s.ruleId);
     update.where(QString("%1 = %2").arg(db_statement::id).arg(s.id));
     data_base.execute(update);
 }

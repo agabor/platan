@@ -61,6 +61,8 @@ private:
     ApplicationDB &applicationDB;
     std::shared_ptr<MainWindow> mainWindow;
     static MainApplication *instance;
+private slots:
+    void cleanUp();
 };
 
 #endif // MAINAPPLICATION_H

@@ -7,7 +7,7 @@
 #include <memory>
 
 #include <rulemapper.h>
-
+#include <sqlitedb.h>
 
 class Rule;
 class QStringList;
@@ -29,6 +29,7 @@ signals:
     void dataChanged();
 private:
     RuleMapper ruleMapper;
+    SQLiteDB &db;
     QVector<std::shared_ptr<Rule> > deletedRules;
     QVector<std::shared_ptr<Rule> > changedRules;
     QVector<std::shared_ptr<Rule> > newRules;

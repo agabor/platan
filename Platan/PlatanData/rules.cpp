@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Rules::Rules(SQLiteDB &db) : ruleMapper(db)
+Rules::Rules(SQLiteDB &db) : ruleMapper(db), db(db)
 {
 }
 
@@ -50,6 +50,8 @@ void Rules::removeRuleAt(int index)
 
 void Rules::save()
 {
+    db.beginTransaction();
+
     for(auto r : deletedRules)
         ruleMapper.remove(*r);
     deletedRules.clear();
@@ -61,6 +63,8 @@ void Rules::save()
     for(auto r : newRules)
         ruleMapper.insert(*r);
     newRules.clear();
+
+    db.endTransaction();
 }
 
 QStringList Rules::typeList()

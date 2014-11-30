@@ -44,6 +44,7 @@ MainApplication::MainApplication(int &argc, char *argv[], ApplicationDB &applica
 #ifdef PYTHON_API
     PythonAPI::init(this);
 #endif
+    connect(this, SIGNAL(aboutToQuit()), this, SLOT(cleanUp()));
 }
 
 
@@ -54,6 +55,12 @@ void MainApplication::showProjectWindow()
 
     projects_window.reset(new ProjectsWindow(this));
     projects_window->show();
+}
+
+void MainApplication::cleanUp()
+{
+    projectDB.close();
+    applicationDB.close();
 }
 
 bool MainApplication::OpenProject(QString project_path)

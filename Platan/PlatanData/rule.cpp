@@ -36,6 +36,7 @@ bool Rule::apply(Statement &statement)
         if (statement.at(column) == value)
         {
             statement.category = category;
+            statement.ruleId = id;
             return true;
         }
         break;
@@ -43,6 +44,7 @@ bool Rule::apply(Statement &statement)
         if (statement.at(column).toString().contains(value))
         {
             statement.category = category;
+            statement.ruleId = id;
             return true;
         }
         break;

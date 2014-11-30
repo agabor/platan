@@ -23,6 +23,11 @@ QVector<Rule> ApplicationDB::getRulesForCountry(int country)
     return ruleMapper.getAll(country);
 }
 
+void ApplicationDB::close()
+{
+    dataBase.close();
+}
+
 DataBaseSchema ApplicationDB::getDBSchema()
 {
     DataBaseSchema schema;
