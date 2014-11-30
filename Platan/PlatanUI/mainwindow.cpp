@@ -110,9 +110,9 @@ void MainWindow::setPythonIDE(std::shared_ptr<PythonIDE> pythonIDE)
     this->pythonIDE = pythonIDE;
 }
 
-void MainWindow::initChart(QVector<float> values, ColorPalette *palette)
+void MainWindow::initChart(QVector<QPair<QColor, float>> values)
 {
-    ui->chart->init(values, palette);
+    ui->chart->init(values);
 }
 
 void MainWindow::InitLegend(ColorPalette *palette, QMap<int, QString> class_names)
@@ -160,17 +160,16 @@ const QPieChart *MainWindow::pieChart() const
 
 void MainWindow::InitChart()
 {
-    const int size = classes.size();
-    QVector<float> values;
-    for (int i = 0; i < size; ++ i)
+    QVector<QPair<QColor, float>> values;
+    for (int i : classes.keys())
     {
-        float sum = -1 * classes.values().at(i);
+        float sum = -1 * classes[i];
         if (sum < 0)
             sum *= -1;
-        values.push_back(sum);
+        values.append(QPair<QColor, float>(palette.getColor(i), sum));
     }
 
-    initChart(values, &palette);
+    initChart(values);
 }
 
 void MainWindow::setClassNames(QMap<int, QString> &class_names)
@@ -207,23 +206,25 @@ void MainWindow::sliceClicked(int idx)
 {
     const int class_idx = classes.keys().at(idx);
     const QString &class_name = classNames[class_idx];
-    if (!ui->tabWidget->isOpen(class_name))
+    if (ui->tabWidget->isOpen(class_name))
     {
-        QTableView *class_table;
-        if (class_idx == 0)
-        {
-            uncategorisedTableModel = viewModel.getUncategorisedStatementsModel();
-            unclassifiedTable->setModel(uncategorisedTableModel.get());
-            class_table = unclassifiedTable.get();
-        } else
-        {
-            class_table = new QTableView();
-            class_table->setModel(viewModel.getStatementsForClass(class_idx).get());
-        }
-
-        ui->tabWidget->addTableViewTab(class_table, class_name);
+        ui->tabWidget->activateTab(class_name);
+        return;
     }
-    ui->tabWidget->openLastTab();
+    QTableView *class_table;
+    if (class_idx == 0)
+    {
+        uncategorisedTableModel = viewModel.getUncategorisedStatementsModel();
+        unclassifiedTable->setModel(uncategorisedTableModel.get());
+        class_table = unclassifiedTable.get();
+    } else
+    {
+        class_table = new QStatemenView();
+        class_table->setModel(viewModel.getStatementsForClass(class_idx).get());
+    }
+
+    ui->tabWidget->addTableViewTab(class_table, class_name);
+    ui->tabWidget->activateLastTab();
 }
 
 void MainWindow::setSaveButtonEnabled()
@@ -316,7 +317,7 @@ void MainWindow::on_actionAdd_rule_triggered()
 
 void MainWindow::onTabChanged(int idx)
 {
-    ui->actionChangeRule->setEnabled(1 == idx);
+    ui->actionChangeRule->setEnabled(false);
     ui->actionDeleteRule->setEnabled(1 == idx);
 
     int uc_idx = ui->tabWidget->getIndex(Statements::categoryList().at(0));

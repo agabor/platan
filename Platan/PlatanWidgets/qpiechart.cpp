@@ -16,6 +16,7 @@
 
 #include <QPainter>
 #include <QMouseEvent>
+#include <QMap>
 
 #include <math.h>
 
@@ -34,22 +35,22 @@ QPieChart::QPieChart(QWidget *parent) :
     pressed = 0;
 }
 
-void QPieChart::init(QVector<float> values, ColorPalette *palette)
+void QPieChart::init(QVector<QPair<QColor, float>> values)
 {
     pie_num = values.size();
     float sum = 0;
-    for (int i = 0; i < pie_num; ++i)
+    for (auto v : values)
     {
-        sum += values[i];
+        sum += v.second;
     }
 
     int start_angle = 0;
 
     slices.clear();
-    for (int i = 0; i < pie_num; ++i)
+    for (auto v : values)
     {
-        const int angle = (values[i] / sum) * (360 * 16);
-        slices.push_back(PieSlice(palette->getColor(i), &bounding_rect, start_angle, angle));
+        const int angle = (v.second / sum) * (360 * 16);
+        slices.push_back(PieSlice(v.first, &bounding_rect, start_angle, angle));
         start_angle = start_angle + angle;
     }
 

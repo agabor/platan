@@ -33,6 +33,7 @@ public:
     void setRange(QDate start, QDate end);
     void setYearLabelText();
     void enableDateNavigation();
+    void clampMonth(int month);
 signals:
     void dateRangeChanged(QDate start, QDate end);
     void unsetDateRange();
@@ -45,6 +46,8 @@ private:
     QDate endDate;
     QToolButton *previousYear;
     QToolButton *nextYear;
+    int firstEnabledMonth();
+    int lastEnabledMonth();
 private slots:
     void onDateRangeChanged();
     void onMonthChanged();

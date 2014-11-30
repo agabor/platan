@@ -75,7 +75,7 @@ QVector<Rule> RuleMapper::getAll(int _country) const
         int column = statement.GetInt(1);
         QString value = statement.GetText(2);
         int category = statement.GetInt(3);
-        Rule::Type type = static_cast<Rule::Type>(statement.GetInt(3));
+        Rule::Type type = static_cast<Rule::Type>(statement.GetInt(4));
         result.push_back(Rule(id, column, value, category, type));
     }
 

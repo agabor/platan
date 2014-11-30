@@ -25,6 +25,7 @@ RuleWidget::RuleWidget(QWidget *parent) :
     type = new QComboBox(this);
     for(auto typestr : Rules::typeList())
         type->addItem(typestr);
+
     firstline->addWidget(type);
     value = new QLineEdit(this);
     firstline->addWidget(value);
@@ -34,6 +35,8 @@ RuleWidget::RuleWidget(QWidget *parent) :
     connect(column, SIGNAL(currentIndexChanged(int)), this, SLOT(columnChanged(int)));
     connect(type, SIGNAL(currentIndexChanged(int)), this, SLOT(typeChanged(int)));
     connect(value, SIGNAL(textChanged(QString)), this, SLOT(valueChanged(QString)));
+    type->setCurrentIndex(0);
+    typeChanged(0);
 }
 
 void RuleWidget::setRow(Statement _row)

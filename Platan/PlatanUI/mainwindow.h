@@ -50,7 +50,7 @@ public:
 
     ~MainWindow();
 
-    void initChart(QVector<float> values, ColorPalette *palette);
+    void initChart(QVector<QPair<QColor, float> > values);
 
     void InitLegend(ColorPalette *palette, QMap<int, QString> classNames);
 
