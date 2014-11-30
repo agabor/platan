@@ -45,6 +45,11 @@ void NewProjectDialog::on_pushButton_clicked()
     QString fileName = QFileDialog::getSaveFileName(this,
                                                     tr("Create new project"), "",
                                                     tr("Platan files (*.plat)"));
+    auto withoutPath = fileName.split('/').last();
+    QStringList parts = withoutPath.split('.');
+    parts.removeAll(QString());
+    if (parts.count() < 2 || parts.last() != "plat")
+        fileName += ".plat";
     ui->path->setText(fileName);
 }
 

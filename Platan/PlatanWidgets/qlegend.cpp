@@ -32,7 +32,7 @@ QLegend::QLegend(QWidget *parent) :
 
 void QLegend::addItem(QColor color, QString name)
 {
-    QLegendItem *li = new QLegendItem(color, name, this);
+    auto li = new QLegendItem(color, name, this);
     layout()->addWidget(li);
     setFixedHeight(height() + li->height());
     items.append(li);
