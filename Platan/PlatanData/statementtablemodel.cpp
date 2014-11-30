@@ -20,6 +20,7 @@
 
 #include <statementtablemodel.h>
 #include <statement.h>
+#include <statements.h>
 
 
 StatementTableModel::StatementTableModel(QObject *parent) :
@@ -45,7 +46,7 @@ int StatementTableModel::columnCount(const QModelIndex& parent) const
 
 int StatementTableModel::columnCount() const
 {
-    return 6;
+    return 7;
 }
 
 
@@ -53,7 +54,10 @@ QVariant StatementTableModel::data(const QModelIndex& index, int role) const
 {
     if(role != Qt::DisplayRole)
         return QVariant::Invalid;
-    return Rows[index.row()]->at(index.column());
+    auto value = Rows[index.row()]->at(index.column());
+    if (index.column() == 6)
+        return Statements::categoryList()[value.toInt()];
+    return value;
 }
 
 QVariant StatementTableModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -66,19 +70,21 @@ QVariant StatementTableModel::headerData(int section, Qt::Orientation orientatio
         switch(section)
         {
         case 0:
-            return QString("Date");
+            return tr("Date");
         case 1:
-            return QString("Type");
+            return tr("Type");
         case 2:
-            return QString("Description");
+            return tr("Description");
         case 3:
-            return QString("Payee");
+            return tr("Payee");
         case 4:
-            return QString("PayeeAccount");
+            return tr("PayeeAccount");
         case 5:
-            return QString("Amount");
+            return tr("Amount");
+        case 6:
+            return tr("Category");
         default:
-            return QString("");
+            return QString{};
         }
     }
 
