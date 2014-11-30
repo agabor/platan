@@ -136,7 +136,7 @@ void Statements::categorizeUndefinedStatements(QVector<shared_ptr<Rule>> rules)
         emit dataChanged();
 }
 
-void Statements::categorizeUndefinedStatements(Rule rule)
+void Statements::categorizeUndefinedStatements(Rule &rule)
 {
     bool changed = false;
     for (auto s : getUncategorisedStatements())

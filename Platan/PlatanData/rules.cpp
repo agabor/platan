@@ -10,15 +10,15 @@ Rules::Rules(SQLiteDB &db) : ruleMapper(db), db(db), nextId(0)
 {
 }
 
-void Rules::insertRuleSilent(Rule rule)
+void Rules::insertRuleSilent(Rule &rule)
 {
+    rule.id = nextId++;
     auto p = make_shared<Rule>(rule);
-    p->id = nextId++;
     newRules.push_back(p);
     append(p);
 }
 
-void Rules::insertRule(Rule rule)
+void Rules::insertRule(Rule& rule)
 {
     insertRuleSilent(rule);
     emit dataChanged();

@@ -55,7 +55,7 @@ public:
     void save();
     QVector<std::shared_ptr<Statement>> statementsInDateRange();
     void categorizeUndefinedStatements(QVector<std::shared_ptr<Rule> > rules);
-    void categorizeUndefinedStatements(Rule rule);
+    void categorizeUndefinedStatements(Rule &rule);
     void rollBack(Rule rule);
 signals:
     void dataChanged();
