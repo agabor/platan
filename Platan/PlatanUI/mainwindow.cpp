@@ -20,6 +20,8 @@
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <QDate>
+#include <QMessageBox>
+#include <QCloseEvent>
 
 #include <mainwindow.h>
 #include <importdialog.h>
@@ -227,9 +229,35 @@ void MainWindow::sliceClicked(int idx)
     ui->tabWidget->activateLastTab();
 }
 
+bool MainWindow::hasChanges()
+{
+    return statements.changed() || rules.changed();
+}
+
 void MainWindow::setSaveButtonEnabled()
 {
-    ui->actionSave->setEnabled(statements.changed() || rules.changed());
+    ui->actionSave->setEnabled(hasChanges());
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (hasChanges())
+    {
+        auto reply = QMessageBox::question(this, tr("Unsaved changes"),
+                                           tr("You have unsaved changes! Would you like to save them before closing?"),
+                                      QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel);
+        switch(reply)
+        {
+        case QMessageBox::Yes:
+            on_actionSave_triggered();
+            break;
+        case QMessageBox::No:
+            break;
+        case QMessageBox::Cancel:
+            event->ignore();
+            break;
+        }
+    }
 }
 
 void MainWindow::refreshStatements()

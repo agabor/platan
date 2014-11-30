@@ -28,10 +28,11 @@ public:
 signals:
     void dataChanged();
 private:
+    void insertRuleSilent(Rule rule);
+    int nextId;
     RuleMapper ruleMapper;
     SQLiteDB &db;
     QVector<std::shared_ptr<Rule> > deletedRules;
-    QVector<std::shared_ptr<Rule> > changedRules;
     QVector<std::shared_ptr<Rule> > newRules;
 };
 

@@ -73,6 +73,10 @@ public:
 
     void setSaveButtonEnabled();
 
+    bool hasChanges();
+protected:
+     void closeEvent(QCloseEvent *event);
+
 public slots:
     void onDateRangeChanged(QDate start, QDate end);
 

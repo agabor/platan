@@ -6,15 +6,21 @@
 
 using namespace std;
 
-Rules::Rules(SQLiteDB &db) : ruleMapper(db), db(db)
+Rules::Rules(SQLiteDB &db) : ruleMapper(db), db(db), nextId(0)
 {
+}
+
+void Rules::insertRuleSilent(Rule rule)
+{
+    auto p = make_shared<Rule>(rule);
+    p->id = nextId++;
+    newRules.push_back(p);
+    append(p);
 }
 
 void Rules::insertRule(Rule rule)
 {
-    auto p = make_shared<Rule>(rule);
-    newRules.push_back(p);
-    append(p);
+    insertRuleSilent(rule);
     emit dataChanged();
 }
 
@@ -27,23 +33,30 @@ void Rules::init()
 {
     clear();
     for (Rule &r : getRules())
+    {
+        if (r.id >= nextId)
+            nextId = r.id + 1;
         push_back(shared_ptr<Rule>(new Rule(r)));
+    }
 }
 
 void Rules::insertRules(QVector<Rule> rules)
 {
     for (Rule r : rules)
     {
-        auto p = make_shared<Rule>(r);
-        newRules.push_back(p);
-        append(p);
+        insertRuleSilent(r);
     }
     emit dataChanged();
 }
 
 void Rules::removeRuleAt(int index)
 {
-    deletedRules.push_back(at(index));
+    auto rule = at(index);
+    int i = newRules.indexOf(rule);
+    if (i  != -1)
+        newRules.removeAt(i);
+    else
+        deletedRules.push_back(rule);
     removeAt(index);
     emit dataChanged();
 }
@@ -55,10 +68,6 @@ void Rules::save()
     for(auto r : deletedRules)
         ruleMapper.remove(*r);
     deletedRules.clear();
-
-    for(auto r : changedRules)
-        ruleMapper.update(*r);
-    changedRules.clear();
 
     for(auto r : newRules)
         ruleMapper.insert(*r);
@@ -77,5 +86,5 @@ QStringList Rules::typeList()
 
 bool Rules::changed() const
 {
-    return !deletedRules.isEmpty() ||!changedRules.isEmpty() ||!newRules.isEmpty();
+    return !deletedRules.isEmpty()  ||!newRules.isEmpty();
 }

@@ -85,7 +85,7 @@ QVector<Rule> RuleMapper::getAll(int _country) const
 TableStructure RuleMapper::getStructure()
 {
     TableStructure rules{db_rule::rules};
-    rules.addField(db_rule::id, SQLType::DefaultPK());
+    rules.addField(db_rule::id, SQLType::Integer().PK().NotNull());
     rules.addField(db_rule::column, SQLType::Integer().NotNull());
     rules.addField(db_rule::value, SQLType::Text().NotNull());
     rules.addField(db_rule::category, SQLType::Integer().NotNull());
