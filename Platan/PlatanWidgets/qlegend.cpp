@@ -21,11 +21,13 @@
 #include <qlegend.h>
 #include <qlegenditem.h>
 
+const int minimal_height = 10;
+
 QLegend::QLegend(QWidget *parent) :
     QWidget(parent)
 {
     setLayout(new QVBoxLayout());
-    setFixedHeight(0);
+    setFixedHeight(minimal_height);
 }
 
 void QLegend::addItem(QColor color, QString name)
@@ -44,5 +46,5 @@ void QLegend::clear()
         delete items.first();
         items.pop_front();
     }
-    setFixedHeight(0);
+    setFixedHeight(minimal_height);
 }
