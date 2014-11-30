@@ -26,7 +26,7 @@
 #include <sqlitedb.h>
 #include <rule.h>
 
-namespace columns
+namespace db_rule
 {
 QString rules = "Rules";
 QString column = "Column";
@@ -43,25 +43,25 @@ RuleMapper::RuleMapper(SQLiteDB &db) : data_base(db)
 
 void RuleMapper::insert(Rule &r) const
 {
-    SQLInsert insert(columns::rules);
-    insert.set(columns::column, r.column);
-    insert.set(columns::value, r.value);
-    insert.set(columns::category, r.category);
-    insert.set(columns::type, static_cast<int>(r.type));
+    SQLInsert insert(db_rule::rules);
+    insert.set(db_rule::column, r.column);
+    insert.set(db_rule::value, r.value);
+    insert.set(db_rule::category, r.category);
+    insert.set(db_rule::type, static_cast<int>(r.type));
 
     data_base.execute(insert);
 }
 
 QVector<Rule> RuleMapper::getAll(int _country) const
 {
-    SQLSelect select{columns::rules};
-    select.field(columns::id);
-    select.field(columns::column);
-    select.field(columns::value);
-    select.field(columns::category);
-    select.field(columns::type);
+    SQLSelect select{db_rule::rules};
+    select.field(db_rule::id);
+    select.field(db_rule::column);
+    select.field(db_rule::value);
+    select.field(db_rule::category);
+    select.field(db_rule::type);
     if (_country != -1)
-        select.where(QString("%1 = %2").arg(columns::country).arg(_country));
+        select.where(QString("%1 = %2").arg(db_rule::country).arg(_country));
 
     SQLiteStatement statement;
 
@@ -84,34 +84,34 @@ QVector<Rule> RuleMapper::getAll(int _country) const
 
 TableStructure RuleMapper::getStructure()
 {
-    TableStructure rules{columns::rules};
-    rules.addField(columns::id, SQLType::DefaultPK());
-    rules.addField(columns::column, SQLType::Integer().NotNull());
-    rules.addField(columns::value, SQLType::Text().NotNull());
-    rules.addField(columns::category, SQLType::Integer().NotNull());
-    rules.addField(columns::type, SQLType::Integer().NotNull());
+    TableStructure rules{db_rule::rules};
+    rules.addField(db_rule::id, SQLType::DefaultPK());
+    rules.addField(db_rule::column, SQLType::Integer().NotNull());
+    rules.addField(db_rule::value, SQLType::Text().NotNull());
+    rules.addField(db_rule::category, SQLType::Integer().NotNull());
+    rules.addField(db_rule::type, SQLType::Integer().NotNull());
     return rules;
 }
 
 TableStructure RuleMapper::getStructureWithCountry()
 {
     TableStructure rules = getStructure();
-    rules.addField(columns::country, SQLType::Integer());
+    rules.addField(db_rule::country, SQLType::Integer());
     return rules;
 }
 
 void RuleMapper::remove(Rule &r)
 {
-    SQLDelete del{columns::rules};
-    del.where(QString("%1 = %2").arg(columns::id).arg(r.id));
+    SQLDelete del{db_rule::rules};
+    del.where(QString("%1 = %2").arg(db_rule::id).arg(r.id));
 }
 
 void RuleMapper::update(Rule &r)
 {
-    SQLUpdate update{columns::rules};
-    update.set(columns::column, r.column);
-    update.set(columns::value, r.value);
-    update.set(columns::category, r.category);
-    update.set(columns::type, static_cast<int>(r.type));
-    update.where(QString("%1 = %2").arg(columns::id).arg(r.id));
+    SQLUpdate update{db_rule::rules};
+    update.set(db_rule::column, r.column);
+    update.set(db_rule::value, r.value);
+    update.set(db_rule::category, r.category);
+    update.set(db_rule::type, static_cast<int>(r.type));
+    update.where(QString("%1 = %2").arg(db_rule::id).arg(r.id));
 }
