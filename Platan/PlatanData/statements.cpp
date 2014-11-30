@@ -161,6 +161,7 @@ void Statements::rollBack(Rule rule)
             s->ruleId == -1;
             s->category = 0;
             changes.insert(s);
+            changed = true;
         }
     }
     if (changed)
