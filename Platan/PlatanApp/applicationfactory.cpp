@@ -5,8 +5,6 @@
 #include <statements.h>
 #include <rules.h>
 #include <countrymapper.h>
-#include <pythonide.h>
-#include <pythonapi.h>
 #include <sqlitedb.h>
 #include <applicationdb.h>
 #include <projectdb.h>
@@ -24,10 +22,6 @@ void ApplicationFactory::construct(int &argc, char *argv[])
 
     mainWindow.reset(new MainWindow(*statements, *rules, *viewModel));
     mainApplication->setMainWindow(mainWindow);
-    pythonConsole.reset(new PythonIDE());
-    pythonConsole->setMainWindow(mainWindow.get());
-    mainWindow->setPythonIDE(pythonConsole);
-    PythonAPI::setPythonIDE(pythonConsole.get());
 }
 
 void ApplicationFactory::init()

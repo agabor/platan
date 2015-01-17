@@ -28,7 +28,6 @@
 #include <qpiechart.h>
 #include <addruledialog.h>
 #include <ui_mainwindow.h>
-#include <pythonide.h>
 #include <rulewidget.h>
 #include <setcategorydialog.h>
 #include <welcomewidget.h>
@@ -37,7 +36,6 @@
 #include <ruletablemodel.h>
 #include <rules.h>
 #include <viewmodel.h>
-#include <PythonAPI/pythonapi.h>
 #include <statements.h>
 
 MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent) :
@@ -107,10 +105,6 @@ void MainWindow::init()
     }
 }
 
-void MainWindow::setPythonIDE(std::shared_ptr<PythonIDE> pythonIDE)
-{
-    this->pythonIDE = pythonIDE;
-}
 
 void MainWindow::initChart(QVector<QPair<QColor, float>> values)
 {
@@ -301,12 +295,6 @@ void MainWindow::onUnsetDateRange()
     statements.UnsetTimeInterval();
     viewModel.initTableModels();
     refreshChart();
-}
-
-
-void MainWindow::on_actionPythonConsole_triggered()
-{
-    pythonIDE->show();
 }
 
 

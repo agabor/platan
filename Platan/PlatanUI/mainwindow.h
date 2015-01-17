@@ -39,7 +39,6 @@ class QStatemenView;
 class QPieChart;
 class StatementTableModel;
 class ViewModel;
-class PythonIDE;
 
 class MainWindow : public QMainWindow
 {
@@ -69,8 +68,6 @@ public:
 
     void init();
 
-    void setPythonIDE(std::shared_ptr<PythonIDE> pythonIDE);
-
     void setSaveButtonEnabled();
 
     bool hasChanges();
@@ -95,7 +92,6 @@ private slots:
 
     void onUnsetDateRange();
 
-    void on_actionPythonConsole_triggered();
 
     void refreshStatements();
 
@@ -120,7 +116,6 @@ private:
     Statements &statements;
     Rules &rules;
     ViewModel &viewModel;
-    std::shared_ptr<PythonIDE> pythonIDE;
     QMap<int, float> classes;
     QMap<int, QString> classNames;
     ColorPalette palette;
