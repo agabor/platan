@@ -23,6 +23,7 @@
 class QLabel;
 class QTableWidget;
 class QToolButton;
+class QCheckBox;
 
 class DateRangeWidget : public QWidget
 {
@@ -46,6 +47,7 @@ private:
     QDate endDate;
     QToolButton *previousYear;
     QToolButton *nextYear;
+    QCheckBox *showAllCHB;
     int firstEnabledMonth();
     int lastEnabledMonth();
 private slots:
