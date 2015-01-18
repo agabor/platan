@@ -52,7 +52,10 @@ void CSVImportWidget::setTableModel(CSVTableModel *model)
 
 QVector<Statement> CSVImportWidget::getImportedStatements() const
 {
-    return transformer.transform(tableModel);
+    tableModel->setShowUsageHeaders(false);
+    auto result = transformer.transform(tableModel);
+    tableModel->setShowUsageHeaders(true);
+    return result;
 }
 
 const TableTransformer &CSVImportWidget::getTransformer() const
