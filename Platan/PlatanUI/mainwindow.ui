@@ -112,7 +112,6 @@
    <addaction name="actionSave"/>
    <addaction name="actionHome"/>
    <addaction name="actionImport_Bank_Statements"/>
-   <addaction name="actionPythonConsole"/>
    <addaction name="actionAdd_rule"/>
    <addaction name="actionSet_category"/>
    <addaction name="actionChangeRule"/>
@@ -149,15 +148,6 @@
    </property>
    <property name="text">
     <string>Close</string>
-   </property>
-  </action>
-  <action name="actionPythonConsole">
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/icons/icons/text-x-python.png</normaloff>:/icons/icons/text-x-python.png</iconset>
-   </property>
-   <property name="text">
-    <string>PythonConsole</string>
    </property>
   </action>
   <action name="actionImport_Bank_Statements">

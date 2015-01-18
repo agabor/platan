@@ -66,7 +66,6 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
     unclassifiedTable->addAction(ui->actionAdd_rule);
     unclassifiedTable->addAction(ui->actionSet_category);
-    ui->actionPythonConsole->setEnabled(false);
 
     connect(&rules, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
     connect(&statements, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
