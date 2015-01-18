@@ -34,6 +34,18 @@
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="topMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>3</number>
+          </property>
+          <property name="bottomMargin">
+           <number>3</number>
+          </property>
           <item>
            <widget class="QPieChart" name="chart" native="true">
             <property name="minimumSize">
@@ -52,7 +64,9 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="QLegend" name="legend" native="true"/>
+           <widget class="QLegend" name="legend" native="true">
+            <zorder>verticalSpacer</zorder>
+           </widget>
           </item>
           <item>
            <spacer name="verticalSpacer">

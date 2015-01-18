@@ -44,7 +44,7 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
     statements(statements),
     rules(rules),
     viewModel(viewModel),
-    unclassifiedTable(new QStatemenView(this)),
+    unclassifiedTable(new QStatemenView()),
     welcomeWidget(nullptr)
 {
     ui->setupUi(this);
