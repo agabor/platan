@@ -82,9 +82,7 @@ void CSVImportWidget::typeChanged(ColumnType type)
 
 void CSVImportWidget::separatorChanged(char c)
 {
-    if (columnPropertiesWidget->type() == ColumnType::Amount)
-        transformer.Amount.setDecimal(c);
-    else if (columnPropertiesWidget->type() == ColumnType::Date)
+    if (columnPropertiesWidget->type() == ColumnType::Date)
         transformer.Date.setSeparator(c);
 }
 
@@ -98,11 +96,7 @@ void CSVImportWidget::currentCellChanged(QModelIndex)
    columnPropertiesWidget->setEnabled(true);
    ColumnType type = transformer.getColumnType(currentColumn());
    columnPropertiesWidget->setType(type);
-   if (type == ColumnType::Amount)
-   {
-       columnPropertiesWidget->setSeparator(transformer.Amount.getDecimal());
-   }
-   else if (type == ColumnType::Date)
+   if (type == ColumnType::Date)
    {
        columnPropertiesWidget->setSeparator(transformer.Date.getSeparator());
        columnPropertiesWidget->setDateOrder(transformer.Date.getOrder());

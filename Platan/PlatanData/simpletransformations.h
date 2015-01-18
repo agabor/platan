@@ -42,12 +42,7 @@ public:
     FloatTransformation();
 
     float convert(QString data) const;
-    char getDecimal() const;
-    void setDecimal(char value);
     QString getErrorMessage() const;
-
-protected:
-    char decimal;
 };
 
 
