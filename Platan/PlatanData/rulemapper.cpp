@@ -25,29 +25,17 @@
 #include <tablestructure.h>
 #include <sqlitedb.h>
 #include <rule.h>
+#include <ruleexport.h>
 
-namespace db_rule
-{
-QString rules = "Rules";
-QString column = "Column";
-QString id = "Id";
-QString value = "Value";
-QString category = "Category";
-QString type = "Type";
-QString country = "Country";
-}
 
 RuleMapper::RuleMapper(SQLiteDB &db) : data_base(db)
 {
 }
 
+
 void RuleMapper::insert(Rule &r) const
 {
-    SQLInsert insert(db_rule::rules);
-    insert.set(db_rule::column, r.column);
-    insert.set(db_rule::value, r.value);
-    insert.set(db_rule::category, r.category);
-    insert.set(db_rule::type, static_cast<int>(r.type));
+    SQLInsert insert = getInsertQuery(r);
 
     data_base.execute(insert);
 }

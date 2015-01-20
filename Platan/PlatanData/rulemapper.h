@@ -7,6 +7,7 @@ template <typename T>
 class QVector;
 class SQLiteDB;
 class TableStructure;
+class SQLInsert;
 
 class RuleMapper
 {
