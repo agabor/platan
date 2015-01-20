@@ -18,5 +18,6 @@ const QString country = "Country";
 }
 
 SQLInsert getInsertQuery(Rule &r);
+void exportRules(QString file_name, QVector<std::shared_ptr<Rule> > rules);
 
 #endif // RULEEXPORT_H

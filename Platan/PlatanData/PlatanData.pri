@@ -18,7 +18,7 @@ SOURCES += \
     ../Platan/PlatanData/applicationdb.cpp \
     ../Platan/PlatanData/projectdb.cpp \
     ../Platan/PlatanData/ruletablemodel.cpp \
-    $$PWD/ruleexport.cpp
+    $$PWD/exportrules.cpp
 
 HEADERS += \
     ../Platan/PlatanData/statementtablemodel.h \
@@ -41,7 +41,7 @@ HEADERS += \
     ../Platan/PlatanData/applicationdb.h \
     ../Platan/PlatanData/projectdb.h \
     ../Platan/PlatanData/ruletablemodel.h \
-    $$PWD/ruleexport.h
+    $$PWD/exportrules.h
 
 unix:!symbian {
     maemo5 {

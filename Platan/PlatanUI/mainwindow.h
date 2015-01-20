@@ -109,6 +109,8 @@ private slots:
 
     void on_actionDeleteRule_triggered();
 
+    void on_actionExport_Commands_triggered();
+
 private:
 
     Ui::MainWindow *ui;

@@ -64,9 +64,7 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <item>
-           <widget class="QLegend" name="legend" native="true">
-            <zorder>verticalSpacer</zorder>
-           </widget>
+           <widget class="QLegend" name="legend" native="true"/>
           </item>
           <item>
            <spacer name="verticalSpacer">
@@ -130,6 +128,7 @@
    <addaction name="actionSet_category"/>
    <addaction name="actionChangeRule"/>
    <addaction name="actionDeleteRule"/>
+   <addaction name="actionExport_Commands"/>
   </widget>
   <action name="actionHome">
    <property name="icon">
@@ -167,7 +166,7 @@
   <action name="actionImport_Bank_Statements">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/icons/document-import.png</normaloff>:/icons/icons/document-import.png</iconset>
+     <normaloff>:/icons/icons/import.png</normaloff>:/icons/icons/import.png</iconset>
    </property>
    <property name="text">
     <string>Import Bank Statements</string>
@@ -243,6 +242,18 @@
    </property>
    <property name="text">
     <string>Delete rule</string>
+   </property>
+  </action>
+  <action name="actionExport_Commands">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/export-green.png</normaloff>:/icons/icons/export-green.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export Commands</string>
+   </property>
+   <property name="toolTip">
+    <string>Export Commands</string>
    </property>
   </action>
  </widget>

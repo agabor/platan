@@ -25,7 +25,7 @@
 #include <tablestructure.h>
 #include <sqlitedb.h>
 #include <rule.h>
-#include <ruleexport.h>
+#include <exportrules.h>
 
 
 RuleMapper::RuleMapper(SQLiteDB &db) : data_base(db)

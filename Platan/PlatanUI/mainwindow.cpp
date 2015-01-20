@@ -37,6 +37,7 @@
 #include <rules.h>
 #include <viewmodel.h>
 #include <statements.h>
+#include <exportrules.h>
 
 MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent) :
     QMainWindow(parent),
@@ -374,4 +375,12 @@ void MainWindow::on_actionDeleteRule_triggered()
     int r = index.row();
     statements.rollBack(*rules.at(r));
     rules.removeRuleAt(r);
+}
+
+void MainWindow::on_actionExport_Commands_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Open File"),
+                                                    "",
+                                                    tr("Files (*.sql)"));
+    exportRules(fileName, rules);
 }
