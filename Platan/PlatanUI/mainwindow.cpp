@@ -68,6 +68,8 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
     unclassifiedTable->addAction(ui->actionAdd_rule);
     unclassifiedTable->addAction(ui->actionSet_category);
+    ui->statements_table->addAction(ui->actionAdd_rule);
+    ui->statements_table->addAction(ui->actionSet_category);
     ui->actionPythonConsole->setEnabled(false);
 
     connect(&rules, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
@@ -223,6 +225,7 @@ void MainWindow::sliceClicked(int idx)
     {
         class_table = new QStatemenView();
         class_table->setModel(viewModel.getStatementsForClass(class_idx).get());
+        class_table->addAction(ui->actionSet_category);
     }
 
     ui->tabWidget->addTableViewTab(class_table, class_name);
@@ -355,7 +358,8 @@ void MainWindow::onTabChanged(int idx)
         ui->actionSet_category->setEnabled(false);
         return;
     }
-    ui->actionAdd_rule->setEnabled(uc_idx == idx);
+    if (uc_idx == idx)
+    ui->actionAdd_rule->setEnabled(true);
     ui->actionSet_category->setEnabled(uc_idx == idx);
 }
 
@@ -387,4 +391,9 @@ void MainWindow::on_actionDeleteRule_triggered()
     int r = index.row();
     statements.rollBack(*rules.at(r));
     rules.removeRuleAt(r);
+}
+
+void MainWindow::statementsTableIndexChanged(const QModelIndex &current, const QModelIndex &previous)
+{
+    ui->actionAdd_rule->setEnabled(statements[current.row()]->category == 0);
 }

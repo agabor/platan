@@ -22,6 +22,7 @@
 #include <QVector>
 #include <QTabWidget>
 #include <QDate>
+#include <QModelIndex>
 
 #include <memory>
 
@@ -112,6 +113,8 @@ private slots:
     void on_actionSave_triggered();
 
     void on_actionDeleteRule_triggered();
+
+    void statementsTableIndexChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:
 

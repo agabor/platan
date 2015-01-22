@@ -26,13 +26,16 @@ public:
 private slots:
     void initRules();
     void initStatements();
+    tableIndexChanged(QModelIndex &current, QModelIndex &previous);
 private:
+    void setEventListener(StatementTableModel &model);
     QMap<int, std::shared_ptr<StatementTableModel>> classStatements;
     std::shared_ptr<StatementTableModel> uncategorisedStatements;
     std::shared_ptr<StatementTableModel> allStatements;
     std::shared_ptr<RuleTableModel> ruleTable;
     Statements &statements;
     Rules &rules;
+    std::shared_ptr<Statement> activeStatement;
 };
 
 #endif // VIEWMODEL_H

@@ -75,6 +75,16 @@ void ViewModel::initStatements()
     uncategorisedStatements->setData(uncategorised);
 }
 
+ViewModel::tableIndexChanged(QModelIndex &current, QModelIndex &previous)
+{
+
+}
+
+void ViewModel::setEventListener(StatementTableModel &model)
+{
+    connect(&model, SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(tableIndexChanged(QModelIndex,QModelIndex)));
+}
+
 void ViewModel::initTableModels()
 {
     initRules();
