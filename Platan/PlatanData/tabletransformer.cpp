@@ -23,7 +23,7 @@ QVector<Statement> TableTransformer::transform(CSVTableModel *model) const
         tr->clearErrorList();
 
     QVector<Statement> rows;
-    for(int r = 0; r < model->rowCount(); ++r)
+    for(int r = 1; r < model->rowCount(); ++r)
     {
         Statement row;
         if (Amount.configured())
@@ -78,8 +78,8 @@ QVector<ColumnType> TableTransformer::unsetMandatoryFields() const
         result.push_back(ColumnType::Date);
     if (!Payee.configured())
         result.push_back(ColumnType::Payee);
-    if (!PayeeAccount.configured())
-        result.push_back(ColumnType::PayeeAccount);
+    //if (!PayeeAccount.configured())
+    //    result.push_back(ColumnType::PayeeAccount);
 
     return result;
 }

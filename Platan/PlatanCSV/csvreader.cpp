@@ -64,7 +64,10 @@ CSVTableModel *CSVReader::read(QTextStream &input)
     {
         line = input.readLine();
         if (i < linesToSkip)
+        {
+            ++i;
             continue;
+        }
         QStringList string_list = line.split(_separator);
         if (_quote != '\0')
         {

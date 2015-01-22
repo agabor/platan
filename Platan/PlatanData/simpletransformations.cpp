@@ -45,6 +45,16 @@ FloatTransformation::FloatTransformation()
 
 }
 
+QString getNumberString(QString str)
+{
+    QString num;
+    for(QChar c : str)
+        if (c.isDigit() || c == '-')
+            num += c;
+
+    return num;
+}
+
 float FloatTransformation::convert(QString data) const
 {
     QStringList string_list = data.split(decimal);
@@ -59,7 +69,7 @@ float FloatTransformation::convert(QString data) const
     }
 
     bool ok;
-    const int w = string_list.at(0).toInt(&ok);
+    const int w = getNumberString(string_list.at(0)).toInt(&ok);
 
     if (!ok && !error_found)
     {
@@ -70,7 +80,7 @@ float FloatTransformation::convert(QString data) const
     if (length == 1)
         return (float)w;
 
-    const QString frac_string = string_list.at(1);
+    const QString frac_string = getNumberString(string_list.at(1));
     const int frac = frac_string.toInt(&ok);
 
     if (!ok && !error_found)

@@ -59,6 +59,7 @@ void CSVConfigWidget::setReader(QString filename, CSVReader *r)
     if (c != '\0')
         reader->setQuote(c);
     reader->setHeadersInFirstRow(analyser.areHeadersInFirstLine());
+    reader->setLinesToSkip(analyser.getLinesToSkip());
     CSVReaderProperties->setReader(reader);
     readCSV();
 }

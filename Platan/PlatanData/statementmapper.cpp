@@ -84,7 +84,7 @@ QVector<Statement> StatementMapper::getAll(const SQLCondition &cond)
         row.description = statement.GetText(3);
         row.payee = statement.GetText(4);
         row.payeeAccount = statement.GetText(5);
-        row.amount = statement.GetDouble(6);
+        row.amount = statement.GetDouble(6) * -1.f;
         row.category = statement.GetInt(7);
         result.push_back(row);
     }
