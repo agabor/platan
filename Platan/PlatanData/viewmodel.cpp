@@ -75,10 +75,6 @@ void ViewModel::initStatements()
     uncategorisedStatements->setData(uncategorised);
 }
 
-ViewModel::tableIndexChanged(QModelIndex &current, QModelIndex &previous)
-{
-
-}
 
 void ViewModel::setEventListener(StatementTableModel &model)
 {

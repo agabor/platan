@@ -26,7 +26,6 @@ public:
 private slots:
     void initRules();
     void initStatements();
-    tableIndexChanged(QModelIndex &current, QModelIndex &previous);
 private:
     void setEventListener(StatementTableModel &model);
     QMap<int, std::shared_ptr<StatementTableModel>> classStatements;

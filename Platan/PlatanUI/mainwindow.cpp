@@ -69,7 +69,6 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
     unclassifiedTable->addAction(ui->actionSet_category);
     ui->statements_table->addAction(ui->actionAdd_rule);
     ui->statements_table->addAction(ui->actionSet_category);
-    ui->actionPythonConsole->setEnabled(false);
 
     connect(&rules, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
     connect(&statements, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
