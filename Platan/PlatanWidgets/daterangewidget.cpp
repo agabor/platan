@@ -82,10 +82,10 @@ DateRangeWidget::DateRangeWidget(QWidget * parent) : QWidget(parent)
 
     setFixedWidth(monthTable->maximumWidth()+10);
 
-    QCheckBox *showAll = new QCheckBox(tr("Show all"), this);
-    layout->addWidget(showAll);
-    connect(showAll, SIGNAL(toggled(bool)), this, SLOT(showAll(bool)));
-    showAll->setChecked(true);
+    showAllCHB = new QCheckBox(tr("Show all"), this);
+    layout->addWidget(showAllCHB);
+    connect(showAllCHB, SIGNAL(toggled(bool)), this, SLOT(showAll(bool)));
+    showAllCHB->setChecked(true);
 }
 
 
@@ -162,8 +162,8 @@ void DateRangeWidget::onMonthChanged()
 
 void DateRangeWidget::enableDateNavigation()
 {
-    previousYear->setEnabled(year > startDate.year());
-    nextYear->setEnabled(year < endDate.year());
+    previousYear->setEnabled(!showAllCHB->isChecked() && year > startDate.year());
+    nextYear->setEnabled(!showAllCHB->isChecked() && year < endDate.year());
     for (int r = 0 ; r < 3; ++r)
         for (int c = 0 ; c < 4; ++c)
         {

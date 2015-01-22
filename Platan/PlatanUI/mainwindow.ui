@@ -34,6 +34,18 @@
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <layout class="QVBoxLayout" name="verticalLayout">
+          <property name="leftMargin">
+           <number>3</number>
+          </property>
+          <property name="topMargin">
+           <number>3</number>
+          </property>
+          <property name="rightMargin">
+           <number>3</number>
+          </property>
+          <property name="bottomMargin">
+           <number>3</number>
+          </property>
           <item>
            <widget class="QPieChart" name="chart" native="true">
             <property name="minimumSize">
@@ -112,11 +124,11 @@
    <addaction name="actionSave"/>
    <addaction name="actionHome"/>
    <addaction name="actionImport_Bank_Statements"/>
-   <addaction name="actionPythonConsole"/>
    <addaction name="actionAdd_rule"/>
    <addaction name="actionSet_category"/>
    <addaction name="actionChangeRule"/>
    <addaction name="actionDeleteRule"/>
+   <addaction name="actionExport_Commands"/>
   </widget>
   <action name="actionHome">
    <property name="icon">
@@ -151,19 +163,10 @@
     <string>Close</string>
    </property>
   </action>
-  <action name="actionPythonConsole">
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/icons/icons/text-x-python.png</normaloff>:/icons/icons/text-x-python.png</iconset>
-   </property>
-   <property name="text">
-    <string>PythonConsole</string>
-   </property>
-  </action>
   <action name="actionImport_Bank_Statements">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/icons/icons/document-import.png</normaloff>:/icons/icons/document-import.png</iconset>
+     <normaloff>:/icons/icons/import.png</normaloff>:/icons/icons/import.png</iconset>
    </property>
    <property name="text">
     <string>Import Bank Statements</string>
@@ -239,6 +242,18 @@
    </property>
    <property name="text">
     <string>Delete rule</string>
+   </property>
+  </action>
+  <action name="actionExport_Commands">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/export-green.png</normaloff>:/icons/icons/export-green.png</iconset>
+   </property>
+   <property name="text">
+    <string>Export Commands</string>
+   </property>
+   <property name="toolTip">
+    <string>Export Commands</string>
    </property>
   </action>
  </widget>

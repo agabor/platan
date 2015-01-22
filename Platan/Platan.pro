@@ -24,7 +24,6 @@ INCLUDEPATH += SQLiteWrapper \
                PlatanUI \
                PlatanWidgets \
                PlatanApp \
-               PythonAPI \
                PlatanCSV
 
 include(SQLiteWrapper/SQLiteWrapper.pri)
@@ -35,12 +34,6 @@ include(PlatanCSV/PlatanCSV.pri)
 include(PlatanApp/PlatanApp.pri)
 unix:include(PythonAPI/PythonAPI.pri)
 
-win32 {
-  LIBS += -LC:/Qt/5.3/mingw482_32/lib/ -lqscintilla2
-  INCLUDEPATH += C:/Qt/5.3/mingw482_32/include
-  DEPENDPATH += C:/Qt/5.3/mingw482_32/include
-  PRE_TARGETDEPS += C:/Qt/5.3/mingw482_32/lib/libqscintilla2.a
-}
 
 HEADERS += \
     stable.h

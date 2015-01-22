@@ -4,7 +4,6 @@
 #include <memory>
 
 #include <mainwindow.h>
-#include <pythonide.h>
 #include <rules.h>
 #include <applicationdb.h>
 #include <projectdb.h>
@@ -31,7 +30,6 @@ private:
     std::unique_ptr<ViewModel> viewModel;
     std::unique_ptr<ApplicationDB> applicationDB;
     std::shared_ptr<MainWindow> mainWindow;
-    std::shared_ptr<PythonIDE> pythonConsole;
     DataBaseSchema getProjectDBSchema();
 
 

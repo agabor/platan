@@ -28,7 +28,6 @@
 #include <qpiechart.h>
 #include <addruledialog.h>
 #include <ui_mainwindow.h>
-#include <pythonide.h>
 #include <rulewidget.h>
 #include <setcategorydialog.h>
 #include <welcomewidget.h>
@@ -37,8 +36,8 @@
 #include <ruletablemodel.h>
 #include <rules.h>
 #include <viewmodel.h>
-#include <PythonAPI/pythonapi.h>
 #include <statements.h>
+#include <exportrules.h>
 
 MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent) :
     QMainWindow(parent),
@@ -46,7 +45,7 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
     statements(statements),
     rules(rules),
     viewModel(viewModel),
-    unclassifiedTable(new QStatemenView(this)),
+    unclassifiedTable(new QStatemenView()),
     welcomeWidget(nullptr)
 {
     ui->setupUi(this);
@@ -109,10 +108,6 @@ void MainWindow::init()
     }
 }
 
-void MainWindow::setPythonIDE(std::shared_ptr<PythonIDE> pythonIDE)
-{
-    this->pythonIDE = pythonIDE;
-}
 
 void MainWindow::initChart(QVector<QPair<QColor, float>> values)
 {
@@ -307,12 +302,6 @@ void MainWindow::onUnsetDateRange()
 }
 
 
-void MainWindow::on_actionPythonConsole_triggered()
-{
-    pythonIDE->show();
-}
-
-
 void MainWindow::on_actionImport_Bank_Statements_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
@@ -393,7 +382,16 @@ void MainWindow::on_actionDeleteRule_triggered()
     rules.removeRuleAt(r);
 }
 
+
 void MainWindow::statementsTableIndexChanged(const QModelIndex &current, const QModelIndex &previous)
 {
     ui->actionAdd_rule->setEnabled(statements[current.row()]->category == 0);
+}
+
+void MainWindow::on_actionExport_Commands_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Open File"),
+                                                    "",
+                                                    tr("Files (*.sql)"));
+    exportRules(fileName, rules);
 }
