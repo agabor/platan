@@ -34,6 +34,8 @@ QVariant Statement::at(int idx) const
         return payeeAccount;
     case 5:
         return amount;
+    case 6:
+        return category;
     }
     return 0;
 }

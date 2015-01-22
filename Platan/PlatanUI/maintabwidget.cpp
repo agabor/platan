@@ -38,7 +38,7 @@ void MainTabWidget::removeCloseButtons()
     }
 }
 
-void MainTabWidget::openLastTab()
+void MainTabWidget::activateLastTab()
 {
     setCurrentIndex(count()-1);
 }
@@ -61,6 +61,18 @@ int MainTabWidget::getIndex(QString name) const
             return i;
     }
     return -1;
+}
+
+void MainTabWidget::activateTab(QString name)
+{
+    for(int i = 0; i < count(); ++i)
+    {
+        if (tabBar()->tabText(i) == name)
+        {
+            setCurrentIndex(i);
+            return;
+        }
+    }
 }
 
 void MainTabWidget::closeTab(int idx)

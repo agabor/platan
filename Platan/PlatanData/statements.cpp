@@ -38,21 +38,25 @@ Statements::Statements(SQLiteDB &db) : db(db), statementMapper(db)
 QStringList Statements::categoryList()
 {
     QStringList result;
-    result.push_back(QObject::tr("Undefined"));
-    result.push_back(QObject::tr("Food"));
-    result.push_back(QObject::tr("Clothes"));
-    result.push_back(QObject::tr("Housing"));
+    result.push_back(QObject::tr("Other"));
+    result.push_back(QObject::tr("Supermarket"));
+    result.push_back(QObject::tr("Clothing store"));
+    result.push_back(QObject::tr("Rent"));
     result.push_back(QObject::tr("Public transportation"));
-    result.push_back(QObject::tr("House costs"));
-    result.push_back(QObject::tr("Electronics"));
+    result.push_back(QObject::tr("Bills"));
+    result.push_back(QObject::tr("Electronics store"));
     result.push_back(QObject::tr("Cash"));
-    result.push_back(QObject::tr("Furniture"));
+    result.push_back(QObject::tr("Furniture store"));
+    result.push_back(QObject::tr("Hardware store"));
+    result.push_back(QObject::tr("Department store"));
+    result.push_back(QObject::tr("Online marketplace"));
     result.push_back(QObject::tr("Restaurant"));
     result.push_back(QObject::tr("Sport"));
     result.push_back(QObject::tr("Insurance"));
     result.push_back(QObject::tr("Bank"));
     result.push_back(QObject::tr("Drogstore"));
     result.push_back(QObject::tr("Mobil"));
+    result.push_back(QObject::tr("Savings"));
     return result;
 }
 
@@ -115,7 +119,6 @@ void Statements::save()
     }
     newStatements.clear();
     db.endTransaction();
-    emit dataChanged();
 }
 
 void Statements::categorizeUndefinedStatements(QVector<shared_ptr<Rule>> rules)
@@ -137,7 +140,7 @@ void Statements::categorizeUndefinedStatements(QVector<shared_ptr<Rule>> rules)
         emit dataChanged();
 }
 
-void Statements::categorizeUndefinedStatements(Rule rule)
+void Statements::categorizeUndefinedStatements(Rule &rule)
 {
     bool changed = false;
     for (auto s : getUncategorisedStatements())
@@ -146,7 +149,23 @@ void Statements::categorizeUndefinedStatements(Rule rule)
         {
             changes.insert(s);
             changed = true;
-            break;
+        }
+    }
+    if (changed)
+        emit dataChanged();
+}
+
+void Statements::rollBack(Rule rule)
+{
+    bool changed = false;
+    for(auto s : *this)
+    {
+        if (s->ruleId == rule.id)
+        {
+            s->ruleId == -1;
+            s->category = 0;
+            changes.insert(s);
+            changed = true;
         }
     }
     if (changed)

@@ -22,6 +22,20 @@
 #include <statement.h>
 #include <tablestructure.h>
 
+namespace db_statement
+{
+QString statements = "Statements";
+QString id = "ID";
+QString date = "Date";
+QString type = "Type";
+QString description = "Description";
+QString payee = "Payee";
+QString payeeAccount = "PayeeAccount";
+QString amount = "Amount";
+QString category = "Category";
+QString ruleId = "RuleID";
+}
+
 StatementMapper::StatementMapper(SQLiteDB &db) : data_base(db)
 {
 }
@@ -29,28 +43,30 @@ StatementMapper::StatementMapper(SQLiteDB &db) : data_base(db)
 
 void StatementMapper::update(Statement &s) const
 {
-    SQLUpdate update("statements");
-    update.set("Date", s.date.toInt());
-    update.set("Type", s.type);
-    update.set("Description", s.description);
-    update.set("Payee", s.payee);
-    update.set("PayeeAccount", s.payeeAccount);
-    update.set("Amount", s.amount);
-    update.set("Class", s.category);
-    update.where(QString("ID = %1").arg(s.id));
+    SQLUpdate update{db_statement::statements};
+    update.set(db_statement::date, s.date.toInt());
+    update.set(db_statement::type, s.type);
+    update.set(db_statement::description, s.description);
+    update.set(db_statement::payee, s.payee);
+    update.set(db_statement::payeeAccount, s.payeeAccount);
+    update.set(db_statement::amount, s.amount);
+    update.set(db_statement::category, s.category);
+    update.set(db_statement::ruleId, s.ruleId);
+    update.where(QString("%1 = %2").arg(db_statement::id).arg(s.id));
     data_base.execute(update);
 }
 
 void StatementMapper::insert(Statement &s) const
 {
-    SQLInsert insert{"Statements"};
-    insert.set("Date", s.date.toInt());
-    insert.set("Type", s.type);
-    insert.set("Description", s.description);
-    insert.set("Payee", s.payee);
-    insert.set("PayeeAccount", s.payeeAccount);
-    insert.set("Amount", s.amount);
-    insert.set("Class", 0);
+    SQLInsert insert{db_statement::statements};
+    insert.set(db_statement::date, s.date.toInt());
+    insert.set(db_statement::type, s.type);
+    insert.set(db_statement::description, s.description);
+    insert.set(db_statement::payee, s.payee);
+    insert.set(db_statement::payeeAccount, s.payeeAccount);
+    insert.set(db_statement::amount, s.amount);
+    insert.set(db_statement::category, 0);
+    insert.set(db_statement::ruleId, -1);
 
     data_base.execute(insert);
 }
@@ -60,16 +76,17 @@ QVector<Statement> StatementMapper::getAll(const SQLCondition &cond)
     QVector<Statement> result;
     SQLiteStatement statement;
 
-    SQLSelect select{"Statements"};
-    select.field("ID");
-    select.field("Date");
-    select.field("Type");
-    select.field("Description");
-    select.field("Payee");
-    select.field("PayeeAccount");
-    select.field("Amount");
-    select.field("Class");
-    select.where("Amount < 0");
+    SQLSelect select{db_statement::statements};
+    select.field(db_statement::id);
+    select.field(db_statement::date);
+    select.field(db_statement::type);
+    select.field(db_statement::description);
+    select.field(db_statement::payee);
+    select.field(db_statement::payeeAccount);
+    select.field(db_statement::amount);
+    select.field(db_statement::category);
+    select.field(db_statement::ruleId);
+    select.where(QString("%1 < 0").arg(db_statement::amount));
     if (!cond.isEmpty())
         select.where(cond);
 
@@ -86,6 +103,7 @@ QVector<Statement> StatementMapper::getAll(const SQLCondition &cond)
         row.payeeAccount = statement.GetText(5);
         row.amount = statement.GetDouble(6) * -1.f;
         row.category = statement.GetInt(7);
+        row.ruleId = statement.GetInt(8);
         result.push_back(row);
     }
     return result;
@@ -93,14 +111,15 @@ QVector<Statement> StatementMapper::getAll(const SQLCondition &cond)
 
 TableStructure StatementMapper::getStructure()
 {
-    TableStructure statements{"statements"};
-    statements.addField("ID", SQLType::Integer().PK());
-    statements.addField("Date", SQLType::Integer());
-    statements.addField("Type", SQLType::Text());
-    statements.addField("Description", SQLType::Text());
-    statements.addField("Payee", SQLType::Text());
-    statements.addField("PayeeAccount", SQLType::Text());
-    statements.addField("Amount", SQLType::Real());
-    statements.addField("Class", SQLType::Integer());
+    TableStructure statements{db_statement::statements};
+    statements.addField(db_statement::id, SQLType::Integer().PK());
+    statements.addField(db_statement::date, SQLType::Integer());
+    statements.addField(db_statement::type, SQLType::Text());
+    statements.addField(db_statement::description, SQLType::Text());
+    statements.addField(db_statement::payee, SQLType::Text());
+    statements.addField(db_statement::payeeAccount, SQLType::Text());
+    statements.addField(db_statement::amount, SQLType::Real());
+    statements.addField(db_statement::category, SQLType::Integer());
+    statements.addField(db_statement::ruleId, SQLType::Integer());
     return statements;
 }

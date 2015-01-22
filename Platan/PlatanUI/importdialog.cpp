@@ -55,6 +55,7 @@ void ImportDialog::on_next_clicked()
     ui->csvImportWidget->setVisible(true);
     ui->csvImportWidget->setTableModel(ui->csvConfigWidget->getTableModel());
     ui->finish->setVisible(true);
+    ui->next->setVisible(false);
 }
 
 QString ImportDialog::getFieldNameList(QVector<ColumnType> fields)

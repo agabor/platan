@@ -132,7 +132,7 @@ void ColumnPropertiesWidget::setType(int idx)
 {
     format->setVisible(idx == 3);
     formatLabel->setVisible(format->isVisible());
-    separator->setVisible(idx == 1 || idx == 3);
+    separator->setVisible(idx == 3);
     separatorLabel->setVisible(separator->isVisible());
 
     ColumnType currentType = type();
@@ -181,7 +181,7 @@ void ColumnPropertiesWidget::setSeparator(int idx)
 
 void ColumnPropertiesWidget::setDateOrder(int idx)
 {
-   DateOrder o;
+   DateOrder o = DMY;
    switch(idx)
    {
    case 0:

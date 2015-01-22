@@ -41,7 +41,7 @@ QDate DateTransformation::convert(QString data, DateOrder order, char separator)
         return QDate();
     }
 
-    int year, month, day;
+    int year = 0, month = 0, day = 0;
 
     bool error = false;
     for (int i = 0; i < 3; ++i)

@@ -30,10 +30,10 @@
 static QSize myGetQTableWidgetSize(QTableWidget *t) {
    int w = 0;
    for (int i = 0; i < t->columnCount(); i++)
-      w += t->columnWidth(i) + 1;
+      w += t->columnWidth(i) + 3;
    int h = 0;
    for (int i = 0; i < t->rowCount(); i++)
-      h += t->rowHeight(i) + 1;
+      h += t->rowHeight(i) + 3;
    return QSize(w, h);
 }
 
@@ -82,9 +82,10 @@ DateRangeWidget::DateRangeWidget(QWidget * parent) : QWidget(parent)
 
     setFixedWidth(monthTable->maximumWidth()+10);
 
-    QCheckBox *showAll = new QCheckBox(tr("Show all"), this);
-    layout->addWidget(showAll);
-    connect(showAll, SIGNAL(toggled(bool)), this, SLOT(showAll(bool)));
+    showAllCHB = new QCheckBox(tr("Show all"), this);
+    layout->addWidget(showAllCHB);
+    connect(showAllCHB, SIGNAL(toggled(bool)), this, SLOT(showAll(bool)));
+    showAllCHB->setChecked(true);
 }
 
 
@@ -114,6 +115,40 @@ int DateRangeWidget::selectedMonth() const
     return r * 4 + c + 1;
 }
 
+int DateRangeWidget::firstEnabledMonth()
+{
+    for (int r = 0 ; r < 3; ++r)
+    {
+        for (int c = 0 ; c < 4; ++c)
+        {
+            QTableWidgetItem *item = monthTable->item(r, c);
+            if (item->flags() & Qt::ItemIsEnabled)
+            {
+                int month = r * 4 + c + 1;
+                return month;
+            }
+        }
+    }
+    return 13;
+}
+
+int DateRangeWidget::lastEnabledMonth()
+{
+    for (int r = 2 ; r >= 0; --r)
+    {
+        for (int c = 3 ; c >= 0; --c)
+        {
+            QTableWidgetItem *item = monthTable->item(r, c);
+            if (item->flags() & Qt::ItemIsEnabled)
+            {
+                int month = r * 4 + c + 1;
+                return month;
+            }
+        }
+    }
+    return 0;
+}
+
 void DateRangeWidget::onDateRangeChanged()
 {
     emit dateRangeChanged(QDate(), QDate());
@@ -127,8 +162,8 @@ void DateRangeWidget::onMonthChanged()
 
 void DateRangeWidget::enableDateNavigation()
 {
-    previousYear->setEnabled(year > startDate.year());
-    nextYear->setEnabled(year < endDate.year());
+    previousYear->setEnabled(!showAllCHB->isChecked() && year > startDate.year());
+    nextYear->setEnabled(!showAllCHB->isChecked() && year < endDate.year());
     for (int r = 0 ; r < 3; ++r)
         for (int c = 0 ; c < 4; ++c)
         {
@@ -143,19 +178,33 @@ void DateRangeWidget::enableDateNavigation()
         }
 }
 
+void DateRangeWidget::clampMonth(int month)
+{
+    int m = firstEnabledMonth();
+    if (month < m)
+        monthTable->setCurrentCell((m-1) / 4, (m-1) % 4);
+    m = lastEnabledMonth();
+    if (month > m)
+        monthTable->setCurrentCell((m-1) / 4, (m-1) % 4);
+}
+
 void DateRangeWidget::increaseYear()
 {
+    int month = selectedMonth();
     ++year;
     setYearLabelText();
     enableDateNavigation();
+    clampMonth(month);
     onMonthChanged();
 }
 
 void DateRangeWidget::decreaseYear()
 {
+    int month = selectedMonth();
     --year;
     setYearLabelText();
     enableDateNavigation();
+    clampMonth(month);
     onMonthChanged();
 }
 
@@ -167,7 +216,10 @@ void DateRangeWidget::showAll(bool value)
     if (value)
         emit unsetDateRange();
     else
+    {
+        clampMonth(selectedMonth());
         onMonthChanged();
+    }
 }
 
 

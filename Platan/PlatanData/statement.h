@@ -33,6 +33,7 @@ public:
     QString payeeAccount;
     float amount;
     int category;
+    int ruleId;
 
     QVariant at(int idx) const;
 };

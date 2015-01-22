@@ -23,15 +23,25 @@ template <typename T>
 class QVector;
 class Statement;
 
+
+
 class Rule
 {
 public:
-    Rule(int _column, QString _value, int _category);
+    enum class Type
+    {
+        Is,
+        Contains
+    };
+
+    Rule(int _id, int _column, QString _value, int _category, Type _type);
     Rule();
     bool apply(Statement &statement);
+    int id;
     int column;
     QString value;
     int category;
+    Type type;
 };
 
 

@@ -22,6 +22,8 @@ void ViewModel::init()
     uncategorisedStatements.reset(new StatementTableModel);
     allStatements.reset(new StatementTableModel);
     ruleTable.reset(new RuleTableModel);
+    connect(&rules, SIGNAL(dataChanged()), this, SLOT(initRules()));
+    connect(&statements, SIGNAL(dataChanged()), this, SLOT(initStatements()));
 }
 
 shared_ptr<StatementTableModel> ViewModel::getUncategorisedStatementsModel()
@@ -45,9 +47,13 @@ std::shared_ptr<RuleTableModel> ViewModel::getRuleTable()
 }
 
 
-void ViewModel::initTableModels()
+void ViewModel::initRules()
 {
     ruleTable->setData(rules);
+}
+
+void ViewModel::initStatements()
+{
     allStatements->setData(statements);
     QVector<shared_ptr<Statement>> uncategorised;
     QMap<int, QVector<shared_ptr<Statement>>> categories;
@@ -67,4 +73,20 @@ void ViewModel::initTableModels()
     for (int k : categories.keys())
         classStatements[k]->setData(categories[k]);
     uncategorisedStatements->setData(uncategorised);
+}
+
+ViewModel::tableIndexChanged(QModelIndex &current, QModelIndex &previous)
+{
+
+}
+
+void ViewModel::setEventListener(StatementTableModel &model)
+{
+    connect(&model, SIGNAL(currentChanged(QModelIndex,QModelIndex)), this, SLOT(tableIndexChanged(QModelIndex,QModelIndex)));
+}
+
+void ViewModel::initTableModels()
+{
+    initRules();
+    initStatements();
 }

@@ -22,6 +22,7 @@
 #include <QVector>
 #include <QTabWidget>
 #include <QDate>
+#include <QModelIndex>
 
 #include <memory>
 
@@ -39,7 +40,6 @@ class QStatemenView;
 class QPieChart;
 class StatementTableModel;
 class ViewModel;
-class PythonIDE;
 
 class MainWindow : public QMainWindow
 {
@@ -50,7 +50,7 @@ public:
 
     ~MainWindow();
 
-    void initChart(QVector<float> values, ColorPalette *palette);
+    void initChart(QVector<QPair<QColor, float> > values);
 
     void InitLegend(ColorPalette *palette, QMap<int, QString> classNames);
 
@@ -69,12 +69,18 @@ public:
 
     void init();
 
-    void setPythonIDE(std::shared_ptr<PythonIDE> pythonIDE);
+    void setSaveButtonEnabled();
+
+    bool hasChanges();
+protected:
+     void closeEvent(QCloseEvent *event);
 
 public slots:
     void onDateRangeChanged(QDate start, QDate end);
 
 private slots:
+
+    void onDataChanged();
 
     void on_actionClose_triggered();
 
@@ -87,7 +93,6 @@ private slots:
 
     void onUnsetDateRange();
 
-    void on_actionPythonConsole_triggered();
 
     void refreshStatements();
 
@@ -105,6 +110,9 @@ private slots:
 
     void on_actionDeleteRule_triggered();
 
+    void statementsTableIndexChanged(const QModelIndex &current, const QModelIndex &previous);
+    void on_actionExport_Commands_triggered();
+
 private:
 
     Ui::MainWindow *ui;
@@ -112,7 +120,6 @@ private:
     Statements &statements;
     Rules &rules;
     ViewModel &viewModel;
-    std::shared_ptr<PythonIDE> pythonIDE;
     QMap<int, float> classes;
     QMap<int, QString> classNames;
     ColorPalette palette;

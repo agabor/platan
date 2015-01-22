@@ -17,6 +17,7 @@ ProjectsWindow::ProjectsWindow(MainApplication *application, QWidget *parent) :
     ui->setupUi(this);
     ListModel = new QStandardItemModel();
     ui->listView->setModel(ListModel);
+    ui->listView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     projectSelection = ui->listView->selectionModel();
     connect(projectSelection, SIGNAL(selectionChanged(QItemSelection,QItemSelection)), this, SLOT(onSelectedProjectChanged()));
 

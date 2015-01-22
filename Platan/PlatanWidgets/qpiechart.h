@@ -25,13 +25,15 @@
 
 class QMouseEvent;
 class ColorPalette;
+template <class Key, class T>
+class QPair;
 
 class QPieChart : public QWidget
 {
     Q_OBJECT
 public:
     explicit QPieChart(QWidget *parent);
-    void init(QVector<float> values, ColorPalette *palette);
+    void init(QVector<QPair<QColor, float>> values);
 signals:
     void sliceClicked(int idx);
 protected:

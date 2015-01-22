@@ -8,7 +8,8 @@ unix:CONFIG  += qscintilla2
 
 PRECOMPILED_HEADER = stable.h
 
-QMAKE_CXXFLAGS += -O0 -g -Werror=return-type -Wold-style-cast -Woverloaded-virtual
+QMAKE_CXXFLAGS += -O0 -g -Werror=return-type -Wold-style-cast
+QMAKE_CXXFLAGS += -Woverloaded-virtual -Wuninitialized -Werror=uninitialized -Winit-self -Werror=init-self
 unix {
   QMAKE_CXXFLAGS += $$system(python3.2-config --cflags)
   QMAKE_CXXFLAGS -= -Wstrict-prototype
@@ -23,7 +24,6 @@ INCLUDEPATH += SQLiteWrapper \
                PlatanUI \
                PlatanWidgets \
                PlatanApp \
-               PythonAPI \
                PlatanCSV
 
 include(SQLiteWrapper/SQLiteWrapper.pri)
@@ -34,12 +34,6 @@ include(PlatanCSV/PlatanCSV.pri)
 include(PlatanApp/PlatanApp.pri)
 unix:include(PythonAPI/PythonAPI.pri)
 
-win32 {
-  LIBS += -LC:/Qt/5.3/mingw482_32/lib/ -lqscintilla2
-  INCLUDEPATH += C:/Qt/5.3/mingw482_32/include
-  DEPENDPATH += C:/Qt/5.3/mingw482_32/include
-  PRE_TARGETDEPS += C:/Qt/5.3/mingw482_32/lib/libqscintilla2.a
-}
 
 HEADERS += \
     stable.h

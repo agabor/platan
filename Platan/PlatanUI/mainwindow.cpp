@@ -20,13 +20,14 @@
 #include <QVBoxLayout>
 #include <QGroupBox>
 #include <QDate>
+#include <QMessageBox>
+#include <QCloseEvent>
 
 #include <mainwindow.h>
 #include <importdialog.h>
 #include <qpiechart.h>
 #include <addruledialog.h>
 #include <ui_mainwindow.h>
-#include <pythonide.h>
 #include <rulewidget.h>
 #include <setcategorydialog.h>
 #include <welcomewidget.h>
@@ -35,8 +36,8 @@
 #include <ruletablemodel.h>
 #include <rules.h>
 #include <viewmodel.h>
-#include <PythonAPI/pythonapi.h>
 #include <statements.h>
+#include <exportrules.h>
 
 MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent) :
     QMainWindow(parent),
@@ -44,7 +45,7 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
     statements(statements),
     rules(rules),
     viewModel(viewModel),
-    unclassifiedTable(new QStatemenView(this)),
+    unclassifiedTable(new QStatemenView()),
     welcomeWidget(nullptr)
 {
     ui->setupUi(this);
@@ -62,12 +63,16 @@ MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewMode
         action->setStatusTip(action->toolTip());
     }
 
-    connect(&statements,SIGNAL(dataChanged()), this, SLOT(refreshStatements()));
-
     uncategorisedTableModel = nullptr;
     connect(ui->tabWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
     unclassifiedTable->addAction(ui->actionAdd_rule);
     unclassifiedTable->addAction(ui->actionSet_category);
+    ui->statements_table->addAction(ui->actionAdd_rule);
+    ui->statements_table->addAction(ui->actionSet_category);
+    ui->actionPythonConsole->setEnabled(false);
+
+    connect(&rules, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
+    connect(&statements, SIGNAL(dataChanged()), this, SLOT(onDataChanged()));
 }
 
 
@@ -97,25 +102,24 @@ void MainWindow::init()
         connect(welcomeWidget, SIGNAL(clicked()), this, SLOT(on_actionImport_Bank_Statements_triggered()));
         this->centralWidget()->layout()->addWidget(welcomeWidget);
     } else
+    {
+        statements.categorizeUndefinedStatements(rules);
         refreshStatements();
+    }
 }
 
-void MainWindow::setPythonIDE(std::shared_ptr<PythonIDE> pythonIDE)
-{
-    this->pythonIDE = pythonIDE;
-}
 
-void MainWindow::initChart(QVector<float> values, ColorPalette *palette)
+void MainWindow::initChart(QVector<QPair<QColor, float>> values)
 {
-    ui->chart->init(values, palette);
+    ui->chart->init(values);
 }
 
 void MainWindow::InitLegend(ColorPalette *palette, QMap<int, QString> class_names)
 {
     ui->legend->clear();
-    for (int i = 0; i < class_names.size(); ++ i)
+    for (auto i : class_names.keys())
     {
-        ui->legend->addItem(palette->getColor(i), class_names.values().at(i));
+        ui->legend->addItem(palette->getColor(i), class_names[i]);
     }
 }
 
@@ -155,17 +159,16 @@ const QPieChart *MainWindow::pieChart() const
 
 void MainWindow::InitChart()
 {
-    const int size = classes.size();
-    QVector<float> values;
-    for (int i = 0; i < size; ++ i)
+    QVector<QPair<QColor, float>> values;
+    for (int i : classes.keys())
     {
-        float sum = -1 * classes.values().at(i);
+        float sum = -1 * classes[i];
         if (sum < 0)
             sum *= -1;
-        values.push_back(sum);
+        values.append(QPair<QColor, float>(palette.getColor(i), sum));
     }
 
-    initChart(values, &palette);
+    initChart(values);
 }
 
 void MainWindow::setClassNames(QMap<int, QString> &class_names)
@@ -202,28 +205,61 @@ void MainWindow::sliceClicked(int idx)
 {
     const int class_idx = classes.keys().at(idx);
     const QString &class_name = classNames[class_idx];
-    if (!ui->tabWidget->isOpen(class_name))
+    if (ui->tabWidget->isOpen(class_name))
     {
-        QTableView *class_table;
-        if (class_idx == 0)
-        {
-            uncategorisedTableModel = viewModel.getUncategorisedStatementsModel();
-            unclassifiedTable->setModel(uncategorisedTableModel.get());
-            class_table = unclassifiedTable.get();
-        } else
-        {
-            class_table = new QTableView();
-            class_table->setModel(viewModel.getStatementsForClass(class_idx).get());
-        }
-
-        ui->tabWidget->addTableViewTab(class_table, class_name);
+        ui->tabWidget->activateTab(class_name);
+        return;
     }
-    ui->tabWidget->openLastTab();
+    QTableView *class_table;
+    if (class_idx == 0)
+    {
+        uncategorisedTableModel = viewModel.getUncategorisedStatementsModel();
+        unclassifiedTable->setModel(uncategorisedTableModel.get());
+        class_table = unclassifiedTable.get();
+    } else
+    {
+        class_table = new QStatemenView();
+        class_table->setModel(viewModel.getStatementsForClass(class_idx).get());
+        class_table->addAction(ui->actionSet_category);
+    }
+
+    ui->tabWidget->addTableViewTab(class_table, class_name);
+    ui->tabWidget->activateLastTab();
+}
+
+bool MainWindow::hasChanges()
+{
+    return statements.changed() || rules.changed();
+}
+
+void MainWindow::setSaveButtonEnabled()
+{
+    ui->actionSave->setEnabled(hasChanges());
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    if (hasChanges())
+    {
+        auto reply = QMessageBox::question(this, tr("Unsaved changes"),
+                                           tr("You have unsaved changes! Would you like to save them before closing?"),
+                                      QMessageBox::Yes|QMessageBox::No|QMessageBox::Cancel);
+        switch(reply)
+        {
+        case QMessageBox::Yes:
+            on_actionSave_triggered();
+            break;
+        case QMessageBox::No:
+            break;
+        case QMessageBox::Cancel:
+            event->ignore();
+            break;
+        }
+    }
 }
 
 void MainWindow::refreshStatements()
 {
-    statements.categorizeUndefinedStatements(rules);
     viewModel.initTableModels();
     ui->rulesView->resizeColumnsToContents();
     refreshChart();
@@ -235,7 +271,7 @@ void MainWindow::refreshStatements()
         ui->tabWidget->setHidden(false);
     }
 
-    ui->actionSave->setEnabled(statements.changed());
+    setSaveButtonEnabled();
 }
 
 void MainWindow::refreshChart()
@@ -252,17 +288,17 @@ void MainWindow::onDateRangeChanged(QDate start, QDate end)
     refreshChart();
 }
 
+void MainWindow::onDataChanged()
+{
+    setSaveButtonEnabled();
+    refreshChart();
+}
+
 void MainWindow::onUnsetDateRange()
 {
     statements.UnsetTimeInterval();
     viewModel.initTableModels();
     refreshChart();
-}
-
-
-void MainWindow::on_actionPythonConsole_triggered()
-{
-    pythonIDE->show();
 }
 
 
@@ -276,7 +312,10 @@ void MainWindow::on_actionImport_Bank_Statements_triggered()
         return;
     ImportDialog id(this, fileName);
     if (id.exec() == QDialog::Accepted)
+    {
         statements.insertData(id.getImportedStatements());
+        refreshStatements();
+    }
 }
 
 void MainWindow::on_actionAdd_rule_triggered()
@@ -298,7 +337,7 @@ void MainWindow::on_actionAdd_rule_triggered()
 
 void MainWindow::onTabChanged(int idx)
 {
-    ui->actionChangeRule->setEnabled(1 == idx);
+    ui->actionChangeRule->setEnabled(false);
     ui->actionDeleteRule->setEnabled(1 == idx);
 
     int uc_idx = ui->tabWidget->getIndex(Statements::categoryList().at(0));
@@ -308,7 +347,8 @@ void MainWindow::onTabChanged(int idx)
         ui->actionSet_category->setEnabled(false);
         return;
     }
-    ui->actionAdd_rule->setEnabled(uc_idx == idx);
+    if (uc_idx == idx)
+    ui->actionAdd_rule->setEnabled(true);
     ui->actionSet_category->setEnabled(uc_idx == idx);
 }
 
@@ -327,7 +367,9 @@ void MainWindow::on_actionSet_category_triggered()
 
 void MainWindow::on_actionSave_triggered()
 {
+    rules.save();
     statements.save();
+    setSaveButtonEnabled();
 }
 
 void MainWindow::on_actionDeleteRule_triggered()
@@ -335,5 +377,21 @@ void MainWindow::on_actionDeleteRule_triggered()
     QModelIndex index = ui->rulesView->currentIndex();
     if (!index.isValid())
         return;
-    rules.removeRuleAt(index.row());
+    int r = index.row();
+    statements.rollBack(*rules.at(r));
+    rules.removeRuleAt(r);
+}
+
+
+void MainWindow::statementsTableIndexChanged(const QModelIndex &current, const QModelIndex &previous)
+{
+    ui->actionAdd_rule->setEnabled(statements[current.row()]->category == 0);
+}
+
+void MainWindow::on_actionExport_Commands_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Open File"),
+                                                    "",
+                                                    tr("Files (*.sql)"));
+    exportRules(fileName, rules);
 }

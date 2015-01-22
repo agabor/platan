@@ -20,11 +20,8 @@
 
 #include <mainapplication.h>
 #include <country.h>
-#include <pythonide.h>
 #include <mainwindow.h>
-#include <projectswindow.h>
 #include <rule.h>
-#include <pythonapi.h>
 #include <applicationdb.h>
 #include <projectdb.h>
 
@@ -41,9 +38,7 @@ MainApplication::MainApplication(int &argc, char *argv[], ApplicationDB &applica
 {
     assert(instance == nullptr);
     instance = this;
-#ifdef PYTHON_API
-    PythonAPI::init(this);
-#endif
+    connect(this, SIGNAL(aboutToQuit()), this, SLOT(cleanUp()));
 }
 
 
@@ -54,6 +49,12 @@ void MainApplication::showProjectWindow()
 
     projects_window.reset(new ProjectsWindow(this));
     projects_window->show();
+}
+
+void MainApplication::cleanUp()
+{
+    projectDB.close();
+    applicationDB.close();
 }
 
 bool MainApplication::OpenProject(QString project_path)
@@ -134,11 +135,4 @@ void MainApplication::setMainWindow(std::shared_ptr<MainWindow> mainWindow)
 void MainApplication::setDateRange(QDate start, QDate end)
 {
     mainWindow->setDateRange(start, end);
-}
-
-MainApplication::~MainApplication()
-{
-#ifdef PYTHON_API
-    PythonAPI::finalize();
-#endif
 }

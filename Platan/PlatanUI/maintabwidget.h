@@ -27,9 +27,10 @@ public:
     explicit MainTabWidget(QWidget *parent = 0);
     void addTableViewTab(QTableView *table_view, const QString &name);
     void removeCloseButtons();
-    void openLastTab();
+    void activateLastTab();
     bool isOpen(QString name) const;
     int getIndex(QString name) const;
+    void activateTab(QString name);
 private slots:
     void closeTab(int idx);
 };

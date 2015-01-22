@@ -28,11 +28,11 @@
 #include <rulemapper.h>
 #include <rules.h>
 #include <viewmodel.h>
+#include <projectswindow.h>
 
 class DataBaseSchema;
 class Rule;
 class MainWindow;
-class ProjectsWindow;
 class ApplicationDB;
 class ProjectDB;
 
@@ -42,7 +42,6 @@ class MainApplication : public QApplication
 public:
     explicit MainApplication(int &argc, char *argv[], ApplicationDB &applicationDB, ProjectDB &projectDB);
     void setDateRange(QDate start, QDate end);
-    ~MainApplication();
 
     bool OpenProject(QString project_path);
     QVector<QString> RecentProjects();
@@ -61,6 +60,8 @@ private:
     ApplicationDB &applicationDB;
     std::shared_ptr<MainWindow> mainWindow;
     static MainApplication *instance;
+private slots:
+    void cleanUp();
 };
 
 #endif // MAINAPPLICATION_H

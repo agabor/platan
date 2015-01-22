@@ -3,16 +3,18 @@
 
 #include <memory>
 
-template <class Key, class T>
-class QMap;
+#include <QObject>
+#include <QMap>
+
+#include "statementtablemodel.h"
+#include "ruletablemodel.h"
 
 class Statements;
-class StatementTableModel;
 class Rules;
-class RuleTableModel;
 
-class ViewModel
+class ViewModel : QObject
 {
+    Q_OBJECT
 public:
     ViewModel(Statements &statements, Rules &rules);
     std::shared_ptr<StatementTableModel> getUncategorisedStatementsModel();
@@ -21,13 +23,19 @@ public:
     std::shared_ptr<RuleTableModel> getRuleTable();
     void initTableModels();
     void init();
+private slots:
+    void initRules();
+    void initStatements();
+    tableIndexChanged(QModelIndex &current, QModelIndex &previous);
 private:
+    void setEventListener(StatementTableModel &model);
     QMap<int, std::shared_ptr<StatementTableModel>> classStatements;
     std::shared_ptr<StatementTableModel> uncategorisedStatements;
     std::shared_ptr<StatementTableModel> allStatements;
     std::shared_ptr<RuleTableModel> ruleTable;
     Statements &statements;
     Rules &rules;
+    std::shared_ptr<Statement> activeStatement;
 };
 
 #endif // VIEWMODEL_H

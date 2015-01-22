@@ -63,7 +63,7 @@ bool TableStructure::operator !=(const TableStructure &other) const
 
 void TableStructure::addField(QString name, SQLType type)
 {
-    name_type_pairs.push_back(pair<QString, SQLType>(name, type));
+    name_type_pairs.push_back(QPair<QString, SQLType>(name, type));
 }
 
 int TableStructure::fieldCount() const
