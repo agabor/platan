@@ -181,7 +181,7 @@ void ColumnPropertiesWidget::setSeparator(int idx)
 
 void ColumnPropertiesWidget::setDateOrder(int idx)
 {
-   DateOrder o;
+   DateOrder o = DMY;
    switch(idx)
    {
    case 0:
