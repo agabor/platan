@@ -5,3 +5,5 @@ install:
 build_script:
   - qmake PlatanTest/PlatanTest.pro
   - mingw32-make
+test_script:
+  - PlatanTest/PlatanTest.exe
