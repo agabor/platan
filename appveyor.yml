@@ -6,4 +6,4 @@ build_script:
   - qmake PlatanTest/PlatanTest.pro
   - mingw32-make
 test_script:
-  - release/tst_sqlite.exe
+  - release\tst_sqlite.exe
