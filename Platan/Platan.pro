@@ -19,6 +19,8 @@ unix {
   INCLUDEPATH += /usr/include/python3.2
 }
 
+RC_FILE = myapp.rc
+
 INCLUDEPATH += SQLiteWrapper \
                PlatanData \
                PlatanUI \
@@ -37,3 +39,6 @@ unix:include(PythonAPI/PythonAPI.pri)
 
 HEADERS += \
     stable.h
+
+DISTFILES += \
+    myapp.rc
