@@ -1,6 +1,0 @@
-#ifndef WIDGETHELPERS_H
-#define WIDGETHELPERS_H
-
-
-
-#endif // WIDGETHELPERS_H
