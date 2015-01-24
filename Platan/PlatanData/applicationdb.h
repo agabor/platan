@@ -13,7 +13,7 @@ class ApplicationDB
 public:
     ApplicationDB();
     QVector<Country> getCountries();
-    void init();
+    bool init();
     QVector<Rule> getRulesForCountry(int country);
     void close();
 private:

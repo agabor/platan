@@ -12,10 +12,10 @@ QVector<Country> ApplicationDB::getCountries()
     return countryMapper.getAll();
 }
 
-void ApplicationDB::init()
+bool ApplicationDB::init()
 {
     dataBase.setPath("platandata");
-    dataBase.open();
+    return dataBase.open();
 }
 
 QVector<Rule> ApplicationDB::getRulesForCountry(int country)
