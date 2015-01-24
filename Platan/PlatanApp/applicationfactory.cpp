@@ -1,3 +1,5 @@
+#include <QMessageBox>
+
 #include <applicationfactory.h>
 #include <rulemapper.h>
 #include <statementmapper.h>
@@ -26,7 +28,8 @@ void ApplicationFactory::construct(int &argc, char *argv[])
 
 void ApplicationFactory::init()
 {
-    applicationDB->init();
+    if(!applicationDB->init())
+        QMessageBox::warning(nullptr, "Error.", "Could not open application database.");
 }
 
 MainApplication &ApplicationFactory::application()
