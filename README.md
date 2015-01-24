@@ -6,3 +6,15 @@ Welcome to the Platan personal finance software source code. This code is releas
 
 For more information about the project please visit http://agabor.github.io/platan/
 
+User Manual
+===========
+You can read the user manual in the Wiki:
+https://github.com/agabor/platan/wiki/General-usage
+
+Comntributions
+==============
+Contributions in every form are welcome. You can:
+* Send me a mail with your opinion about the project to the angyalgabor@outlook.com address.
+* Report bugs in the issue tracker: https://github.com/agabor/platan/issues
+* You can add feature requests in the issue tracker.
+* You can join the developement, by forking and creating pull requests. You can work on any issue you like, but if you are implementing your own improvement ideas, please first add them into the issue tracker.
