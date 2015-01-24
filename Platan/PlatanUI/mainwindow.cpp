@@ -400,8 +400,8 @@ void MainWindow::on_actionAbout_triggered()
 {
     QMessageBox::information(this, "About", QString("Platan - open source expense tracker\n"
                                                     "v%1-alpha \n"
-                                                    "Distributed under GNU General Public Licence version 3 \n"
-                                                    "© Gábor Angyal, 2015 \n"
+                                                    "Distributed under the terms of the GNU General Public License version 3. \n"
+                                                    "© 2015 Gábor Angyal \n"
                                                     "Qt version %2").arg(VERSION).arg(QT_VERSION_STR));
 
 }
