@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no" />
+    <script src="http://code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="http://code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <link href="styles.css" rel="stylesheet" />
+    <link href="button.css" rel="stylesheet" />
+    <link href="../css/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="platandemo.js"></script>
+    <title>Platan Demo</title>
+</head>
+<script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(main);
+</script>
+
+<body>
+
+<!--http://adamclaxon.com/portfolio/html-and-css-iphone/-->
+<div id="devices">
+    <div id="device" class="iphone black">
+        <div id="devicetop" class="iphone-speaker">
+        </div>
+        <div id="screen" class="iphone-screen">
+            <div id="mainscreen" class="appscreen">
+                <div id="donutchart" ></div>
+                <div id="data">
+                <p></p>
+                </div>
+                <div id="calendar">
+                    <h1>
+                        <i id="yeardec" onClick="decreaseYear()" class="fa fa-chevron-left active"></i>
+                        &nbsp; &nbsp; &nbsp; &nbsp; <span id="year">2013</span> &nbsp; &nbsp; &nbsp; &nbsp;
+                        <i id="yearinc" class="fa fa-chevron-right inactive"></i>
+                    </h1>
+                    <table>
+                        <tr>
+                            <td id="m0" onClick="setMonth(0)" class="selected">Jan.</td>
+                            <td id="m1" onClick="setMonth(1)">Feb.</td>
+                            <td id="m2" onClick="setMonth(2)">Mar.</td>
+                            <td id="m3" onClick="setMonth(3)">Apr.</td>
+                        </tr>
+                        <tr>
+                            <td id="m4" onClick="setMonth(4)">May </td>
+                            <td id="m5" onClick="setMonth(5)">June</td>
+                            <td id="m6" onClick="setMonth(6)">July</td>
+                            <td id="m7" onClick="setMonth(7)">Aug.</td>
+                        </tr>
+                        <tr>
+                            <td id="m8" onClick="setMonth(8)">Sep.</td>
+                            <td id="m9" onClick="setMonth(9)">Oct.</td>
+                            <td id="m10" onClick="setMonth(10)">Nov.</td>
+                            <td id="m11" onClick="setMonth(11)">Dec.</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="button">
+        </div></a>
+    </div>
+</div>
+</body>
+</html>
