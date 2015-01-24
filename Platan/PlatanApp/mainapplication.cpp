@@ -44,9 +44,8 @@ MainApplication::MainApplication(int &argc, char *argv[], ApplicationDB &applica
 
 void MainApplication::showProjectWindow()
 {
-    applicationDB.init();
     for(Country c : applicationDB.getCountries())
-        countryCodes.insert(c.code, c.id);
+        countryCodes.insert(c.code.toUpper(), c.id);
 
     projects_window.reset(new ProjectsWindow(this));
     projects_window->show();
@@ -106,7 +105,7 @@ void MainApplication::SaveProjectPaths(QVector<QString> path_list)
 
 QVector<Rule> MainApplication::getRulesForCountry(QString code) const
 {
-    auto it = countryCodes.find(code);
+    auto it = countryCodes.find(code.toUpper());
     if (it == countryCodes.end())
         return QVector<Rule>();
     return applicationDB.getRulesForCountry(*it);
