@@ -16,6 +16,7 @@ public:
     bool init();
     QVector<Rule> getRulesForCountry(int country);
     void close();
+    void create(QString data_base_path);
 private:
     static DataBaseSchema getDBSchema();
     SQLiteDB dataBase;
