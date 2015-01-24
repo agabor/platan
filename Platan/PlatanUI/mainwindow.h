@@ -113,6 +113,8 @@ private slots:
     void statementsTableIndexChanged(const QModelIndex &current, const QModelIndex &previous);
     void on_actionExport_Commands_triggered();
 
+    void on_actionAbout_triggered();
+
 private:
 
     Ui::MainWindow *ui;

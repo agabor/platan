@@ -129,6 +129,7 @@
    <addaction name="actionChangeRule"/>
    <addaction name="actionDeleteRule"/>
    <addaction name="actionExport_Commands"/>
+   <addaction name="actionAbout"/>
   </widget>
   <action name="actionHome">
    <property name="icon">
@@ -254,6 +255,18 @@
    </property>
    <property name="toolTip">
     <string>Export Commands</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/icons/icons/help-browser.png</normaloff>:/icons/icons/help-browser.png</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="toolTip">
+    <string>About</string>
    </property>
   </action>
  </widget>

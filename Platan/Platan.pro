@@ -6,6 +6,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 CONFIG  += ordered c++11 static
 unix:CONFIG  += qscintilla2
 
+VERSION = 0.1
+
+DEFINES += VERSION='\"$${VERSION}\"'
+
 PRECOMPILED_HEADER = stable.h
 
 QMAKE_CXXFLAGS += -O0 -g -Werror=return-type -Wold-style-cast
