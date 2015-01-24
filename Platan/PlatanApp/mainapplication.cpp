@@ -44,6 +44,7 @@ MainApplication::MainApplication(int &argc, char *argv[], ApplicationDB &applica
 
 void MainApplication::showProjectWindow()
 {
+    applicationDB.init();
     for(Country c : applicationDB.getCountries())
         countryCodes.insert(c.code, c.id);
 
@@ -102,10 +103,6 @@ void MainApplication::SaveProjectPaths(QVector<QString> path_list)
     }
 }
 
-bool MainApplication::countryExists(QString code) const
-{
-    return countryCodes.keys().contains(code);
-}
 
 QVector<Rule> MainApplication::getRulesForCountry(QString code) const
 {

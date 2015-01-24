@@ -46,7 +46,6 @@ public:
     bool OpenProject(QString project_path);
     QVector<QString> RecentProjects();
     void SaveProjectPaths(QVector<QString> path_list);
-    bool countryExists(QString code) const;
     QVector<Rule> getRulesForCountry(QString code) const;
     static MainApplication *getInstance();
     void create(QString data_base_path, QString countryCode);
