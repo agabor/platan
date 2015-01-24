@@ -27,7 +27,7 @@ void exportRules(QString file_name, QVector<std::shared_ptr<Rule> > rules)
     QTextStream out_stream(&out);
 
     for (auto rule : rules)
-        out_stream << getInsertQuery(*rule).toString() << endl;
+        out_stream << getInsertQuery(*rule).toString() << ';' << endl;
 
     out.close();
 }
