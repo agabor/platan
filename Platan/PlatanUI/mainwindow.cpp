@@ -313,6 +313,7 @@ void MainWindow::on_actionImport_Bank_Statements_triggered()
     if (id.exec() == QDialog::Accepted)
     {
         statements.insertData(id.getImportedStatements());
+        statements.categorizeUndefinedStatements(rules);
         refreshStatements();
     }
 }

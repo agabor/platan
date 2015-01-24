@@ -22,6 +22,7 @@ void ProjectDB::insertRules(QVector<Rule> rulesToInsert)
 {
     db.beginTransaction();
     rules.insertRules(rulesToInsert);
+    rules.save();
     db.endTransaction();
 }
 
