@@ -12,15 +12,12 @@ DEFINES += VERSION='\"$${VERSION}\"'
 
 PRECOMPILED_HEADER = stable.h
 
-QMAKE_CXXFLAGS += -O0 -g -Werror=return-type -Wold-style-cast
-QMAKE_CXXFLAGS += -Woverloaded-virtual -Wuninitialized -Werror=uninitialized -Winit-self -Werror=init-self
 unix {
+  QMAKE_CXXFLAGS += -O0 -g -Werror=return-type -Wold-style-cast
+  QMAKE_CXXFLAGS += -Woverloaded-virtual -Wuninitialized -Werror=uninitialized -Winit-self -Werror=init-self
   QMAKE_CXXFLAGS += $$system(python3.2-config --cflags)
   QMAKE_CXXFLAGS -= -Wstrict-prototype
   QMAKE_CXXFLAGS -= -O2
-  LIBS += $$system(python3.2-config --ldflags)
-  DEFINES += PYTHON_API
-  INCLUDEPATH += /usr/include/python3.2
 }
 
 RC_FILE = myapp.rc
