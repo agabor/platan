@@ -4,7 +4,7 @@
 #include <QComboBox>
 
 QLabeledComboBox::QLabeledComboBox(QString text, QWidget *parent) :
-     QComboBox(this)
+     QComboBox(parent)
 {
     QHBoxLayout* mainLayout = new QHBoxLayout(this);
     label = new QLabel(text, this);

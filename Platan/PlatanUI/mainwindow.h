@@ -110,7 +110,7 @@ private slots:
 
     void on_actionDeleteRule_triggered();
 
-    void statementsTableIndexChanged(const QModelIndex &current, const QModelIndex &previous);
+    void statementsTableIndexChanged(const QModelIndex &current, const QModelIndex &);
     void on_actionExport_Commands_triggered();
 
     void on_actionAbout_triggered();

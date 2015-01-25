@@ -46,8 +46,8 @@ private:
     QVector<QString> ProjectPaths() const;
     QItemSelectionModel *projectSelection;
 protected:
-    void showEvent(QShowEvent *event);
-    void closeEvent(QCloseEvent *event);
+    void showEvent(QShowEvent *);
+    void closeEvent(QCloseEvent *);
 };
 
 #endif // PROJECTSWINDOW_H

@@ -57,7 +57,7 @@ void QPieChart::init(QVector<QPair<QColor, float>> values)
     highlighted_slice = -1;
 }
 
-void QPieChart::paintEvent(QPaintEvent *event)
+void QPieChart::paintEvent(QPaintEvent *)
 {
     painter.begin(this);
     painter.setRenderHint(QPainter::Antialiasing);

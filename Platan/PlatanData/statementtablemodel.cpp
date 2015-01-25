@@ -28,7 +28,7 @@ StatementTableModel::StatementTableModel(QObject *parent) :
 {
 }
 
-int StatementTableModel::rowCount(const QModelIndex& parent) const
+int StatementTableModel::rowCount(const QModelIndex&) const
 {
     return rowCount();
 }
@@ -38,7 +38,7 @@ int StatementTableModel::rowCount() const
     return Rows.size();
 }
 
-int StatementTableModel::columnCount(const QModelIndex& parent) const
+int StatementTableModel::columnCount(const QModelIndex&) const
 {
     return columnCount();
 }

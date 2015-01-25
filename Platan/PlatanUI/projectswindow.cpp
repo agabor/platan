@@ -119,13 +119,13 @@ QVector<QString> ProjectsWindow::ProjectPaths() const
    return result;
 }
 
-void ProjectsWindow::showEvent(QShowEvent *event)
+void ProjectsWindow::showEvent(QShowEvent *)
 {
     for(auto path : application->RecentProjects())
         addProjetPath(path);
 }
 
-void ProjectsWindow::closeEvent(QCloseEvent *event)
+void ProjectsWindow::closeEvent(QCloseEvent *)
 {
     application->SaveProjectPaths(ProjectPaths());
 }

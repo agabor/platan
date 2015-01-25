@@ -26,7 +26,7 @@
 class QMouseEvent;
 class ColorPalette;
 template <class Key, class T>
-class QPair;
+struct QPair;
 
 class QPieChart : public QWidget
 {
@@ -40,7 +40,7 @@ protected:
     void mouseMoveEvent ( QMouseEvent * event );
     void mouseReleaseEvent ( QMouseEvent * event );
     void mousePressEvent ( QMouseEvent * event );
-    void paintEvent(QPaintEvent *event);
+    void paintEvent(QPaintEvent *);
     void resizeEvent(QResizeEvent *);
     int pie_num;
     QPainter painter;

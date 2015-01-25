@@ -27,6 +27,8 @@
 
 using namespace std;
 
+TableStructure DataBaseSchema::invalid = TableStructure::Invalid();
+
 DataBaseSchema::DataBaseSchema()
 {
 }
@@ -74,7 +76,7 @@ const TableStructure &DataBaseSchema::getTable(QString name) const
         if (table.getName() == name)
             return table;
     }
-    return TableStructure::Invalid();
+    return invalid;
 }
 
 void DataBaseSchema::createTables(const QSqlDatabase &db) const

@@ -383,7 +383,7 @@ void MainWindow::on_actionDeleteRule_triggered()
 }
 
 
-void MainWindow::statementsTableIndexChanged(const QModelIndex &current, const QModelIndex &previous)
+void MainWindow::statementsTableIndexChanged(const QModelIndex &current, const QModelIndex &)
 {
     ui->actionAdd_rule->setEnabled(statements[current.row()]->category == 0);
 }

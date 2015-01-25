@@ -26,7 +26,7 @@
 #include <statement.h>
 
 template <class T1, class T2>
-class QPair;
+struct QPair;
 class QDate;
 
 class StatementTableModel : public QAbstractTableModel
@@ -34,9 +34,9 @@ class StatementTableModel : public QAbstractTableModel
     Q_OBJECT
 public:
     explicit StatementTableModel(QObject *parent = 0);
-    int rowCount(const QModelIndex& parent) const;
+    int rowCount(const QModelIndex&) const;
     int rowCount() const;
-    int columnCount(const QModelIndex& parent) const;
+    int columnCount(const QModelIndex&) const;
     int columnCount() const;
     QVariant data(const QModelIndex& index, int role) const;
     Statement &row(int idx);

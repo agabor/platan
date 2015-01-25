@@ -34,6 +34,7 @@ public:
     void createTables(const QSqlDatabase &db) const;
 private:
     QVector<TableStructure> tables;
+    static TableStructure invalid;
 };
 
 #endif // DATABASESCHEMA_H

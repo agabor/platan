@@ -162,7 +162,7 @@ void Statements::rollBack(Rule rule)
     {
         if (s->ruleId == rule.id)
         {
-            s->ruleId == -1;
+            s->ruleId = -1;
             s->category = 0;
             changes.insert(s);
             changed = true;
