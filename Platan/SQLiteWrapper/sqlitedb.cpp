@@ -1,4 +1,4 @@
-// This file is part of Platan.
+﻿// This file is part of Platan.
 // Copyright (C) 2014 Gábor Angyal
 //
 // Platan is free software: you can redistribute it and/or modify
@@ -136,7 +136,7 @@ void SQLiteDB::executeScript(QString filename)
         beginTransaction();
         for (QString insert : scriptQueries)
         {
-            std::string query = insert.toStdString();
+            string query = insert.toStdString();
             execute(query.c_str());
         }
         endTransaction();

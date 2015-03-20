@@ -1,4 +1,4 @@
-// This file is part of Platan.
+﻿// This file is part of Platan.
 // Copyright (C) 2014 Gábor Angyal
 //
 // Platan is free software: you can redistribute it and/or modify
@@ -22,8 +22,8 @@
 QStatemenView::QStatemenView(QWidget *parent) :
     QTableView(parent)
 {
-    setSelectionMode(QAbstractItemView::SingleSelection);
-    setSelectionBehavior(QAbstractItemView::SelectRows);
+    setSelectionMode(SingleSelection);
+    setSelectionBehavior(SelectRows);
 }
 
 void QStatemenView::mouseReleaseEvent(QMouseEvent *ev)

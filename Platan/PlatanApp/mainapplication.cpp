@@ -1,4 +1,4 @@
-// This file is part of Platan.
+﻿// This file is part of Platan.
 // Copyright (C) 2014 Gábor Angyal
 //
 // Platan is free software: you can redistribute it and/or modify
@@ -122,7 +122,7 @@ void MainApplication::create(QString data_base_path, QString countryCode)
     projectDB.insertRules(getRulesForCountry(countryCode));
 }
 
-void MainApplication::setMainWindow(std::shared_ptr<MainWindow> mainWindow)
+void MainApplication::setMainWindow(shared_ptr<MainWindow> mainWindow)
 {
     this->mainWindow = mainWindow;
 }

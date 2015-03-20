@@ -1,4 +1,4 @@
-// This file is part of Platan.
+﻿// This file is part of Platan.
 // Copyright (C) 2014 Gábor Angyal
 //
 // Platan is free software: you can redistribute it and/or modify
@@ -24,7 +24,7 @@
 using namespace std;
 
 
-uint qHash(std::shared_ptr<Statement> key, uint seed) Q_DECL_NOTHROW
+uint qHash(shared_ptr<Statement> key, uint seed) Q_DECL_NOTHROW
 {
     return ulong(key.get()) ^ seed;
 }
@@ -75,7 +75,7 @@ QStringList Statements::columnList()
 
 void Statements::setCategory(int id, int category)
 {
-    std::shared_ptr<Statement> row;
+    shared_ptr<Statement> row;
     int idx = -1;
     for (auto s : *this)
     {
@@ -184,9 +184,9 @@ QVector<shared_ptr<Statement>> Statements::statementsInDateRange()
     return result;
 }
 
-QVector<std::shared_ptr<Statement> > Statements::getUncategorisedStatements()
+QVector<shared_ptr<Statement> > Statements::getUncategorisedStatements()
 {
-    QVector<std::shared_ptr<Statement> > result;
+    QVector<shared_ptr<Statement> > result;
     for (auto s : *this)
     {
         if (s->category == 0)

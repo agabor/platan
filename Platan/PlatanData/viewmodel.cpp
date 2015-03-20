@@ -41,7 +41,7 @@ shared_ptr<StatementTableModel> ViewModel::getStatementsForClass(int classIdx)
     return classStatements[classIdx];
 }
 
-std::shared_ptr<RuleTableModel> ViewModel::getRuleTable()
+shared_ptr<RuleTableModel> ViewModel::getRuleTable()
 {
     return ruleTable;
 }

@@ -18,12 +18,12 @@ TableStructure TableStructure::fromSchema(QString schema)
     QString table_name = getTableName(schema);
 
     if (table_name.isEmpty())
-        return TableStructure::Invalid();
+        return Invalid();
 
     TableStructure ts(table_name);
 
     if(!parseFieldList(ts, getFieldList(schema)))
-        return TableStructure::Invalid();
+        return Invalid();
 
     return ts;
 }

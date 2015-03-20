@@ -15,7 +15,6 @@
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "sqlquerycomponents.h"
-#include <string>
 
 
 using namespace std;
@@ -31,7 +30,7 @@ void SQLFieldValue::addFieldValuePair(QString field, QString value)
     values.push_back(value);
 }
 
-QString concatenate(const std::vector<QString> &strings, QString deliminator)
+QString concatenate(const vector<QString> &strings, QString deliminator)
 {
     QString result;
     bool first = true;
@@ -63,7 +62,7 @@ QString SQLFieldValue::valueList() const
 
 QString SQLFieldValue::setFieldsList() const
 {
-    std::vector<QString> fieldSetList;
+    vector<QString> fieldSetList;
     for(int i = 0; i < fields.size(); ++i)
     {
         fieldSetList.push_back(QString("%1 = %2").arg(fields.at(i)).arg(values.at(i)));

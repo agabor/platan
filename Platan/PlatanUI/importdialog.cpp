@@ -14,13 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#include <QMessageBox>
-#include <QDebug>
-
 #include <importdialog.h>
 #include <ui_importdialog.h>
-#include <simpletransformations.h>
-#include <datetransformation.h>
 #include <statement.h>
 
 ImportDialog::ImportDialog(QWidget *parent, QString filename) :
