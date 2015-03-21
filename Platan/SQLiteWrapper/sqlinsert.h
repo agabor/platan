@@ -27,7 +27,7 @@ class SQLInsert : public SQLQuery, public SQLFieldValue
 {
 public:
     SQLInsert(QString table_name);
-    QString toString() const;
+    QString toString() const override;
 private:
     QString table_name;
 };

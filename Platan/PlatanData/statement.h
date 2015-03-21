@@ -14,8 +14,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Platan.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef STATEMENTROW_H
-#define STATEMENTROW_H
+#ifndef STATEMENT_H
+#define STATEMENT_H
 
 #include <QString>
 #include <sqlitedate.h>

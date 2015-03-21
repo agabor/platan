@@ -9,7 +9,11 @@ class SimpleCondition;
 class SQLCondition
 {
 public:
-    static const SimpleCondition Empty;
+	virtual ~SQLCondition()
+	{
+	}
+
+	static const SimpleCondition Empty;
     virtual QString toString() const = 0;
     SimpleCondition operator+(const SQLCondition &cond) const;
     virtual bool isEmpty() const;
@@ -28,12 +32,12 @@ public:
     {
     }
 
-    QString toString() const
+    QString toString() const override
     {
         return cond;
     }
 
-    bool isEmpty() const
+    bool isEmpty() const override
     {
         return cond.isEmpty();
     }

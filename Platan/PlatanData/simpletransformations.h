@@ -24,16 +24,16 @@ class IdentityTransFormation : public Transformation<QString>
 {
 public:
     IdentityTransFormation();
-    QString convert(QString Data) const;
-    QString getErrorMessage() const;
+    QString convert(QString Data) const override;
+	QString getErrorMessage() const override;
 };
 
 class IntTransformation : public Transformation<int>
 {
 public:
     IntTransformation();
-    int convert(QString data) const;
-    QString getErrorMessage() const;
+	int convert(QString data) const override;
+	QString getErrorMessage() const override;
 };
 
 class FloatTransformation : public Transformation<float>
@@ -41,8 +41,8 @@ class FloatTransformation : public Transformation<float>
 public:
     FloatTransformation();
 
-    float convert(QString data) const;
-    QString getErrorMessage() const;
+	float convert(QString data) const override;
+	QString getErrorMessage() const override;
 };
 
 

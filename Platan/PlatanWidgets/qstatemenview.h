@@ -26,7 +26,7 @@ public:
     explicit QStatemenView(QWidget *parent = 0);
 
 protected:
-    virtual void mouseReleaseEvent ( QMouseEvent * ev );
+	virtual void mouseReleaseEvent(QMouseEvent * ev) override;
 };
 
 #endif // QSTATEMENVIEW_H

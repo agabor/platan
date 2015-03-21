@@ -24,10 +24,7 @@
 
 #include <memory>
 
-#include <statements.h>
 #include <rulemapper.h>
-#include <rules.h>
-#include <viewmodel.h>
 #include <projectswindow.h>
 
 class DataBaseSchema;

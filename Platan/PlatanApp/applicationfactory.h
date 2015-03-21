@@ -7,13 +7,13 @@
 #include <rules.h>
 #include <applicationdb.h>
 #include <projectdb.h>
+#include <statements.h>
+#include <viewmodel.h>
 
 class MainApplication;
 class SQLiteDB;
 class DataBaseSchema;
 class CountryMapper;
-class Statements;
-class ViewModel;
 
 class ApplicationFactory
 {

@@ -25,17 +25,16 @@ class CSVTableModel : public QAbstractTableModel
 {
 public:
     CSVTableModel();
-    int rowCount(const QModelIndex& parent = QModelIndex()) const;
-    int columnCount(const QModelIndex& parent) const;
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    int columnCount(const QModelIndex& parent) const override;
     int columnCount() const;
-    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     void setHeaders(QStringList headers);
     QStringList getHeaders() const;
     void setUsageHeaders(QStringList headers);
     void addRow(QStringList row);
     void increaseColumnCountTo(int columnCount);
-    void pad(int columnCount, QStringList &stringList);
     void pad(QStringList &stringList, int columnCount);
     void setShowUsageHeaders(bool value);
     QVariant columnHeaderData(int role, int section) const;

@@ -17,7 +17,6 @@
 #ifndef TRANSFORMATION_H
 #define TRANSFORMATION_H
 
-#include <QAbstractTableModel>
 #include <QVector>
 
 #include <csvtablemodel.h>
@@ -25,7 +24,11 @@
 class TransformationBase
 {
 public:
-    TransformationBase();
+	TransformationBase();
+
+	virtual ~TransformationBase()
+	{
+	}
 
     int getColumn() const;
     

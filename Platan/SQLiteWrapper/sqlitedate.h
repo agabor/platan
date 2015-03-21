@@ -28,13 +28,11 @@ class SQLiteDate : public QDate
 {
 public:
     SQLiteDate(){}
-    SQLiteDate(int value)
-    {
-        QDate qdate = start.addDays(value);
-        setDate(qdate.year(), qdate.month(), qdate.day());
-    }
-    SQLiteDate(const QDate &qdate) : QDate(qdate.year(), qdate.month(), qdate.day()) {}
-    inline int toInt() const;
+
+	explicit SQLiteDate(int value);
+
+    SQLiteDate(const QDate& qdate);
+	inline int toInt() const;
     SimpleCondition greater(QString field) const;
     SimpleCondition less(QString field) const;
 };

@@ -19,7 +19,8 @@
 #include <string>
 #include <QSqlError>
 #include <QStringList>
-#include <QFile>#include <assert.h>
+#include <QFile>
+#include <assert.h>
 
 using namespace std;
 

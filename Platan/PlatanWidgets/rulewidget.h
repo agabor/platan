@@ -14,7 +14,7 @@ class RuleWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit RuleWidget(QWidget *parent = 0);
+    explicit RuleWidget(QWidget *parent = nullptr);
     void setRow(Statement _row);
     void setColumn(int idx);
     Rule getRule() const;

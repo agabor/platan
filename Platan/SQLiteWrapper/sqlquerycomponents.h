@@ -18,7 +18,7 @@
 #define SQLQUERYCOMPONENTS_H
 
 #include <QString>
-#include <string>
+#include <QVector>
 #include <sqlcondition.h>
 
 QString concatenate(const std::vector<QString> &strings, QString deliminator);
@@ -45,7 +45,7 @@ protected:
     QString valueList() const;
     QString setFieldsList() const;
 private:
-    std::vector<QString> values;
+	std::vector<QString> values;
 };
 
 class SQLWhere

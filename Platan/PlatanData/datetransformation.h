@@ -41,18 +41,18 @@ enum DateOrder
 //gets the i. part of the Date format (Year, Month or Day)
 inline DatePart part(DateOrder date, int i)
 {
-    return (DatePart)((date >> (i * 4)) % 0x10);
+    return static_cast<DatePart>((date >> (i * 4)) % 0x10);
 }
 
 class DateTransformation : public Transformation<QDate>
 {
 public:
-    DateTransformation() : separator('.'), order(YMD)
+    DateTransformation() : order(YMD), separator('.')
     {
 
     }
 
-    QDate convert(QString Data) const;
+    QDate convert(QString Data) const override;
     QDate convert(QString Data, DateOrder order, char separator) const;
     DateOrder getOrder() const;
     void setOrder(const DateOrder &value);
@@ -60,7 +60,7 @@ public:
     char getSeparator() const;
     void setSeparator(char value);
 
-    QString getErrorMessage() const;
+    QString getErrorMessage() const override;
 protected:
     DateOrder order;
     char separator;

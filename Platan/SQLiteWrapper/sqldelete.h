@@ -25,9 +25,9 @@
 class SQLDelete : public SQLQuery, public SQLWhere
 {
 public:
-    SQLDelete(QString table);
+	explicit SQLDelete(QString table);
     // SQLQuery interface
-    QString toString() const;
+    QString toString() const override;
 private:
     QString table;
 };

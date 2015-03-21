@@ -19,8 +19,6 @@
 
 #include <QWidget>
 
-#include <memory>
-
 #include <tabletransformer.h>
 
 class QTableView;

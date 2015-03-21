@@ -22,7 +22,7 @@ class QTextStream;
 class CSVAnalyser
 {
 public:
-    CSVAnalyser(QTextStream &_input);
+	explicit CSVAnalyser(QTextStream &_input);
     char getSeparator() const;
     char getQuote() const;
     int getLinesToSkip() const;

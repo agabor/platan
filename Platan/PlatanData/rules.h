@@ -16,7 +16,7 @@ class Rules : public QObject, public QVector<std::shared_ptr<Rule> >
 {
     Q_OBJECT
 public:
-    Rules(SQLiteDB &db);
+	explicit Rules(SQLiteDB &db);
     void insertRule(Rule &rule);
     QVector<Rule> getRules();
     void init();

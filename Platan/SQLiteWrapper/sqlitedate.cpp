@@ -47,6 +47,15 @@ private:
     RelOp op;
 };
 
+SQLiteDate::SQLiteDate(int value)
+{
+	QDate qdate = start.addDays(value);
+	setDate(qdate.year(), qdate.month(), qdate.day());
+}
+
+SQLiteDate::SQLiteDate(const QDate& qdate): QDate(qdate.year(), qdate.month(), qdate.day())
+{}
+
 SimpleCondition SQLiteDate::greater(QString field) const
 {
     return SimpleCondition(DateCondition(*this, field, RelOp::GE));

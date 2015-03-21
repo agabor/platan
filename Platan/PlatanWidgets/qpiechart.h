@@ -37,11 +37,11 @@ public:
 signals:
     void sliceClicked(int idx);
 protected:
-    void mouseMoveEvent ( QMouseEvent * event );
-    void mouseReleaseEvent ( QMouseEvent * event );
-    void mousePressEvent ( QMouseEvent * event );
-    void paintEvent(QPaintEvent *);
-    void resizeEvent(QResizeEvent *);
+    void mouseMoveEvent ( QMouseEvent * event ) override;
+	void mouseReleaseEvent(QMouseEvent * event) override;
+	void mousePressEvent(QMouseEvent * event) override;
+	void paintEvent(QPaintEvent *) override;
+	void resizeEvent(QResizeEvent *) override;
     int pie_num;
     QPainter painter;
     QVector<PieSlice> slices;

@@ -12,7 +12,7 @@ class SQLInsert;
 class RuleMapper
 {
 public:
-    RuleMapper(SQLiteDB &db);
+	explicit RuleMapper(SQLiteDB &db);
     void insert(Rule &r) const;
     void remove(Rule &r);
     void update(Rule &r);
