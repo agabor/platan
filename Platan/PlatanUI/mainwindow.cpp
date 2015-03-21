@@ -38,6 +38,8 @@
 #include <viewmodel.h>
 #include <statements.h>
 #include <exportrules.h>
+#include <plugins.h>
+#include "runscriptdialog.h"
 
 MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent) :
     QMainWindow(parent),
@@ -404,4 +406,21 @@ void MainWindow::on_actionAbout_triggered()
                                                     "© 2015 Gábor Angyal \n"
                                                     "Qt version %2").arg(VERSION).arg(QT_VERSION_STR));
 
+}
+
+void MainWindow::on_actionPlugins_triggered()
+{
+  RunScriptDialog d;
+  d.show();
+
+  if (QDialog::Accepted != d.exec())
+      return;
+
+  QString scriptFileName = d.scriptFile();
+  if (scriptFileName.isEmpty())
+    return;
+
+  Plugins::setUp();
+  Plugins::runScript(scriptFileName);
+  Plugins::tearDown();
 }

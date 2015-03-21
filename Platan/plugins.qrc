@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins">
+        <file>plugins/hbci.js</file>
+    </qresource>
+</RCC>

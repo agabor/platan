@@ -103,7 +103,6 @@ void SQLiteDB::connect()
         QString error_msg{db.lastError().text()};
         cerr << "Can't open database. " << error_msg.toStdString() << endl;
         close();
-        throw db_exception();
     }
 }
 

@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT       += core gui sql
+QT       += core gui sql script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG  += c++11 static
@@ -40,3 +40,7 @@ HEADERS += \
 
 DISTFILES += \
     myapp.rc
+
+
+RESOURCES += \
+    plugins.qrc

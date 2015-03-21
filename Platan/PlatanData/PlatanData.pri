@@ -18,6 +18,7 @@ SOURCES += \
     ../Platan/PlatanData/applicationdb.cpp \
     ../Platan/PlatanData/projectdb.cpp \
     ../Platan/PlatanData/ruletablemodel.cpp \
+    ../Platan/PlatanData/plugins.cpp \
     $$PWD/exportrules.cpp
 
 HEADERS += \
@@ -41,6 +42,7 @@ HEADERS += \
     ../Platan/PlatanData/applicationdb.h \
     ../Platan/PlatanData/projectdb.h \
     ../Platan/PlatanData/ruletablemodel.h \
+    ../Platan/PlatanData/plugins.h \
     $$PWD/exportrules.h
 
 unix:!symbian {

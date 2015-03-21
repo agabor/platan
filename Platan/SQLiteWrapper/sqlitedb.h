@@ -17,19 +17,11 @@
 #ifndef SQLITEDB_H
 #define SQLITEDB_H
 
-#include <exception>
 #include "sqlitestatement.h"
 #include "sqlquery.h"
 #include "sqlselect.h"
 #include <QSqlDatabase>
 #include "databaseschema.h"
-
-class db_exception : public std::exception
-{
-public:
-    db_exception(){}
-};
-
 
 class SQLiteDB
 {
