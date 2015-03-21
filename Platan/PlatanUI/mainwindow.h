@@ -18,11 +18,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMap>
-#include <QVector>
-#include <QTabWidget>
-#include <QDate>
-#include <QModelIndex>
 
 #include <memory>
 
@@ -73,7 +68,7 @@ public:
 
     bool hasChanges();
 protected:
-     void closeEvent(QCloseEvent *event);
+     void closeEvent(QCloseEvent *event) override;
 
 public slots:
     void onDateRangeChanged(QDate start, QDate end);

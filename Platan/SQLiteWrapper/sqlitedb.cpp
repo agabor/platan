@@ -19,11 +19,7 @@
 #include <string>
 #include <QSqlError>
 #include <QStringList>
-#include <QDebug>
-#include <QFile>
-#include <set>
-#include <assert.h>
-#include "tablestructure.h"
+#include <QFile>#include <assert.h>
 
 using namespace std;
 

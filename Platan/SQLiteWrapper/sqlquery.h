@@ -17,15 +17,14 @@
 #ifndef SQLQUERY_H
 #define SQLQUERY_H
 
-#include <string>
-#include <initializer_list>
-#include <vector>
-#include <QString>
-
 class SQLQuery
 {
 public:
-    virtual QString toString() const = 0;
+	virtual ~SQLQuery()
+	{
+	}
+
+	virtual QString toString() const = 0;
 };
 
 #endif // SQLQUERY_H

@@ -17,8 +17,6 @@
 #ifndef SQLSELECT_H
 #define SQLSELECT_H
 
-#include <QString>
-
 #include <vector>
 #include <initializer_list>
 
@@ -31,7 +29,7 @@ public:
     SQLSelect(std::initializer_list<QString> tables);
     inline void groupBy(QString field);
     // SQLQuery interface
-    QString toString() const;
+    QString toString() const override;
 private:
     std::vector<QString> tables;
     QString groupByClause() const;

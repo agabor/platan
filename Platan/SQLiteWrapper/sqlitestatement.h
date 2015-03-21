@@ -17,8 +17,6 @@
 #ifndef SQLITESTATEMENT_H
 #define SQLITESTATEMENT_H
 
-#include <QString>
-#include <QDate>
 #include <QSqlQuery>
 
 class SQLiteDB;

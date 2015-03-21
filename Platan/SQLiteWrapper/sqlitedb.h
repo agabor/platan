@@ -17,16 +17,12 @@
 #ifndef SQLITEDB_H
 #define SQLITEDB_H
 
-#include <string>
-#include <QString>
 #include <exception>
-#include <QDate>
 #include "sqlitestatement.h"
 #include "sqlquery.h"
 #include "sqlselect.h"
 #include <QSqlDatabase>
 #include "databaseschema.h"
-#include <memory>
 
 class db_exception : public std::exception
 {
