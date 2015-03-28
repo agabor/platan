@@ -19,11 +19,42 @@
  *	
  */
 
-var https = require('https');
-var http = require("http");
-var url	 = require("url");
-var util = require('util');
+function networkRequest(txt, target_url, callback) {
 
+    var https = require('https');
+    var http = require("http");
+    var url	 = require("url");
+
+    var post_data = new Buffer(txt).toString("base64");
+    var u = url.parse(target_url);
+    var options = {
+        hostname: u.hostname,
+        port: u.port,
+        path: u.path,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'text/plain',
+            'Content-Length': post_data.length
+        }
+    };
+    var data = "";
+    var prot = u.protocol == "http:" ? http : https;
+    var req = prot.request(options, function (res) {
+        res.on('data', function (chunk) {
+            data += chunk;
+        });
+        res.on('end', function () {
+            var clear_txt = new Buffer(data, 'base64').toString('utf8');
+            callback(null, clear_txt);
+        });
+    });
+
+    req.on('error', function () {
+        callback(u, null);
+    });
+    req.write(post_data);
+    req.end();
+}
 
 var logger = function(area){
     this.area = area;
@@ -763,12 +794,16 @@ var Nachricht = function (proto_version) {
     };
 };
 
+var inheritsFrom = function (child, parent) {
+    child.prototype = Object.create(parent.prototype);
+};
+
 var Exceptions = {};
 Exceptions.OpenFinTSClientException = function(){
     Error.call(this); //super constructor
     Error.captureStackTrace(this, this.constructor);
 };
-util.inherits(Exceptions.OpenFinTSClientException, Error);
+inheritsFrom(Exceptions.OpenFinTSClientException, Error);
 Exceptions.OpenFinTSClientException.prototype.toString = function(){
     return this.message?this.message:"OpenFinTSClientException";
 };
@@ -778,28 +813,28 @@ Exceptions.GVNotSupportedByKI = function(type,avail){
     this.sp_vers = avail?[]:Object.keys(avail);
     this.message = "There is no version of "+this.gv_type+" which is supported by both, the client and the server.";
 };
-util.inherits(Exceptions.GVNotSupportedByKI, Exceptions.OpenFinTSClientException);
+inheritsFrom(Exceptions.GVNotSupportedByKI, Exceptions.OpenFinTSClientException);
 Exceptions.MalformedMessageFormat = function(msg){
     Exceptions.OpenFinTSClientException.call(this);
     this.message = "MalformedMessage: "+msg;
 };
-util.inherits(Exceptions.MalformedMessageFormat, Exceptions.OpenFinTSClientException);
+inheritsFrom(Exceptions.MalformedMessageFormat, Exceptions.OpenFinTSClientException);
 Exceptions.OrderFailedException = function(msg){
     Exceptions.OpenFinTSClientException.call(this);
     this.msg_detail = msg;
     this.message = "Failed to perform Order, got error Message from Server.:"+msg.getEl(3);
 };
-util.inherits(Exceptions.OrderFailedException, Exceptions.OpenFinTSClientException);
+inheritsFrom(Exceptions.OrderFailedException, Exceptions.OpenFinTSClientException);
 Exceptions.InternalError = function(msg_txt){
     Exceptions.OpenFinTSClientException.call(this);
 };
-util.inherits(Exceptions.InternalError, Exceptions.OpenFinTSClientException);
+inheritsFrom(Exceptions.InternalError, Exceptions.OpenFinTSClientException);
 Exceptions.GVFailedAtKI = function(msg){
     Exceptions.OpenFinTSClientException.call(this);
     this.data = msg;
     this.message = "GVFailed because Msg: "+this.data[0]+" - "+this.data[2];
 };
-util.inherits(Exceptions.GVFailedAtKI, Exceptions.OpenFinTSClientException);
+inheritsFrom(Exceptions.GVFailedAtKI, Exceptions.OpenFinTSClientException);
 Exceptions.ConnectionFailedException = function(hostname){
     Exceptions.OpenFinTSClientException.call(this);
     this.host = hostname;
@@ -807,7 +842,7 @@ Exceptions.ConnectionFailedException = function(hostname){
         return "Connection to "+this.host+" failed.";
     };
 };
-util.inherits(Exceptions.ConnectionFailedException, Exceptions.OpenFinTSClientException);
+inheritsFrom(Exceptions.ConnectionFailedException, Exceptions.OpenFinTSClientException);
 /*
  .msg({ type:"",
  ki_type:"",
@@ -1505,6 +1540,8 @@ var MTParser = function(){
  closeSecure ()			-	Stellt sicher, dass keine Sensiblen Informationen wie die PIN noch im RAM sind, sollte am Ende immer gerufen werden
 
  */
+
+
 
 
 var FinTSClient = function (in_blz,in_kunden_id,in_pin,bankenlist) {
@@ -2278,48 +2315,21 @@ var FinTSClient = function (in_blz,in_kunden_id,in_pin,bankenlist) {
     me.SendMsgToDestination = function(msg,callback){// Parameter für den Callback sind error,data
         var txt = msg.transformForSend();
         me.debugLogMsg(txt,true);
-        var post_data = new Buffer(txt).toString("base64");
-        var u = url.parse(me.bpd.url);
-        var options = {
-            hostname: u.hostname,
-            port: u.port,
-            path: u.path,
-            method: 'POST',
-            headers: {
-                'Content-Type': 'text/plain',
-                'Content-Length': post_data.length
-            }
-        };
-        var data = "";
-        var prot = u.protocol=="http:"?http:https;
-        me.log.con.debug({host:u.hostname,port:u.port,path:u.path},"Connect to Host");
-        var req = prot.request(options, function(res) {//https.request(options, function(res) {
-            res.on('data', function (chunk) {
-                data += chunk;
-            });
-            res.on('end', function(){
-                // Hir wird dann weiter gemacht :)
-                me.log.con.debug({host:u.hostname,port:u.port,path:u.path},"Request finished");
-                var clear_txt = new Buffer(data, 'base64').toString('utf8');
-                me.debugLogMsg(clear_txt,false);
-                try{
-                    var MsgRecv = new Nachricht(me.proto_version);
-                    MsgRecv.parse(clear_txt);
-                    callback(null,MsgRecv);
-                }catch(e){
-                    me.log.con.error(e,"Could not parse received Message");
-                    callback(e.toString(),null);
-                }
-            });
-        });
+        networkRequest(txt, me.bpd.url, function(error, clear_txt){
 
-        req.on('error', function(){
-            // Hier wird dann weiter gemacht :)
-            me.log.con.error({host:u.hostname,port:u.port,path:u.path},"Could not connect to "+options.hostname);
-            callback(new Exceptions.ConnectionFailedException(u.hostname,u.port,u.path),null);
+            if (error !== null){
+                callback(new Exceptions.ConnectionFailedException(error.hostname, error.port, error.path), null);
+                return;
+            }
+
+            try {
+                var MsgRecv = new Nachricht(me.proto_version);
+                MsgRecv.parse(clear_txt);
+                callback(null, MsgRecv);
+            } catch (e) {
+                callback(e.toString(), null);
+            }
         });
-        req.write(post_data);
-        req.end();
     };
 
     me.debugLogMsg = function(txt,send){
