@@ -19,7 +19,7 @@
  *	
  */
 
-function networkRequest(txt, target_url, callback) {
+/*function networkRequest(txt, target_url, callback) {
 
     var https = require('https');
     var http = require("http");
@@ -54,19 +54,19 @@ function networkRequest(txt, target_url, callback) {
     });
     req.write(post_data);
     req.end();
-}
+}*/
 
 var logger = function(area){
     this.area = area;
-    this.debug = function(json,str){}
-    this.error = function(e,json,str){}
-    this.trace = function(json,str){}
+    this.debug = function(json,str){print(str)}
+    this.error = function(e,json,str){print(str)}
+    this.trace = function(json,str){print(str)}
     this.child = function(area){
         return new logger(area);
     }
 }
 var ConsoleT = function(){
-    this.log = function(msg){console.log(msg)}
+    this.log = function(msg){print(msg)}
 }
 var Console = new ConsoleT();
 

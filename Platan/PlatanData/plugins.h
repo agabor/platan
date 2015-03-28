@@ -8,6 +8,6 @@ namespace Plugins
 	void setUp();
   void tearDown();
 	void runScript(QString &fileName);
-};
+}
 
 #endif
