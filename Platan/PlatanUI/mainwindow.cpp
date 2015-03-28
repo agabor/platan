@@ -421,5 +421,6 @@ void MainWindow::on_actionPlugins_triggered()
   if (scriptFileName.isEmpty())
     return;
 
-  m_pluginEngine.runScript(scriptFileName);
+  auto plugin = m_pluginEngine.createScript(scriptFileName);
+  m_pluginEngine.runScript(plugin);
 }
