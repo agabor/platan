@@ -39,7 +39,7 @@ void Plugins::runScript(QString &fileName)
 		qDebug() << "Could not open script file.";
 		return;
 	}
-	QTextStream in(&file);
+  QTextStream in(&file);
 	qDebug() << engine->evaluate(in.readAll()).toString();
 }
 
@@ -71,7 +71,7 @@ QScriptValue networkRequest(QScriptContext *ctx, QScriptEngine *eng)
   QScriptValue callback = ctx->argument(2);
   Q_ASSERT(callback.isFunction());
 
-  NetworkHandler handler;
+  auto *handler = new NetworkHandler;
 
   auto scriptCallBack =[eng, callback](QString data) mutable
   {
@@ -81,8 +81,8 @@ QScriptValue networkRequest(QScriptContext *ctx, QScriptEngine *eng)
     callback.call(QScriptValue(QScriptValue::NullValue), args);
   };
 
-  handler.setCallback(scriptCallBack);
-  handler.post(url, txt);
+  handler->setCallback(scriptCallBack);
+  handler->post(url, txt);
 
   return QScriptValue::NullValue;
 }

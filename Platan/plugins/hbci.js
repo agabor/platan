@@ -2366,7 +2366,11 @@ client.EstablishConnection(function(error){
 					}else{
 						// Alles gut
 						// 4. Umsätze darstellen
-						Console.log(JSON.stringify(data));
+                        Console.log("got data");
+                        Console.log(data.length);
+
+                        for(var d in data)
+                            Console.log(JSON.stringify(data[d]));
 						// 5. Verbindung beenden
 						client.MsgEndDialog(function(error,recvMsg2){
 							// 6. Secure Daten im Objekt aus dem Ram löschen

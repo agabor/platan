@@ -422,5 +422,5 @@ void MainWindow::on_actionPlugins_triggered()
 
   Plugins::setUp();
   Plugins::runScript(scriptFileName);
-  Plugins::tearDown();
+  //Plugins::tearDown();
 }
