@@ -35,13 +35,14 @@ class QStatemenView;
 class QPieChart;
 class StatementTableModel;
 class ViewModel;
+class PluginEngine;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent = 0);
+    explicit MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, PluginEngine &pluginEngine, QWidget *parent = 0);
 
     ~MainWindow();
 
@@ -125,6 +126,7 @@ private:
     std::unique_ptr<QStatemenView> unclassifiedTable;
     std::shared_ptr<StatementTableModel> uncategorisedTableModel;
     WelcomeWidget *welcomeWidget;
+    PluginEngine &m_pluginEngine;
 };
 
 #endif // MAINWINDOW_H

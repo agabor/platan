@@ -38,17 +38,18 @@
 #include <viewmodel.h>
 #include <statements.h>
 #include <exportrules.h>
-#include <plugins.h>
+#include <pluginengine.h>
 #include "runscriptdialog.h"
 
-MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent) :
+MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, PluginEngine &pluginEngine, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     statements(statements),
     rules(rules),
     viewModel(viewModel),
     unclassifiedTable(new QStatemenView()),
-    welcomeWidget(nullptr)
+    welcomeWidget(nullptr),
+    m_pluginEngine(pluginEngine)
 {
     ui->setupUi(this);
     ui->tabWidget->removeCloseButtons();
@@ -420,7 +421,5 @@ void MainWindow::on_actionPlugins_triggered()
   if (scriptFileName.isEmpty())
     return;
 
-  Plugins::setUp();
-  Plugins::runScript(scriptFileName);
-  //Plugins::tearDown();
+  m_pluginEngine.runScript(scriptFileName);
 }

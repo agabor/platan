@@ -18,7 +18,7 @@ SOURCES += \
     ../Platan/PlatanData/applicationdb.cpp \
     ../Platan/PlatanData/projectdb.cpp \
     ../Platan/PlatanData/ruletablemodel.cpp \
-    ../Platan/PlatanData/plugins.cpp \
+    ../Platan/PlatanData/pluginengine.cpp \
     $$PWD/exportrules.cpp \
     $$PWD/networkhandler.cpp
 
@@ -43,7 +43,7 @@ HEADERS += \
     ../Platan/PlatanData/applicationdb.h \
     ../Platan/PlatanData/projectdb.h \
     ../Platan/PlatanData/ruletablemodel.h \
-    ../Platan/PlatanData/plugins.h \
+    ../Platan/PlatanData/pluginengine.h \
     $$PWD/exportrules.h \
     $$PWD/networkhandler.h
 

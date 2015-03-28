@@ -3,7 +3,7 @@ TEMPLATE = app
 QT       += core gui sql script network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-CONFIG  += c++11 static
+CONFIG  += c++14 static
 
 VERSION = 0.1
 
