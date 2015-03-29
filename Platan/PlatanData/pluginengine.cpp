@@ -87,7 +87,10 @@ QScriptValue addStatement(QScriptContext *ctx, QScriptEngine *eng)
    s.amount = ctx->argument(0).toNumber();
    s.type = getString(ctx->argument(1));
    QScriptValue date = ctx->argument(2);
-   s.date = SQLiteDate(QDate(date.property("y").toInt32(),date.property("m").toInt32(),date.property("d").toInt32()));
+   int y = date.property("y").toInt32();
+   int m = date.property("m").toInt32();
+   int d = date.property("d").toInt32();
+   s.date = SQLiteDate(y, m, d);
    s.payee = getString(ctx->argument(3));
    s.payeeAccount = getString(ctx->argument(4));
    s.description = getString(ctx->argument(5));

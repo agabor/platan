@@ -28,10 +28,10 @@ class SQLiteDate : public QDate
 {
 public:
     SQLiteDate(){}
-
-	explicit SQLiteDate(int value);
-
+    explicit SQLiteDate(int value);
     SQLiteDate(const QDate& qdate);
+    SQLiteDate(int y, int m, int d);
+
 	inline int toInt() const;
     SimpleCondition greater(QString field) const;
     SimpleCondition less(QString field) const;

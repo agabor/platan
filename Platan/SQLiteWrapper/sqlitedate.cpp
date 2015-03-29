@@ -56,6 +56,11 @@ SQLiteDate::SQLiteDate(int value)
 SQLiteDate::SQLiteDate(const QDate& qdate): QDate(qdate.year(), qdate.month(), qdate.day())
 {}
 
+SQLiteDate::SQLiteDate(int y, int m, int d): QDate(y, m, d)
+{
+
+}
+
 SimpleCondition SQLiteDate::greater(QString field) const
 {
     return SimpleCondition(DateCondition(*this, field, RelOp::GE));

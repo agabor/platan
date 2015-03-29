@@ -303,12 +303,12 @@ var Helper = new function () {
                 try{ if(time_nr) time = seg.getEl(time_nr); }catch(eee){}
                 var result = new Date();
                 result.setTime(0);
-                result.setYear(parseInt(date.substr(0,4)));
-                result.setMonth(parseInt(date.substr(4,2))-1);
-                result.setDate(parseInt(date.substr(6,2)));
-                result.setHours(parseInt(time.substr(0,2)));
-                result.setMinutes(parseInt(time.substr(2,2)));
-                result.setSeconds(parseInt(time.substr(4,2)));
+                result.setYear(parseInt(date.substr(0,4),10));
+                result.setMonth(parseInt(date.substr(4,2),10)-1);
+                result.setDate(parseInt(date.substr(6,2),10));
+                result.setHours(parseInt(time.substr(0,2),10));
+                result.setMinutes(parseInt(time.substr(2,2),10));
+                result.setSeconds(parseInt(time.substr(4,2),10));
                 return result;
             }catch(ee){
                 return null;
@@ -352,7 +352,7 @@ var DatenElementGruppe = function () {
                 parser.nextPos();
                 parser.setMarkerWithCurrentPos("start");
                 if (!parser.gotoNextValidChar("@")) throw new ParseError("Seg", "Error binary!", start_pos);
-                var len = parseInt(parser.getTextFromMarkerToCurrentPos("start"));
+                var len = parseInt(parser.getTextFromMarkerToCurrentPos("start"),10);
                 parser.nextPos();
                 parser.setMarkerWithCurrentPos("start");
                 parser.setCurrentPos(parser.getCurrentPos() + len);
@@ -481,7 +481,7 @@ var Segment = function () {
                 parser.nextPos();
                 parser.setMarkerWithCurrentPos("start");
                 if (!parser.gotoNextValidChar("@")) throw new ParseError("Seg", "Error binary!", start_pos);
-                var len = parseInt(parser.getTextFromMarkerToCurrentPos("start"));
+                var len = parseInt(parser.getTextFromMarkerToCurrentPos("start"),10);
                 parser.nextPos();
                 parser.setMarkerWithCurrentPos("start");
                 parser.setCurrentPos(parser.getCurrentPos() + len);
@@ -1298,9 +1298,9 @@ var MTParser = function(){
     me.convertMTDateFormatToJS = function(date){
         var result = new Date();
         result.setTime(0);
-        result.setYear(parseInt("20"+date.substr(0,2)));
-        result.setMonth(parseInt(date.substr(2,2))-1);
-        result.setDate(parseInt(date.substr(4,2)));
+        result.setYear(parseInt("20"+date.substr(0,2),10));
+        result.setMonth(parseInt(date.substr(2,2),10)-1);
+        result.setDate(parseInt(date.substr(4,2),10));
         return result;
     };
 };
