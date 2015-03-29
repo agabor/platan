@@ -2304,9 +2304,14 @@ var FinTSClient = function (in_blz,in_kunden_id,in_pin,bankenlist) {
 
 };
 
+var url = getParameter('url');
+var blz = getParameter('blz');
+var user_id = getParameter('user_id');
+var pin = getParameter('pin');
+
 // 1. Definition der Bankenliste - Echte URLs sind hier http://www.hbci-zka.de/institute/institut_auswahl.htm erhältlich
 var bankenliste = {};
-bankenliste[blz] = {'blz':blz,'url':"https://hbci-pintan-by.s-hbci.de/PinTanServlet"};
+bankenliste[blz] = {'blz':blz,'url':url};
 // 2. FinTSClient anlegen
 // BLZ: 70051540
 // Kunden-ID/Benutzerkennung: test1
@@ -2324,13 +2329,22 @@ client.EstablishConnection(function(error){
 					if(error){
 						Console.log("Fehler beim laden der Umsätze: "+error2);
 					}else{
-						// Alles gut
-						// 4. Umsätze darstellen
-                        Console.log("got data");
-                        Console.log(data.length);
-
-                        for(var d in data)
-                            Console.log(JSON.stringify(data[d]));
+                        for(var d in data) {
+                            var saetze = data[d].saetze;
+                            for (var i in saetze) {
+                                var saetz = saetze[i];
+                                var desc = saetz.verwendungszweck;
+                                var amount = saetz.value;
+                                if (saetz.soll_haben == "S")
+                                  amount *= -1;
+                                var date ={
+                                    y : saetz.datum.getFullYear(),
+                                    m : saetz.datum.getMonth()+1,
+                                    d : saetz.datum.getDate()
+                                }
+                                addStatement(amount, desc.buchungstext, date, desc.name_kontrahent, desc.iban_kontrahent, desc.text);
+                            }
+                        }
 						// 5. Verbindung beenden
 						client.MsgEndDialog(function(error,recvMsg2){
 							// 6. Secure Daten im Objekt aus dem Ram löschen

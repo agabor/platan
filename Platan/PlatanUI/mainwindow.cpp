@@ -22,6 +22,7 @@
 #include <QDate>
 #include <QMessageBox>
 #include <QCloseEvent>
+#include <QSharedPointer>
 
 #include <mainwindow.h>
 #include <importdialog.h>
@@ -39,18 +40,16 @@
 #include <statements.h>
 #include <exportrules.h>
 #include <pluginengine.h>
-#include "runscriptdialog.h"
 #include "hbcidialog.h"
 
-MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, PluginEngine &pluginEngine, QWidget *parent) :
+MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     statements(statements),
     rules(rules),
     viewModel(viewModel),
     unclassifiedTable(new QStatemenView()),
-    welcomeWidget(nullptr),
-    m_pluginEngine(pluginEngine)
+    welcomeWidget(nullptr)
 {
     ui->setupUi(this);
     ui->tabWidget->removeCloseButtons();
@@ -305,6 +304,13 @@ void MainWindow::onUnsetDateRange()
 }
 
 
+void MainWindow::importStatements(QVector<Statement> imported_statements)
+{
+  statements.insertData(imported_statements);
+  statements.categorizeUndefinedStatements(rules);
+  refreshStatements();
+}
+
 void MainWindow::importFromCSV()
 {
   QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
@@ -313,13 +319,12 @@ void MainWindow::importFromCSV()
 
   if (!fileName.isEmpty())
   {
-  ImportDialog id(this, fileName);
-  if (id.exec() == QDialog::Accepted)
-  {
-      statements.insertData(id.getImportedStatements());
-      statements.categorizeUndefinedStatements(rules);
-      refreshStatements();
-  }}
+    ImportDialog id(this, fileName);
+    if (id.exec() == QDialog::Accepted)
+    {
+      importStatements(id.getImportedStatements());
+    }
+  }
 }
 
 void MainWindow::on_actionImport_Bank_Statements_triggered()
@@ -330,15 +335,19 @@ void MainWindow::on_actionImport_Bank_Statements_triggered()
                                      QMessageBox::Yes|QMessageBox::No);
   if (reply == QMessageBox::Yes)
   {
-    HBCIDialog d;
-    if (QDialog::Accepted != d.exec())
+    HBCIDialog *d = new HBCIDialog(this);
+    if (QDialog::Accepted != d->exec())
         return;
-    auto plugin = m_pluginEngine.createScript(QString(":/plugins/plugins/hbci.js"));
-    plugin.addParameter("url", d.getURL());
-    plugin.addParameter("blz", d.getBLZ());
-    plugin.addParameter("user_id", d.getUserID());
-    plugin.addParameter("pin", d.getPin());
-    m_pluginEngine.runScript(plugin);
+    QSharedPointer<ImportPlugin> plugin(new ImportPlugin(QString(":/plugins/plugins/hbci.js")));
+    plugin->addParameter("url", d->getURL());
+    plugin->addParameter("blz", d->getBLZ());
+    plugin->addParameter("user_id", d->getUserID());
+    plugin->addParameter("pin", d->getPin());
+    plugin->setCallBack([this, plugin](){
+      importStatements(plugin->statements());
+    });
+
+    plugin->run();
   } else
   {
     importFromCSV();
@@ -431,20 +440,4 @@ void MainWindow::on_actionAbout_triggered()
                                                     "© 2015 Gábor Angyal \n"
                                                     "Qt version %2").arg(VERSION).arg(QT_VERSION_STR));
 
-}
-
-void MainWindow::on_actionPlugins_triggered()
-{
-  RunScriptDialog d;
-  d.show();
-
-  if (QDialog::Accepted != d.exec())
-      return;
-
-  QString scriptFileName = d.scriptFile();
-  if (scriptFileName.isEmpty())
-    return;
-
-  auto plugin = m_pluginEngine.createScript(scriptFileName);
-  m_pluginEngine.runScript(plugin);
 }

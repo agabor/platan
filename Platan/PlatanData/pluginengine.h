@@ -5,32 +5,48 @@
 #include <QMap>
 #include <QString>
 #include <QScriptValue>
+#include <QVector>
+#include <QScriptEngine>
 
-class QScriptEngine;
+#include <functional>
 
-class Plugin{
-  friend class PluginEngine;
+#include "statement.h"
 
-public:
-  void addParameter(QString name, QString value);
-private:
-  Plugin(QString &fileName, PluginEngine *engine);
-  const QString m_fileName;
-  PluginEngine * const m_engine;
-  QMap<QString, QScriptValue> m_parameters;
-};
+class QScriptContext;
 
-class PluginEngine : QObject
+class Plugin : public QScriptEngine
 {
   Q_OBJECT
-  friend class Plugin;
-
 public:
-  Plugin createScript(QString &filename);
-  void runScript(Plugin &script);
+  explicit Plugin(QString &fileName);
+  void addParameter(QString name, QString value);
+  void run();
+  QScriptValue getParameter(QString &name) const;
+  void setCallBack(std::function<void(void)> callback);
+  std::function<void (QScriptValue &, QScriptValueList &)> createPluginCallBack(QScriptValue& function);
+
+protected:
+  QScriptValue getParameter(QScriptContext *ctx, QScriptEngine *eng);
+  void startScript();
+  void scriptFinished();
+
+protected:
+  const QString m_fileName;
+  QMap<QString, QScriptValue> m_parameters;
+
 private:
-  void setupEngine();
-  QScriptEngine *engine = nullptr;
+  int m_script_run_counter;
+  std::function<void(void)> m_callback;
+};
+
+class ImportPlugin : public Plugin
+{
+public:
+  explicit ImportPlugin(QString &fileName);
+  void addStatement(Statement &s);
+  QVector<Statement> statements() const;
+private:
+  QVector<Statement> m_statements;
 };
 
 #endif

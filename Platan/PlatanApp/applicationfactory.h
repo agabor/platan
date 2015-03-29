@@ -9,7 +9,6 @@
 #include <projectdb.h>
 #include <statements.h>
 #include <viewmodel.h>
-#include <pluginengine.h>
 
 class MainApplication;
 class SQLiteDB;
@@ -31,7 +30,6 @@ private:
     std::unique_ptr<ViewModel> viewModel;
     std::unique_ptr<ApplicationDB> applicationDB;
     std::shared_ptr<MainWindow> mainWindow;
-    std::shared_ptr<PluginEngine> pluginEngine;
     DataBaseSchema getProjectDBSchema();
 
 

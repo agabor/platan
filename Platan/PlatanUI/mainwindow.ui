@@ -129,7 +129,6 @@
    <addaction name="actionChangeRule"/>
    <addaction name="actionDeleteRule"/>
    <addaction name="actionExport_Commands"/>
-   <addaction name="actionPlugins"/>
    <addaction name="actionAbout"/>
   </widget>
   <action name="actionHome">
@@ -268,18 +267,6 @@
    </property>
    <property name="toolTip">
     <string>About</string>
-   </property>
-  </action>
-  <action name="actionPlugins">
-   <property name="icon">
-    <iconset resource="icons.qrc">
-     <normaloff>:/icons/icons/application-x-executable.png</normaloff>:/icons/icons/application-x-executable.png</iconset>
-   </property>
-   <property name="text">
-    <string>Plugins</string>
-   </property>
-   <property name="toolTip">
-    <string>Plugins</string>
    </property>
   </action>
  </widget>

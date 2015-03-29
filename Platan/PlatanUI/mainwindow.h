@@ -36,13 +36,14 @@ class QPieChart;
 class StatementTableModel;
 class ViewModel;
 class PluginEngine;
+class Statement;
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, PluginEngine &pluginEngine, QWidget *parent = 0);
+    explicit MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent = 0);
 
     ~MainWindow();
 
@@ -71,6 +72,7 @@ public:
 protected:
      void closeEvent(QCloseEvent *event) override;
      void importFromCSV();
+     void importStatements(QVector<Statement> statements);
 
 public slots:
     void onDateRangeChanged(QDate start, QDate end);
@@ -112,8 +114,6 @@ private slots:
 
     void on_actionAbout_triggered();
 
-    void on_actionPlugins_triggered();
-
 private:
 
     Ui::MainWindow *ui;
@@ -127,7 +127,6 @@ private:
     std::unique_ptr<QStatemenView> unclassifiedTable;
     std::shared_ptr<StatementTableModel> uncategorisedTableModel;
     WelcomeWidget *welcomeWidget;
-    PluginEngine &m_pluginEngine;
 };
 
 #endif // MAINWINDOW_H

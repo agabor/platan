@@ -19,11 +19,10 @@ void ApplicationFactory::construct(int &argc, char *argv[])
     rules.reset(new Rules(*project_db));
     viewModel.reset(new ViewModel(*statements, *rules));
     projectDB.reset(new ProjectDB(*rules, *project_db));
-    pluginEngine.reset(new PluginEngine);
 
     mainApplication.reset(new MainApplication(argc, argv, *applicationDB, *projectDB));
 
-    mainWindow.reset(new MainWindow(*statements, *rules, *viewModel, *pluginEngine));
+    mainWindow.reset(new MainWindow(*statements, *rules, *viewModel));
     mainApplication->setMainWindow(mainWindow);
 }
 
