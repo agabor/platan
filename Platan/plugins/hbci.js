@@ -19,42 +19,6 @@
  *	
  */
 
-/*function networkRequest(txt, target_url, callback) {
-
-    var https = require('https');
-    var http = require("http");
-    var url	 = require("url");
-
-    var post_data = new Buffer(txt).toString("base64");
-    var u = url.parse(target_url);
-    var options = {
-        hostname: u.hostname,
-        port: u.port,
-        path: u.path,
-        method: 'POST',
-        headers: {
-            'Content-Type': 'text/plain',
-            'Content-Length': post_data.length
-        }
-    };
-    var data = "";
-    var prot = u.protocol == "http:" ? http : https;
-    var req = prot.request(options, function (res) {
-        res.on('data', function (chunk) {
-            data += chunk;
-        });
-        res.on('end', function () {
-            var clear_txt = new Buffer(data, 'base64').toString('utf8');
-            callback(null, clear_txt);
-        });
-    });
-
-    req.on('error', function () {
-        callback(u, null);
-    });
-    req.write(post_data);
-    req.end();
-}*/
 
 var logger = function(area){
     this.area = area;
@@ -2340,19 +2304,15 @@ var FinTSClient = function (in_blz,in_kunden_id,in_pin,bankenlist) {
 
 };
 
-var blz = 12345678;
-
 // 1. Definition der Bankenliste - Echte URLs sind hier http://www.hbci-zka.de/institute/institut_auswahl.htm erhältlich
-var bankenliste = {
-		'12345678':{'blz':blz,'url':"https://hbci-pintan-by.s-hbci.de/PinTanServlet"},
-		"undefined":{'url':""}
-};
+var bankenliste = {};
+bankenliste[blz] = {'blz':blz,'url':"https://hbci-pintan-by.s-hbci.de/PinTanServlet"};
 // 2. FinTSClient anlegen
 // BLZ: 70051540
 // Kunden-ID/Benutzerkennung: test1
 // PIN: 1234
 // Bankenliste siehe oben
-var client = new FinTSClient(blz,"user_id","pin",bankenliste);
+var client = new FinTSClient(blz,user_id,pin,bankenliste);
 // 3. Verbindung aufbauen
 client.EstablishConnection(function(error){
 			if(error){

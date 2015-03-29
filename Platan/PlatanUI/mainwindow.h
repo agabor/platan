@@ -70,6 +70,7 @@ public:
     bool hasChanges();
 protected:
      void closeEvent(QCloseEvent *event) override;
+     void importFromCSV();
 
 public slots:
     void onDateRangeChanged(QDate start, QDate end);

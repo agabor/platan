@@ -40,6 +40,7 @@
 #include <exportrules.h>
 #include <pluginengine.h>
 #include "runscriptdialog.h"
+#include "hbcidialog.h"
 
 MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, PluginEngine &pluginEngine, QWidget *parent) :
     QMainWindow(parent),
@@ -304,21 +305,44 @@ void MainWindow::onUnsetDateRange()
 }
 
 
+void MainWindow::importFromCSV()
+{
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                  "",
+                                                  tr("Files (*.csv)"));
+
+  if (!fileName.isEmpty())
+  {
+  ImportDialog id(this, fileName);
+  if (id.exec() == QDialog::Accepted)
+  {
+      statements.insertData(id.getImportedStatements());
+      statements.categorizeUndefinedStatements(rules);
+      refreshStatements();
+  }}
+}
+
 void MainWindow::on_actionImport_Bank_Statements_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
-                                                    "",
-                                                    tr("Files (*.csv)"));
 
-    if (fileName.isEmpty())
+  auto reply = QMessageBox::question(this, tr("Use HBCI?"),
+                                     tr("Does your bank support the Home Banking Connection Interface (HBCI)?"),
+                                     QMessageBox::Yes|QMessageBox::No);
+  if (reply == QMessageBox::Yes)
+  {
+    HBCIDialog d;
+    if (QDialog::Accepted != d.exec())
         return;
-    ImportDialog id(this, fileName);
-    if (id.exec() == QDialog::Accepted)
-    {
-        statements.insertData(id.getImportedStatements());
-        statements.categorizeUndefinedStatements(rules);
-        refreshStatements();
-    }
+    auto plugin = m_pluginEngine.createScript(QString(":/plugins/plugins/hbci.js"));
+    plugin.addParameter("url", d.getURL());
+    plugin.addParameter("blz", d.getBLZ());
+    plugin.addParameter("user_id", d.getUserID());
+    plugin.addParameter("pin", d.getPin());
+    m_pluginEngine.runScript(plugin);
+  } else
+  {
+    importFromCSV();
+  }
 }
 
 void MainWindow::on_actionAdd_rule_triggered()

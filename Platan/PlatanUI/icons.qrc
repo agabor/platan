@@ -274,4 +274,10 @@
         <file>icons/tree_icon.png</file>
         <file>icons/application-x-executable.png</file>
     </qresource>
+    <qresource prefix="/banks">
+        <file>banks/hyve.png</file>
+        <file>banks/postbank.png</file>
+        <file>banks/sparkasse.png</file>
+        <file>banks/vobaraiba.png</file>
+    </qresource>
 </RCC>

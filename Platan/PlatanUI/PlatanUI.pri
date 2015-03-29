@@ -10,7 +10,8 @@ SOURCES += \
     PlatanUI/setcategorydialog.cpp \
     PlatanUI/newprojectdialog.cpp \
     PlatanUI/welcomewidget.cpp \
-    $$PWD/runscriptdialog.cpp
+    $$PWD/runscriptdialog.cpp \
+    $$PWD/hbcidialog.cpp
 
 HEADERS  += \
     PlatanUI/mainwindow.h \
@@ -22,7 +23,8 @@ HEADERS  += \
     PlatanUI/setcategorydialog.h \
     PlatanUI/newprojectdialog.h \
     PlatanUI/welcomewidget.h \
-    $$PWD/runscriptdialog.h
+    $$PWD/runscriptdialog.h \
+    $$PWD/hbcidialog.h
 
 FORMS    += \
     PlatanUI/mainwindow.ui \
@@ -32,7 +34,8 @@ FORMS    += \
     PlatanUI/projectswindow.ui \
     PlatanUI/setcategorydialog.ui \
     PlatanUI/newprojectdialog.ui \
-    $$PWD/runscriptdialog.ui
+    $$PWD/runscriptdialog.ui \
+    $$PWD/hbcidialog.ui
 
 RESOURCES += \
     PlatanUI/icons.qrc
