@@ -25,6 +25,9 @@ public:
   void setCallBack(std::function<void(void)> callback);
   std::function<void (QScriptValue &, QScriptValueList &)> createPluginCallBack(QScriptValue& function);
 
+signals:
+  void message(QString &msg);
+
 protected:
   QScriptValue getParameter(QScriptContext *ctx, QScriptEngine *eng);
   void startScript();

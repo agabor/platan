@@ -34,8 +34,13 @@ QScriptValue undefined()
 
 QScriptValue print(QScriptContext *ctx, QScriptEngine *eng)
 {
-  Q_UNUSED(eng);
-	qDebug() << ctx->argument(0).toString();
+  Plugin* plugin = dynamic_cast<Plugin*>(eng);
+  if (!plugin)
+  {
+    //Should not happen!
+    return undefined();
+  }
+  emit plugin->message(ctx->argument(0).toString());
   return null();
 }
 

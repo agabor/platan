@@ -41,6 +41,7 @@
 #include <exportrules.h>
 #include <pluginengine.h>
 #include "hbcidialog.h"
+#include "pluginoutputdialog.h"
 
 MainWindow::MainWindow(Statements &statements, Rules &rules, ViewModel &viewModel, QWidget *parent) :
     QMainWindow(parent),
@@ -338,15 +339,22 @@ void MainWindow::on_actionImport_Bank_Statements_triggered()
     HBCIDialog *d = new HBCIDialog(this);
     if (QDialog::Accepted != d->exec())
         return;
+
+    QSharedPointer<PluginOutputDialog> dialog(new PluginOutputDialog);
+
     QSharedPointer<ImportPlugin> plugin(new ImportPlugin(QString(":/plugins/plugins/hbci.js")));
     plugin->addParameter("url", d->getURL());
     plugin->addParameter("blz", d->getBLZ());
     plugin->addParameter("user_id", d->getUserID());
     plugin->addParameter("pin", d->getPin());
-    plugin->setCallBack([this, plugin](){
+    plugin->setCallBack([this, plugin, dialog](){
+      dialog->close();
       importStatements(plugin->statements());
     });
 
+    connect(plugin.data(), SIGNAL(message(QString&)), dialog.data(), SLOT(showMessage(QString&)));
+
+    dialog->show();
     plugin->run();
   } else
   {
