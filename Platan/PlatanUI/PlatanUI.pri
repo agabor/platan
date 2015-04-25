@@ -2,7 +2,6 @@
 
 SOURCES += \
     PlatanUI/mainwindow.cpp \
-    PlatanUI/importdialog.cpp \
     PlatanUI/addruledialog.cpp \
     PlatanUI/choosedatedialog.cpp \
     PlatanUI/maintabwidget.cpp \
@@ -15,7 +14,6 @@ SOURCES += \
 
 HEADERS  += \
     PlatanUI/mainwindow.h \
-    PlatanUI/importdialog.h \
     PlatanUI/addruledialog.h \
     PlatanUI/choosedatedialog.h \
     PlatanUI/maintabwidget.h \
@@ -28,7 +26,6 @@ HEADERS  += \
 
 FORMS    += \
     PlatanUI/mainwindow.ui \
-    PlatanUI/importdialog.ui \
     PlatanUI/addruledialog.ui \
     PlatanUI/choosedatedialog.ui \
     PlatanUI/projectswindow.ui \

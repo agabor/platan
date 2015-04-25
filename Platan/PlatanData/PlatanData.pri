@@ -1,9 +1,7 @@
 
 SOURCES += \
-    ../Platan/PlatanData/datetransformation.cpp \
     ../Platan/PlatanData/statements.cpp \
     ../Platan/PlatanData/statementtablemodel.cpp \
-    ../Platan/PlatanData/tabletransformer.cpp \
     ../Platan/PlatanData/rule.cpp \
     ../Platan/PlatanData/statement.cpp \
     ../Platan/PlatanData/countrycodes.cpp \
@@ -11,8 +9,6 @@ SOURCES += \
     ../Platan/PlatanData/statementmapper.cpp \
     ../Platan/PlatanData/countrydata.cpp \
     ../Platan/PlatanData/countrymapper.cpp \
-    ../Platan/PlatanData/simpletransformations.cpp \
-    ../Platan/PlatanData/transformation.cpp \
     ../Platan/PlatanData/rules.cpp \
     ../Platan/PlatanData/viewmodel.cpp \
     ../Platan/PlatanData/applicationdb.cpp \
@@ -24,12 +20,8 @@ SOURCES += \
 
 HEADERS += \
     ../Platan/PlatanData/statementtablemodel.h \
-    ../Platan/PlatanData/simpletransformations.h \
-    ../Platan/PlatanData/datetransformation.h \
-    ../Platan/PlatanData/transformation.h \
     ../Platan/PlatanData/statements.h \
     ../Platan/PlatanData/statementtablemodel.h \
-    ../Platan/PlatanData/tabletransformer.h \
     ../Platan/PlatanData/rule.h \
     ../Platan/PlatanData/statement.h \
     ../Platan/PlatanData/countrycodes.h \

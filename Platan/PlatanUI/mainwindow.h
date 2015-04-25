@@ -71,7 +71,6 @@ public:
     bool hasChanges();
 protected:
      void closeEvent(QCloseEvent *event) override;
-     void importFromCSV();
      void importStatements(QVector<Statement> statements);
 
 public slots:

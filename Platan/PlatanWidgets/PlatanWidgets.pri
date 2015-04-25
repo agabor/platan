@@ -5,8 +5,6 @@ SOURCES += \
     ../Platan/PlatanWidgets/qlegend.cpp \
     ../Platan/PlatanWidgets/qstatemenview.cpp \
     ../Platan/PlatanWidgets/daterangewidget.cpp \
-    ../Platan/PlatanWidgets/csvimportwidget.cpp \
-    ../Platan/PlatanWidgets/columnpropertieswidget.cpp \
     ../Platan/PlatanWidgets/rulewidget.cpp \
     ../Platan/PlatanWidgets/colorpalette.cpp \
     ../Platan/PlatanWidgets/qlabeledcombobox.cpp \
@@ -22,8 +20,6 @@ HEADERS  += \
     ../Platan/PlatanWidgets/qstatemenview.h \
     ../Platan/PlatanWidgets/daterangewidget.h \
     ../Platan/PlatanWidgets/widgethelpers.h \
-    ../Platan/PlatanWidgets/csvimportwidget.h \
-    ../Platan/PlatanWidgets/columnpropertieswidget.h \
     ../Platan/PlatanWidgets/rulewidget.h \
     ../Platan/PlatanWidgets/qlabeledcombobox.h
 
