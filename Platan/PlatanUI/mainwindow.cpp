@@ -25,6 +25,7 @@
 #include <QSharedPointer>
 
 #include <mainwindow.h>
+#include <importdialog.h>
 #include <qpiechart.h>
 #include <addruledialog.h>
 #include <ui_mainwindow.h>
@@ -311,29 +312,54 @@ void MainWindow::importStatements(QVector<Statement> imported_statements)
   refreshStatements();
 }
 
+void MainWindow::importFromCSV()
+{
+  QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                  "",
+                                                  tr("Files (*.csv)"));
+
+  if (!fileName.isEmpty())
+  {
+    ImportDialog id(this, fileName);
+    if (id.exec() == QDialog::Accepted)
+    {
+      importStatements(id.getImportedStatements());
+    }
+  }
+}
 
 void MainWindow::on_actionImport_Bank_Statements_triggered()
 {
-  HBCIDialog *d = new HBCIDialog(this);
-  if (QDialog::Accepted != d->exec())
-    return;
 
-  QSharedPointer<PluginOutputDialog> dialog(new PluginOutputDialog);
+  auto reply = QMessageBox::question(this, tr("Use HBCI?"),
+                                     tr("Does your bank support the Home Banking Connection Interface (HBCI)?"),
+                                     QMessageBox::Yes|QMessageBox::No);
+  if (reply == QMessageBox::Yes)
+  {
+    HBCIDialog *d = new HBCIDialog(this);
+    if (QDialog::Accepted != d->exec())
+        return;
 
-  QSharedPointer<ImportPlugin> plugin(new ImportPlugin(QString(":/plugins/plugins/hbci.js")));
-  plugin->addParameter("url", d->getURL());
-  plugin->addParameter("blz", d->getBLZ());
-  plugin->addParameter("user_id", d->getUserID());
-  plugin->addParameter("pin", d->getPin());
-  plugin->setCallBack([this, plugin, dialog](){
-    dialog->close();
-    importStatements(plugin->statements());
-  });
+    QSharedPointer<PluginOutputDialog> dialog(new PluginOutputDialog);
 
-  connect(plugin.data(), SIGNAL(message(QString&)), dialog.data(), SLOT(showMessage(QString&)));
+    QSharedPointer<ImportPlugin> plugin(new ImportPlugin(QString(":/plugins/plugins/hbci.js")));
+    plugin->addParameter("url", d->getURL());
+    plugin->addParameter("blz", d->getBLZ());
+    plugin->addParameter("user_id", d->getUserID());
+    plugin->addParameter("pin", d->getPin());
+    plugin->setCallBack([this, plugin, dialog](){
+      dialog->close();
+      importStatements(plugin->statements());
+    });
 
-  dialog->show();
-  plugin->run();
+    connect(plugin.data(), SIGNAL(message(QString&)), dialog.data(), SLOT(showMessage(QString&)));
+
+    dialog->show();
+    plugin->run();
+  } else
+  {
+    importFromCSV();
+  }
 }
 
 void MainWindow::on_actionAdd_rule_triggered()

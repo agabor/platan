@@ -24,12 +24,14 @@ INCLUDEPATH += SQLiteWrapper \
                PlatanData \
                PlatanUI \
                PlatanWidgets \
-               PlatanApp
+               PlatanApp \
+               PlatanCSV
 
 include(SQLiteWrapper/SQLiteWrapper.pri)
 include(PlatanData/PlatanData.pri)
 include(PlatanUI/PlatanUI.pri)
 include(PlatanWidgets/PlatanWidgets.pri)
+include(PlatanCSV/PlatanCSV.pri)
 include(PlatanApp/PlatanApp.pri)
 
 
