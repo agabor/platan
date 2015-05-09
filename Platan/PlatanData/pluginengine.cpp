@@ -81,7 +81,8 @@ QString getString(QScriptValue &value)
 }
 
 QScriptValue addStatement(QScriptContext *ctx, QScriptEngine *eng)
-{  ImportPlugin* plugin = dynamic_cast<ImportPlugin*>(eng);
+{
+   ImportPlugin* plugin = dynamic_cast<ImportPlugin*>(eng);
    if (!plugin)
    {
      //Should not happen!
@@ -178,6 +179,12 @@ Plugin::Plugin(QString &fileName) : m_fileName(fileName)
   globalObject().setProperty("getParameter", newFunction(::getParameter));
   m_callback = nullptr;
   m_script_run_counter = 0;
+  qDebug() << "Plugin created";
+}
+
+Plugin::~Plugin()
+{
+  qDebug() << "Plugin destroyed";
 }
 
 ImportPlugin::ImportPlugin(QString &fileName) : Plugin(fileName)

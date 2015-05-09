@@ -19,6 +19,7 @@ class Plugin : public QScriptEngine
   Q_OBJECT
 public:
   explicit Plugin(QString &fileName);
+  virtual ~Plugin();
   void addParameter(QString name, QString value);
   void run();
   QScriptValue getParameter(QString &name) const;

@@ -38,25 +38,26 @@ Statements::Statements(SQLiteDB &db) : db(db), statementMapper(db)
 QStringList Statements::categoryList()
 {
     QStringList result;
-    result.push_back(QObject::tr("Other"));
-    result.push_back(QObject::tr("Supermarket"));
-    result.push_back(QObject::tr("Clothing store"));
-    result.push_back(QObject::tr("Rent"));
-    result.push_back(QObject::tr("Public transportation"));
-    result.push_back(QObject::tr("Bills"));
-    result.push_back(QObject::tr("Electronics store"));
-    result.push_back(QObject::tr("Cash"));
-    result.push_back(QObject::tr("Furniture store"));
-    result.push_back(QObject::tr("Hardware store"));
-    result.push_back(QObject::tr("Department store"));
-    result.push_back(QObject::tr("Online marketplace"));
-    result.push_back(QObject::tr("Restaurant"));
-    result.push_back(QObject::tr("Sport"));
-    result.push_back(QObject::tr("Insurance"));
-    result.push_back(QObject::tr("Bank"));
-    result.push_back(QObject::tr("Drogstore"));
-    result.push_back(QObject::tr("Mobil"));
-    result.push_back(QObject::tr("Savings"));
+    result.push_back(QObject::tr("Other"));                      //0
+    result.push_back(QObject::tr("Supermarket"));                //1
+    result.push_back(QObject::tr("Clothing store"));             //2
+    result.push_back(QObject::tr("Rent"));                       //3
+    result.push_back(QObject::tr("Public transportation"));      //4
+    result.push_back(QObject::tr("Bills"));                      //5
+    result.push_back(QObject::tr("Electronics store"));          //6
+    result.push_back(QObject::tr("Cash"));                       //7
+    result.push_back(QObject::tr("Furniture store"));            //8
+    result.push_back(QObject::tr("Hardware store"));             //9
+    result.push_back(QObject::tr("Department store"));           //10
+    result.push_back(QObject::tr("Online marketplace"));         //11
+    result.push_back(QObject::tr("Restaurant"));                 //12
+    result.push_back(QObject::tr("Sport"));                      //13
+    result.push_back(QObject::tr("Insurance"));                  //14
+    result.push_back(QObject::tr("Bank"));                       //15
+    result.push_back(QObject::tr("Drogstore"));                  //16
+    result.push_back(QObject::tr("Telecommunication"));          //17
+    result.push_back(QObject::tr("Fuel"));                       //18
+    result.push_back(QObject::tr("Savings"));                    //19
     return result;
 }
 

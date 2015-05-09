@@ -42,3 +42,9 @@ DISTFILES += \
 
 RESOURCES += \
     plugins.qrc
+
+
+install.path = %{buildDir}
+install.files += %{sourceDir}/platandata
+
+INSTALLS += install

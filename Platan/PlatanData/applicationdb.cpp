@@ -21,7 +21,7 @@ void ApplicationDB::create(QString data_base_path)
 
 bool ApplicationDB::init()
 {
-    dataBase.setPath("platandata");
+    dataBase.setPath("platandata.db");
     return dataBase.open();
 }
 

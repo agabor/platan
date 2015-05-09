@@ -40,6 +40,17 @@ void NetworkHandler::setCallback(std::function<void (QString)> callback)
   m_callback = callback;
 }
 
+NetworkHandler::NetworkHandler()
+{
+  qDebug() << "NetworkHandler create";
+}
+
+NetworkHandler::~NetworkHandler()
+{
+  qDebug() << "NetworkHandler destroy";
+
+}
+
 void NetworkHandler::replyFinished(QNetworkReply *reply)
 {
   qDebug() << "reply";

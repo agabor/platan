@@ -15,6 +15,8 @@ class NetworkHandler : public QObject
 public:
   void post(QString &url, QString &data);
   void setCallback(std::function<void(QString)> callback);
+  NetworkHandler();
+  ~NetworkHandler();
 private slots:
   void replyFinished(QNetworkReply* reply);
 private:
