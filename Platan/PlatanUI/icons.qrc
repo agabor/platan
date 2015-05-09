@@ -280,4 +280,7 @@
         <file>banks/sparkasse.png</file>
         <file>banks/vobaraiba.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>Main.qml</file>
+    </qresource>
 </RCC>

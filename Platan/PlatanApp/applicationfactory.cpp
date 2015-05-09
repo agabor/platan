@@ -10,6 +10,7 @@
 #include <sqlitedb.h>
 #include <applicationdb.h>
 #include <projectdb.h>
+#include <qmlview.h>
 
 void ApplicationFactory::construct(int &argc, char *argv[])
 {
@@ -24,6 +25,10 @@ void ApplicationFactory::construct(int &argc, char *argv[])
 
     mainWindow.reset(new MainWindow(*statements, *rules, *viewModel));
     mainApplication->setMainWindow(mainWindow);
+
+
+    qmlView.reset(new QMLView);
+    mainApplication->setQMLView(qmlView);
 }
 
 void ApplicationFactory::init()

@@ -24,6 +24,8 @@
 #include <rule.h>
 #include <applicationdb.h>
 #include <projectdb.h>
+#include <qmlview.h>
+#include <QQuickWidget>
 
 using namespace std;
 
@@ -69,6 +71,10 @@ bool MainApplication::OpenProject(QString project_path)
     mainWindow->InitLegend();
 
     mainWindow->show();
+
+    QQuickWidget *view = new QQuickWidget;
+    view->setSource(QUrl("qrc:/Main.qml"));
+    view->show();
 
     return true;
 }
@@ -124,7 +130,13 @@ void MainApplication::create(QString data_base_path, QString countryCode)
 
 void MainApplication::setMainWindow(shared_ptr<MainWindow> mainWindow)
 {
-    this->mainWindow = mainWindow;
+  this->mainWindow = mainWindow;
+}
+
+void MainApplication::setQMLView(std::shared_ptr<QMLView> qmlView)
+{
+  this->qmlView = qmlView;
+
 }
 
 

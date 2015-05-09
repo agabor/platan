@@ -32,6 +32,7 @@ class Rule;
 class MainWindow;
 class ApplicationDB;
 class ProjectDB;
+class QMLView;
 
 class MainApplication : public QApplication
 {
@@ -47,6 +48,7 @@ public:
     static MainApplication *getInstance();
     void create(QString data_base_path, QString countryCode);
     void setMainWindow(std::shared_ptr<MainWindow> mainWindow);
+    void setQMLView(std::shared_ptr<QMLView> qmlView);
     void showProjectWindow();
 private:
     std::unique_ptr<ProjectsWindow> projects_window;
@@ -55,6 +57,7 @@ private:
     ProjectDB &projectDB;
     ApplicationDB &applicationDB;
     std::shared_ptr<MainWindow> mainWindow;
+    std::shared_ptr<QMLView> qmlView;
     static MainApplication *instance;
 private slots:
     void cleanUp();

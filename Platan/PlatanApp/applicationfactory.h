@@ -14,6 +14,7 @@ class MainApplication;
 class SQLiteDB;
 class DataBaseSchema;
 class CountryMapper;
+class QMLView;
 
 class ApplicationFactory
 {
@@ -30,6 +31,7 @@ private:
     std::unique_ptr<ViewModel> viewModel;
     std::unique_ptr<ApplicationDB> applicationDB;
     std::shared_ptr<MainWindow> mainWindow;
+    std::shared_ptr<QMLView> qmlView;
     DataBaseSchema getProjectDBSchema();
 
 
