@@ -79,7 +79,7 @@ QVariant RuleTableModel::headerData(int section, Qt::Orientation orientation, in
     return QString::number(section);
 }
 
-void RuleTableModel::setData(QVector<std::shared_ptr<Rule> > rows)
+void RuleTableModel::setData(QVector<QSharedPointer<Rule> > rows)
 {
     Rows = rows;
     emit layoutChanged ();

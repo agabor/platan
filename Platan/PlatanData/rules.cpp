@@ -13,7 +13,7 @@ Rules::Rules(SQLiteDB &db) : ruleMapper(db), db(db), nextId(0)
 void Rules::insertRuleSilent(Rule &rule)
 {
     rule.id = nextId++;
-    auto p = make_shared<Rule>(rule);
+    QSharedPointer<Rule> p(new Rule(rule));
     newRules.push_back(p);
     append(p);
 }
@@ -36,7 +36,7 @@ void Rules::init()
     {
         if (r.id >= nextId)
             nextId = r.id + 1;
-        push_back(shared_ptr<Rule>(new Rule(r)));
+        push_back(QSharedPointer<Rule>(new Rule(r)));
     }
 }
 

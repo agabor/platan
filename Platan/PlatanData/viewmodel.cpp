@@ -55,10 +55,10 @@ void ViewModel::initRules()
 void ViewModel::initStatements()
 {
     allStatements->setData(statements);
-    QVector<shared_ptr<Statement>> uncategorised;
-    QMap<int, QVector<shared_ptr<Statement>>> categories;
+    QVector<QSharedPointer<Statement>> uncategorised;
+    QMap<int, QVector<QSharedPointer<Statement>>> categories;
     for(int i : classStatements.keys())
-        categories.insert(i, QVector<shared_ptr<Statement>>());
+        categories.insert(i, QVector<QSharedPointer<Statement>>());
 
     for(auto row : statements.statementsInDateRange())
     {

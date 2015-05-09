@@ -20,8 +20,6 @@
 #include <QAbstractTableModel>
 #include <QVector>
 
-#include <memory>
-
 #include <statement.h>
 
 template <class T1, class T2>
@@ -41,9 +39,9 @@ public:
     Statement &row(int idx);
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     QPair<QDate, QDate> DateRange() const;
-    void setData(QVector<std::shared_ptr<Statement> > rows);
+    void setData(QVector<QSharedPointer<Statement> > rows);
 protected:
-    QVector<std::shared_ptr<Statement>> Rows;
+    QVector<QSharedPointer<Statement>> Rows;
 };
 
 #endif // STATEMENTTABLEMODEL_H

@@ -1,7 +1,6 @@
-#include <memory>
-
 #include <QFile>
 #include <QTextStream>
+#include <QSharedPointer>
 
 #include <sqlinsert.h>
 #include <rule.h>
@@ -20,7 +19,7 @@ SQLInsert getInsertQuery(Rule &r)
 }
 
 
-void exportRules(QString file_name, QVector<std::shared_ptr<Rule> > rules)
+void exportRules(QString file_name, QVector<QSharedPointer<Rule> > rules)
 {
     QFile out(file_name);
     out.open(QIODevice::WriteOnly | QIODevice::Text);

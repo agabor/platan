@@ -4,7 +4,7 @@
 #include <QVector>
 #include <QObject>
 
-#include <memory>
+#include <QSharedPointer>
 
 #include <rulemapper.h>
 #include <sqlitedb.h>
@@ -12,7 +12,7 @@
 class Rule;
 class QStringList;
 
-class Rules : public QObject, public QVector<std::shared_ptr<Rule> >
+class Rules : public QObject, public QVector<QSharedPointer<Rule>>
 {
     Q_OBJECT
 public:
@@ -32,8 +32,8 @@ private:
     int nextId;
     RuleMapper ruleMapper;
     SQLiteDB &db;
-    QVector<std::shared_ptr<Rule> > deletedRules;
-    QVector<std::shared_ptr<Rule> > newRules;
+    QVector<QSharedPointer<Rule>> deletedRules;
+    QVector<QSharedPointer<Rule>> newRules;
 };
 
 #endif // RULES_H

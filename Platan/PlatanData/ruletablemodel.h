@@ -4,8 +4,6 @@
 #include <QAbstractTableModel>
 #include <QVector>
 
-#include <memory>
-
 class Rule;
 
 class RuleTableModel : public QAbstractTableModel
@@ -18,9 +16,9 @@ public:
     int columnCount(const QModelIndex &) const override;
     QVariant data(const QModelIndex &index, int role) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
-    void setData(QVector<std::shared_ptr<Rule> > rows);
+    void setData(QVector<QSharedPointer<Rule> > rows);
 protected:
-    QVector<std::shared_ptr<Rule>> Rows;
+    QVector<QSharedPointer<Rule>> Rows;
 };
 
 #endif // RULETABLEMODEL_H

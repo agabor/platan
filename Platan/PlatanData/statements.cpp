@@ -16,17 +16,17 @@
 
 #include <QString>
 #include <QVector>
+#include <QSharedPointer>
+
 
 #include <statements.h>
 #include <statement.h>
 #include <rule.h>
 
-using namespace std;
 
-
-uint qHash(shared_ptr<Statement> key, uint seed) Q_DECL_NOTHROW
+uint qHash(QSharedPointer<Statement> key, uint seed) Q_DECL_NOTHROW
 {
-    return ulong(key.get()) ^ seed;
+    return ulong(key.data()) ^ seed;
 }
 
 
@@ -76,7 +76,7 @@ QStringList Statements::columnList()
 
 void Statements::setCategory(int id, int category)
 {
-    shared_ptr<Statement> row;
+    QSharedPointer<Statement> row;
     int idx = -1;
     for (auto s : *this)
     {
@@ -88,7 +88,7 @@ void Statements::setCategory(int id, int category)
         }
     }
 
-    if (row.get() == nullptr)
+    if (row.data() == nullptr)
         return;
 
    row->category = category;
@@ -122,14 +122,14 @@ void Statements::save()
     db.endTransaction();
 }
 
-void Statements::categorizeUndefinedStatements(QVector<shared_ptr<Rule>> rules)
+void Statements::categorizeUndefinedStatements(QVector<QSharedPointer<Rule>> rules)
 {
     bool changed = false;
     for (auto s : getUncategorisedStatements())
     {
         for(auto r : rules)
         {
-            if (r->apply(*s.get()))
+            if (r->apply(*s.data()))
             {
                 changes.insert(s);
                 changed = true;
@@ -146,7 +146,7 @@ void Statements::categorizeUndefinedStatements(Rule &rule)
     bool changed = false;
     for (auto s : getUncategorisedStatements())
     {
-        if (rule.apply(*s.get()))
+        if (rule.apply(*s.data()))
         {
             changes.insert(s);
             changed = true;
@@ -173,10 +173,10 @@ void Statements::rollBack(Rule rule)
         emit dataChanged();
 }
 
-QVector<shared_ptr<Statement>> Statements::statementsInDateRange()
+QVector<QSharedPointer<Statement>> Statements::statementsInDateRange()
 {
-    QVector<shared_ptr<Statement>> result;
-    for(shared_ptr<Statement> row : *this)
+    QVector<QSharedPointer<Statement>> result;
+    for(QSharedPointer<Statement> row : *this)
     {
         if (timeIntervalSet && (row->date < startDate || row->date > endDate))
             continue;
@@ -185,9 +185,9 @@ QVector<shared_ptr<Statement>> Statements::statementsInDateRange()
     return result;
 }
 
-QVector<shared_ptr<Statement> > Statements::getUncategorisedStatements()
+QVector<QSharedPointer<Statement>> Statements::getUncategorisedStatements()
 {
-    QVector<shared_ptr<Statement> > result;
+    QVector<QSharedPointer<Statement>> result;
     for (auto s : *this)
     {
         if (s->category == 0)
@@ -232,7 +232,7 @@ void Statements::init()
 {
     clear();
     for(Statement &s : statementMapper.getAll(SQLCondition::Empty))
-        push_back(shared_ptr<Statement>(new Statement(s)));
+        push_back(QSharedPointer<Statement>(new Statement(s)));
 }
 
 
@@ -240,7 +240,7 @@ void Statements::insertData(QVector<Statement> statements)
 {
     for(Statement &s : statements)
     {
-        shared_ptr<Statement> p(new Statement(s));
+        QSharedPointer<Statement> p(new Statement(s));
         newStatements.insert(p);
         if (p->amount < 0)
             append(p);

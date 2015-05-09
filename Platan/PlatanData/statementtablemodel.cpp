@@ -16,7 +16,7 @@
 
 #include <QDate>
 
-#include <memory>
+#include <QSharedPointer>
 
 #include <statementtablemodel.h>
 #include <statement.h>
@@ -117,7 +117,7 @@ QPair<QDate, QDate> StatementTableModel::DateRange() const
     return QPair<QDate, QDate>(min_date, max_date);
 }
 
-void StatementTableModel::setData(QVector<std::shared_ptr<Statement>> rows)
+void StatementTableModel::setData(QVector<QSharedPointer<Statement>> rows)
 {
     Rows = rows;
     emit layoutChanged ();

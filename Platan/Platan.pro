@@ -45,6 +45,6 @@ RESOURCES += \
 
 
 install.path = %{buildDir}
-install.files += %{sourceDir}/platandata
+install.files += C:/GitHub/platan/platandata.db
 
 INSTALLS += install

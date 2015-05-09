@@ -19,7 +19,7 @@
 #include <QVariant>
 
 Rule::Rule(int _id, int _column, QString _value, int _category, Type _type)
-    :id(_id), column(_column), value(_value), category(_category), type(_type)
+    :id(_id), column(_column), value(_value.toUpper()), category(_category), type(_type)
 {
 }
 
@@ -41,7 +41,7 @@ bool Rule::apply(Statement &statement)
         }
         break;
     case Type::Contains:
-        if (statement.at(column).toString().contains(value))
+        if (statement.at(column).toString().toUpper().contains(value))
         {
             statement.category = category;
             statement.ruleId = id;

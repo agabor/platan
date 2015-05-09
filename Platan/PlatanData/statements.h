@@ -23,8 +23,6 @@
 #include <QMap>
 #include <QSet>
 
-#include <memory>
-
 #include <sqlitedb.h>
 #include <statementmapper.h>
 #include <sqlitedate.h>
@@ -36,7 +34,7 @@ class QString;
 class Statement;
 class Rule;
 
-class Statements : public QObject, public QVector<std::shared_ptr<Statement>>
+class Statements : public QObject, public QVector<QSharedPointer<Statement>>
 {
     Q_OBJECT
 public:
@@ -53,8 +51,8 @@ public:
     void setCategory(int id, int category);
     bool changed() const;
     void save();
-    QVector<std::shared_ptr<Statement>> statementsInDateRange();
-    void categorizeUndefinedStatements(QVector<std::shared_ptr<Rule> > rules);
+    QVector<QSharedPointer<Statement>> statementsInDateRange();
+    void categorizeUndefinedStatements(QVector<QSharedPointer<Rule> > rules);
     void categorizeUndefinedStatements(Rule &rule);
     void rollBack(Rule rule);
 signals:
@@ -62,9 +60,9 @@ signals:
 private:
     SQLiteDate startDate, endDate;
     bool timeIntervalSet;
-    QSet<std::shared_ptr<Statement>> changes;
-    QSet<std::shared_ptr<Statement>> newStatements;
-    QVector<std::shared_ptr<Statement>> getUncategorisedStatements();
+    QSet<QSharedPointer<Statement>> changes;
+    QSet<QSharedPointer<Statement>> newStatements;
+    QVector<QSharedPointer<Statement>> getUncategorisedStatements();
     SQLiteDB &db;
     StatementMapper statementMapper;
 };

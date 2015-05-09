@@ -3,6 +3,9 @@
 
 #include <QString>
 
+template <class T>
+class QSharedPointer;
+
 class SQLInsert;
 class Rule;
 
@@ -18,6 +21,6 @@ const QString country = "Country";
 }
 
 SQLInsert getInsertQuery(Rule &r);
-void exportRules(QString file_name, QVector<std::shared_ptr<Rule> > rules);
+void exportRules(QString file_name, QVector<QSharedPointer<Rule> > rules);
 
 #endif // RULEEXPORT_H
