@@ -22,6 +22,7 @@
 Statement::Statement()
 {
   m_id = -1;
+  m_ruleId = -1;
 }
 
 QVariant Statement::at(int idx) const
@@ -57,7 +58,12 @@ int Statement::id() const
 
 void Statement::setId(int id)
 {
-    m_id = id;
+  m_id = id;
+}
+
+bool Statement::isIdInvalid() const
+{
+  return m_id == -1;
 }
 SQLiteDate Statement::date() const
 {
@@ -111,7 +117,12 @@ float Statement::amount() const
 
 void Statement::setAmount(float amount)
 {
-    m_amount = amount;
+  m_amount = amount;
+}
+
+bool Statement::isAmountNaN() const
+{
+  return m_amount != m_amount;
 }
 int Statement::category() const
 {

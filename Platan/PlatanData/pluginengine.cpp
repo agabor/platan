@@ -91,6 +91,10 @@ QScriptValue addStatement(QScriptContext *ctx, QScriptEngine *eng)
    }
    Statement s;
    s.setAmount(ctx->argument(0).toNumber());
+
+   if (s.isAmountNaN())
+     return null();
+
    s.setType(getString(ctx->argument(1)));
    QScriptValue date = ctx->argument(2);
    int y = date.property("y").toInt32();

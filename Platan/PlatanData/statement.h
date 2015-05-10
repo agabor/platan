@@ -45,6 +45,7 @@ public:
 
   int id() const;
   void setId(int id);
+  bool isIdInvalid() const;
 
   SQLiteDate date() const;
   void setDate(const SQLiteDate &date);
@@ -63,6 +64,7 @@ public:
 
   float amount() const;
   void setAmount(float amount);
+  bool isAmountNaN() const;
 
   int category() const;
   void setCategory(int category);
