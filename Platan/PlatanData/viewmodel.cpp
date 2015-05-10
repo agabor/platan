@@ -62,7 +62,7 @@ void ViewModel::initStatements()
 
     for(auto row : statements.statementsInDateRange())
     {
-        const int category = row->category;
+        const int category = row->category();
         if (category == 0)
             uncategorised.push_back(row);
         else

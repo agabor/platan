@@ -31,43 +31,39 @@ Rule::Rule()
 bool Rule::apply(Statement &statement)
 {
   QString stm_value{statement.at(m_column).toString()};
-    switch (m_type)
-    {
+  switch (m_type)
+  {
     case Type::Is:
-        if (stm_value == m_value)
-        {
-            statement.category = m_category;
-            statement.ruleId = m_id;
-            return true;
-        }
-        break;
+      if (stm_value == m_value)
+      {
+        statement.setToRule(*this);
+        return true;
+      }
+      break;
     case Type::Contains:
-        QString stm_upper_value = stm_value.toUpper();
-        if (stm_upper_value.contains(m_upperValue))
-        {
-            statement.category = m_category;
-            statement.ruleId = m_id;
-            return true;
-        }
-        if (!m_hasUmlaut)
-          return false;
+      QString stm_upper_value = stm_value.toUpper();
+      if (stm_upper_value.contains(m_upperValue))
+      {
+        statement.setToRule(*this);
+        return true;
+      }
+      if (!m_hasUmlaut)
+        return false;
 
-        if (stm_upper_value.contains(m_convertedUmlautValue))
-        {
-            statement.category = m_category;
-            statement.ruleId = m_id;
-            return true;
-        }
+      if (stm_upper_value.contains(m_convertedUmlautValue))
+      {
+        statement.setToRule(*this);
+        return true;
+      }
 
-        if (stm_upper_value.contains(m_withoutUmlautValue))
-        {
-            statement.category = m_category;
-            statement.ruleId = m_id;
-            return true;
-        }
-        break;
-    }
-    return false;
+      if (stm_upper_value.contains(m_withoutUmlautValue))
+      {
+        statement.setToRule(*this);
+        return true;
+      }
+      break;
+  }
+  return false;
 }
 int Rule::id() const
 {

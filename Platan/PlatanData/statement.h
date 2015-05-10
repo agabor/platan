@@ -21,36 +21,67 @@
 #include <sqlitedate.h>
 
 class QVariant;
-
+class Rule;
 
 
 class Statement
 {
 public:
-    int id;
-    SQLiteDate date;
-    QString type;
-    QString description;
-    QString payee;
-    QString payeeAccount;
-    float amount;
-    int category;
-    int ruleId;
+  Statement();
+  enum class Column
+  {
+    Date = 0,
+    Type = 1,
+    Description = 2,
+    Payee = 3,
+    PayeeAccount = 4,
+    Amount = 5,
+    Category = 6,
+    RuleId = 7,
+  };
 
-    enum class Column
-    {
-      Date = 0,
-      Type = 1,
-      Description = 2,
-      Payee = 3,
-      PayeeAccount = 4,
-      Amount = 5,
-      Category = 6,
-      RuleId = 7,
-    };
+  QVariant at(int idx) const;
+  QVariant at(Column idx) const;
 
-    QVariant at(int idx) const;
-    QVariant at(Column idx) const;
+  int id() const;
+  void setId(int id);
+
+  SQLiteDate date() const;
+  void setDate(const SQLiteDate &date);
+
+  QString type() const;
+  void setType(const QString &type);
+
+  QString description() const;
+  void setDescription(const QString &description);
+
+  QString payee() const;
+  void setPayee(const QString &payee);
+
+  QString payeeAccount() const;
+  void setPayeeAccount(const QString &payeeAccount);
+
+  float amount() const;
+  void setAmount(float amount);
+
+  int category() const;
+  void setCategory(int category);
+
+  int ruleId() const;
+  void setRuleId(int ruleId);
+
+  void setToRule(const Rule &rule);
+
+private:
+  int m_id;
+  SQLiteDate m_date;
+  QString m_type;
+  QString m_description;
+  QString m_payee;
+  QString m_payeeAccount;
+  float m_amount;
+  int m_category;
+  int m_ruleId;
 };
 
 #endif // STATEMENTROW_H

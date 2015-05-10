@@ -17,6 +17,12 @@
 #include <QVariant>
 
 #include <statement.h>
+#include <rule.h>
+
+Statement::Statement()
+{
+  m_id = -1;
+}
 
 QVariant Statement::at(int idx) const
 {
@@ -28,19 +34,115 @@ QVariant Statement::at(Statement::Column idx) const
   switch (idx)
   {
   case Column::Date:
-      return date;
+      return m_date;
   case Column::Type:
-      return type;
+      return m_type;
   case Column::Description:
-      return description;
+      return m_description;
   case Column::Payee:
-      return payee;
+      return m_payee;
   case Column::PayeeAccount:
-      return payeeAccount;
+      return m_payeeAccount;
   case Column::Amount:
-      return amount;
+      return m_amount;
   case Column::Category:
-      return category;
+      return m_category;
   }
   return 0;
 }
+int Statement::id() const
+{
+    return m_id;
+}
+
+void Statement::setId(int id)
+{
+    m_id = id;
+}
+SQLiteDate Statement::date() const
+{
+    return m_date;
+}
+
+void Statement::setDate(const SQLiteDate &date)
+{
+    m_date = date;
+}
+QString Statement::type() const
+{
+    return m_type;
+}
+
+void Statement::setType(const QString &type)
+{
+    m_type = type;
+}
+QString Statement::description() const
+{
+    return m_description;
+}
+
+void Statement::setDescription(const QString &description)
+{
+    m_description = description;
+}
+QString Statement::payee() const
+{
+    return m_payee;
+}
+
+void Statement::setPayee(const QString &payee)
+{
+    m_payee = payee;
+}
+QString Statement::payeeAccount() const
+{
+    return m_payeeAccount;
+}
+
+void Statement::setPayeeAccount(const QString &payeeAccount)
+{
+    m_payeeAccount = payeeAccount;
+}
+float Statement::amount() const
+{
+    return m_amount;
+}
+
+void Statement::setAmount(float amount)
+{
+    m_amount = amount;
+}
+int Statement::category() const
+{
+    return m_category;
+}
+
+void Statement::setCategory(int category)
+{
+    m_category = category;
+}
+int Statement::ruleId() const
+{
+    return m_ruleId;
+}
+
+void Statement::setRuleId(int ruleId)
+{
+  m_ruleId = ruleId;
+}
+
+void Statement::setToRule(const Rule &rule)
+{
+  m_ruleId = rule.id();
+  m_category = rule.category();
+}
+
+
+
+
+
+
+
+
+

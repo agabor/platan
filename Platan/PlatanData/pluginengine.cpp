@@ -90,17 +90,17 @@ QScriptValue addStatement(QScriptContext *ctx, QScriptEngine *eng)
      return undefined();
    }
    Statement s;
-   s.amount = ctx->argument(0).toNumber();
-   s.type = getString(ctx->argument(1));
+   s.setAmount(ctx->argument(0).toNumber());
+   s.setType(getString(ctx->argument(1)));
    QScriptValue date = ctx->argument(2);
    int y = date.property("y").toInt32();
    int m = date.property("m").toInt32();
    int d = date.property("d").toInt32();
-   s.date = SQLiteDate(y, m, d);
-   s.payee = getString(ctx->argument(3));
-   s.payeeAccount = getString(ctx->argument(4));
-   s.description = getString(ctx->argument(5));
-   s.category = 0;
+   s.setDate(SQLiteDate(y, m, d));
+   s.setPayee(getString(ctx->argument(3)));
+   s.setPayeeAccount(getString(ctx->argument(4)));
+   s.setDescription(getString(ctx->argument(5)));
+   s.setCategory(0);
    plugin->addStatement(s);
    return null();
 }

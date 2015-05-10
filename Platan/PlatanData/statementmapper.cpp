@@ -44,27 +44,27 @@ StatementMapper::StatementMapper(SQLiteDB &db) : data_base(db)
 void StatementMapper::update(Statement &s) const
 {
     SQLUpdate update{db_statement::statements};
-    update.set(db_statement::date, s.date.toInt());
-    update.set(db_statement::type, s.type);
-    update.set(db_statement::description, s.description);
-    update.set(db_statement::payee, s.payee);
-    update.set(db_statement::payeeAccount, s.payeeAccount);
-    update.set(db_statement::amount, s.amount);
-    update.set(db_statement::category, s.category);
-    update.set(db_statement::ruleId, s.ruleId);
-    update.where(QString("%1 = %2").arg(db_statement::id).arg(s.id));
+    update.set(db_statement::date, s.date().toInt());
+    update.set(db_statement::type, s.type());
+    update.set(db_statement::description, s.description());
+    update.set(db_statement::payee, s.payee());
+    update.set(db_statement::payeeAccount, s.payeeAccount());
+    update.set(db_statement::amount, s.amount());
+    update.set(db_statement::category, s.category());
+    update.set(db_statement::ruleId, s.ruleId());
+    update.where(QString("%1 = %2").arg(db_statement::id).arg(s.id()));
     data_base.execute(update);
 }
 
 void StatementMapper::insert(Statement &s) const
 {
     SQLInsert insert{db_statement::statements};
-    insert.set(db_statement::date, s.date.toInt());
-    insert.set(db_statement::type, s.type);
-    insert.set(db_statement::description, s.description);
-    insert.set(db_statement::payee, s.payee);
-    insert.set(db_statement::payeeAccount, s.payeeAccount);
-    insert.set(db_statement::amount, s.amount);
+    insert.set(db_statement::date, s.date().toInt());
+    insert.set(db_statement::type, s.type());
+    insert.set(db_statement::description, s.description());
+    insert.set(db_statement::payee, s.payee());
+    insert.set(db_statement::payeeAccount, s.payeeAccount());
+    insert.set(db_statement::amount, s.amount());
     insert.set(db_statement::category, 0);
     insert.set(db_statement::ruleId, -1);
 
@@ -95,15 +95,15 @@ QVector<Statement> StatementMapper::getAll(const SQLCondition &cond)
     while (data_base.step(statement))
     {
         Statement row;
-        row.id = statement.GetInt(0);
-        row.date = statement.GetDate(1);
-        row.type = statement.GetText(2);
-        row.description = statement.GetText(3);
-        row.payee = statement.GetText(4);
-        row.payeeAccount = statement.GetText(5);
-        row.amount = statement.GetDouble(6) * -1.f;
-        row.category = statement.GetInt(7);
-        row.ruleId = statement.GetInt(8);
+        row.setId(statement.GetInt(0));
+        row.setDate(statement.GetDate(1));
+        row.setType(statement.GetText(2));
+        row.setDescription(statement.GetText(3));
+        row.setPayee(statement.GetText(4));
+        row.setPayeeAccount(statement.GetText(5));
+        row.setAmount(statement.GetDouble(6) * -1.f);
+        row.setCategory(statement.GetInt(7));
+        row.setRuleId(statement.GetInt(8));
         result.push_back(row);
     }
     return result;

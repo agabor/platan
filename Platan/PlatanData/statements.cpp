@@ -81,7 +81,7 @@ void Statements::setCategory(int id, int category)
     for (auto s : *this)
     {
         ++idx;
-        if(s->id == id)
+        if(s->id() == id)
         {
             row = s;
             break;
@@ -91,7 +91,7 @@ void Statements::setCategory(int id, int category)
     if (row.data() == nullptr)
         return;
 
-   row->category = category;
+   row->setCategory(category);
 
     if (!changes.contains(row))
     {
@@ -161,10 +161,10 @@ void Statements::rollBack(Rule rule)
     bool changed = false;
     for(auto s : *this)
     {
-        if (s->ruleId == rule.id())
+        if (s->ruleId() == rule.id())
         {
-            s->ruleId = -1;
-            s->category = 0;
+            s->setRuleId(-1);
+            s->setCategory(0);
             changes.insert(s);
             changed = true;
         }
@@ -178,7 +178,7 @@ QVector<QSharedPointer<Statement>> Statements::statementsInDateRange()
     QVector<QSharedPointer<Statement>> result;
     for(QSharedPointer<Statement> row : *this)
     {
-        if (timeIntervalSet && (row->date < startDate || row->date > endDate))
+        if (timeIntervalSet && (row->date() < startDate || row->date() > endDate))
             continue;
         result.append(row);
     }
@@ -190,7 +190,7 @@ QVector<QSharedPointer<Statement>> Statements::getUncategorisedStatements()
     QVector<QSharedPointer<Statement>> result;
     for (auto s : *this)
     {
-        if (s->category == 0)
+        if (s->category() == 0)
         {
             result.push_back(s);
         }
@@ -218,11 +218,11 @@ QMap<int, float> Statements::getCategories()
     QMap<int, float> result;
     for(auto row : statementsInDateRange())
     {
-        const int category = row->category;
+        const int category = row->category();
         if (result.keys().contains(category))
-            result[category] += row->amount;
+            result[category] += row->amount();
         else
-            result.insert(category, row->amount);
+            result.insert(category, row->amount());
     }
     return result;
 }
@@ -242,7 +242,7 @@ void Statements::insertData(QVector<Statement> statements)
     {
         QSharedPointer<Statement> p(new Statement(s));
         newStatements.insert(p);
-        if (p->amount < 0)
+        if (p->amount() < 0)
             append(p);
     }
     emit dataChanged();

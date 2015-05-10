@@ -53,6 +53,7 @@ public:
     Type type() const;
     void setType(const Type &type);
 
+    void setToRule(Statement &statement);
 private:
     int m_id;
     Statement::Column m_column;

@@ -104,7 +104,7 @@ QPair<QDate, QDate> StatementTableModel::DateRange() const
 
     for (auto row : Rows)
     {
-        SQLiteDate date = row->date;
+        SQLiteDate date = row->date();
         if (date == start || !date.isValid())
             continue;
 

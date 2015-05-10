@@ -380,7 +380,7 @@ void MainWindow::on_actionSet_category_triggered()
     if (QDialog::Accepted != d.exec())
         return;
 
-    statements.setCategory(uncategorisedTableModel->row(index.row()).id, d.category());
+    statements.setCategory(uncategorisedTableModel->row(index.row()).id(), d.category());
 }
 
 void MainWindow::on_actionSave_triggered()
@@ -403,7 +403,7 @@ void MainWindow::on_actionDeleteRule_triggered()
 
 void MainWindow::statementsTableIndexChanged(const QModelIndex &current, const QModelIndex &)
 {
-    ui->actionAdd_rule->setEnabled(statements[current.row()]->category == 0);
+    ui->actionAdd_rule->setEnabled(statements[current.row()]->category() == 0);
 }
 
 void MainWindow::on_actionExport_Commands_triggered()
