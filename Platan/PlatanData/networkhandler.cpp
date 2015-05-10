@@ -27,7 +27,7 @@ void NetworkHandler::post(QString &url, QString &data)
   QByteArray postData;
   postData.append(base64_encode(data));
 
-  QNetworkRequest req{(QUrl(url))};
+  QNetworkRequest req{QUrl{url}};
   req.setHeader(QNetworkRequest::ContentTypeHeader, QVariant(QString("text/xml")));
   req.setHeader(QNetworkRequest::ContentLengthHeader, QVariant(qulonglong(postData.size())));
 
