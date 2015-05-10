@@ -43,8 +43,3 @@ DISTFILES += \
 RESOURCES += \
     plugins.qrc
 
-
-install.path = %{buildDir}
-install.files += C:/GitHub/platan/platandata.db
-
-INSTALLS += install
