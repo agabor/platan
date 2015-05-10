@@ -18,9 +18,10 @@
 #include <statement.h>
 #include <QVariant>
 
-Rule::Rule(int _id, Statement::Column _column, QString _value, int _category, Type _type)
-    :m_id(_id), m_column(_column), m_value(_value.toUpper()), m_category(_category), m_type(_type)
+Rule::Rule(int id, Statement::Column column, QString value, int category, Type type)
+    :m_id(id), m_column(column), m_category(category), m_type(type)
 {
+  setValue(value);
 }
 
 Rule::Rule()
@@ -29,11 +30,11 @@ Rule::Rule()
 
 bool Rule::apply(Statement &statement)
 {
-
+  QString stm_value{statement.at(m_column).toString()};
     switch (m_type)
     {
     case Type::Is:
-        if (statement.at(m_column) == m_value)
+        if (stm_value == m_value)
         {
             statement.category = m_category;
             statement.ruleId = m_id;
@@ -41,7 +42,24 @@ bool Rule::apply(Statement &statement)
         }
         break;
     case Type::Contains:
-        if (statement.at(m_column).toString().toUpper().contains(m_value))
+        QString stm_upper_value = stm_value.toUpper();
+        if (stm_upper_value.contains(m_upperValue))
+        {
+            statement.category = m_category;
+            statement.ruleId = m_id;
+            return true;
+        }
+        if (!m_hasUmlaut)
+          return false;
+
+        if (stm_upper_value.contains(m_convertedUmlautValue))
+        {
+            statement.category = m_category;
+            statement.ruleId = m_id;
+            return true;
+        }
+
+        if (stm_upper_value.contains(m_withoutUmlautValue))
         {
             statement.category = m_category;
             statement.ruleId = m_id;
@@ -74,9 +92,50 @@ QString Rule::value() const
   return m_value;
 }
 
+const QString auml = QString::fromUtf8("Ä");
+const QString auml_c{"AE"};
+const QString auml_p{"A"};
+
+const QString ouml = QString::fromUtf8("Ö");
+const QString ouml_c{"OE"};
+const QString ouml_p{"O"};
+
+const QString uuml = QString::fromUtf8("Ü");
+const QString uuml_c{"UE"};
+const QString uuml_p{"U"};
+
+bool containsUmlaut(const QString &value)
+{
+  return value.contains(auml) || value.contains(ouml) || value.contains(uuml);
+}
+
+void removeUmlaut(QString &value)
+{
+  value.replace(auml, auml_p);
+  value.replace(ouml, ouml_p);
+  value.replace(uuml, uuml_p);
+}
+
+void convertUmlaut(QString &value)
+{
+  value.replace(auml, auml_c);
+  value.replace(ouml, ouml_c);
+  value.replace(uuml, uuml_c);
+}
+
 void Rule::setValue(const QString &value)
 {
   m_value = value;
+  m_upperValue = value.toUpper();
+  m_hasUmlaut = containsUmlaut(m_upperValue);
+  if (m_hasUmlaut)
+  {
+    m_convertedUmlautValue = m_upperValue;
+    convertUmlaut(m_convertedUmlautValue);
+
+    m_withoutUmlautValue = m_upperValue;
+    removeUmlaut(m_withoutUmlautValue);
+  }
 }
 int Rule::category() const
 {

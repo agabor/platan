@@ -33,7 +33,7 @@ public:
         Contains
     };
 
-    Rule(int _id, Statement::Column _column, QString _value, int _category, Type _type);
+    Rule(int id, Statement::Column column, QString value, int category, Type type);
     Rule();
 
     bool apply(Statement &statement);
@@ -57,6 +57,10 @@ private:
     int m_id;
     Statement::Column m_column;
     QString m_value;
+    QString m_upperValue;
+    bool m_hasUmlaut;
+    QString m_withoutUmlautValue;
+    QString m_convertedUmlautValue;
     int m_category;
     Type m_type;
 };
