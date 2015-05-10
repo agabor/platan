@@ -9,6 +9,8 @@ PluginOutputDialog::PluginOutputDialog(QWidget *parent) :
   ui(new Ui::PluginOutputDialog)
 {
   ui->setupUi(this);
+  setWindowFlags(Qt::FramelessWindowHint);
+  setWindowFlags(Qt::WindowTitleHint);
 }
 
 PluginOutputDialog::~PluginOutputDialog()
