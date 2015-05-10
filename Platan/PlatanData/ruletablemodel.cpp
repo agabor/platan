@@ -26,12 +26,13 @@ QVariant RuleTableModel::data(const QModelIndex &index, int role) const
     case 0:
     {
         QStringList columnList = Statements::columnList();
-        if (r.column < 0 || r.column >= columnList.length())
+        int column_idx = static_cast<int>(r.column());
+        if (column_idx < 0 || column_idx >= columnList.length())
             return QString();
-        return columnList.at(r.column);
+        return columnList.at(column_idx);
     }
     case 1:
-        switch(r.type)
+        switch(r.type())
         {
         case Rule::Type::Is:
             return QString{"is"};
@@ -41,13 +42,13 @@ QVariant RuleTableModel::data(const QModelIndex &index, int role) const
         return QVariant::Invalid;
 
     case 2:
-        return r.value;
+        return r.value();
     case 3:
     {
         QStringList categoryList = Statements::categoryList();
-        if (r.category < 0 || r.category >= categoryList.length())
+        if (r.category() < 0 || r.category() >= categoryList.length())
             return QString();
-        return categoryList.at(r.category);
+        return categoryList.at(r.category());
     }
     default:
         return QVariant::Invalid;

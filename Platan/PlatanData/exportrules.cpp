@@ -10,10 +10,10 @@
 SQLInsert getInsertQuery(Rule &r)
 {
     SQLInsert insert(db_rule::rules);
-    insert.set(db_rule::column, r.column);
-    insert.set(db_rule::value, r.value);
-    insert.set(db_rule::category, r.category);
-    insert.set(db_rule::type, static_cast<int>(r.type));
+    insert.set(db_rule::column, static_cast<int>(r.column()));
+    insert.set(db_rule::value, r.value());
+    insert.set(db_rule::category, r.category());
+    insert.set(db_rule::type, static_cast<int>(r.type()));
 
     return insert;
 }

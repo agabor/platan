@@ -1,10 +1,9 @@
 #include <QStringList>
+#include <QtAlgorithms>
 
 #include <rules.h>
 #include <rule.h>
-#include <memory>
 
-using namespace std;
 
 Rules::Rules(SQLiteDB &db) : ruleMapper(db), db(db), nextId(0)
 {
@@ -12,7 +11,7 @@ Rules::Rules(SQLiteDB &db) : ruleMapper(db), db(db), nextId(0)
 
 void Rules::insertRuleSilent(Rule &rule)
 {
-    rule.id = nextId++;
+    rule.setId(nextId++);
     QSharedPointer<Rule> p(new Rule(rule));
     newRules.push_back(p);
     append(p);
@@ -29,13 +28,42 @@ QVector<Rule> Rules::getRules()
     return ruleMapper.getAll();
 }
 
+
+bool lessThan(const Rule &r1, const Rule &r2)
+{
+    if (r1.type() == Rule::Type::Is)
+      return r2.type() != Rule::Type::Is;
+
+    if (r2.type() == Rule::Type::Is)
+      return false;
+
+    if (r1.column() == Statement::Column::Type)
+      return r2.column() != Statement::Column::Type;
+
+    if (r2.column() != Statement::Column::Type)
+      return false;
+
+    if (r1.column() == Statement::Column::PayeeAccount)
+      return r2.column() != Statement::Column::PayeeAccount;
+
+    if (r2.column() != Statement::Column::PayeeAccount)
+      return false;
+
+    return false;
+}
+
 void Rules::init()
 {
     clear();
-    for (Rule &r : getRules())
+
+    auto rules = getRules();
+
+    qSort(rules.begin(), rules.end(), lessThan);
+
+    for (Rule &r : rules)
     {
-        if (r.id >= nextId)
-            nextId = r.id + 1;
+        if (r.id() >= nextId)
+            nextId = r.id() + 1;
         push_back(QSharedPointer<Rule>(new Rule(r)));
     }
 }

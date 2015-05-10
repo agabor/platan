@@ -20,22 +20,27 @@
 
 QVariant Statement::at(int idx) const
 {
-    switch (idx)
-    {
-    case 0:
-        return date;
-    case 1:
-        return type;
-    case 2:
-        return description;
-    case 3:
-        return payee;
-    case 4:
-        return payeeAccount;
-    case 5:
-        return amount;
-    case 6:
-        return category;
-    }
-    return 0;
+  return at(static_cast<Column>(idx));
+}
+
+QVariant Statement::at(Statement::Column idx) const
+{
+  switch (idx)
+  {
+  case Column::Date:
+      return date;
+  case Column::Type:
+      return type;
+  case Column::Description:
+      return description;
+  case Column::Payee:
+      return payee;
+  case Column::PayeeAccount:
+      return payeeAccount;
+  case Column::Amount:
+      return amount;
+  case Column::Category:
+      return category;
+  }
+  return 0;
 }

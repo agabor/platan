@@ -64,7 +64,7 @@ QVector<Rule> RuleMapper::getAll(int _country) const
         QString value = statement.GetText(2);
         int category = statement.GetInt(3);
         Rule::Type type = static_cast<Rule::Type>(statement.GetInt(4));
-        result.push_back(Rule(id, column, value, category, type));
+        result.push_back(Rule(id, static_cast<Statement::Column>(column), value, category, type));
     }
 
     return result;
@@ -91,17 +91,17 @@ TableStructure RuleMapper::getStructureWithCountry()
 void RuleMapper::remove(Rule &r)
 {
     SQLDelete del{db_rule::rules};
-    del.where(QString("%1 = %2").arg(db_rule::id).arg(r.id));
+    del.where(QString("%1 = %2").arg(db_rule::id).arg(r.id()));
     data_base.execute(del);
 }
 
 void RuleMapper::update(Rule &r)
 {
     SQLUpdate update{db_rule::rules};
-    update.set(db_rule::column, r.column);
-    update.set(db_rule::value, r.value);
-    update.set(db_rule::category, r.category);
-    update.set(db_rule::type, static_cast<int>(r.type));
-    update.where(QString("%1 = %2").arg(db_rule::id).arg(r.id));
+    update.set(db_rule::column, static_cast<int>(r.column()));
+    update.set(db_rule::value, r.value());
+    update.set(db_rule::category, r.category());
+    update.set(db_rule::type, static_cast<int>(r.type()));
+    update.where(QString("%1 = %2").arg(db_rule::id).arg(r.id()));
     data_base.execute(update);
 }

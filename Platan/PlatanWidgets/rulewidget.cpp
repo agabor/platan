@@ -57,45 +57,45 @@ Rule RuleWidget::getRule() const
 
 void RuleWidget::categoryChanged(int idx)
 {
-    rule.category = idx;
+    rule.setCategory(idx);
 }
 
 void RuleWidget::setValueFromRow(int idx)
 {
-    rule.value = row.at(idx).toString();
-    value->setText(rule.value);
+    rule.setValue(row.at(idx).toString());
+    value->setText(rule.value());
 }
 
 void RuleWidget::columnChanged(int idx)
 {
-    rule.column = idx;
+    rule.setColumn(static_cast<Statement::Column>(idx));
     setValueFromRow(idx);
 }
 
 void RuleWidget::typeChanged(int idx)
 {
     value->setEnabled(idx == 1);
-    rule.type = static_cast<Rule::Type>(idx);
-    setValueFromRow(rule.column);
+    rule.setType(static_cast<Rule::Type>(idx));
+    setValueFromRow(static_cast<int>(rule.column()));
 }
 
 void RuleWidget::valueChanged(QString text)
 {
-    rule.value = text;
+    rule.setValue(text);
 }
 
 void RuleWidget::setCategories(QLayout *layout)
 {
     category = new QComboBox(this);
     category->addItems(Statements::categoryList());
-    category->setCurrentIndex(rule.category);
+    category->setCurrentIndex(rule.category());
     layout->addWidget(category);
     connect(category, SIGNAL(currentIndexChanged(int)), this, SLOT(categoryChanged(int)));
 }
 
 QString RuleWidget::condition(Rule rule)
 {
-    return Statements::columnList().at(rule.column) + tr(" is ") + rule.value;
+    return Statements::columnList().at(static_cast<int>(rule.column())) + tr(" is ") + rule.value();
 }
 
 const QString RuleWidget::ifStr() const

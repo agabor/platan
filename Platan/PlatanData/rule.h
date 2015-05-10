@@ -18,12 +18,11 @@
 #define RULE_H
 
 #include <QString>
+#include "statement.h"
+
 
 template <typename T>
 class QVector;
-class Statement;
-
-
 
 class Rule
 {
@@ -34,14 +33,32 @@ public:
         Contains
     };
 
-    Rule(int _id, int _column, QString _value, int _category, Type _type);
+    Rule(int _id, Statement::Column _column, QString _value, int _category, Type _type);
     Rule();
+
     bool apply(Statement &statement);
-    int id;
-    int column;
-    QString value;
-    int category;
-    Type type;
+
+    int id() const;
+    void setId(int m_value);
+
+    Statement::Column column() const;
+    void setColumn(const Statement::Column &m_value);
+
+    QString value() const;
+    void setValue(const QString &m_value);
+
+    int category() const;
+    void setCategory(int category);
+
+    Type type() const;
+    void setType(const Type &type);
+
+private:
+    int m_id;
+    Statement::Column m_column;
+    QString m_value;
+    int m_category;
+    Type m_type;
 };
 
 

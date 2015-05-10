@@ -161,7 +161,7 @@ void Statements::rollBack(Rule rule)
     bool changed = false;
     for(auto s : *this)
     {
-        if (s->ruleId == rule.id)
+        if (s->ruleId == rule.id())
         {
             s->ruleId = -1;
             s->category = 0;

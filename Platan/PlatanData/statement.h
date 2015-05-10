@@ -22,6 +22,8 @@
 
 class QVariant;
 
+
+
 class Statement
 {
 public:
@@ -35,7 +37,20 @@ public:
     int category;
     int ruleId;
 
+    enum class Column
+    {
+      Date = 0,
+      Type = 1,
+      Description = 2,
+      Payee = 3,
+      PayeeAccount = 4,
+      Amount = 5,
+      Category = 6,
+      RuleId = 7,
+    };
+
     QVariant at(int idx) const;
+    QVariant at(Column idx) const;
 };
 
 #endif // STATEMENTROW_H
