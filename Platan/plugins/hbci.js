@@ -23,14 +23,14 @@
 var logger = function(area){
     this.area = area;
     this.debug = function(json,str){log.print(str)}
-    this.error = function(e,json,str){log.print(str)}
+    this.error = function(e,json,str){log.print(e + " " + str)}
     this.trace = function(json,str){log.print(str)}
     this.child = function(area){
         return new logger(area);
     }
 }
 var ConsoleT = function(){
-    this.log = function(msg){print(msg)}
+    this.log = function(msg){log.print(msg)}
 }
 var Console = new ConsoleT();
 
