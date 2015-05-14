@@ -24,14 +24,13 @@ public:
   void run();
   QJSValue getParameter(const QString &name) const;
   void setCallBack(std::function<void(void)> callback);
-  std::function<void (QJSValueList &)> createPluginCallBack(QJSValue &function);
+  void startScript();
+  void scriptFinished();
 
 signals:
   void message(QString &msg);
 
 protected:
-  void startScript();
-  void scriptFinished();
   template<class T>
   void setObject(const QString &name)
   {

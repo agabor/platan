@@ -12,7 +12,7 @@ public:
   explicit JSAPI(ImportPlugin *parent = 0);
 
 public slots:
-  void addStatement(float amount, const QString &type, QJSValue date, const QString &payee, const QString &payeeAccount, const QString &description);
+  void addStatement(float amount, QString type, QJSValue date, QString payee, QString payeeAccount, QString description);
 };
 
 #endif // JSAPI_H

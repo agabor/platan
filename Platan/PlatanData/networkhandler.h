@@ -7,28 +7,23 @@
 
 #include <functional>
 
-#include "jsobject.h"
-#include "pluginengine.h"
-
 class QNetworkAccessManager;
 class QNetworkReply;
 
-class JSNetworkHandler : public JSObject
+class NetworkHandler : public QObject
 {
   Q_OBJECT
 public:
-  explicit JSNetworkHandler(Plugin *parent);
-  ~JSNetworkHandler();
+  explicit NetworkHandler();
+  ~NetworkHandler();
 
-public slots:
-  void request(const QString &txt, const QString &url, QJSValue callback);
+  void post(QString url, QString data);
+  void setCallback(std::function<void(QString)> callback);
 
 private slots:
   void replyFinished(QNetworkReply* reply);
 
 private:
-  void post(const QString &url, const QString &data);
-  void setCallback(std::function<void(QString)> callback);
 
   QString m_url;
   std::function<void (QString)> m_callback;

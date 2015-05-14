@@ -15,7 +15,7 @@
 #include <functional>
 
 #include "pluginengine.h"
-#include "jsnetworkhandler.h"
+#include "jsnetwork.h"
 #include "jsparameters.h"
 #include "jslogger.h"
 #include "jsapi.h"
@@ -50,15 +50,6 @@ void Plugin::setCallBack(std::function<void ()> callback)
   m_callback = callback;
 }
 
-std::function<void (QJSValueList &)> Plugin::createPluginCallBack(QJSValue &function)
-{
-  startScript();
-  return [this, function](QJSValueList &arguments) mutable
-  {
-    function.call(arguments);
-    scriptFinished();
-  };
-}
 
 void Plugin::startScript()
 {
@@ -77,7 +68,7 @@ void Plugin::scriptFinished()
 Plugin::Plugin(QString &fileName) : m_fileName(fileName)
 {
   setObject<JSLogger>("log");
-  setObject<JSNetworkHandler>("network");
+  setObject<JSNetwork>("network");
   setObject<JSParameters>("parameters");
   m_callback = nullptr;
   m_script_run_counter = 0;

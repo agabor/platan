@@ -19,8 +19,9 @@ SOURCES += \
     $$PWD/jsobject.cpp \
     $$PWD/jsparameters.cpp \
     $$PWD/jslogger.cpp \
-    $$PWD/jsnetworkhandler.cpp \
-    $$PWD/jsapi.cpp
+    $$PWD/jsapi.cpp \
+    $$PWD/networkhandler.cpp \
+    $$PWD/jsnetwork.cpp
 
 HEADERS += \
     ../Platan/PlatanData/statementtablemodel.h \
@@ -44,8 +45,9 @@ HEADERS += \
     $$PWD/jsobject.h \
     $$PWD/jsparameters.h \
     $$PWD/jslogger.h \
-    $$PWD/jsnetworkhandler.h \
-    $$PWD/jsapi.h
+    $$PWD/jsapi.h \
+    $$PWD/networkhandler.h \
+    $$PWD/jsnetwork.h
 
 unix:!symbian {
     maemo5 {

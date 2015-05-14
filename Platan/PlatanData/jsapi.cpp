@@ -5,7 +5,7 @@ JSAPI::JSAPI(ImportPlugin *parent) : JSObject(parent)
 
 }
 
-void JSAPI::addStatement(float amount, const QString &type, QJSValue date, const QString &payee, const QString &payeeAccount, const QString &description)
+void JSAPI::addStatement(float amount, QString type, QJSValue date, QString payee, QString payeeAccount, QString description)
 {
   Statement s;
   s.setAmount(amount);
