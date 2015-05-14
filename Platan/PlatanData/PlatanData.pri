@@ -16,7 +16,11 @@ SOURCES += \
     ../Platan/PlatanData/ruletablemodel.cpp \
     ../Platan/PlatanData/pluginengine.cpp \
     $$PWD/exportrules.cpp \
-    $$PWD/networkhandler.cpp
+    $$PWD/jsobject.cpp \
+    $$PWD/jsparameters.cpp \
+    $$PWD/jslogger.cpp \
+    $$PWD/jsnetworkhandler.cpp \
+    $$PWD/jsapi.cpp
 
 HEADERS += \
     ../Platan/PlatanData/statementtablemodel.h \
@@ -37,7 +41,11 @@ HEADERS += \
     ../Platan/PlatanData/ruletablemodel.h \
     ../Platan/PlatanData/pluginengine.h \
     $$PWD/exportrules.h \
-    $$PWD/networkhandler.h
+    $$PWD/jsobject.h \
+    $$PWD/jsparameters.h \
+    $$PWD/jslogger.h \
+    $$PWD/jsnetworkhandler.h \
+    $$PWD/jsapi.h
 
 unix:!symbian {
     maemo5 {

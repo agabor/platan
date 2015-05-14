@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT       += core gui sql script network
+QT       += core gui sql qml network
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG  += c++14 static

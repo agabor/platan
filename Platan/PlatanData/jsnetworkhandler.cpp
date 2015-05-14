@@ -4,7 +4,7 @@
 #include <QUrl>
 #include <QByteArray>
 
-#include "networkhandler.h"
+#include "jsnetworkhandler.h"
 
 QString base64_encode(QString string){
     QByteArray ba;
@@ -18,7 +18,7 @@ QString base64_decode(QString string){
     return QByteArray::fromBase64(ba);
 }
 
-void NetworkHandler::post(QString &url, QString &data)
+void JSNetworkHandler::post(const QString &url, const QString &data)
 {
   QNetworkAccessManager *manager = new QNetworkAccessManager(this);
   connect(manager, SIGNAL(finished(QNetworkReply*)),
@@ -35,23 +35,39 @@ void NetworkHandler::post(QString &url, QString &data)
   qDebug() << "POST";
 }
 
-void NetworkHandler::setCallback(std::function<void (QString)> callback)
+void JSNetworkHandler::setCallback(std::function<void (QString)> callback)
 {
   m_callback = callback;
 }
 
-NetworkHandler::NetworkHandler()
+JSNetworkHandler::JSNetworkHandler(Plugin *parent) : JSObject(parent)
 {
   qDebug() << "NetworkHandler create";
 }
 
-NetworkHandler::~NetworkHandler()
+JSNetworkHandler::~JSNetworkHandler()
 {
   qDebug() << "NetworkHandler destroy";
 
 }
 
-void NetworkHandler::replyFinished(QNetworkReply *reply)
+void JSNetworkHandler::request(const QString &txt, const QString &url, QJSValue callback)
+{
+  auto plugin_callback = m_plugin->createPluginCallBack(callback);
+
+  auto scriptCallBack = [plugin_callback](QString data) mutable
+  {
+    QJSValueList args;
+    args << QJSValue::NullValue;
+    args << QJSValue(data);
+    plugin_callback(args);
+  };
+
+  setCallback(scriptCallBack);
+  post(url, txt);
+}
+
+void JSNetworkHandler::replyFinished(QNetworkReply *reply)
 {
   qDebug() << "reply";
   QString str = base64_decode(QString(reply->readAll()));

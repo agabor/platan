@@ -22,9 +22,9 @@
 
 var logger = function(area){
     this.area = area;
-    this.debug = function(json,str){print(str)}
-    this.error = function(e,json,str){print(str)}
-    this.trace = function(json,str){print(str)}
+    this.debug = function(json,str){log.print(str)}
+    this.error = function(e,json,str){log.print(str)}
+    this.trace = function(json,str){log.print(str)}
     this.child = function(area){
         return new logger(area);
     }
@@ -2279,7 +2279,7 @@ var FinTSClient = function (in_blz,in_kunden_id,in_pin,bankenlist) {
     me.SendMsgToDestination = function(msg,callback){// Parameter für den Callback sind error,data
         var txt = msg.transformForSend();
         me.debugLogMsg(txt,true);
-        networkRequest(txt, me.bpd.url, function(error, clear_txt){
+        network.request(txt, me.bpd.url, function(error, clear_txt){
 
             if (error !== null){
                 callback(new Exceptions.ConnectionFailedException(error.hostname, error.port, error.path), null);
@@ -2304,10 +2304,10 @@ var FinTSClient = function (in_blz,in_kunden_id,in_pin,bankenlist) {
 
 };
 
-var url = getParameter('url');
-var blz = getParameter('blz');
-var user_id = getParameter('user_id');
-var pin = getParameter('pin');
+var url = parameters.get('url');
+var blz = parameters.get('blz');
+var user_id = parameters.get('user_id');
+var pin = parameters.get('pin');
 
 // 1. Definition der Bankenliste - Echte URLs sind hier http://www.hbci-zka.de/institute/institut_auswahl.htm erhältlich
 var bankenliste = {};
@@ -2342,7 +2342,7 @@ client.EstablishConnection(function(error){
                                     m : saetz.datum.getMonth()+1,
                                     d : saetz.datum.getDate()
                                 }
-                                addStatement(amount, desc.buchungstext, date, desc.name_kontrahent, desc.iban_kontrahent, desc.text);
+                                api.addStatement(amount, desc.buchungstext, date, desc.name_kontrahent, desc.iban_kontrahent, desc.text);
                             }
                         }
 						// 5. Verbindung beenden

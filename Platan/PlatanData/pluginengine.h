@@ -4,9 +4,9 @@
 #include <QObject>
 #include <QMap>
 #include <QString>
-#include <QScriptValue>
+#include <QJSValue>
 #include <QVector>
-#include <QScriptEngine>
+#include <QJSEngine>
 
 #include <functional>
 
@@ -14,7 +14,7 @@
 
 class QScriptContext;
 
-class Plugin : public QScriptEngine
+class Plugin : public QJSEngine
 {
   Q_OBJECT
 public:
@@ -22,21 +22,25 @@ public:
   virtual ~Plugin();
   void addParameter(QString name, QString value);
   void run();
-  QScriptValue getParameter(QString &name) const;
+  QJSValue getParameter(const QString &name) const;
   void setCallBack(std::function<void(void)> callback);
-  std::function<void (QScriptValue &, QScriptValueList &)> createPluginCallBack(QScriptValue& function);
+  std::function<void (QJSValueList &)> createPluginCallBack(QJSValue &function);
 
 signals:
   void message(QString &msg);
 
 protected:
-  QScriptValue getParameter(QScriptContext *ctx, QScriptEngine *eng);
   void startScript();
   void scriptFinished();
+  template<class T>
+  void setObject(const QString &name)
+  {
+    globalObject().setProperty(name, newQObject(new T(this)));
+  }
 
 protected:
   const QString m_fileName;
-  QMap<QString, QScriptValue> m_parameters;
+  QMap<QString, QJSValue> m_parameters;
 
 private:
   int m_script_run_counter;
