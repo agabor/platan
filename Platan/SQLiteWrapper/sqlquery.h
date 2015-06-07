@@ -17,6 +17,8 @@
 #ifndef SQLQUERY_H
 #define SQLQUERY_H
 
+#include <QString>
+
 class SQLQuery
 {
 public:

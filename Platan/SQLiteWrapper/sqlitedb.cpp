@@ -20,6 +20,7 @@
 #include <QSqlError>
 #include <QStringList>
 #include <QFile>
+#include <QTextStream>
 #include <assert.h>
 
 using namespace std;

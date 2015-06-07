@@ -18,6 +18,7 @@
 #define SQLITESTATEMENT_H
 
 #include <QSqlQuery>
+#include <QDate>
 
 class SQLiteDB;
 

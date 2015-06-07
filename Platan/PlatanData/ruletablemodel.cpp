@@ -21,7 +21,7 @@ QVariant RuleTableModel::data(const QModelIndex &index, int role) const
 {
     if(role != Qt::DisplayRole)
         return QVariant::Invalid;
-    Rule r = *Rows[index.row()];
+    const Rule r = *Rows[index.row()];
     switch (index.column()) {
     case 0:
     {
