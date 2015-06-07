@@ -7,7 +7,7 @@
 QT       += core testlib sql gui qml network widgets
 
 TARGET = tst_sqlite
-CONFIG   += console c++14
+CONFIG   += console c++11
 CONFIG   -= app_bundle
 
 TEMPLATE = app
