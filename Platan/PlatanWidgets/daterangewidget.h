@@ -31,7 +31,6 @@ class DateRangeWidget : public QWidget
 public:
     explicit DateRangeWidget(QWidget * parent=0);
     void setInterval(QDate start, QDate end);
-    void setRange(QDate start, QDate end);
     void setYearLabelText();
     void enableDateNavigation();
     void clampMonth(int month);

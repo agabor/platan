@@ -38,8 +38,6 @@ class MainApplication : public QApplication
     Q_OBJECT
 public:
     explicit MainApplication(int &argc, char *argv[], ApplicationDB &applicationDB, ProjectDB &projectDB);
-    void setDateRange(QDate start, QDate end);
-
     bool OpenProject(QString project_path);
     QVector<QString> RecentProjects();
     void SaveProjectPaths(QVector<QString> path_list);

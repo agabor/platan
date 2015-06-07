@@ -198,11 +198,6 @@ void MainWindow::InitLegend()
     InitLegend(&palette, classNames);
 }
 
-void MainWindow::setDateRange(QDate start, QDate end)
-{
-    ui->date_range->setRange(start, end);
-}
-
 void MainWindow::sliceClicked(int idx)
 {
     const int class_idx = classes.keys().at(idx);

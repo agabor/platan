@@ -126,9 +126,3 @@ void MainApplication::setMainWindow(shared_ptr<MainWindow> mainWindow)
 {
     this->mainWindow = mainWindow;
 }
-
-
-void MainApplication::setDateRange(QDate start, QDate end)
-{
-    mainWindow->setDateRange(start, end);
-}

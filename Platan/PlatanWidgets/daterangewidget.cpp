@@ -103,11 +103,6 @@ void DateRangeWidget::setInterval(QDate start, QDate end)
     enableDateNavigation();
 }
 
-void DateRangeWidget::setRange(QDate start, QDate end)
-{
-    onDateRangeChanged();
-}
-
 int DateRangeWidget::selectedMonth() const
 {
     int r = monthTable->currentRow();

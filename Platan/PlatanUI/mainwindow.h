@@ -58,7 +58,6 @@ public:
 
     void InitChart();
     void InitLegend();
-    void setDateRange(QDate start, QDate end);
 
     void setClassNames(QMap<int, QString> &classNames);
 
