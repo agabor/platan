@@ -25,3 +25,13 @@ void PluginOutputDialog::showMessage(QString &msg)
   cursor.movePosition(QTextCursor::End, QTextCursor::MoveAnchor);
   ui->output->setTextCursor(cursor);
 }
+
+void PluginOutputDialog::enableFinishButton()
+{
+  ui->finishButton->setEnabled(true);
+}
+
+void PluginOutputDialog::on_finishButton_clicked()
+{
+    close();
+}

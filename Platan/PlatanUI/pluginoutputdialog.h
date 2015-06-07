@@ -17,6 +17,10 @@ public:
   ~PluginOutputDialog();
 public slots:
   void showMessage(QString &msg);
+  void enableFinishButton();
+private slots:
+  void on_finishButton_clicked();
+
 private:
   Ui::PluginOutputDialog *ui;
 };

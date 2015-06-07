@@ -326,7 +326,7 @@ void MainWindow::on_actionImport_Bank_Statements_triggered()
   plugin->addParameter("user_id", d->getUserID());
   plugin->addParameter("pin", d->getPin());
   plugin->setCallBack([this, plugin, dialog](){
-    dialog->close();
+    dialog->enableFinishButton();
     importStatements(plugin->statements());
   });
 
